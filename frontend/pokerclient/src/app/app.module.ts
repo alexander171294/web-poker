@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { LoginBoxComponent } from './components/login/login-box/login-box.component';
 import { SignupBoxComponent } from './components/login/signup-box/signup-box.component';
+import { StompService } from './utils/stomp.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { SignupBoxComponent } from './components/login/signup-box/signup-box.com
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [StompService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

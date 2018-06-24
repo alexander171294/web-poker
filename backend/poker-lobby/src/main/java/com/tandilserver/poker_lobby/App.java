@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EntityScan("com.tandilserver.poker_lobby.dataBase.domain")
-@EnableJpaRepositories("ar.com.sdc.test.dataBase.repository")
+@EnableJpaRepositories("com.tandilserver.poker_lobby.dataBase.repository")
 public class App 
 {
     public static void main( String[] args )

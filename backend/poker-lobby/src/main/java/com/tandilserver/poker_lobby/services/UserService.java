@@ -12,6 +12,12 @@ import com.tandilserver.poker_lobby.services.dto.out.Response;
 import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
 import com.tandilserver.poker_lobby.services.dto.out.UserDataOut;
 
+// TODO: change to rest service.
+/* 
+ *  in the future this services (of the lobby) is converted to REST to prevent all users connected to lobby server and reduce the impact.
+ *  but this is a test of stomp/websockets/angular/nativescript integration.
+ */
+
 // esto se mapea en /api/userService
 @Controller
 @MessageMapping("/userService")

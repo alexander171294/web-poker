@@ -55,7 +55,17 @@ The frontend use websockets to connect with the backend (see below).-
 
 first clone the repo, then once time use the next command to download dependencies. (This require you download https://nodejs.org/es/) we use version 8.0.
 
+You need Angular Cli (https://angular.io/guide/quickstart) and Nativescript with schematics, we resume the installations in this commands:
+
+´npm install -g @angular/cli´
+
+´npm install -g nativescript´
+
+´npm i -g @nativescript/schematics´
+
 ´npm install´
+
+´tns update´
 
 For build/run i write the instructions soon.
 

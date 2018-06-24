@@ -18,7 +18,7 @@ public class Users {
 	private String password;
 	private Date fecha_registro;
 	private Date ultima_actividad;
-	private Integer fichas;
+	private Long fichas;
 	
 	
 	public Long getId_usuario() {
@@ -57,10 +57,10 @@ public class Users {
 	public void setUltima_actividad(Date ultima_actividad) {
 		this.ultima_actividad = ultima_actividad;
 	}
-	public Integer getFichas() {
+	public Long getFichas() {
 		return fichas;
 	}
-	public void setFichas(Integer fichas) {
+	public void setFichas(Long fichas) {
 		this.fichas = fichas;
 	}
 	

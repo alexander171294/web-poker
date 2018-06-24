@@ -14,7 +14,7 @@ import com.tandilserver.poker_lobby.services.dto.out.UserDataOut;
 
 // TODO: change to rest service.
 /* 
- *  in the future this services (of the lobby) is converted to REST to prevent all users connected to lobby server and reduce the impact.
+ *  in the future this services (of the lobby) is converted to REST to prevent all users connected to lobby server and reduce the impact in resources.
  *  but this is a test of stomp/websockets/angular/nativescript integration.
  */
 

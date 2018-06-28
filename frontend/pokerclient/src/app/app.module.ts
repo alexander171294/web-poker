@@ -20,8 +20,7 @@ import { StompService } from './utils/stomp.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule
+    BrowserAnimationsModule
   ],
   providers: [StompService],
   bootstrap: [AppComponent]

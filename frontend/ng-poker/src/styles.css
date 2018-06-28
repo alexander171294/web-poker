@@ -1,0 +1,6 @@
+/* You can add global styles to this file, and also import other style files */
+
+html{
+    background: radial-gradient(rgb(24,87,89), rgb(8,45,54));
+    height: 100%;
+}

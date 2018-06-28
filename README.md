@@ -18,8 +18,8 @@ In order, i code this steps:
 
 ### Sit and go
 
-* Lobby register/login (simple) and mysql connected. **(at this moment I'm going here)**
-* Frontend register/login (Simple).
+* ~~Lobby register/login (simple) and mysql connected.~~
+* Frontend register/login (Simple). **(at this moment I'm going here)**
 * Table servers registry and showed in the frontend.
 * Poker rules and gameplay.
 * Frontend design of simple table.

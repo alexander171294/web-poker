@@ -21,7 +21,7 @@
     "@angular/material": "^6.3.1",
     "@angular/platform-browser": "^6.0.0",
     "@angular/platform-browser-dynamic": "^6.0.0",
-    "@angular/router": "^6.0.0",
+    "@angular/router": "^6.0.7",
     "core-js": "^2.5.4",
     "net": "^1.0.2",
     "ng2-stomp-service": "^1.2.2",

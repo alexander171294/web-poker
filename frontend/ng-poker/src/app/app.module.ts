@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { LoginBoxComponent } from './components/login/login-box/login-box.component';
 import { SignupBoxComponent } from './components/login/signup-box/signup-box.component';
 import { StompService } from './utils/stomp.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { StompService } from './utils/stomp.service';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [StompService],
   bootstrap: [AppComponent]

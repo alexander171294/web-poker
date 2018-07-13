@@ -7,20 +7,20 @@ import * as SockJS from 'sockjs-client';
  */
 
 interface Config {
-  //websocket endpoint
-  host:string;
-  //optional headers
-  headers?:Object;
-  //heartbeats (ms)
+  // websocket endpoint
+  host: string;
+  // optional headers
+  headers?: Object;
+  // heartbeats (ms)
   heartbeatIn?: number;
   heartbeatOut?: number;
-  //debuging
-  debug?:boolean;
-  //reconnection time (ms)
-  recTimeout?:number;
-  //queue object
-  queue:any;
-  //queue cheking Time (ms)
+  // debuging
+  debug?: boolean;
+  // reconnection time (ms)
+  recTimeout?: number;
+  // queue object
+  queue: any;
+  // queue cheking Time (ms)
   queueCheckTime?: number;
 }
 
@@ -32,7 +32,7 @@ export class StompService {
 
   private socket: any;
 
-  public stomp : any;
+  public stomp: any;
 
   private timer: any;
 
@@ -51,7 +51,7 @@ export class StompService {
 
     this.status = 'CLOSED';
 
-    //Create promise
+    // Create promise
     this.disconnectPromise = new Promise(
       (resolve, reject) => this.resolveDisConPromise = resolve
     );
@@ -61,7 +61,7 @@ export class StompService {
   /**
    * Configure
    */
-  public configure(config: Config):void{
+  public configure(config: Config): void {
     this.config = config;
   }
 
@@ -69,47 +69,45 @@ export class StompService {
   /**
    * Try to establish connection to server
    */
-  public startConnect(): Promise<{}>{
+  public startConnect(): Promise<{}> {
     if (this.config === null) {
           throw Error('Configuration required!');
       }
 
     this.status = 'CONNECTING';
 
-    //Prepare Client
+    // Prepare Client
     this.socket = new SockJS(this.config.host);
     this.stomp = Stomp.over(this.socket);
 
     this.stomp.heartbeat.outgoing = this.config.heartbeatOut || 10000;
     this.stomp.heartbeat.incoming = this.config.heartbeatIn || 10000;
 
-    //Debuging connection
-    if(this.config.debug){
+    // Debuging connection
+    if (this.config.debug) {
       this.stomp.debug = function(str) {
         console.log(str);
       };
-    }else{
+    } else {
       this.stomp.debug = false;
     }
 
-    //Connect to server
-    this.stomp.connect(this.config.headers || {}, this.onConnect,this.onError);
+    // Connect to server
+    this.stomp.connect(this.config.headers || {}, this.onConnect, this.onError);
     return new Promise(
       (resolve, reject) => this.resolveConPromise = resolve
     );
-    
   }
 
 
   /**
    * Successfull connection to server
    */
-  public onConnect = (frame:any) => {
+  public onConnect = (frame: any) => {
     this.status = 'CONNECTED';
     this.onConnectEvent.emit(frame);
     this.resolveConPromise();
     this.timer = null;
-    //console.log('Connected: ' + frame);
   }
 
   /**
@@ -122,7 +120,7 @@ export class StompService {
 
     // Check error and try reconnect
     if (error.indexOf('Lost connection') !== -1) {
-      if(this.config.debug){
+      if (this.config.debug) {
         console.log('Reconnecting...');
       }
       this.timer = setTimeout(() => {
@@ -132,31 +130,31 @@ export class StompService {
   }
 
   /**
-   * Subscribe 
+   * Subscribe
    */
-  public subscribe(destination:string, callback:any, headers?:Object){
+  public subscribe(destination: string, callback: any, headers?: Object) {
     headers = headers || {};
-    return this.stomp.subscribe(destination, function(response){
-      let message = JSON.parse(response.body);
-      let headers = response.headers;
-      callback(message,headers);
-    },headers);
+    return this.stomp.subscribe(destination, function(response) {
+      const message = JSON.parse(response.body);
+      const headers4callback = response.headers;
+      callback(message, headers4callback);
+    }, headers);
   }
 
   /**
    * Unsubscribe
    */
-  public unsubscribe(subscription:any){
+  public unsubscribe(subscription: any) {
     subscription.unsubscribe();
   }
 
 
   /**
-   * Send 
+   * Send
    */
-  public send(destination:string, body:any, headers?:Object):void {
-    let message = JSON.stringify(body);
-    headers = headers || {}
+  public send(destination: string, body: any, headers?: Object): void {
+    const message = JSON.stringify(body);
+    headers = headers || {};
     this.stomp.send(destination, headers, message);
   }
 
@@ -165,7 +163,9 @@ export class StompService {
    * Disconnect stomp
    */
   public disconnect(): Promise<{}> {
-    this.stomp.disconnect(() => {this.resolveDisConPromise(); this.status = 'CLOSED'});
+    this.stomp.disconnect(() => {
+      this.resolveDisConPromise(); this.status = 'CLOSED';
+    });
     return this.disconnectPromise;
   }
 
@@ -174,31 +174,35 @@ export class StompService {
   /**
    * After specified subscription
    */
-  public after(name:string): Promise<{}> {
+  public after(name: string): Promise<{}> {
     this.nameCheck(name);
-    if(this.config.debug) console.log('checking '+name+' queue ...');
-    let checkQueue = setInterval(()=>{
-      if(this.config.queue[name]){
+    if (this.config.debug) {
+      console.log('checking ' + name + ' queue ...');
+    }
+    const checkQueue = setInterval(() => {
+      if (this.config.queue[name]) {
         clearInterval(checkQueue);
         this.queuePromises[name]();
-        if(this.config.debug) console.log('queue '+name+' <<< has been complated');
+        if (this.config.debug) {
+         console.log('queue ' + name + ' <<< has been complated');
+        }
         return false;
       }
-    },this.config.queueCheckTime || 100);
+    }, this.config.queueCheckTime || 100);
 
-    if(!this.queuePromises[name+'promice']){
-      this.queuePromises[name+'promice'] = new Promise(
+    if (!this.queuePromises[name + 'promice']) {
+      this.queuePromises[name + 'promice'] = new Promise(
         (resolve, reject) => this.queuePromises[name] = resolve
       );
     }
-    return this.queuePromises[name+'promice'];
+    return this.queuePromises[name + 'promice'];
   }
 
 
   /**
    * Done specified subscription
    */
-  public done(name:string):void{
+  public done(name: string): void {
     this.nameCheck(name);
     this.config.queue[name] = true;
   }
@@ -207,19 +211,21 @@ export class StompService {
   /**
    * Turn specified subscription on pending mode
    */
-  public pending(name:string):void{
+  public pending(name: string): void {
     this.nameCheck(name);
     this.config.queue[name] = false;
-    if(this.config.debug) console.log('queue '+name+' <<<<<<  turned on pending mode');
+    if (this.config.debug) {
+      console.log('queue ' + name + ' <<<<<<  turned on pending mode');
+    }
   }
 
 
   /**
    * Check name in queue
    */
-  private nameCheck(name:string):void{
-    if(!this.config.queue.hasOwnProperty(name)){
-      throw Error("'"+name+"' has not found in queue");
+  private nameCheck(name: string): void {
+    if (!this.config.queue.hasOwnProperty(name)) {
+      throw Error('\'' + name + '\' has not found in queue');
     }
   }
 

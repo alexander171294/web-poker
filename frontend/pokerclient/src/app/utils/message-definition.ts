@@ -1,9 +1,9 @@
 export class MessageDefinition {
-    public prefix: string = "/api";
+    public prefix = '/api';
     public endpoint: string;
     public data: any;
-    
-    public getFullEndpoint(){
-      return this.prefix+this.endpoint;
+
+    public getFullEndpoint() {
+      return this.prefix + this.endpoint;
     }
   }

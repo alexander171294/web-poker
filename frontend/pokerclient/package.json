@@ -28,6 +28,7 @@
     "@nativescript/schematics": "^0.1.5",
     "@types/angular": "^1.6.48",
     "core-js": "^2.5.4",
+    "hoek": "^4.2.1",
     "nativescript-angular": "^6.0.0",
     "nativescript-theme-core": "~1.0.4",
     "net": "^1.0.2",

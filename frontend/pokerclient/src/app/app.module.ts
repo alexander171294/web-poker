@@ -1,3 +1,4 @@
+import { LobbyComponent } from './components/lobby/lobby.component';
 import { UserService } from './services/user.service';
 import { MaterialModule } from './modules/material.module';
 import { LoginComponent } from './components/login/login.component';
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     LoginBoxComponent,
     SignupBoxComponent,
+    LobbyComponent
   ],
   imports: [
     BrowserModule,

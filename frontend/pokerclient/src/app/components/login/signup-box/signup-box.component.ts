@@ -1,4 +1,4 @@
-import { Response } from './../../../services/dto/Response';
+import { Response, StatusCodes } from './../../../services/dto/Response';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { RegistroIn } from '../../../services/dto/RegistroIn';
@@ -41,6 +41,10 @@ export class SignupBoxComponent implements OnInit {
   }
 
   onSignupOk(data: Response) {
-    alert('OK');
+    if (data.statusCode === StatusCodes.OK) {
+      alert('OKSI');
+    } else {
+      alert(data.message);
+    }
   }
 }

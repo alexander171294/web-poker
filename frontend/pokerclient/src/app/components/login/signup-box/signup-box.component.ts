@@ -1,7 +1,8 @@
 import { Response, StatusCodes } from './../../../services/dto/Response';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { RegistroIn } from '../../../services/dto/RegistroIn';
+import { SignupIn } from '../../../services/dto/SignupIn';
+import { SignupOut } from '../../../services/dto/SignupOut';
 
 @Component({
   selector: 'app-signup-box',
@@ -26,7 +27,7 @@ export class SignupBoxComponent implements OnInit {
       if (this.email.length < 3) { throw new Error('El mail es invalido'); }
       if (this.passwd.length < 8) { throw new Error('La password debe tener al menos 8 caracteres'); }
       if (this.passwd !== this.passwd2) { throw new Error('Las passwords no coinciden'); }
-      const data: RegistroIn = new RegistroIn();
+      const data: SignupIn = new SignupIn();
       data.nick = this.nick;
       data.email = this.email;
       data.password = this.passwd;
@@ -40,9 +41,10 @@ export class SignupBoxComponent implements OnInit {
 
   }
 
-  onSignupOk(data: Response) {
+  onSignupOk(data: SignupOut) {
     if (data.statusCode === StatusCodes.OK) {
-      alert('OKSI');
+      sessionStorage.setItem('user_id', data.id_usuario.toString());
+      sessionStorage.setItem('user_hash', data.upgrade);
     } else {
       alert(data.message);
     }

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Settings } from '../../settings';
-import { RegistroIn } from './dto/RegistroIn';
-import { Response } from './dto/Response';
+import { SignupIn } from './dto/SignupIn';
+import { SignupOut } from './dto/SignupOut';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public registrarme(data: RegistroIn): Observable<Response> {
+  public registrarme(data: SignupIn): Observable<SignupOut> {
     const url = Settings.getUrl() + 'userRest/registro';
-    return this.http.post<Response>(url, data);
+    return this.http.post<SignupOut>(url, data);
   }
 
   public login(email: string, password: string): Observable<LoginOut> {

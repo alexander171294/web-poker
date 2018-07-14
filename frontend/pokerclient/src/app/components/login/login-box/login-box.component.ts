@@ -27,6 +27,8 @@ export class LoginBoxComponent implements OnInit {
     if (data.statusCode === StatusCodes.OK) {
       // REDIRIGIR
       console.log('LOGIN OK');
+      sessionStorage.setItem('user_id', data.id.toString());
+      sessionStorage.setItem('user_hash', data.upgrade);
       // guardar id
     } else {
       alert(data.message);

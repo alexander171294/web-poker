@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tandilserver.poker_lobby.dataBase.domain.Users;
 import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository;
 import com.tandilserver.poker_lobby.rest.dto.LoginOut;
-import com.tandilserver.poker_lobby.rest.dto.RegistroIn;
-import com.tandilserver.poker_lobby.rest.dto.Signup;
+import com.tandilserver.poker_lobby.rest.dto.SignupIn;
+import com.tandilserver.poker_lobby.rest.dto.SignupOut;
 import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
 import com.tandilserver.poker_lobby.services.utils.ExceptionResponse;
 
@@ -32,8 +32,8 @@ public class UserRest {
 	
 	// TODO: change return type to ResponseEntity<Type>
 	@RequestMapping(path="/registro", method=RequestMethod.POST)
-	public Signup registrarme(@RequestBody RegistroIn registroData) {
-		Signup out = new Signup();
+	public SignupOut registrarme(@RequestBody SignupIn registroData) {
+		SignupOut out = new SignupOut();
 		try {
 			if(usersRepository.findByEmail(registroData.email) != null) throw new ExceptionResponse(StatusCodes.ERR, "Email is used");
 			if(usersRepository.findByNick(registroData.nick) != null) throw new ExceptionResponse(StatusCodes.ERR, "Nick is used");
@@ -49,7 +49,7 @@ public class UserRest {
 			user.setUltima_actividad(new Date());
 			user.setHashSignature(UUID.randomUUID().toString());
 			Users userOut = usersRepository.save(user);
-			out.hashSignature = userOut.getHashSignature();
+			out.upgrade = userOut.getHashSignature();
 			out.id_usuario = userOut.getId_usuario();
 		} catch(ExceptionResponse e) {
 			out.statusCode = e.getCode();
@@ -71,7 +71,7 @@ public class UserRest {
 			user.setHashSignature(UUID.randomUUID().toString());
 			usersRepository.save(user);
 			out.id = user.getId_usuario();
-			out.hashSignature = user.getHashSignature();
+			out.upgrade = user.getHashSignature();
 			user.setUltima_actividad(new Date());
 			usersRepository.save(user);
 		}

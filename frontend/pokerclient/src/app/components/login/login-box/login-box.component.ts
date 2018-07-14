@@ -2,6 +2,7 @@ import { LoginOut } from './../../../services/dto/LoginOut';
 import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { StatusCodes } from '../../../services/dto/Response';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-box',
@@ -13,7 +14,7 @@ export class LoginBoxComponent implements OnInit {
   public email: string;
   public password: string;
 
-  constructor(private user: UserService) { }
+  constructor(private user: UserService, private router: Router) { }
 
   ngOnInit() {
 
@@ -29,6 +30,7 @@ export class LoginBoxComponent implements OnInit {
       console.log('LOGIN OK');
       sessionStorage.setItem('user_id', data.id.toString());
       sessionStorage.setItem('user_hash', data.upgrade);
+      this.router.navigate(['lobby']);
       // guardar id
     } else {
       alert(data.message);

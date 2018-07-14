@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { SignupIn } from '../../../services/dto/SignupIn';
 import { SignupOut } from '../../../services/dto/SignupOut';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup-box',
@@ -16,7 +17,7 @@ export class SignupBoxComponent implements OnInit {
   passwd = '';
   passwd2 = '';
 
-  constructor(private user: UserService) { }
+  constructor(private user: UserService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -45,6 +46,7 @@ export class SignupBoxComponent implements OnInit {
     if (data.statusCode === StatusCodes.OK) {
       sessionStorage.setItem('user_id', data.id_usuario.toString());
       sessionStorage.setItem('user_hash', data.upgrade);
+      this.router.navigate(['lobby']);
     } else {
       alert(data.message);
     }

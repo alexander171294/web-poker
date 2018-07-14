@@ -1,12 +1,12 @@
 # web-poker
 
-This project is for web Angular/Nativescript (Web/Mobile) poker client and Java/Spring websocket backend. And persistence of data is provided by mysql.
+This project is an Angular/Nativescript Web/Mobile poker client and Java/Spring websocket backend. Additionally, the persistence of data is provided by mysql.
 
-In the past, i try to start this proyect using php and simple html/javascript/jquery client. Now i started this project to continue this ambitious project, but this time using java and angular.
+In the past, i tried to start this proyect using php and simple html/javascript/jquery client, but for various reasons i never finished it. Now i started this project to continue this ambitious project, but this time using java and angular/Nativescript.
 
-Do't worry, I put simple instructions for you to install this without know how to work this technologies.
+Do't worry, I put simple instructions for you to install all without know how to work these technologies.
 
-This project is only for fun, and i will write the code in long term and including gaps of sleep times.
+This project is only for fun, and i will write the code in a long term and including spaces of times without commit.
 
 Additionally, sorry for my bad english, i speak spanish and learn english only reading books/papers.
 
@@ -24,12 +24,12 @@ Additionally, sorry for my bad english, i speak spanish and learn english only r
 
 ## Short term
 
-in order I will code these subjects:
+I will code these subjects in respective order:
 
 ### Sit and go
 
 * ~~Frontend register/login (simple) and mysql connected.~~
-* Lobby tables and user-data **(at this moment I'm going here)**
+* Lobby tables and user-data **(at this moment I'm working in this)**
 * Table servers registry and showed in the frontend.
 * Poker rules and gameplay.
 * Frontend design of simple table.
@@ -49,15 +49,36 @@ in order I will code these subjects:
 
 * Mobile frontend.
 * Desktop frontend (with electronJS)
+* rank system
 * Servers Administration/Deployer tool (as jboss of redhat style but in this case working... xD)
 
 # Architecture
 
+## List of techs
+
+Frontend
+
+* Angular +6
+* Material Design (although only for login/signup)
+* Websocket
+* Stomp (for websocket routing)
+* Nativescript with Schematics
+* ~~GraphQL~~ (in first instance, I wanted to use gql in rest queries but as they are few, the effort make no sense)
+
+Backend
+
+* Java with Spring Boot
+* Websockets
+* JWT for session handling
+* Mysql
+* Hibernate
+* SLF4J
+
 ## Frontend
 
-The frontend is maked with Nativescript Angular Schematic for shared code.
-In the first app i decided to use Apache Cordova to build a web-view based mobile application, but in the last months tried to apply nativescript, and in the last days they added support to codeshare to make web and mobile project in the same workspace.
-Then i decide to start this proyect with nativescript by telerik.
+The frontend is maked with Nativescript Schematics for Angular using shared code.
+In my first app i decided to use Apache Cordova for build a web-view based mobile application, but in the last months i tried to apply nativescript, and in the last days they added support to codeshare/schematics to make web and mobile project in the same workspace.
+Then i decide to start this proyect with nativescript (by telerik).
 
 The frontend use websockets to connect with the backend (see below).-
 

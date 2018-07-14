@@ -10,6 +10,16 @@ This project is only for fun, and i will write the code in long term and includi
 
 Additionally, sorry for my bad english, i speak spanish and learn english only reading books/papers.
 
+## Screenshots
+
+### Lobby
+
+![lobby](https://i.imgur.com/HUCeZBr.png)
+
+### Login
+
+![login](https://i.imgur.com/qaK4Nkv.png)
+
 # Roadmap
 
 ## Short term

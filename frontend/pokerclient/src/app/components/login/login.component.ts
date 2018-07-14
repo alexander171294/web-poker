@@ -1,3 +1,4 @@
+import { Settings } from './../../../settings';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   moduleId: module.id,
 })
 export class LoginComponent implements OnInit {
+
+  public version = Settings.VERSION;
 
   constructor() { }
 

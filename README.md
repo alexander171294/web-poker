@@ -65,7 +65,7 @@ The frontend use websockets to connect with the backend (see below).-
 
 first clone the repo, then once time use the next command to download dependencies. (This require you download https://nodejs.org/es/) we use version 8.0.
 
-You need Angular Cli (https://angular.io/guide/quickstart) and Nativescript with schematics, we resume the installations in this commands:
+You need Angular Cli (https://angular.io/guide/quickstart) and Nativescript with schematics, we resume the installations on this commands:
 
 ´npm install -g @angular/cli´
 
@@ -77,7 +77,7 @@ You need Angular Cli (https://angular.io/guide/quickstart) and Nativescript with
 
 ´tns update´
 
-For build/run i write the instructions soon.
+For build/run ~~i write the instructions soon~~ see the wiki.
 
 ## Bakend
 
@@ -89,9 +89,11 @@ You need to start the lobby server and configure your ip in the frontend and the
 
 You need jdk (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and eclipse (we use oxygen 3).
 
-For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions soon, including adding this to a apache/nginx server).-
+For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions ~~soon~~, including adding this to a apache/nginx server).-
 
-I'm not sure if this is deployable in shared web hosting, but start research before write the readme :O
+I'm not sure if this is deployable in shared web hosting, but I'll start an investigation after writing this readme :O.
+--Revision #1: about this last comment, i lied a little bit... twenty days later i didn't investigate nothing at all... :'(
+
 
 # Finally
 

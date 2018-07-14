@@ -1,4 +1,5 @@
-import { MaterialModule } from './material.module';
+import { UserService } from './services/user.service';
+import { MaterialModule } from './modules/material.module';
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,6 +10,8 @@ import { AppComponent } from './app.component';
 import { LoginBoxComponent } from './components/login/login-box/login-box.component';
 import { SignupBoxComponent } from './components/login/signup-box/signup-box.component';
 import { StompService } from './utils/stomp.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,9 +23,12 @@ import { StompService } from './utils/stomp.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [StompService],
+  providers: [StompService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

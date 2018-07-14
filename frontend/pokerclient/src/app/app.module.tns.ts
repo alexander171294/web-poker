@@ -4,6 +4,7 @@ import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   bootstrap: [
@@ -18,6 +19,7 @@ import { AppComponent } from './app.component';
     LoginComponent
   ],
   providers: [
+    UserService
   ],
   schemas: [
     NO_ERRORS_SCHEMA

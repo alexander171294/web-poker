@@ -1,20 +1,20 @@
 <div id="signupBox">
-  <div class="head">Create new account</div>
-  <mat-form-field>
-      <label>Nick to show</label>
-      <input matInput type="text" name="email"/>
-  </mat-form-field>
-  <mat-form-field>
-      <label>Email</label>
-      <input matInput type="email" name="email"/>
-  </mat-form-field>
-  <mat-form-field>
-      <label>Password</label>
-      <input matInput type="password" name="email"/>
-  </mat-form-field>
-  <mat-form-field>
-      <label>Repeat password</label>
-      <input matInput type="password" name="email"/>
-  </mat-form-field>
-  <button mat-button>Sign-up</button>
-</div>
+    <div class="head">Create new account</div>
+    <mat-form-field>
+        <label>Nick to show</label>
+        <input matInput type="text" name="nick" [(ngModel)]="nick"/>
+    </mat-form-field>
+    <mat-form-field>
+        <label>Email</label>
+        <input matInput type="email" name="email" [(ngModel)]="email"/>
+    </mat-form-field>
+    <mat-form-field>
+        <label>Password</label>
+        <input matInput type="password" name="password" [(ngModel)]="passwd"/>
+    </mat-form-field>
+    <mat-form-field>
+        <label>Repeat password</label>
+        <input matInput type="password" name="password2" [(ngModel)]="passwd2"/>
+    </mat-form-field>
+    <button mat-button (click)="signup()">Sign-up</button>
+  </div>

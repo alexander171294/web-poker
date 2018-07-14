@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 public class CorsFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -28,7 +27,6 @@ public class CorsFilter implements Filter {
 	}
 
 	public void destroy() {
-		// TODO Auto-generated method stub
 
 	}
 

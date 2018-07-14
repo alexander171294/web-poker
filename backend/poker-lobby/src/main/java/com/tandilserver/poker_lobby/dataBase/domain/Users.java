@@ -19,7 +19,7 @@ public class Users {
 	private Date fecha_registro;
 	private Date ultima_actividad;
 	private Long fichas;
-	
+	private String hashSignature;
 	
 	public Long getId_usuario() {
 		return id_usuario;
@@ -62,6 +62,12 @@ public class Users {
 	}
 	public void setFichas(Long fichas) {
 		this.fichas = fichas;
+	}
+	public String getHashSignature() {
+		return hashSignature;
+	}
+	public void setHashSignature(String hashSignature) {
+		this.hashSignature = hashSignature;
 	}
 	
 	

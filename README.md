@@ -49,7 +49,7 @@ In order, i code this steps:
 
 * Mobile frontend.
 * Desktop frontend (with electronJS)
-* Servers Administration/Deployer tool (as jboss of redhat style xD)
+* Servers Administration/Deployer tool (as jboss of redhat style but in this case working... xD)
 
 # Architecture
 

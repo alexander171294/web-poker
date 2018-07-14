@@ -24,7 +24,7 @@ Additionally, sorry for my bad english, i speak spanish and learn english only r
 
 ## Short term
 
-In order, i code this steps:
+in order I will code these subjects:
 
 ### Sit and go
 

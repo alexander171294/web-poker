@@ -68,7 +68,10 @@ public class UserRest {
 			out.statusCode = StatusCodes.ERR;
 			out.message = "Email or password invalid";
 		} else {
+			user.setHashSignature(UUID.randomUUID().toString());
+			usersRepository.save(user);
 			out.id = user.getId_usuario();
+			out.hashSignature = user.getHashSignature();
 			user.setUltima_actividad(new Date());
 			usersRepository.save(user);
 		}

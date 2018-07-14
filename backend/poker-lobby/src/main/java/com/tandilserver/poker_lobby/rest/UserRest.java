@@ -14,7 +14,7 @@ import com.tandilserver.poker_lobby.dataBase.domain.Users;
 import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository;
 import com.tandilserver.poker_lobby.rest.dto.LoginOut;
 import com.tandilserver.poker_lobby.rest.dto.RegistroIn;
-import com.tandilserver.poker_lobby.services.dto.out.Signup;
+import com.tandilserver.poker_lobby.rest.dto.Signup;
 import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
 import com.tandilserver.poker_lobby.services.utils.ExceptionResponse;
 
@@ -63,9 +63,10 @@ public class UserRest {
 	public LoginOut login(@RequestParam(value="email") String email, @RequestParam(value="password") String password) {
 		LoginOut out = new LoginOut();
 		Users user = usersRepository.findByEmail(email);
+		// TODO: the password must be encrypted in any hash.
 		if(user == null || !user.getPassword().equals(password)) {
 			out.statusCode = StatusCodes.ERR;
-			out.message = "Email o clave incorrectos";
+			out.message = "Email or password invalid";
 		} else {
 			out.id = user.getId_usuario();
 			user.setUltima_actividad(new Date());

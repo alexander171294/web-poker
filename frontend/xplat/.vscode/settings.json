@@ -1,0 +1,31 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/hooks": true,
+    "**/apps/nativescript-*/app/package.json": false,
+    "**/apps/nativescript-*/hooks": true,
+    "**/apps/nativescript-*/platforms": true,
+    "**/apps/nativescript-*/report": true,
+    "**/apps/nativescript-*/app/**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/apps/nativescript-*/app/**/*.d.ts": {
+      "when": "$(basename).ts"
+    },
+    "**/apps/nativescript-*/app/**/*.css": {
+      "when": "$(basename).scss"
+    },
+    "**/libs/**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/libs/**/*.d.ts": {
+      "when": "$(basename).ts"
+    },
+    "**/xplat/**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/xplat/**/*.d.ts": {
+      "when": "$(basename).ts"
+    }
+  }
+}

@@ -1,41 +1,41 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2015",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "noEmitHelpers": true,
-    "noEmitOnError": true,
-    "removeComments": true,
-    "skipLibCheck": true,
-    "lib": [
-        "es2017",
-        "dom",
-        "es6"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "~/*": [
-          "app/*"
-      ],
-      "@xplat/*": [
-        "../../libs/*"
-      ],
-      "@xplat/nativescript": [
-        "../../xplat/nativescript/index.ts"
-      ],
-      "@xplat/nativescript/*": [
-        "../../xplat/nativescript/*"
-      ],
-      "*": [
-        "./node_modules/tns-core-modules/*",
-        "./node_modules/*"
-      ]
-    }
-  },
-  "exclude": [
-      "e2e",
-      "node_modules",
-      "platforms"
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noEmitHelpers": true,
+        "noEmitOnError": true,
+        "removeComments": true,
+        "skipLibCheck": true,
+        "lib": [
+            "es2017",
+            "dom",
+            "es6"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "~/*": [
+                "app/*"
+            ],
+            "@xplat/*": [
+                "../../libs/*"
+            ],
+            "@xplat/nativescript": [
+                "../../xplat/nativescript/index.ts"
+            ],
+            "@xplat/nativescript/*": [
+                "../../xplat/nativescript/*"
+            ],
+            "*": [
+                "./node_modules/tns-core-modules/*",
+                "./node_modules/*"
+            ]
+        }
+    },
+    "exclude": [
+        "e2e",
+        "node_modules",
+        "platforms"
+    ]
 }

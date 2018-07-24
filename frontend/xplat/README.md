@@ -2,16 +2,6 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) using [Nrwl Nx](https://nrwl.io/nx).
 
-## Prepare
-
-prepare npm install and dependencies.
-
-then:
-
-npm run prepare.ionic.pokerclient.ios
-
-npm run prepare.ionic.pokerclient.android
-
 ## Run
 
 ### Web

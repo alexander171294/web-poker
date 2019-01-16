@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Messages {
 
-	private Long id_message;
+	private Long id_conversation;
 	private Long sender;
 	private Date fecha;
 	
-	public Long getId_message() {
-		return id_message;
+	public Long getid_conversation() {
+		return id_conversation;
 	}
-	public void setId_message(Long id_message) {
-		this.id_message = id_message;
+	public void setid_conversation(Long id_message) {
+		this.id_conversation = id_message;
 	}
 	public Long getSender() {
 		return sender;

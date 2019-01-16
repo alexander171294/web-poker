@@ -20,6 +20,7 @@ public class Users {
 	private Date ultima_actividad;
 	private Long fichas;
 	private String hashSignature;
+	private Object league; // for ranked purposes
 	
 	public Long getId_usuario() {
 		return id_usuario;

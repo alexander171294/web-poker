@@ -2,12 +2,23 @@ package com.tandilserver.poker_lobby.dataBase.domain;
 
 import java.util.Date;
 
-public class Conversation {
+public class Conversations {
 
 	private Long id_conversation;
     private Users user_origin;
     private Users user_target;
-	private Date last_messages;
+	private Date last_message;
+	
+	public Conversations() {
+		
+	}
+	
+	public Conversations(Long id_conversation, Users user_origin, Users user_target, Date last_message) {
+		this.id_conversation = id_conversation;
+		this.user_origin = user_origin;
+		this.user_target = user_target;
+		this.last_message = last_message;
+	}
 	
 	public Long getId_conversation() {
 		return id_conversation;
@@ -27,11 +38,11 @@ public class Conversation {
 	public void setUser_target(Users user_target) {
 		this.user_target = user_target;
 	}
-	public Date getLast_messages() {
-		return last_messages;
+	public Date getLast_message() {
+		return last_message;
 	}
-	public void setLast_messages(Date last_messages) {
-		this.last_messages = last_messages;
+	public void setLast_message(Date last_messages) {
+		this.last_message = last_messages;
 	}
     
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.Configuration;
 
 import com.tandilserver.poker_lobby.filters.CorsFilter;
 import com.tandilserver.poker_lobby.filters.JWT.JWTFilter;
@@ -15,7 +15,7 @@ import com.tandilserver.poker_lobby.filters.JWT.JWTValidFilter;
 
 @SpringBootApplication
 @EntityScan("com.tandilserver.poker_lobby.dataBase.domain")
-@EnableJpaRepositories("com.tandilserver.poker_lobby.dataBase.repository")
+@Configuration("com.tandilserver.poker_lobby.dataBase.JDBConfig")
 public class App 
 {
     public static void main( String[] args )

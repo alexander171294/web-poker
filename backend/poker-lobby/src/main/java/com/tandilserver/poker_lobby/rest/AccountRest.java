@@ -24,7 +24,7 @@ public class AccountRest { // For user data operations, coins, change password, 
 	@RequestMapping(path="/data", method=RequestMethod.GET)
 	public UserData data(@RequestHeader("jwtUserOrigin") Users userRequester) {
 		UserData uD = new UserData();
-		uD.fichas = userRequester.getFichas();
+		uD.fichas = userRequester.getCoins();
 		uD.nick = userRequester.getNick();
 		return uD;
 	}
@@ -37,7 +37,7 @@ public class AccountRest { // For user data operations, coins, change password, 
 			if(password.newPassword == null || password.newPassword.length() < 8) new Exception("Password must be more than 8 chars");
 			if(password.newPassword.length() > 16) new Exception("Password must be less than 16 chars");
 			userRequester.setPassword(password.newPassword);
-			usersRepository.save(userRequester);
+			usersRepository.update(userRequester);
 		} catch(Exception e) {
 			out.statusCode = StatusCodes.ERR;
 			out.message = e.getMessage();

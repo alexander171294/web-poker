@@ -54,9 +54,8 @@ public class JWTFilter implements Filter {
 			String identity = httpRequest.getHeader("Identity");
 			try {
 				if(identity == null) throw new ExceptionJWT();
-				Optional<Users> userOpt = repository.findById(Long.parseLong(identity));
-				if(userOpt == null || !userOpt.isPresent()) throw new ExceptionJWT();
-				Users user = userOpt.get();
+				Users user = repository.findById(Long.parseLong(identity));
+				if(user == null) throw new ExceptionJWT();
 				String key = new String(Base64.encodeBase64(user.getHashSignature().getBytes()));
 				Jws<Claims> jt = Jwts.parser().setSigningKey(key).parseClaimsJws(jwToken);
 				Claims data = jt.getBody();

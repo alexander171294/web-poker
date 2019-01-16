@@ -36,14 +36,14 @@ public class OfflineRest {
 			if(registroData.nick.length() > 15) throw new ExceptionResponse(StatusCodes.ERR, "NICK > 15");
 			Users user = new Users();
 			user.setEmail(registroData.email);
-			user.setFecha_registro(new Date());
-			user.setFichas(5000L); // fichas iniciales
+			user.setSignup_date(new Date());
+			user.setCoins(5000L); // fichas iniciales
 			user.setNick(registroData.nick);
 			// TODO: the password must be encrypted in any hash. 
 			user.setPassword(registroData.password);
-			user.setUltima_actividad(new Date());
+			user.setLast_activity(new Date());
 			user.setHashSignature(UUID.randomUUID().toString());
-			Users userOut = usersRepository.save(user);
+			Users userOut = usersRepository.create(user);
 			out.upgrade = userOut.getHashSignature();
 			out.id_usuario = userOut.getId_usuario();
 		} catch(ExceptionResponse e) {
@@ -64,11 +64,10 @@ public class OfflineRest {
 			out.message = "Email or password invalid";
 		} else {
 			user.setHashSignature(UUID.randomUUID().toString());
-			usersRepository.save(user);
 			out.id = user.getId_usuario();
 			out.upgrade = user.getHashSignature();
-			user.setUltima_actividad(new Date());
-			usersRepository.save(user);
+			user.setLast_activity(new Date());
+			usersRepository.update(user);
 		}
 		return out;
 	}

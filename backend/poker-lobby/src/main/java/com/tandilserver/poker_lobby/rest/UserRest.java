@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tandilserver.poker_lobby.dataBase.domain.Users;
 import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository;
+import com.tandilserver.poker_lobby.rest.dto.LoginIn;
 import com.tandilserver.poker_lobby.rest.dto.LoginOut;
 import com.tandilserver.poker_lobby.rest.dto.SignupIn;
 import com.tandilserver.poker_lobby.rest.dto.SignupOut;
@@ -59,12 +59,12 @@ public class UserRest {
 	}
 	
 	// TODO: change return type to ResponseEntity<Type>
-	@RequestMapping(path="/login", method=RequestMethod.GET) 
-	public LoginOut login(@RequestParam(value="email") String email, @RequestParam(value="password") String password) {
+	@RequestMapping(path="/login", method=RequestMethod.POST) 
+	public LoginOut login(@RequestBody LoginIn data) {
 		LoginOut out = new LoginOut();
-		Users user = usersRepository.findByEmail(email);
+		Users user = usersRepository.findByEmail(data.email);
 		// TODO: the password must be encrypted in any hash.
-		if(user == null || !user.getPassword().equals(password)) {
+		if(user == null || !user.getPassword().equals(data.password)) {
 			out.statusCode = StatusCodes.ERR;
 			out.message = "Email or password invalid";
 		} else {

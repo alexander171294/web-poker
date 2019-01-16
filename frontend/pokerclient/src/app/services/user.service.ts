@@ -14,12 +14,12 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public registrarme(data: SignupIn): Observable<SignupOut> {
-    const url = Settings.getUrl() + 'userRest/registro';
+    const url = Settings.getUrl() + 'offlineRest/registro';
     return this.http.post<SignupOut>(url, data);
   }
 
   public login(email: string, password: string): Observable<LoginOut> {
-    const url = Settings.getUrl() + 'userRest/login';
+    const url = Settings.getUrl() + 'offlineRest/login';
     // let params = new HttpParams();
     // params = params.append('email', email);
     // params = params.append('password', password);

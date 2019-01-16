@@ -19,20 +19,15 @@ import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
 import com.tandilserver.poker_lobby.services.utils.ExceptionResponse;
 
 @RestController
-@RequestMapping("/userRest")
-public class UserRest {
+@RequestMapping("/offlineRest")
+public class OfflineRest {
 
 	@Autowired
 	UsersRepository usersRepository;
 	
-	@RequestMapping(path="/helloWorld", method=RequestMethod.GET)
-	public String tablatest() {
-		return "Hola Mundo";
-	}
-	
 	// TODO: change return type to ResponseEntity<Type>
-	@RequestMapping(path="/registro", method=RequestMethod.POST)
-	public SignupOut registrarme(@RequestBody SignupIn registroData) {
+	@RequestMapping(path="/signup", method=RequestMethod.POST)
+	public SignupOut signup(@RequestBody SignupIn registroData) {
 		SignupOut out = new SignupOut();
 		try {
 			if(usersRepository.findByEmail(registroData.email) != null) throw new ExceptionResponse(StatusCodes.ERR, "Email is used");

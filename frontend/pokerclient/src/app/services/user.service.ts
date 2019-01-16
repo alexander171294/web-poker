@@ -20,10 +20,10 @@ export class UserService {
 
   public login(email: string, password: string): Observable<LoginOut> {
     const url = Settings.getUrl() + 'userRest/login';
-    let params = new HttpParams();
-    params = params.append('email', email);
-    params = params.append('password', password);
-    return this.http.get<LoginOut>(url, {params: params});
+    // let params = new HttpParams();
+    // params = params.append('email', email);
+    // params = params.append('password', password);
+    return this.http.post<LoginOut>(url, {email: email, password: password});
   }
 
 }

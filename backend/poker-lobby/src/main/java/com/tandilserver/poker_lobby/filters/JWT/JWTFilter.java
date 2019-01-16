@@ -1,8 +1,6 @@
 package com.tandilserver.poker_lobby.filters.JWT;
 
 import java.io.IOException;
-import java.security.SignatureException;
-import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -61,12 +59,12 @@ public class JWTFilter implements Filter {
 				Claims data = jt.getBody();
 				if(!identity.equals(data.getSubject())) throw new ExceptionJWT();
 				JWTUnpackedData uD = new JWTUnpackedData();
-				uD.setExpiration(data.getExpiration()); // fecha de expiración
-				uD.setId(data.getId()); // tracking
-				uD.setIssuedAt(data.getIssuedAt()); // fecha de creación
-				uD.setIssuer(data.getIssuer()); // canal
-				uD.setNotBefore(data.getNotBefore()); // fecha actual
-				uD.setSubject(data.getSubject()); // identificador de usuario.
+				uD.setExpiration(data.getExpiration());
+				uD.setId(data.getId());
+				uD.setIssuedAt(data.getIssuedAt());
+				uD.setIssuer(data.getIssuer());
+				uD.setNotBefore(data.getNotBefore());
+				uD.setSubject(data.getSubject());
 				httpRequest.setAttribute("jwtParsed", uD);
 				httpRequest.setAttribute("jwtTrusted", true);
 				httpRequest.setAttribute("jwtUserOrigin", user);

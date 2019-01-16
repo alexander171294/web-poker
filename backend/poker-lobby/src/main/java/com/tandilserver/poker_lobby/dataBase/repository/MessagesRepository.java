@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.tandilserver.poker_lobby.dataBase.BaseRepository;
 import com.tandilserver.poker_lobby.dataBase.domain.Messages;
-import com.tandilserver.poker_lobby.dataBase.domain.Users;
-import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository.UsersRowMapper;
 
 public class MessagesRepository  extends BaseRepository<Messages, Long>{
 	

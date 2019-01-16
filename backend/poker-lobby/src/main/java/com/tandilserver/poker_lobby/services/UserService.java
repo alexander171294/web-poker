@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
-import com.tandilserver.poker_lobby.dataBase.domain.Users;
 import com.tandilserver.poker_lobby.services.dto.in.UserDataIn;
 import com.tandilserver.poker_lobby.services.dto.out.Pong;
 import com.tandilserver.poker_lobby.services.dto.out.Response;

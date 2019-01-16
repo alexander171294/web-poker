@@ -12,8 +12,10 @@ public class Users {
 	private Date last_activity;
 	private Long coins;
 	private String hashSignature;
-	private Object league; // for ranked purposes
 	private Long id_user_recommend;
+	
+	@SuppressWarnings("unused")
+	private Object league; // for ranked purposes
 	
 	public Users() {
 		

@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.tandilserver.poker_lobby.dataBase.BaseRepository;
 import com.tandilserver.poker_lobby.dataBase.domain.Friendships;
 import com.tandilserver.poker_lobby.dataBase.domain.StatusFriendships;
-import com.tandilserver.poker_lobby.dataBase.domain.Users;
-import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository.UsersRowMapper;
 
 @Repository
 public class FriendshipsRepository extends BaseRepository<Friendships, Long> {

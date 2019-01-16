@@ -7,11 +7,12 @@ public class Messages {
 	private Long id_conversation;
 	private Long sender;
 	private Date fecha;
+	private Boolean read;
 	
-	public Long getid_conversation() {
+	public Long getId_conversation() {
 		return id_conversation;
 	}
-	public void setid_conversation(Long id_message) {
+	public void setId_conversation(Long id_message) {
 		this.id_conversation = id_message;
 	}
 	public Long getSender() {
@@ -25,6 +26,12 @@ public class Messages {
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	public Boolean getRead() {
+		return read;
+	}
+	public void setRead(Boolean read) {
+		this.read = read;
 	}
 	
 }

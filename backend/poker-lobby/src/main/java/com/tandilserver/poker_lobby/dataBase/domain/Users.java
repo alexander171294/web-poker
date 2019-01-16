@@ -13,12 +13,13 @@ public class Users {
 	private Long coins;
 	private String hashSignature;
 	private Object league; // for ranked purposes
+	private Long id_user_recommend;
 	
 	public Users() {
 		
 	}
 	
-	public Users(Long id_usuario, String nick, String email, String password, Date signup_date, Date last_activity, Long coins, String hashSignature) {
+	public Users(Long id_usuario, String nick, String email, String password, Date signup_date, Date last_activity, Long coins, String hashSignature, Long id_user_recommend) {
 		this.id_usuario = id_usuario;
 		this.nick = nick;
 		this.email = email;
@@ -27,6 +28,7 @@ public class Users {
 		this.last_activity = last_activity;
 		this.coins = coins;
 		this.hashSignature = hashSignature;
+		this.id_user_recommend = id_user_recommend;
 	}
 	
 	public Long getId_usuario() {
@@ -76,6 +78,14 @@ public class Users {
 	}
 	public void setCoins(Long coins) {
 		this.coins = coins;
+	}
+
+	public Long getId_user_recommend() {
+		return id_user_recommend;
+	}
+
+	public void setId_user_recommend(Long id_user_recommend) {
+		this.id_user_recommend = id_user_recommend;
 	}
 	
 

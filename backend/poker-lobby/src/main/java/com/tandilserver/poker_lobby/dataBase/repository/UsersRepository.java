@@ -21,7 +21,7 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	public Users create(Users record) {
 		try {
 			final String sql = "INSERT INTO users"
-					+ "(nick, email, password, fecha_registro, ultima_actividad, fichas, hashSignature)"
+					+ "(nick, email, password, fecha_registro, ultima_actividad, fichas, id_user_recommend, hashSignature)"
 					+ " VALUES(?,?,?,?,?,?,?)";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getNick(),
@@ -30,6 +30,7 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 					record.getSignup_date(),
 					record.getLast_activity(),
 					record.getCoins(),
+					record.getId_user_recommend(),
 					record.getHashSignature()
 					});
 			return record;
@@ -43,7 +44,7 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	public void update(Users record) {
 		try {
 			final String sql = "UPDATE users SET "
-					+ "nick = ?, email = ?, password, signup_date, last_activity, coins, hashSignature WHERE id_usuario = ?";
+					+ "nick = ?, email = ?, password, signup_date, last_activity, coins, hashSignature, id_user_recommend WHERE id_usuario = ?";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getNick(),
 					record.getEmail(),
@@ -52,6 +53,7 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 					record.getLast_activity(),
 					record.getCoins(),
 					record.getHashSignature(),
+					record.getId_user_recommend(),
 					record.getId_usuario()
 			});
 		} catch(DataAccessException e) {
@@ -101,7 +103,8 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	        		rs.getDate("signup_date"),
 	        		rs.getDate("last_activity"),
 	        		rs.getLong("coins"),
-	        		rs.getString("hashSignature")
+	        		rs.getString("hashSignature"),
+	        		rs.getLong("id_user_recommend")
 	        		);
 	    }
 	}

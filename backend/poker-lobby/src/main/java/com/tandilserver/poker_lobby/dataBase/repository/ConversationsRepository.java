@@ -11,8 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.tandilserver.poker_lobby.dataBase.BaseRepository;
 import com.tandilserver.poker_lobby.dataBase.domain.Conversations;
-import com.tandilserver.poker_lobby.dataBase.domain.Users;
-import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository.UsersRowMapper;
 
 public class ConversationsRepository extends BaseRepository<Conversations, Long>{
 	

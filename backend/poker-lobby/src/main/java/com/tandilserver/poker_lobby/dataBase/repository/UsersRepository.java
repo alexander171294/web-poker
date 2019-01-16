@@ -92,8 +92,7 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 		}
 	}
 	
-	class UsersRowMapper implements RowMapper<Users>
-	{
+	class UsersRowMapper implements RowMapper<Users> {
 	    public Users mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Users(
 	        		rs.getLong("id_usuario"),

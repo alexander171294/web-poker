@@ -33,7 +33,7 @@ public class ConversationsRepository extends BaseRepository<Conversations, Long>
 					});
 			return record;
 		} catch(DataAccessException e) {
-			logger.error("UsersRepository::create", e);
+			logger.error("ConversationsRepository::create", e);
 			return null;
 		}
 	}
@@ -48,7 +48,7 @@ public class ConversationsRepository extends BaseRepository<Conversations, Long>
 					record.getId_conversation()
 			});
 		} catch(DataAccessException e) {
-			logger.error("UsersRepository::update", e);
+			logger.error("ConversationsRepository::update", e);
 		}
 	}
 
@@ -63,8 +63,7 @@ public class ConversationsRepository extends BaseRepository<Conversations, Long>
 		}
 	}
 	
-	class ConversationsRowMapper implements RowMapper<Conversations>
-	{
+	class ConversationsRowMapper implements RowMapper<Conversations> {
 	    public Conversations mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Conversations(
 	        		rs.getLong("id_conversation"),

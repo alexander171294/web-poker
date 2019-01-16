@@ -90,8 +90,7 @@ public class FriendshipsRepository extends BaseRepository<Friendships, Long> {
 		}
 	}
 	
-	class FriendshipsRowMapper implements RowMapper<Friendships>
-	{
+	class FriendshipsRowMapper implements RowMapper<Friendships> {
 	    public Friendships mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Friendships(
 	        		rs.getLong("id_requester"),

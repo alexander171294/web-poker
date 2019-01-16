@@ -14,7 +14,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public registrarme(data: SignupIn): Observable<SignupOut> {
-    const url = Settings.getUrl() + 'offlineRest/registro';
+    const url = Settings.getUrl() + 'offlineRest/signup';
     return this.http.post<SignupOut>(url, data);
   }
 

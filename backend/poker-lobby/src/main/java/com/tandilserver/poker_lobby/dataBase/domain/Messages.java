@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Messages {
 
+	private Long id_message;
 	private Long id_conversation;
 	private Long sender;
 	private Date fecha;

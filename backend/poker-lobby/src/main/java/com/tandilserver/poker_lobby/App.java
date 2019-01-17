@@ -67,7 +67,9 @@ public class App
     }
     
     public static void addPatternsJWT(FilterRegistrationBean<Filter> registration) {
-    	//registration.addUrlPatterns("/*");
-    	registration.addUrlPatterns("/accountRest/*");
+    	registration.addUrlPatterns(
+    		"/accountRest/*",
+    		"/roomsRest/*"
+    	);
     }
 }

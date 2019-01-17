@@ -2,6 +2,7 @@ package com.tandilserver.poker_lobby.dataBase.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,16 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 			});
 		} catch(DataAccessException e) {
 			logger.error("RoomsRepository::delete", e);
+		}
+	}
+	
+	public List<Rooms> getRoomsOfType(ServerTypes type) {
+		try {
+			return jdbcTemplate.query(
+                "SELECT * FROM rooms WHERE server_type = ?",
+                new Object[]{ type.ordinal() }, new RoomsRowMapper());
+		} catch(DataAccessException e) {
+			return null;
 		}
 	}
 	

@@ -2,9 +2,9 @@
 
 This project is an Angular/Nativescript Web/Mobile poker client and Java/Spring websocket backend. Additionally, the persistence of data is provided by mysql.
 
-In the past, i tried to start this proyect using php and simple html/javascript/jquery client, but for various reasons i never finished it. Now i started this project to continue this ambitious project, but this time using java and angular/Nativescript.
+In the past, i tried to start this project using php and simple html/javascript/jquery client, but for various reasons i never finished it. Now i started this project to continue this ambitious project, but this time using java and angular/Nativescript.
 
-Do't worry, I put simple instructions for you to install all without know how to work these technologies.
+**Do't worry**, I put simple instructions for you to install all without know how to work these technologies.
 
 This project is only for fun, and i will write the code in a long term and including spaces of times without commit.
 
@@ -29,8 +29,8 @@ I will code these subjects in respective order:
 ### Sit and go
 
 * ~~Frontend register/login (simple) and mysql connected.~~
-* Lobby tables and user-data **(at this moment I'm working in this)**
-* Table servers registry and showed in the frontend.
+* ~~Lobby tables and user-data~~ (only frontend is pending)
+* Table servers registry and showed in the frontend. **(now I'm working here)**
 * Poker rules and gameplay.
 * Frontend design of simple table.
 
@@ -68,10 +68,10 @@ Frontend
 Backend
 
 * Java with Spring Boot
-* Websockets
+* Websockets and sockets (for inter-servers communication)
 * JWT for session handling
 * Mysql
-* Hibernate
+* ~~Hibernate~~ (more problems than solutions)
 * SLF4J
 
 ## Frontend
@@ -102,7 +102,7 @@ For build/run ~~i write the instructions soon~~ see the wiki.
 
 ## Bakend
 
-The backend is splitted in two proyects, the lobby (users login/tables), and the table/turnament severs, for simple test you can use the same physical server to run all of this (Frontend, backend lobby, and backends tables).
+The backend is splitted in two proyects, the lobby (users login/tables), and the table/turnament severs, for simple test you can use the same physical server to run all of this (Frontend, backend lobby, and backends tables/rooms). Aditionally I created a shared jar project for DTO classes
 
 You need to start the lobby server and configure your ip in the frontend and the table backends proyect (see in the wiki soon), and start new tables executing process of backends tables. Then build/run the client and login/register.
 

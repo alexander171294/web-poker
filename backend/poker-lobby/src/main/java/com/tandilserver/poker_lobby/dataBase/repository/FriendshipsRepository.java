@@ -68,23 +68,36 @@ public class FriendshipsRepository extends BaseRepository<Friendships, Long> {
 		}
 	}
 	
-	public List<Friendships> findBySender(Long id) {
+	public List<Friendships> findByTarget(Long id) {
 		try {
 			return jdbcTemplate.query(
-                "SELECT * FROM friendships WHERE id_sender = ?",
+                "SELECT * FROM friendships WHERE id_target = ?",
                 new Object[]{ id }, new FriendshipsRowMapper());
 		} catch(DataAccessException e) {
 			return null;
 		}
 	}
 	
-	public List<Friendships> findByBoth(Long id_requester, Long id_sender) {
+	public List<Friendships> findByBoth(Long id_requester, Long id_target) {
 		try {
 			return jdbcTemplate.query(
-                "SELECT * FROM friendships WHERE id_sender = ? AND id_requester = ?",
-                new Object[]{ id_sender, id_requester }, new FriendshipsRowMapper());
+                "SELECT * FROM friendships WHERE id_target = ? AND id_requester = ?",
+                new Object[]{ id_target, id_requester }, new FriendshipsRowMapper());
 		} catch(DataAccessException e) {
 			return null;
+		}
+	}
+	
+	@Override
+	public void delete(Friendships record) {
+		try {
+			final String sql = "DELETE FROM friendships WHERE id_target = ? AND id_requester = ?";
+			jdbcTemplate.update(sql, new Object[] {
+					record.getId_target(),
+					record.getId_requester()
+			});
+		} catch(DataAccessException e) {
+			logger.error("FriendshipsRepository::delete", e);
 		}
 	}
 	

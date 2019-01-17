@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.tandilserver.poker_lobby.dataBase.BaseRepository;
 import com.tandilserver.poker_lobby.dataBase.domain.Messages;
 
-public class MessagesRepository  extends BaseRepository<Messages, Long>{
+public class MessagesRepository extends BaseRepository<Messages, Long>{
 	
 	public static Logger logger = LoggerFactory.getLogger(MessagesRepository.class);
 
@@ -40,8 +40,8 @@ public class MessagesRepository  extends BaseRepository<Messages, Long>{
 			final String sql = "UPDATE messages SET "
 					+ "read = ? WHERE id_message = ?";
 			jdbcTemplate.update(sql, new Object[] {
-					record.getId_message(),
-					record.getRead()
+					record.getRead(),
+					record.getId_message()
 			});
 		} catch(DataAccessException e) {
 			logger.error("MessagesRepository::update", e);
@@ -56,6 +56,18 @@ public class MessagesRepository  extends BaseRepository<Messages, Long>{
                 new Object[]{ id }, new MessagesRowMapper());
 		} catch(DataAccessException e) {
 			return null;
+		}
+	}
+	
+	@Override
+	public void delete(Messages record) {
+		try {
+			final String sql = "DELETE FROM messages WHERE id_message = ?";
+			jdbcTemplate.update(sql, new Object[] {
+					record.getId_message()
+			});
+		} catch(DataAccessException e) {
+			logger.error("MessagesRepository::delete", e);
 		}
 	}
 	

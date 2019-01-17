@@ -62,6 +62,18 @@ public class ConversationsRepository extends BaseRepository<Conversations, Long>
 			return null;
 		}
 	}
+
+	@Override
+	public void delete(Conversations record) {
+		try {
+			final String sql = "DELETE FROM conversations WHERE id_conversation = ?";
+			jdbcTemplate.update(sql, new Object[] {
+					record.getId_conversation()
+			});
+		} catch(DataAccessException e) {
+			logger.error("ConversationsRepository::delete", e);
+		}
+	}
 	
 	class ConversationsRowMapper implements RowMapper<Conversations> {
 	    public Conversations mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -73,5 +85,5 @@ public class ConversationsRepository extends BaseRepository<Conversations, Long>
 	        		);
 	    }
 	}
-
+	
 }

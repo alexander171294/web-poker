@@ -92,6 +92,18 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 		}
 	}
 	
+	@Override
+	public void delete(Users record) {
+		try {
+			final String sql = "DELETE FROM users WHERE id_user = ?";
+			jdbcTemplate.update(sql, new Object[] {
+					record.getId_usuario()
+			});
+		} catch(DataAccessException e) {
+			logger.error("UsersRepository::delete", e);
+		}
+	}
+	
 	class UsersRowMapper implements RowMapper<Users> {
 	    public Users mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Users(
@@ -107,5 +119,5 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	        		);
 	    }
 	}
-	
+
 }

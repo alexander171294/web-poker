@@ -11,5 +11,6 @@ public abstract class BaseRepository<t, pk> {
 	public abstract t create(t record);
 	public abstract void update(t record);
 	public abstract t findById(pk id);
+	public abstract void delete(t record);
 
 }

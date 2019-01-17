@@ -24,8 +24,8 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 	public Rooms create(Rooms record) {
 		try {
 			final String sql = "INSERT INTO rooms"
-					+ "(ip, port, server_name, players, blind, min_bet, server_type, limit_bet, server_identity_hash)"
-					+ " VALUES(?,?,?,?,?,?,?,?,?)";
+					+ "(ip, port, server_name, players, blind, min_bet, server_type, limit_bet, server_identity_hash, official_server)"
+					+ " VALUES(?,?,?,?,?,?,?,?,?,?)";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getIp(),
 					record.getPort(),
@@ -35,7 +35,8 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 					record.getMin_bet(),
 					record.getServer_type().ordinal(),
 					record.getLimit_bet().ordinal(),
-					record.getServerIdentityHash()
+					record.getServerIdentityHash(),
+					record.isOfficialServer()
 					});
 			return record;
 		} catch(DataAccessException e) {
@@ -48,7 +49,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 	public void update(Rooms record) {
 		try {
 			final String sql = "UPDATE rooms SET "
-					+ "port = ?, server_name = ?, players = ?, blind = ?, min_bet = ?, server_type = ?, limit_bet = ?, server_identity_hash = ? WHERE id_server = ?";
+					+ "port = ?, server_name = ?, players = ?, blind = ?, min_bet = ?, server_type = ?, limit_bet = ?, server_identity_hash = ?, official_server = ? WHERE id_server = ?";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getPort(),
 					record.getServer_name(),
@@ -58,7 +59,8 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 					record.getServer_type(),
 					record.getLimit_bet(),
 					record.getId_server(),
-					record.getServerIdentityHash()
+					record.getServerIdentityHash(),
+					record.isOfficialServer()
 			});
 		} catch(DataAccessException e) {
 			logger.error("RoomsRepository::update", e);
@@ -110,7 +112,8 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 	        		rs.getLong("min_bet"),
 	        		ServerTypes.values()[rs.getInt("server_type")],
 	        		LimitTypes.values()[rs.getInt("limit_bet")],
-	        		rs.getString("server_identity_hash")
+	        		rs.getString("server_identity_hash"),
+	        		rs.getBoolean("official_server")
 	        		);
 	    }
 	}

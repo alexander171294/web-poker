@@ -15,6 +15,7 @@ public class Rooms {
 	private long min_bet;
 	private ServerTypes server_type;
 	private LimitTypes limit_bet;
+	private boolean official_server;
 	
 	private boolean newItem;
 
@@ -22,7 +23,7 @@ public class Rooms {
 		
 	}
 	
-	public Rooms(Long id_server, String ip, int port, String server_name, int players, long blind, long min_bet, ServerTypes server_type, LimitTypes limit_bet, String server_identity_hash) {
+	public Rooms(Long id_server, String ip, int port, String server_name, int players, long blind, long min_bet, ServerTypes server_type, LimitTypes limit_bet, String server_identity_hash, boolean official_server) {
 		this.id_server = id_server;
 		this.ip = ip;
 		this.port = port;
@@ -33,6 +34,7 @@ public class Rooms {
 		this.server_type = server_type;
 		this.limit_bet = limit_bet;
 		this.server_identity_hash = server_identity_hash;
+		this.official_server = official_server;
 	}
 	
 	public long getId_server() {
@@ -108,6 +110,14 @@ public class Rooms {
 
 	public void setNewItem(boolean newItem) {
 		this.newItem = newItem;
+	}
+
+	public boolean isOfficialServer() {
+		return official_server;
+	}
+
+	public void setOfficialServer(boolean officialServer) {
+		this.official_server = officialServer;
 	}
 	
 	

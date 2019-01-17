@@ -29,6 +29,7 @@ public class RoomService {
 			room.setServer_type(srvInfo.server_type.ordinal());
 			room.setServerIdentityHash(UUID.randomUUID().toString());
 			room.setNewItem(true);
+			room.setOfficialServer(srvInfo.officialServer);
 			roomsRepository.create(room);
 			return room;
 		} else {

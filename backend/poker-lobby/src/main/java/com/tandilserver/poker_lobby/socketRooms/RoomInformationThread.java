@@ -31,7 +31,8 @@ public class RoomInformationThread implements Runnable {
 	protected String name;
 	protected StepHandshake stepHandshake = StepHandshake.OFFLINE;
 	
-	public Long id_server;
+	private Long id_server;
+	private String server_identity_hash;
 	
 	@Autowired
 	protected RoomService roomService;
@@ -116,23 +117,28 @@ public class RoomInformationThread implements Runnable {
 		try {
 			srvInfo = oM.readValue(data, ServerInfo.class);
 			if(srvInfo != null) {
-				Rooms room = roomService.addIfNotExistsRoomServer(srvInfo);
-				AuthorizationBearer auth = new AuthorizationBearer();
-				auth.id_server = 0; // TODO: rework insert function to get id of last insert record.
-				auth.expiration = new Date(); // TODO: set expiration system
-				if(room.isNewItem()) {
-					this.stepHandshake = StepHandshake.AUTHORIZED;
-					// send response:
-					auth.server_identity_hash = room.getServerIdentityHash();
-					auth.valid = true;
-					sendToClient(oM.writeValueAsString(auth));
+				if (srvInfo.officialServer) {
+					// TODO: validate if official server and add config to enable/disable unofficial server supports.
 				} else {
-					this.stepHandshake = StepHandshake.AUTHORIZATION_REQUIRED;
-					// send response
-					auth.server_identity_hash = "";
-					auth.valid = false;
-					id_server = room.getId_server();
-					sendToClient(oM.writeValueAsString(auth));
+					Rooms room = roomService.addIfNotExistsRoomServer(srvInfo);
+					AuthorizationBearer auth = new AuthorizationBearer();
+					auth.id_server = 0; // TODO: rework insert function to get id of last insert record.
+					auth.expiration = new Date(); // TODO: set expiration system
+					if(room.isNewItem()) {
+						this.stepHandshake = StepHandshake.AUTHORIZED;
+						// send response:
+						auth.server_identity_hash = room.getServerIdentityHash();
+						this.server_identity_hash = auth.server_identity_hash;
+						auth.valid = true;
+						sendToClient(oM.writeValueAsString(auth));
+					} else {
+						this.stepHandshake = StepHandshake.AUTHORIZATION_REQUIRED;
+						// send response
+						auth.server_identity_hash = "";
+						auth.valid = false;
+						id_server = room.getId_server();
+						sendToClient(oM.writeValueAsString(auth));
+					}
 				}
 			} else {
 				logger.error("Error of server info");
@@ -151,6 +157,7 @@ public class RoomInformationThread implements Runnable {
 				Rooms room = roomService.updateRoomHash(id_server, UUID.randomUUID().toString());
 				auth.id_server = room.getId_server();
 				auth.server_identity_hash = room.getServerIdentityHash();
+				this.server_identity_hash = auth.server_identity_hash;
 				auth.expiration = new Date(); // TODO: set expiration system
 				auth.valid = true;
 			} else {

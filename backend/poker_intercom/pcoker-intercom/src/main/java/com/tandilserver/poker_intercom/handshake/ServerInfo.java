@@ -13,5 +13,6 @@ public class ServerInfo {
 	public long min_bet;
 	public ServerTypes server_type;
 	public LimitTypes limit_bet;
+	public boolean officialServer;
 	
 }

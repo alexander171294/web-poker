@@ -7,6 +7,11 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tandilserver.poker_intercom.customTypes.LimitTypes;
+import com.tandilserver.poker_intercom.customTypes.ServerTypes;
+import com.tandilserver.poker_intercom.handshake.ServerInfo;
+
 public class App 
 {
     public static void main( String[] args ) throws IOException
@@ -36,7 +41,17 @@ public class App
         try{
             line=br.readLine(); 
             while(line.compareTo("QUIT")!=0){
-                    os.println(line);
+            		ServerInfo srvInfo = new ServerInfo();
+            		srvInfo.blind = 50;
+            		srvInfo.ip = "127.0.0.1";
+            		srvInfo.limit_bet = LimitTypes.NO_LIMIT;
+            		srvInfo.min_bet = 50;
+            		srvInfo.players = 0;
+            		srvInfo.port = 6666;
+            		srvInfo.server_name = "TST";
+            		srvInfo.server_type = ServerTypes.SIT_N_GO;
+            		ObjectMapper oM = new ObjectMapper();
+                    os.println(oM.writeValueAsString(srvInfo));
                     os.flush();
                     response=is.readLine();
                     System.out.println("Server Response : "+response);

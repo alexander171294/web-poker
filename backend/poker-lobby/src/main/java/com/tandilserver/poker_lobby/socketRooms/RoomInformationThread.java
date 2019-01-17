@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tandilserver.poker_intercom.handshake.ServerInfo;
+
 @Component
 @Scope("prototype")
 public class RoomInformationThread implements Runnable {
@@ -20,6 +23,7 @@ public class RoomInformationThread implements Runnable {
 	protected BufferedReader input = null;
 	protected static Logger logger = LoggerFactory.getLogger(RoomInformationThread.class);
 	protected String name;
+	protected StepHandshake stepHandshake = StepHandshake.OFFLINE;
 
 	public RoomInformationThread(Socket clientSocket, String name) {
 		logger.debug("Socket connected - New Thread");
@@ -79,8 +83,36 @@ public class RoomInformationThread implements Runnable {
 	}
 
 	protected void onMessageReceived(String line) {
-		logger.debug("Message in > " + line);
-		sendToClient("OK");
+		switch (this.stepHandshake) {
+			case OFFLINE:
+				checkServerInformation(line);
+				break;
+			case AUTHORIZATION:
+				validateAuthorization(line);
+				break;
+			default:
+				logger.debug("Unknown Step");
+				break;	
+		}
+	}
+	
+	protected void checkServerInformation(String data) {
+		ObjectMapper oM = new ObjectMapper();
+		ServerInfo srvInfo;
+		try {
+			srvInfo = oM.readValue(data, ServerInfo.class);
+			if(srvInfo != null) {
+				
+			} else {
+				logger.error("Error of server info");
+			}
+		} catch (IOException e) {
+			logger.error("Error of mapping");
+		}
+	}
+	
+	protected void validateAuthorization(String data) {
+		
 	}
 
 }

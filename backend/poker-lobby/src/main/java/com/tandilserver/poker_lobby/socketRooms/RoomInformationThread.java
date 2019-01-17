@@ -5,14 +5,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tandilserver.poker_intercom.handshake.AuthorizationBearer;
 import com.tandilserver.poker_intercom.handshake.ServerInfo;
+import com.tandilserver.poker_lobby.dataBase.domain.Rooms;
+import com.tandilserver.poker_lobby.socketRooms.services.RoomService;
 
 @Component
 @Scope("prototype")
@@ -24,6 +29,9 @@ public class RoomInformationThread implements Runnable {
 	protected static Logger logger = LoggerFactory.getLogger(RoomInformationThread.class);
 	protected String name;
 	protected StepHandshake stepHandshake = StepHandshake.OFFLINE;
+	
+	@Autowired
+	protected RoomService roomService;
 
 	public RoomInformationThread(Socket clientSocket, String name) {
 		logger.debug("Socket connected - New Thread");
@@ -87,8 +95,11 @@ public class RoomInformationThread implements Runnable {
 			case OFFLINE:
 				checkServerInformation(line);
 				break;
-			case AUTHORIZATION:
+			case AUTHORIZATION_REQUIRED:
 				validateAuthorization(line);
+				break;
+			case AUTHORIZED:
+				authorizedPostProcessor(line);
 				break;
 			default:
 				logger.debug("Unknown Step");
@@ -102,7 +113,23 @@ public class RoomInformationThread implements Runnable {
 		try {
 			srvInfo = oM.readValue(data, ServerInfo.class);
 			if(srvInfo != null) {
-				
+				Rooms room = roomService.addIfNotExistsRoomServer(srvInfo);
+				AuthorizationBearer auth = new AuthorizationBearer();
+				auth.id_server = 0; // TODO: rework insert function to get id of last insert record.
+				auth.expiration = new Date(); // TODO: set expiration system
+				if(room != null) {
+					this.stepHandshake = StepHandshake.AUTHORIZED;
+					// send response:
+					auth.server_identity_hash = room.getServerIdentityHash();
+					auth.valid = true;
+					sendToClient(oM.writeValueAsString(auth));
+				} else {
+					this.stepHandshake = StepHandshake.AUTHORIZATION_REQUIRED;
+					// send response
+					auth.server_identity_hash = "";
+					auth.valid = false;
+					sendToClient(oM.writeValueAsString(auth));
+				}
 			} else {
 				logger.error("Error of server info");
 			}
@@ -112,6 +139,10 @@ public class RoomInformationThread implements Runnable {
 	}
 	
 	protected void validateAuthorization(String data) {
+		
+	}
+	
+	protected void authorizedPostProcessor(String data) {
 		
 	}
 

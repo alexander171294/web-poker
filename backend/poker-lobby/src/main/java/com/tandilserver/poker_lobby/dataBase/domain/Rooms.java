@@ -15,6 +15,8 @@ public class Rooms {
 	private long min_bet;
 	private ServerTypes server_type;
 	private LimitTypes limit_bet;
+	
+	private boolean newItem;
 
 	public Rooms() {
 		
@@ -99,5 +101,14 @@ public class Rooms {
 	public void setServerIdentityHash(String serverIdentityHash) {
 		this.server_identity_hash = serverIdentityHash;
 	}
+
+	public boolean isNewItem() {
+		return newItem;
+	}
+
+	public void setNewItem(boolean newItem) {
+		this.newItem = newItem;
+	}
+	
 	
 }

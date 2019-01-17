@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Date;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ public class RoomInformationThread implements Runnable {
 	protected static Logger logger = LoggerFactory.getLogger(RoomInformationThread.class);
 	protected String name;
 	protected StepHandshake stepHandshake = StepHandshake.OFFLINE;
+	
+	public Long id_server;
 	
 	@Autowired
 	protected RoomService roomService;
@@ -117,7 +120,7 @@ public class RoomInformationThread implements Runnable {
 				AuthorizationBearer auth = new AuthorizationBearer();
 				auth.id_server = 0; // TODO: rework insert function to get id of last insert record.
 				auth.expiration = new Date(); // TODO: set expiration system
-				if(room != null) {
+				if(room.isNewItem()) {
 					this.stepHandshake = StepHandshake.AUTHORIZED;
 					// send response:
 					auth.server_identity_hash = room.getServerIdentityHash();
@@ -128,6 +131,7 @@ public class RoomInformationThread implements Runnable {
 					// send response
 					auth.server_identity_hash = "";
 					auth.valid = false;
+					id_server = room.getId_server();
 					sendToClient(oM.writeValueAsString(auth));
 				}
 			} else {
@@ -139,7 +143,23 @@ public class RoomInformationThread implements Runnable {
 	}
 	
 	protected void validateAuthorization(String data) {
-		
+		ObjectMapper oM = new ObjectMapper();
+		AuthorizationBearer auth;
+		try {
+			auth = oM.readValue(data, AuthorizationBearer.class);
+			if(roomService.validateOldHash(id_server, auth.server_identity_hash)) {
+				Rooms room = roomService.updateRoomHash(id_server, UUID.randomUUID().toString());
+				auth.id_server = room.getId_server();
+				auth.server_identity_hash = room.getServerIdentityHash();
+				auth.expiration = new Date(); // TODO: set expiration system
+				auth.valid = true;
+			} else {
+				auth.valid = false;
+			}
+			sendToClient(oM.writeValueAsString(auth));
+		} catch (IOException e) {
+			logger.error("Error validating authorization");
+		}
 	}
 	
 	protected void authorizedPostProcessor(String data) {

@@ -28,10 +28,28 @@ public class RoomService {
 			room.setServer_name(srvInfo.server_name);
 			room.setServer_type(srvInfo.server_type.ordinal());
 			room.setServerIdentityHash(UUID.randomUUID().toString());
+			room.setNewItem(true);
 			roomsRepository.create(room);
 			return room;
+		} else {
+			room.setNewItem(false);
+			return room;
 		}
-		return null;
+	}
+	
+	public boolean validateOldHash(Long id_room, String identityHash) {
+		Rooms room = roomsRepository.findById(id_room);
+		if(room != null && room.getServerIdentityHash() != null && room.getServerIdentityHash().equals(identityHash)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public Rooms updateRoomHash(Long id_room, String newIdentityHash) {
+		Rooms room = roomsRepository.findById(id_room);
+		room.setServerIdentityHash(newIdentityHash);
+		roomsRepository.update(room);
+		return room;
 	}
 
 }

@@ -8,10 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.tandilserver.poker_lobby.dataBase.BaseRepository;
 import com.tandilserver.poker_lobby.dataBase.domain.Conversations;
 
+@Repository
 public class ConversationsRepository extends BaseRepository<Conversations, Long>{
 	
 	public static Logger logger = LoggerFactory.getLogger(ConversationsRepository.class);

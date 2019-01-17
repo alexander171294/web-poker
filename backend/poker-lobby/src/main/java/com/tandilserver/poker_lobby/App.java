@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.tandilserver.poker_lobby.filters.CorsFilter;
 import com.tandilserver.poker_lobby.filters.JWT.JWTFilter;
@@ -72,4 +74,5 @@ public class App
     		"/roomsRest/*"
     	);
     }
+    
 }

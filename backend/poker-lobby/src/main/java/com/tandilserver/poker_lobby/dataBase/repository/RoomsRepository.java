@@ -8,12 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.tandilserver.poker_lobby.dataBase.BaseRepository;
 import com.tandilserver.poker_lobby.dataBase.customTypes.LimitTypes;
 import com.tandilserver.poker_lobby.dataBase.customTypes.ServerTypes;
 import com.tandilserver.poker_lobby.dataBase.domain.Rooms;
 
+@Repository
 public class RoomsRepository extends BaseRepository<Rooms, Long>{
 	
 	public static Logger logger = LoggerFactory.getLogger(RoomsRepository.class);

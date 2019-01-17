@@ -103,7 +103,7 @@ public class RoomInformationThread implements Runnable {
 				validateAuthorization(line);
 				break;
 			case AUTHORIZED:
-				authorizedPostProcessor(line);
+				postAuthorizedUpdater(line);
 				break;
 			default:
 				logger.debug("Unknown Step");
@@ -169,8 +169,17 @@ public class RoomInformationThread implements Runnable {
 		}
 	}
 	
-	protected void authorizedPostProcessor(String data) {
-		
+	protected void postAuthorizedUpdater(String data) {
+		ObjectMapper oM = new ObjectMapper();
+		ServerInfo srvInfo;
+		try {
+			srvInfo = oM.readValue(data, ServerInfo.class);
+			if(srvInfo != null) {
+				roomService.updateRoomInfo(id_server, srvInfo);
+			}
+		} catch (IOException e) {
+			logger.error("Error of mapping postAuthorized");
+		}
 	}
 
 }

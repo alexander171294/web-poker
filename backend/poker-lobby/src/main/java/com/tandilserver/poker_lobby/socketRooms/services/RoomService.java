@@ -52,5 +52,16 @@ public class RoomService {
 		roomsRepository.update(room);
 		return room;
 	}
+	
+	public void updateRoomInfo(Long id_room, ServerInfo srvInfo) {
+		Rooms room = roomsRepository.findById(id_room);
+		room.setBlind(srvInfo.blind);
+		room.setLimit_bet(srvInfo.limit_bet.ordinal());
+		room.setMin_bet(srvInfo.min_bet);
+		room.setPlayers(srvInfo.players);
+		room.setServer_name(srvInfo.server_name);
+		room.setServer_type(srvInfo.server_type.ordinal());
+		roomsRepository.update(room);
+	}
 
 }

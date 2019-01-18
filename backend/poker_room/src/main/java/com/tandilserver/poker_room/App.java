@@ -108,7 +108,7 @@ public class App
     }
     
     public static void authorized(AuthorizationBearer auth, BufferedReader console) throws IOException {
-    	System.out.println("[*] Access Garanted");
+    	System.out.println("[*] Access Granted");
     	System.out.println("[*] New Server Identity Hash: "+auth.server_identity_hash);
     	System.out.println("!!! Please save this identity for next access");
     	System.out.println("--------------------------");

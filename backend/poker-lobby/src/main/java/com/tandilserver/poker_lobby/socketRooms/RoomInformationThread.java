@@ -37,9 +37,15 @@ public class RoomInformationThread implements Runnable {
 	@Autowired
 	protected RoomService roomService;
 
-	public RoomInformationThread(Socket clientSocket, String name) {
+	public RoomInformationThread() {
 		logger.debug("Socket connected - New Thread");
+	}
+	
+	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setSocket(Socket clientSocket) {
 		this.socket = clientSocket;
 	}
 

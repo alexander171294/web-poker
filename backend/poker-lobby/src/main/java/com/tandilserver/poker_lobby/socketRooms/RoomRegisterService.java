@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -32,6 +33,9 @@ public class RoomRegisterService implements Runnable, ApplicationListener<Contex
     @Autowired
     private TaskExecutor taskExecutor;
     
+    @Autowired
+    private ApplicationContext applicationContext;
+    
 	@Override
 	public void run() {
 		ServerSocket serverSocket = null;
@@ -48,7 +52,11 @@ public class RoomRegisterService implements Runnable, ApplicationListener<Contex
             } catch (IOException e) {
                 logger.error("Socket I/O Exception", e);
             }
-			taskExecutor.execute(new RoomInformationThread(socket, UUID.randomUUID().toString()));
+			RoomInformationThread roomThreadSocketHandler = applicationContext.getBean(RoomInformationThread.class);
+			roomThreadSocketHandler.setName(UUID.randomUUID().toString());
+			roomThreadSocketHandler.setSocket(socket);
+	        taskExecutor.execute(roomThreadSocketHandler);
+			//taskExecutor.execute(new (socket, UUID.randomUUID().toString()));
 		}
 	}
 

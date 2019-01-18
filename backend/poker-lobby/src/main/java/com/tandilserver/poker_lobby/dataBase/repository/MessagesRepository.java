@@ -21,13 +21,13 @@ public class MessagesRepository extends BaseRepository<Messages, Long>{
 	public Messages create(Messages record) {
 		try {
 			final String sql = "INSERT INTO messages"
-					+ "(id_conversation, id_user_sender, date_sended, read)"
+					+ "(id_conversation, id_user_sender, date_sended, readed)"
 					+ " VALUES(?,?,?,?)";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getId_conversation(),
 					record.getSender(),
 					record.getDate_sended(),
-					record.getRead(),
+					record.getReaded(),
 					});
 			return record;
 		} catch(DataAccessException e) {
@@ -40,9 +40,9 @@ public class MessagesRepository extends BaseRepository<Messages, Long>{
 	public void update(Messages record) {
 		try {
 			final String sql = "UPDATE messages SET "
-					+ "read = ? WHERE id_message = ?";
+					+ "readed = ? WHERE id_message = ?";
 			jdbcTemplate.update(sql, new Object[] {
-					record.getRead(),
+					record.getReaded(),
 					record.getId_message()
 			});
 		} catch(DataAccessException e) {
@@ -79,7 +79,8 @@ public class MessagesRepository extends BaseRepository<Messages, Long>{
 	        		rs.getLong("id_message"),
 	        		rs.getLong("id_conversation"),
 	        		rs.getLong("id_user_sender"),
-	        		rs.getDate("date_sended")
+	        		rs.getDate("date_sended"),
+	        		rs.getBoolean("readed")
 	        		);
 	    }
 	}

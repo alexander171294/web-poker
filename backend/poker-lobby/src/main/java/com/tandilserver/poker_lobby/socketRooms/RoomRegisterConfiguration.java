@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import com.tandilserver.poker_lobby.socketRooms.services.RoomService;
+
 @Configuration
 public class RoomRegisterConfiguration {
 

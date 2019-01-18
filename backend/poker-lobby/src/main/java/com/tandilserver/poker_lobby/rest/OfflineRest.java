@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tandilserver.poker_intercom.genericResponse.ExceptionResponse;
+import com.tandilserver.poker_intercom.genericResponse.StatusCodes;
 import com.tandilserver.poker_lobby.dataBase.domain.Users;
 import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository;
 import com.tandilserver.poker_lobby.rest.dto.LoginIn;
 import com.tandilserver.poker_lobby.rest.dto.LoginOut;
 import com.tandilserver.poker_lobby.rest.dto.SignupIn;
 import com.tandilserver.poker_lobby.rest.dto.SignupOut;
-import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
-import com.tandilserver.poker_lobby.services.utils.ExceptionResponse;
 
 @RestController
 @RequestMapping("/offlineRest")

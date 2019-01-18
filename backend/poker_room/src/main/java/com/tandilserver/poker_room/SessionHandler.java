@@ -1,4 +1,4 @@
-package com.tandilserver.poker_lobby.websockets;
+package com.tandilserver.poker_room;
 
 import java.io.IOException;
 import java.util.Map;

@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tandilserver.poker_intercom.genericResponse.Response;
+import com.tandilserver.poker_intercom.genericResponse.StatusCodes;
 import com.tandilserver.poker_lobby.dataBase.domain.Users;
 import com.tandilserver.poker_lobby.dataBase.repository.UsersRepository;
 import com.tandilserver.poker_lobby.rest.dto.PasswordData;
 import com.tandilserver.poker_lobby.rest.dto.UserData;
-import com.tandilserver.poker_lobby.services.dto.out.Response;
-import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
 
 @RestController
 @RequestMapping("/accountRest")

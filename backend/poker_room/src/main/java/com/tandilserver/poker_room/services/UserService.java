@@ -1,15 +1,16 @@
-package com.tandilserver.poker_lobby.services;
+package com.tandilserver.poker_room.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
-import com.tandilserver.poker_lobby.services.dto.in.UserDataIn;
-import com.tandilserver.poker_lobby.services.dto.out.Pong;
-import com.tandilserver.poker_lobby.services.dto.out.Response;
-import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
-import com.tandilserver.poker_lobby.services.dto.out.UserDataOut;
+import com.tandilserver.poker_intercom.genericResponse.Response;
+import com.tandilserver.poker_intercom.genericResponse.StatusCodes;
+import com.tandilserver.poker_room.services.dto.in.UserDataIn;
+import com.tandilserver.poker_room.services.dto.out.Pong;
+import com.tandilserver.poker_room.services.dto.out.UserDataOut;
+
 
 // TODO: change to rest service.
 /* 

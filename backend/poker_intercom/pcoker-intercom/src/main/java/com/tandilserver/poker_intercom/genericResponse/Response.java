@@ -1,4 +1,4 @@
-package com.tandilserver.poker_lobby.services.dto.out;
+package com.tandilserver.poker_intercom.genericResponse;
 
 public class Response {
 	public StatusCodes statusCode = StatusCodes.OK;

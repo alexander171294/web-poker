@@ -1,4 +1,4 @@
-package com.tandilserver.poker_lobby.services.dto.in;
+package com.tandilserver.poker_room.services.dto.in;
 
 public class UserDataIn {
 	public String nick;

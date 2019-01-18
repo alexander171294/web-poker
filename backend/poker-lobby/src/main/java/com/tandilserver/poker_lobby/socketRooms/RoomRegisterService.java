@@ -41,7 +41,7 @@ public class RoomRegisterService implements Runnable, ApplicationListener<Contex
 		ServerSocket serverSocket = null;
         Socket socket = null;
         try {
-        	logger.debug("Starting server in port " + listenPort);
+        	logger.debug("Starting Register Server in port " + listenPort);
             serverSocket = new ServerSocket(listenPort);
         } catch (IOException e) {
             logger.error("Error creating RoomRegisterService", e);

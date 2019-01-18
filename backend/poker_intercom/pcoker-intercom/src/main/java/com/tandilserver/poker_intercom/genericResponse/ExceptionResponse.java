@@ -1,6 +1,4 @@
-package com.tandilserver.poker_lobby.services.utils;
-
-import com.tandilserver.poker_lobby.services.dto.out.StatusCodes;
+package com.tandilserver.poker_intercom.genericResponse;
 
 public class ExceptionResponse extends Exception{
 

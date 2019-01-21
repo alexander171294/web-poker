@@ -58,9 +58,9 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 					record.getMin_bet(),
 					record.getServer_type(),
 					record.getLimit_bet(),
-					record.getId_server(),
 					record.getServerIdentityHash(),
-					record.isOfficialServer()
+					record.isOfficialServer(),
+					record.getId_server()
 			});
 		} catch(DataAccessException e) {
 			logger.error("RoomsRepository::update", e);

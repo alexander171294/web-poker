@@ -1,4 +1,4 @@
-package com.tandilserver.poker_room;
+package com.tandilserver.poker_room.websockets;
 
 import java.util.ArrayList;
 import java.util.List;

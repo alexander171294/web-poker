@@ -1,4 +1,4 @@
-package com.tandilserver.poker_room;
+package com.tandilserver.poker_room.websockets;
 
 import java.util.List;
 
@@ -32,9 +32,6 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
 	
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
         RequestUpgradeStrategy upgradeStrategy = new TomcatRequestUpgradeStrategy();
-        registry.addEndpoint("/internal").withSockJS(); //endpoints internos
-        registry.addEndpoint("/internal")
-                .setHandshakeHandler(new DefaultHandshakeHandler(upgradeStrategy));
 
         registry.addEndpoint("/external").setAllowedOrigins("http://localhost:8000", "*").withSockJS(); //endpoints externos
         registry.addEndpoint("/external")

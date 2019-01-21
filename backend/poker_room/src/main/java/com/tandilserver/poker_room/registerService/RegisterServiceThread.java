@@ -54,7 +54,6 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 			return ;
 		}
         Socket s1=null;
-        String line=null;
         BufferedReader br=null;
         BufferedReader is=null;
         PrintWriter os=null;

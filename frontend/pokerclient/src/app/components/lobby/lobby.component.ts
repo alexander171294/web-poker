@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Settings } from '../../../settings';
+import { Rooms } from '~/app/services/dto/Rooms';
+import { LobbyServer } from '~/app/services/lobby.server';
 
 @Component({
   selector: 'app-lobby',
@@ -7,13 +9,24 @@ import { Settings } from '../../../settings';
   styleUrls: ['./lobby.component.css'],
   moduleId: module.id,
 })
-export class LobbyComponent implements OnInit {
+export class LobbyComponent implements OnInit, AfterViewInit {
 
   public version = Settings.VERSION;
 
-  constructor() { }
+  public servers: Rooms[];
+
+  constructor(private bcknd: LobbyServer) { }
 
   ngOnInit() {
   }
+
+  ngAfterViewInit() {
+    this.bcknd.getRoomsSitNGo().subscribe(data => {
+      this.servers = data;
+    }, error => {
+      alert('Error getting rooms');
+    });
+  }
+
 
 }

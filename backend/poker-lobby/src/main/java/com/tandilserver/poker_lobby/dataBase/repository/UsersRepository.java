@@ -44,7 +44,7 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	public void update(Users record) {
 		try {
 			final String sql = "UPDATE users SET "
-					+ "nick = ?, email = ?, password, signup_date, last_activity, coins, hashSignature, id_user_recommend WHERE id_usuario = ?";
+					+ "nick = ?, email = ?, password = ?, signup_date = ?, last_activity = ?, coins = ?, hashSignature = ?, id_user_recommend = ? WHERE id_usuario = ?";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getNick(),
 					record.getEmail(),

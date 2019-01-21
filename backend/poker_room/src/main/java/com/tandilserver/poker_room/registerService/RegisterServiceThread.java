@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.PropertySource;
@@ -32,6 +33,12 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	
 	@Value("${room.register.listenPort}")
     private volatile int remoteListenerPort;
+	
+	@Autowired
+	private ServerDataBlock srvDataBlock;
+	
+	BufferedReader socketBufferReader;
+	PrintWriter socketBufferOutput;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -54,14 +61,12 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 			return ;
 		}
         Socket s1=null;
-        BufferedReader br=null;
         BufferedReader is=null;
-        PrintWriter os=null;
         try {
             s1=new Socket(address, this.remoteListenerPort); // You can use static final constant PORT_NUM
-            br= new BufferedReader(new InputStreamReader(System.in));
+            socketBufferReader = new BufferedReader(new InputStreamReader(System.in));
             is=new BufferedReader(new InputStreamReader(s1.getInputStream()));
-            os= new PrintWriter(s1.getOutputStream());
+            socketBufferOutput = new PrintWriter(s1.getOutputStream());
         }
         catch (IOException e){
             e.printStackTrace();
@@ -74,13 +79,13 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        System.out.println(">--[ Configuración del servidor ]--<");
 	        System.out.println("------------------------------------");
 	        System.out.println("[?] Server name: ");
-	        String serverName = br.readLine();
+	        String serverName = socketBufferReader.readLine();
 	        System.out.println("[?] Server type: \r\n");
 	        System.out.println("0 - Sit & Go <AutoSelected>");
 	        System.out.print("[?] Big Blind: ");
-	        int blind = Integer.parseInt(br.readLine());
+	        int blind = Integer.parseInt(socketBufferReader.readLine());
 	        System.out.print("[?] Minimum bet: ");
-	        int min_bet = Integer.parseInt(br.readLine());
+	        int min_bet = Integer.parseInt(socketBufferReader.readLine());
 	        System.out.println("[?] Limit bet: \r\n");
 	        System.out.println("0 - NO LIMIT");
 	        System.out.println("------------------------------------");
@@ -101,27 +106,28 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        srvInfo.players = 0;
 	        srvInfo.port = this.remoteListenerPort;
 	        ObjectMapper oM = new ObjectMapper();
-	        os.println(oM.writeValueAsString(srvInfo));
-	        os.flush();
+	        srvDataBlock.setSrvInfo(srvInfo);
+	        socketBufferOutput.println(oM.writeValueAsString(srvInfo));
+	        socketBufferOutput.flush();
 	        System.out.println("[!] Waiting for response...");
 	        response = is.readLine();
 	        System.out.println("[<] Response: " + response);
 	        AuthorizationBearer auth = oM.readValue(response, AuthorizationBearer.class);
 	        if (auth.valid) {
-	        	authorized(auth, br);
+	        	authorized(auth);
 	        } else {
 	        	System.out.println("[!] Authorization required, plesae write the last Server Identity Hash:");
-	        	String serverIdentityHash = br.readLine();
+	        	String serverIdentityHash = socketBufferReader.readLine();
 	        	auth.server_identity_hash = serverIdentityHash;
 	        	System.out.println("[>] Sending Server Identity Hash "+serverIdentityHash+"...");
-	        	os.println(oM.writeValueAsString(auth));
-	        	os.flush();
+	        	socketBufferOutput.println(oM.writeValueAsString(auth));
+	        	socketBufferOutput.flush();
 	        	System.out.println("[!] Waiting for response...");
 	        	response = is.readLine();
 	        	System.out.println("[<] Response: " + response);
 	        	auth = oM.readValue(response, AuthorizationBearer.class);
 	        	if(auth.valid) {
-	        		authorized(auth, br);
+	        		authorized(auth);
 	        	} else {
 	        		System.out.println("[!] Authorization rejected.");
 	        	}
@@ -134,8 +140,8 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
         } finally{
             try {
 				is.close();
-				os.close();
-	            br.close();
+				socketBufferOutput.close();
+				socketBufferReader.close();
 	            s1.close();
 	            System.out.println("Connection Closed");
 			} catch (IOException e) {
@@ -145,13 +151,22 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
         }
 	}
 	
-	public static void authorized(AuthorizationBearer auth, BufferedReader console) throws IOException {
+	public void authorized(AuthorizationBearer auth) throws IOException {
     	System.out.println("[*] Access Granted");
     	System.out.println("[*] New Server Identity Hash: "+auth.server_identity_hash);
     	System.out.println("!!! Please save this identity for next access");
     	System.out.println("--------------------------");
-    	System.out.println("Press any key to close");
-    	console.read();
+    	try {
+    		ObjectMapper oM = new ObjectMapper();
+    		while(true) {
+    			Thread.sleep(1000);
+    			// send updated information
+    			socketBufferOutput.println(oM.writeValueAsString(srvDataBlock.srvInfo));
+    		}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("Thread RegisterService Interrumped, ",e);
+		}
     }
 
 }

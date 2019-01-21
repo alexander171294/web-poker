@@ -6,10 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.tandilserver.poker_lobby.filters.CorsFilter;
 import com.tandilserver.poker_lobby.filters.JWT.JWTFilter;
@@ -18,7 +17,7 @@ import com.tandilserver.poker_lobby.filters.JWT.JWTValidFilter;
 @SpringBootApplication
 @EntityScan("com.tandilserver.poker_lobby.dataBase.domain")
 @Configuration("com.tandilserver.poker_lobby.dataBase.JDBConfig")
-public class App 
+public class App extends SpringBootServletInitializer
 {
     public static void main( String[] args )
     {

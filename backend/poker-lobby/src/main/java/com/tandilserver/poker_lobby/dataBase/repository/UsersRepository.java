@@ -21,8 +21,8 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	public Users create(Users record) {
 		try {
 			final String sql = "INSERT INTO users"
-					+ "(nick, email, password, fecha_registro, ultima_actividad, fichas, id_user_recommend, hashSignature)"
-					+ " VALUES(?,?,?,?,?,?,?)";
+					+ "(nick, email, password, signup_date, last_activity, coins, id_user_recommend, hashSignature)"
+					+ " VALUES(?,?,?,?,?,?,?,?)";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getNick(),
 					record.getEmail(),

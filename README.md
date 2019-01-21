@@ -29,9 +29,9 @@ I will code these subjects in respective order:
 ### Sit and go
 
 * ~~Frontend register/login (simple) and mysql connected.~~
-* ~~Lobby tables and user-data~~ (only frontend is pending)
-* Table servers registry and showed in the frontend. **(now I'm working here)**
-* Poker rules and gameplay.
+* ~~Lobby tables and user-data~~ (only front pending)
+* ~~Table servers registry and showed in the frontend.~~ (only front pending)
+* Poker rules and gameplay. **(now I'm working here)**
 * Frontend design of simple table.
 
 ## Medium term

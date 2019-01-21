@@ -28,5 +28,8 @@ export class LobbyComponent implements OnInit, AfterViewInit {
     });
   }
 
+  connectTo(ip: string, port: number) {
+    console.log('ws://' + ip + ':' + port);
+  }
 
 }

@@ -43,6 +43,7 @@ public class OfflineRest {
 			user.setPassword(registroData.password);
 			user.setLast_activity(new Date());
 			user.setHashSignature(UUID.randomUUID().toString());
+			user.setId_user_recommend(0L);
 			Users userOut = usersRepository.create(user);
 			out.upgrade = userOut.getHashSignature();
 			out.id_usuario = userOut.getId_usuario();

@@ -13,6 +13,7 @@ import { SignupBoxComponent } from './components/login/signup-box/signup-box.com
 import { StompService } from './utils/stomp.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { LobbyServer } from './services/lobby.server';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [StompService, UserService],
+  providers: [StompService, UserService, LobbyServer],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

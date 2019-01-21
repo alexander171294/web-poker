@@ -36,7 +36,11 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		// TODO Auto-generated method stub
-		
+		if(this.thread == null) {
+			this.thread = new Thread(this);
+			this.thread.start();
+			logger.debug("RegisterService Thread created.");
+		}
 	}
 
 	@Override

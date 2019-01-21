@@ -56,8 +56,8 @@ public class RoomsRepository extends BaseRepository<Rooms, Long>{
 					record.getPlayers(),
 					record.getBlind(),
 					record.getMin_bet(),
-					record.getServer_type(),
-					record.getLimit_bet(),
+					record.getServer_type().ordinal(),
+					record.getLimit_bet().ordinal(),
 					record.getServerIdentityHash(),
 					record.isOfficialServer(),
 					record.getId_server()

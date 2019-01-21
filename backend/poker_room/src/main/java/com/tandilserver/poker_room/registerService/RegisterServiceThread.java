@@ -77,9 +77,9 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        String serverName = br.readLine();
 	        System.out.println("[?] Server type: \r\n");
 	        System.out.println("0 - Sit & Go <AutoSelected>");
-	        System.out.println("[?] Big Blind: ");
+	        System.out.print("[?] Big Blind: ");
 	        int blind = Integer.parseInt(br.readLine());
-	        System.out.println("[?] Minimum bet: ");
+	        System.out.print("[?] Minimum bet: ");
 	        int min_bet = Integer.parseInt(br.readLine());
 	        System.out.println("[?] Limit bet: \r\n");
 	        System.out.println("0 - NO LIMIT");
@@ -111,10 +111,11 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        	authorized(auth, br);
 	        } else {
 	        	System.out.println("[!] Authorization required, plesae write the last Server Identity Hash:");
-	        	String ServerIdentityHash = br.readLine();
-	        	auth.server_identity_hash = ServerIdentityHash;
-	        	System.out.println("[>] Sending Server Identity Hash...");
+	        	String serverIdentityHash = br.readLine();
+	        	auth.server_identity_hash = serverIdentityHash;
+	        	System.out.println("[>] Sending Server Identity Hash "+serverIdentityHash+"...");
 	        	os.println(oM.writeValueAsString(auth));
+	        	os.flush();
 	        	System.out.println("[!] Waiting for response...");
 	        	response = is.readLine();
 	        	System.out.println("[<] Response: " + response);

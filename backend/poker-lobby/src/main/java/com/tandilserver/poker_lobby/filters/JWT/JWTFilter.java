@@ -48,7 +48,9 @@ public class JWTFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
 		HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 		String jwToken = httpRequest.getHeader("Authorization");
-		if(jwToken != null) {
+		if(httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+			httpResponse.setStatus(200); // forbidden
+		} else if(jwToken != null) {
 			String identity = httpRequest.getHeader("Identity");
 			try {
 				if(identity == null) throw new ExceptionJWT();

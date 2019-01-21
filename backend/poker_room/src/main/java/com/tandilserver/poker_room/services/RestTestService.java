@@ -14,9 +14,10 @@ public class RestTestService {
 	@Autowired
 	ServerDataBlock srvDataBlock;
 	
-	@RequestMapping(path="/updateSrvData", method=RequestMethod.POST)
-	public void updateSrvData() {
+	@RequestMapping(path="/updateSrvData", method=RequestMethod.GET)
+	public String updateSrvData() {
 		this.srvDataBlock.getSrvInfo().players++;
+		return "OK -- "+srvDataBlock.getSrvInfo().players;
 	}
 
 }

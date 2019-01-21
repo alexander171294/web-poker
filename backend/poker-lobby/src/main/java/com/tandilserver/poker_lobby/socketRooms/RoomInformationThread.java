@@ -166,6 +166,7 @@ public class RoomInformationThread implements Runnable {
 				this.server_identity_hash = auth.server_identity_hash;
 				auth.expiration = new Date(); // TODO: set expiration system
 				auth.valid = true;
+				this.stepHandshake = StepHandshake.AUTHORIZED;
 			} else {
 				auth.valid = false;
 			}

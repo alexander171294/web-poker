@@ -419,3 +419,44 @@ span.version{
     color: rgb(82,162,157);
     background: transparent;
 }
+
+.list {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.list .Block{
+    width: 18%;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+.list .BlockBig{
+    width: 26%;
+    display: inline-block;
+    text-align: center;
+}
+
+.list li{
+    color: white;
+    font-weight: 100;
+    font-family: helvetica;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.list li.title {
+    color: #0f5646;
+    border-bottom: 1px solid #65ffd761;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+li.official{
+    color: #ffdd1a;
+}

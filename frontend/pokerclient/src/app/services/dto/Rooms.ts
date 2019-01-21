@@ -8,5 +8,5 @@ export class Rooms {
     min_bet: number;
     server_type: number;
     limit_bet: number;
-    oficial_server: boolean;
+    official_server: boolean;
 }

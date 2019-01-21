@@ -67,7 +67,7 @@
                         </ul>
                     </div>
                     <div class="table">
-                        <ul>
+                        <ul class="list">
                             <li class="title">
                                 <div class="BlockBig">Name</div>
                                 <div class="Block">Blind</div>
@@ -75,7 +75,7 @@
                                 <div class="Block">Limit</div>
                                 <div class="Block">Players</div>
                             </li>
-                            <li *ngFor="let server of servers" (click)="connectTo(server.ip, server.port)">
+                            <li *ngFor="let server of servers" (click)="connectTo(server.ip, server.port)" [class.official]="server.official_server">
                                 <div class="BlockBig">{{server.server_name}}</div>
                                 <div class="Block">{{server.blind}}</div>
                                 <div class="Block">{{server.min_bet}}</div>

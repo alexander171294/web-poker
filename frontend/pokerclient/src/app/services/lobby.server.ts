@@ -13,7 +13,7 @@ export class LobbyServer {
 
     public getRoomsSitNGo() {
         const url = Settings.getUrl() + 'roomsRest/sitngo';
-        return this.http.get<Rooms[]>(url, httpPacker.getHttpOptions());
+        return this.http.get<Rooms[]>(url, httpPacker.getHttpOptionsJWT('loginJWTData'));
     }
 
 }

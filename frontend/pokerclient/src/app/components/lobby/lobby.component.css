@@ -445,6 +445,7 @@ span.version{
     font-family: helvetica;
     padding-top: 10px;
     padding-bottom: 10px;
+    cursor: pointer;
 }
 
 .list li.title {
@@ -455,6 +456,7 @@ span.version{
     margin-bottom: 5px;
     margin-left: 10px;
     margin-right: 10px;
+    cursor: initial;
 }
 
 li.official{

@@ -14,6 +14,9 @@ import { StompService } from './utils/stomp.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { LobbyServer } from './services/lobby.server';
+import { RoomComponent } from './components/room/room.component';
+import { TableComponent } from './components/room/table/table.component';
+import { ChatComponent } from './components/room/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { LobbyServer } from './services/lobby.server';
     LoginComponent,
     LoginBoxComponent,
     SignupBoxComponent,
-    LobbyComponent
+    LobbyComponent,
+    RoomComponent,
+    TableComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

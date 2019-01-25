@@ -1,4 +1,4 @@
-package com.tandilserver.poker_room.services;
+package com.tandilserver.poker_room.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Controller;
 
 import com.tandilserver.poker_intercom.genericResponse.Response;
 import com.tandilserver.poker_intercom.genericResponse.StatusCodes;
-import com.tandilserver.poker_room.services.dto.in.UserDataIn;
-import com.tandilserver.poker_room.services.dto.out.Pong;
-import com.tandilserver.poker_room.services.dto.out.UserDataOut;
+import com.tandilserver.poker_room.controllers.dto.in.UserDataIn;
+import com.tandilserver.poker_room.controllers.dto.out.Pong;
+import com.tandilserver.poker_room.controllers.dto.out.UserDataOut;
 
 
 // TODO: change to rest service.

@@ -1,4 +1,4 @@
-package com.tandilserver.poker_room.services;
+package com.tandilserver.poker_room.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

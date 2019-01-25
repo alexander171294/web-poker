@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tandilserver.poker_intercom.handshake.ServerInfo;
+import com.tandilserver.poker_intercom.handshake.ServerOperation;
 import com.tandilserver.poker_lobby.dataBase.domain.Rooms;
 import com.tandilserver.poker_lobby.dataBase.repository.RoomsRepository;
 

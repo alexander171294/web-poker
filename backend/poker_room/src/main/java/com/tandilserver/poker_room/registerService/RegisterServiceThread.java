@@ -21,8 +21,10 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tandilserver.poker_intercom.customTypes.LimitTypes;
 import com.tandilserver.poker_intercom.customTypes.ServerTypes;
+import com.tandilserver.poker_intercom.handshake.Actions;
 import com.tandilserver.poker_intercom.handshake.AuthorizationBearer;
 import com.tandilserver.poker_intercom.handshake.ServerInfo;
+import com.tandilserver.poker_intercom.handshake.ServerOperation;
 
 @Component
 @PropertySources(value = {@PropertySource("classpath:roomRegisterService.properties")})
@@ -49,7 +51,7 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	private ServerDataBlock srvDataBlock;
 	
 	BufferedReader socketBufferReader;
-	PrintWriter socketBufferOutput;
+	private PrintWriter socketBufferOutput;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -95,15 +97,17 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        logger.info("[*] Minimum Bet: " + minBet);
 	        logger.info("[*] Limit bet: NO LIMIT");
 	        logger.debug("[>] Loggin room: ");
-	        ServerInfo srvInfo = new ServerInfo();
-	        srvInfo.ip = address.getHostAddress();
-	        srvInfo.server_type = ServerTypes.SIT_N_GO;
-	        srvInfo.server_name = roomName;
-	        srvInfo.blind = bigBlind;
-	        srvInfo.min_bet = minBet;
-	        srvInfo.limit_bet = LimitTypes.NO_LIMIT;
-	        srvInfo.players = 0;
-	        srvInfo.port = this.remoteListenerPort;
+	        ServerOperation srvInfo = new ServerOperation();
+	        srvInfo.action = Actions.SERVER_INFO;
+	        srvInfo.serverInfo = new ServerInfo();
+	        srvInfo.serverInfo.ip = address.getHostAddress();
+	        srvInfo.serverInfo.server_type = ServerTypes.SIT_N_GO;
+	        srvInfo.serverInfo.server_name = roomName;
+	        srvInfo.serverInfo.blind = bigBlind;
+	        srvInfo.serverInfo.min_bet = minBet;
+	        srvInfo.serverInfo.limit_bet = LimitTypes.NO_LIMIT;
+	        srvInfo.serverInfo.players = 0;
+	        srvInfo.serverInfo.port = this.remoteListenerPort;
 	        ObjectMapper oM = new ObjectMapper();
 	        srvDataBlock.setSrvInfo(srvInfo);
 	        socketBufferOutput.println(oM.writeValueAsString(srvInfo));
@@ -166,4 +170,8 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 		}
     }
 
+	public void sendDataToServer(String data) {
+		socketBufferOutput.println(data);
+		socketBufferOutput.flush();
+	}
 }

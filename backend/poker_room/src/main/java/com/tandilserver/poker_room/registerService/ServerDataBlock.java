@@ -2,18 +2,18 @@ package com.tandilserver.poker_room.registerService;
 
 import org.springframework.stereotype.Component;
 
-import com.tandilserver.poker_intercom.handshake.ServerInfo;
+import com.tandilserver.poker_intercom.handshake.ServerOperation;
 
 @Component
 public class ServerDataBlock {
 	
-	protected ServerInfo srvInfo = new ServerInfo();
+	protected ServerOperation srvInfo = new ServerOperation();
 
-	public ServerInfo getSrvInfo() {
+	public ServerOperation getSrvInfo() {
 		return srvInfo;
 	}
 
-	public void setSrvInfo(ServerInfo srvInfo) {
+	public void setSrvInfo(ServerOperation srvInfo) {
 		this.srvInfo = srvInfo;
 	}
 

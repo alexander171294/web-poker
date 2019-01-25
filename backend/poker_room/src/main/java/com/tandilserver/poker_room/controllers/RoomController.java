@@ -7,7 +7,11 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tandilserver.poker_intercom.handshake.UserDataVerifier;
 import com.tandilserver.poker_room.controllers.dto.in.DeviceClientData;
+import com.tandilserver.poker_room.registerService.RegisterServiceThread;
 import com.tandilserver.poker_room.services.MessageRouterService;
 import com.tandilserver.poker_room.services.UserService;
 import com.tandilserver.poker_room.services.dto.UserData;
@@ -24,6 +28,9 @@ public class RoomController {
 	
 	@Autowired
 	private UserService usrServ;
+	
+	@Autowired
+	private RegisterServiceThread regServThread;
 
 	// mapping from /stompApi/roomService/ping
 	@MessageMapping("/ping")
@@ -47,7 +54,20 @@ public class RoomController {
 		userData.verified = false;
 		userData.playing = false;
 		String userSessionUUID = usrServ.registerViewer(userData);
-		
+		ObjectMapper oM = new ObjectMapper();
+		UserDataVerifier uDV = new UserDataVerifier();
+		uDV.id_usuario = userData.id_usuario;
+		uDV.nick = userData.nick;
+		uDV.signature = userData.signature;
+		uDV.signup_date = userData.signup_date;
+		uDV.userSessionUUID = userSessionUUID;
+		String udvSerialized;
+		try {
+			udvSerialized = oM.writeValueAsString(uDV);
+			regServThread.sendDataToServer(udvSerialized);
+		} catch (JsonProcessingException e) {
+			log.error("Cant parse User Data Verifier", e);
+		}
 	}
 
 }

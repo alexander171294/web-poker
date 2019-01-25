@@ -15,8 +15,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tandilserver.poker_intercom.handshake.Actions;
 import com.tandilserver.poker_intercom.handshake.AuthorizationBearer;
-import com.tandilserver.poker_intercom.handshake.ServerInfo;
+import com.tandilserver.poker_intercom.handshake.ServerOperation;
 import com.tandilserver.poker_lobby.dataBase.domain.Rooms;
 import com.tandilserver.poker_lobby.socketRooms.services.RoomService;
 
@@ -119,14 +120,14 @@ public class RoomInformationThread implements Runnable {
 	
 	protected void checkServerInformation(String data) {
 		ObjectMapper oM = new ObjectMapper();
-		ServerInfo srvInfo;
+		ServerOperation srvInfo;
 		try {
-			srvInfo = oM.readValue(data, ServerInfo.class);
+			srvInfo = oM.readValue(data, ServerOperation.class);
 			if(srvInfo != null) {
-				if (srvInfo.officialServer) {
+				if (srvInfo.serverInfo.officialServer) {
 					// TODO: validate if official server and add config to enable/disable unofficial server supports.
 				} else {
-					Rooms room = roomService.addIfNotExistsRoomServer(srvInfo);
+					Rooms room = roomService.addIfNotExistsRoomServer(srvInfo.serverInfo);
 					AuthorizationBearer auth = new AuthorizationBearer();
 					auth.id_server = 0; // TODO: rework insert function to get id of last insert record.
 					auth.expiration = new Date(); // TODO: set expiration system
@@ -178,11 +179,16 @@ public class RoomInformationThread implements Runnable {
 	
 	protected void postAuthorizedUpdater(String data) {
 		ObjectMapper oM = new ObjectMapper();
-		ServerInfo srvInfo;
+		ServerOperation srvInfo;
 		try {
-			srvInfo = oM.readValue(data, ServerInfo.class);
+			srvInfo = oM.readValue(data, ServerOperation.class);
 			if(srvInfo != null) {
-				roomService.updateRoomInfo(id_server, srvInfo);
+				if(srvInfo.action.equals(Actions.SERVER_INFO)) {
+					roomService.updateRoomInfo(id_server, srvInfo.serverInfo);
+				} else if(srvInfo.action.equals(Actions.USER_VERIFY)) {
+					// verificacion de usuario.
+					
+				}
 			}
 		} catch (IOException e) {
 			logger.error("Error of mapping postAuthorized");

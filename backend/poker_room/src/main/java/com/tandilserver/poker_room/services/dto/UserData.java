@@ -11,4 +11,6 @@ public class UserData {
 	public String signature;
 	public String messageRouterSessionUUID;
 	public String socketSessionUUID;
+	public boolean verified;
+	public boolean playing;
 }

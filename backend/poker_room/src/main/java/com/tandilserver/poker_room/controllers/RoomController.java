@@ -44,6 +44,8 @@ public class RoomController {
 		userData.nick = data.nick;
 		userData.signature = data.signature;
 		userData.signup_date = data.signup_date;
+		userData.verified = false;
+		userData.playing = false;
 		String userSessionUUID = usrServ.registerViewer(userData);
 		
 	}

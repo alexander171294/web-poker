@@ -12,10 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,10 +27,13 @@ import com.tandilserver.poker_intercom.handshake.Actions;
 import com.tandilserver.poker_intercom.handshake.AuthorizationBearer;
 import com.tandilserver.poker_intercom.handshake.ServerInfo;
 import com.tandilserver.poker_intercom.handshake.ServerOperation;
+import com.tandilserver.poker_intercom.handshake.ServerResponseOperation;
+import com.tandilserver.poker_room.services.PokerProtocol;
+import com.tandilserver.poker_room.services.UserService;
 
 @Component
-@PropertySources(value = {@PropertySource("classpath:roomRegisterService.properties")})
-public class RegisterServiceThread  implements Runnable, ApplicationListener<ContextRefreshedEvent>{
+@PropertySources(value = {@PropertySource("classpath:roomConfigurations.properties")})
+public class RegisterServiceThread  implements Runnable, ApplicationListener<ContextRefreshedEvent> {
 	
 	public static Logger logger = LoggerFactory.getLogger(RegisterServiceThread.class);
 	private Thread thread;
@@ -46,12 +51,23 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	@Value("${room.register.serverIdentityHash}")
 	private volatile String serverIdentityHash;
 	
+	@Autowired
+	private TaskScheduler taskScheduler;
 	
 	@Autowired
 	private ServerDataBlock srvDataBlock;
 	
 	BufferedReader socketBufferReader;
 	private PrintWriter socketBufferOutput;
+	
+	@Autowired
+	private ApplicationContext context;
+	
+	@Autowired
+	private UserService usrSrv;
+	
+	@Autowired
+	private PokerProtocol pokerProto;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -74,11 +90,9 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 			return ;
 		}
         Socket s1=null;
-        BufferedReader is=null;
         try {
             s1=new Socket(address, this.remoteListenerPort); // You can use static final constant PORT_NUM
-            socketBufferReader = new BufferedReader(new InputStreamReader(System.in));
-            is=new BufferedReader(new InputStreamReader(s1.getInputStream()));
+            socketBufferReader = new BufferedReader(new InputStreamReader(s1.getInputStream()));
             socketBufferOutput = new PrintWriter(s1.getOutputStream());
         }
         catch (IOException e){
@@ -113,7 +127,7 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        socketBufferOutput.println(oM.writeValueAsString(srvInfo));
 	        socketBufferOutput.flush();
 	        logger.debug("[!] Waiting for response...");
-	        response = is.readLine();
+	        response = socketBufferReader.readLine();
 	        logger.debug("[<] Response: " + response);
 	        AuthorizationBearer auth = oM.readValue(response, AuthorizationBearer.class);
 	        if (auth.valid) {
@@ -125,7 +139,7 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
 	        	socketBufferOutput.println(oM.writeValueAsString(auth));
 	        	socketBufferOutput.flush();
 	        	logger.debug("[!] Waiting for response...");
-	        	response = is.readLine();
+	        	response = socketBufferReader.readLine();
 	        	logger.debug("[<] Response: " + response);
 	        	auth = oM.readValue(response, AuthorizationBearer.class);
 	        	if(auth.valid) {
@@ -139,7 +153,6 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
             logger.error("Socket read Error", e);
         } finally{
             try {
-				is.close();
 				socketBufferOutput.close();
 				socketBufferReader.close();
 	            s1.close();
@@ -157,18 +170,32 @@ public class RegisterServiceThread  implements Runnable, ApplicationListener<Con
     	logger.debug("!!! Please save this identity for next access");
     	try {
     		ObjectMapper oM = new ObjectMapper();
+    		UpdaterInfoServiceThread bean = context.getBean(UpdaterInfoServiceThread.class);
+    		bean.setSocketBufferOutput(socketBufferOutput);
+    		taskScheduler.scheduleAtFixedRate(bean, updateMiliseconds);
     		while(true) {
-    			Thread.sleep(updateMiliseconds);
-    			// send updated information
-    			logger.debug("Sending updated information.");
-    			socketBufferOutput.println(oM.writeValueAsString(srvDataBlock.getSrvInfo()));
-    			socketBufferOutput.flush();
+    			// wait for server response
+    			String response = socketBufferReader.readLine();
+    			ServerResponseOperation srvResponse = oM.readValue(response, ServerResponseOperation.class);
+    			this.onServerResponse(srvResponse);
     		}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("Thread RegisterService Interrumped, ",e);
 		}
     }
+	
+	public void onServerResponse(ServerResponseOperation data) {
+		if(data != null) {
+			if(data.action.equals(Actions.USER_VERIFY)) {
+				if(data.userDataVerified.valid) {
+					usrSrv.markAsValid(data.userDataVerified.userSessionUUID, data.userDataVerified.coins);
+					// Enviar solicitud de deposito de fichas
+					pokerProto.sendRequestDeposit(data.userDataVerified.userSessionUUID, data.userDataVerified.coins);
+				}
+			}
+		}
+	}
 
 	public void sendDataToServer(String data) {
 		socketBufferOutput.println(data);

@@ -20,5 +20,17 @@ public class UserService {
 		usersDataBlocks.put(uuid, viewer);
 		return uuid;
 	}
+	
+	public void markAsValid(String uuid, Long coins) {
+		UserData ud = usersDataBlocks.get(uuid);
+		ud.coins_registered = coins;
+		ud.verified = true;
+	}
+	
+	public String getMessageRouterUUID(String userID) {
+		return usersDataBlocks.get(userID).messageRouterSessionUUID;
+	}
+	
+	
 
 }

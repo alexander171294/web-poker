@@ -26,7 +26,7 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
 	@Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/clientInterceptor"); // prefijos de salida
-        config.setApplicationDestinationPrefixes("/api"); // prefijos de entrada (api)
+        config.setApplicationDestinationPrefixes("/socket"); // prefijos de entrada (api)
         config.setUserDestinationPrefix("/userInterceptor"); // prefijo para single user (tome)
     }
 	

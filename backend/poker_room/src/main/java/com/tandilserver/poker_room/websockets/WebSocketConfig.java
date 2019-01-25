@@ -19,6 +19,8 @@ import org.springframework.web.socket.server.RequestUpgradeStrategy;
 import org.springframework.web.socket.server.standard.TomcatRequestUpgradeStrategy;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+import com.tandilserver.poker_room.socketInterceptors.IpHandshakeInterceptor;
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport implements WebSocketMessageBrokerConfigurer {
@@ -33,10 +35,11 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
         RequestUpgradeStrategy upgradeStrategy = new TomcatRequestUpgradeStrategy();
 
-        registry.addEndpoint("/external").setAllowedOrigins("http://localhost:8000", "*").withSockJS(); //endpoints externos
+        registry.addEndpoint("/external").setAllowedOrigins("http://localhost:8000", "*").addInterceptors(new IpHandshakeInterceptor()).withSockJS(); //endpoints externos
         registry.addEndpoint("/external")
         .setHandshakeHandler(new DefaultHandshakeHandler(upgradeStrategy))
-        .setAllowedOrigins("*");
+        .setAllowedOrigins("*")
+        .addInterceptors(new IpHandshakeInterceptor());
     }
 	
 	@Override

@@ -18,8 +18,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tandilserver.poker_intercom.handshake.Actions;
 import com.tandilserver.poker_intercom.handshake.AuthorizationBearer;
 import com.tandilserver.poker_intercom.handshake.ServerOperation;
+import com.tandilserver.poker_intercom.handshake.UserDataVerified;
 import com.tandilserver.poker_lobby.dataBase.domain.Rooms;
 import com.tandilserver.poker_lobby.socketRooms.services.RoomService;
+import com.tandilserver.poker_lobby.socketRooms.services.UserService;
 
 @Component
 @Scope("prototype")
@@ -37,6 +39,9 @@ public class RoomInformationThread implements Runnable {
 	
 	@Autowired
 	protected RoomService roomService;
+	
+	@Autowired
+	protected UserService userService;
 
 	public RoomInformationThread() {
 		logger.debug("Socket connected - New Thread");
@@ -181,13 +186,17 @@ public class RoomInformationThread implements Runnable {
 		ObjectMapper oM = new ObjectMapper();
 		ServerOperation srvInfo;
 		try {
+			logger.debug("Server Post Authorization Message");
 			srvInfo = oM.readValue(data, ServerOperation.class);
 			if(srvInfo != null) {
 				if(srvInfo.action.equals(Actions.SERVER_INFO)) {
+					logger.debug("Server INFO");
 					roomService.updateRoomInfo(id_server, srvInfo.serverInfo);
 				} else if(srvInfo.action.equals(Actions.USER_VERIFY)) {
+					logger.debug("Server USER_VERIFY");
 					// verificacion de usuario.
-					
+					UserDataVerified vui = userService.validateUserInformation(srvInfo.userData);
+					sendToClient(oM.writeValueAsString(vui));
 				}
 			}
 		} catch (IOException e) {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import com.tandilserver.poker_room.controllers.dto.in.DeviceClientData;
 import com.tandilserver.poker_room.services.MessageRouterService;
 import com.tandilserver.poker_room.services.UserService;
+import com.tandilserver.poker_room.services.dto.UserData;
 
 @Controller
 @MessageMapping("/roomService")
@@ -32,11 +33,18 @@ public class RoomController {
 	
 	@MessageMapping("/login")
 	public void login(DeviceClientData data, SimpMessageHeaderAccessor headerAccessor) {
-		
 		String sessID = headerAccessor.getSessionId();
 		String ip = headerAccessor.getSessionAttributes().get("IP").toString();
-		log.debug("Login: " + sessID + ip);
-		String internalSessID = msgRouterServ.registerSession(sessID, ip);
+		log.debug("Login: " + sessID + "/" + ip);
+		
+		UserData userData = new UserData();
+		userData.messageRouterSessionUUID = msgRouterServ.registerSession(sessID, ip);
+		userData.socketSessionUUID = sessID;
+		userData.id_usuario = data.id_usuario;
+		userData.nick = data.nick;
+		userData.signature = data.signature;
+		userData.signup_date = data.signup_date;
+		String userSessionUUID = usrServ.registerViewer(userData);
 		
 	}
 

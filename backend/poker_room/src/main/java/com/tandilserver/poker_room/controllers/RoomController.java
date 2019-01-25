@@ -12,7 +12,7 @@ public class RoomController {
 	// Room general information as Sits and General Health Status.
 	private static final Logger log = LoggerFactory.getLogger(RoomController.class);
 
-	// mapping from /socket/roomService/ping
+	// mapping from /stompApi/roomService/ping
 	@MessageMapping("/ping")
 	public String ping() {
 		return "PONG";

@@ -12,7 +12,7 @@ public class ChatController {
 	// Controller for chat.
 	private static final Logger log = LoggerFactory.getLogger(ChatController.class);
 	
-	// mapping from /socket/chatService/ping
+	// mapping from /stompApi/chatService/ping
 	@MessageMapping("/ping")
 	public String ping() {
 		return "PONG";

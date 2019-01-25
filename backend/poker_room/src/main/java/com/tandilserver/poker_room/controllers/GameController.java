@@ -12,7 +12,7 @@ public class GameController {
 	// controller for game purposes.
 	private static final Logger log = LoggerFactory.getLogger(GameController.class);
 	
-	// mapping from /socket/gameService/ping
+	// mapping from /stompApi/gameService/ping
 	@MessageMapping("/ping")
 	public String ping() {
 		return "PONG";

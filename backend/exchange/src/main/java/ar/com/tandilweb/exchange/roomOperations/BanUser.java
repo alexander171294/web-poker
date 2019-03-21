@@ -4,6 +4,9 @@ import ar.com.tandilweb.exchange.RoomOperationsSchema;
 
 public class BanUser extends RoomOperationsSchema {
 	
+	public long targetID;
+	public String messageReason;
+	
 	public BanUser() {
 		super("banUser");
 	}

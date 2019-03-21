@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tandilserver.poker_intercom.handshake.UserDataVerifier;
 import com.tandilserver.poker_room.controllers.dto.in.DeviceClientData;
 import com.tandilserver.poker_room.registerService.RegisterServiceThread;
 import com.tandilserver.poker_room.services.MessageRouterService;
@@ -55,19 +54,19 @@ public class RoomController {
 		userData.playing = false;
 		String userSessionUUID = usrServ.registerViewer(userData);
 		ObjectMapper oM = new ObjectMapper();
-		UserDataVerifier uDV = new UserDataVerifier();
-		uDV.id_usuario = userData.id_usuario;
-		uDV.nick = userData.nick;
-		uDV.signature = userData.signature;
-		uDV.signup_date = userData.signup_date;
-		uDV.userSessionUUID = userSessionUUID;
-		String udvSerialized;
-		try {
-			udvSerialized = oM.writeValueAsString(uDV);
-			regServThread.sendDataToServer(udvSerialized);
-		} catch (JsonProcessingException e) {
-			log.error("Cant parse User Data Verifier", e);
-		}
+//		UserDataVerifier uDV = new UserDataVerifier();
+//		uDV.id_usuario = userData.id_usuario;
+//		uDV.nick = userData.nick;
+//		uDV.signature = userData.signature;
+//		uDV.signup_date = userData.signup_date;
+//		uDV.userSessionUUID = userSessionUUID;
+//		String udvSerialized;
+//		try {
+//			udvSerialized = oM.writeValueAsString(uDV);
+//			regServThread.sendDataToServer(udvSerialized);
+//		} catch (JsonProcessingException e) {
+//			log.error("Cant parse User Data Verifier", e);
+//		}
 	}
 
 }

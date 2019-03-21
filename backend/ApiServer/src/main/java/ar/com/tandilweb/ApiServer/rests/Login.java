@@ -5,17 +5,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
-public class Users {
-	
-	@RequestMapping(path="/users/profile/{id}", method=RequestMethod.GET)
-	public String getProfile() {
-		return "";
-	}
-	
-	@RequestMapping(path="/users/profile/{id}", method=RequestMethod.PUT)
-	public String updateProfile() {
-		return "";
-	}
+@RequestMapping("/public")
+public class Login {
 
+	@RequestMapping(path="/signup", method=RequestMethod.GET)
+	public String signup() {
+		return "";
+	}
+	
+	@RequestMapping(path="/login", method=RequestMethod.POST)
+	public String login() {
+		return "";
+	}
+	
 }

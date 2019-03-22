@@ -2,13 +2,17 @@
 
 This project is an Angular/Nativescript Web/Mobile poker client and Java/Spring websocket backend. Additionally, the persistence of data is provided by mysql.
 
+I made a extensible protocol for organize the develop, the RFC of the protocol is in the wiki, please see this link: 
+
+https://github.com/alexander171294/web-poker/wiki
+
 In the past, i tried to start this project using php and simple html/javascript/jquery client, but for various reasons i never finished it. Now i started this project to continue this ambitious project, but this time using java and angular/Nativescript.
 
-**Do't worry**, I put simple instructions for you to install all without know how to work these technologies.
+**Don't worry**, I put simple instructions for you to install all without know how to work these technologies.
 
-This project is only for fun, and i will write the code in a long term and including spaces of times without commit.
+This project is only for fun, and I will write the code in a long term and including spaces of times without commit.
 
-Additionally, sorry for my bad english, i speak spanish and learn english only reading books/papers.
+Additionally, sorry for my bad english, I speak spanish and learn english only reading books/papers.
 
 ## Screenshots
 
@@ -26,12 +30,14 @@ Additionally, sorry for my bad english, i speak spanish and learn english only r
 
 I will code these subjects in respective order:
 
+### General Lobby System:
+
+* Rework frontend (WIP)
+* Finishing new backend based on RFC. (WIP)
+
 ### Sit and go
 
-* ~~Frontend register/login (simple) and mysql connected.~~
-* ~~Lobby tables and user-data~~ (only front pending)
-* ~~Table servers registry and showed in the frontend.~~ (only front pending)
-* Poker rules and gameplay. **(now I'm working here)**
+* Poker rules and gameplay.
 * Frontend design of simple table.
 
 ## Medium term
@@ -50,7 +56,7 @@ I will code these subjects in respective order:
 * Mobile frontend.
 * Desktop frontend (with electronJS)
 * rank system
-* Servers Administration/Deployer tool (as jboss of redhat style but in this case working... xD)
+* Servers Administration/Deployer tool (as jboss (of redhat) but in this case working... xD)
 
 # Architecture
 
@@ -59,11 +65,11 @@ I will code these subjects in respective order:
 Frontend
 
 * Angular +6
-* Material Design (although only for login/signup)
+* ~~Material Design (although only for login/signup)~~
 * Websocket
 * Stomp (for websocket routing)
-* Nativescript with Schematics
-* ~~GraphQL~~ (in first instance, I wanted to use gql in rest queries but as they are few, the effort make no sense)
+* Nativescript ~~with Schematics~~ Try with xplat.
+* GraphQL
 
 Backend
 
@@ -71,7 +77,7 @@ Backend
 * Websockets and sockets (for inter-servers communication)
 * JWT for session handling
 * Mysql
-* ~~Hibernate~~ (more problems than solutions)
+* ~~Hibernate~~ (more problems than solutions for this simple persistence)
 * SLF4J
 
 ## Frontend

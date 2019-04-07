@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Component;
 import ar.com.tandilweb.orchestrator.handlers.RoomHandlerThread;
 
 @Component
-@PropertySources(value = { @PropertySource("classpath:roomRegisterService.properties") })
 public class MainSocketThread implements Runnable, ApplicationListener<ContextRefreshedEvent>, DisposableBean {
 
 	public static Logger logger = LoggerFactory.getLogger(MainSocketThread.class);
@@ -29,7 +26,7 @@ public class MainSocketThread implements Runnable, ApplicationListener<ContextRe
 	private Thread thread;
 	private volatile boolean stopRequest;
 
-	@Value("${room.register.listenPort}")
+	@Value("${ar.com.tandilweb.orchestrator.receptor.listenPort}")
 	private volatile int listenPort;
 
 	@Autowired

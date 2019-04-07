@@ -46,8 +46,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.tandilserver</groupId>
-			<artifactId>poker-intercom</artifactId>
+			<groupId>ar.com.tandilweb</groupId>
+			<artifactId>eppr-exchange</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>

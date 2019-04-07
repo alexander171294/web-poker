@@ -21,14 +21,16 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySources(value = {@PropertySource("classpath:room.properties")})
 public class OrchestratorThread implements Runnable, ApplicationListener<ContextRefreshedEvent> {
 	
 	public static Logger logger = LoggerFactory.getLogger(OrchestratorThread.class);
 	private Thread thread;
 	
-	@Value("${room.register.listenPort}")
+	@Value("${ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread.remoteListenerPort}")
     private volatile int remoteListenerPort;
+	
+	@Value("${ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread.remoteAddr}")
+	private volatile String remoteAddr;
 	
 //	@Autowired
 //	private TaskScheduler taskScheduler;
@@ -83,7 +85,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	}
 	
 	private void createSocketConneciton() throws UnknownHostException, IOException {
-		socket = new Socket("127.0.0.1", this.remoteListenerPort);
+		socket = new Socket(remoteAddr, this.remoteListenerPort);
 		socketBufferReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         socketBufferOutput = new PrintWriter(socket.getOutputStream());
 	}

@@ -10,7 +10,8 @@ import org.springframework.context.annotation.PropertySources;
 @SpringBootApplication
 @Configuration
 @PropertySources(value = {
-		@PropertySource("classpath:clientRegisterConfig.properties")
+		@PropertySource("classpath:clientRegisterConfig.properties"),
+		@PropertySource("classpath:clientDetails.properties")
 	})
 public class App  extends SpringBootServletInitializer
 {

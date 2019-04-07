@@ -8,17 +8,27 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ar.com.tandilweb.exchange.Schema;
+import ar.com.tandilweb.exchange.roomAuth.Handshake;
+import ar.com.tandilweb.exchange.roomAuth.SignupData;
+import ar.com.tandilweb.exchange.roomAuth.SignupResponse;
+import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
+import ar.com.tandilweb.room.protocols.EpprRoomAuth;
 
 @Component
 public class OrchestratorThread implements Runnable, ApplicationListener<ContextRefreshedEvent> {
@@ -38,15 +48,17 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	BufferedReader socketBufferReader;
 	private PrintWriter socketBufferOutput;
 	
-//	@Autowired
-//	private ApplicationContext context;
+	@Autowired
+	private ApplicationContext context;
 	
 	private Socket socket;
 	private boolean scanning;
 	
+	@Autowired
+	private EpprRoomAuth roomAuthProto;
+	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		// TODO Auto-generated method stub
 		if(this.thread == null) {
 			this.thread = new Thread(this);
 			this.thread.start();
@@ -78,6 +90,10 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	}
 	
 	private void main() throws IOException {
+		scanning = true;
+		Handshake hs = roomAuthProto.getHandshakeSchema();
+		ObjectMapper om = new ObjectMapper();
+		sendDataToServer(om.writeValueAsString(hs));
 		do {
 			String message = socketBufferReader.readLine();
 			processIncommingMessage(message);
@@ -104,8 +120,88 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		}
 	}
 	
-	private void processIncommingMessage(String message) {
+	private void processIncommingMessage(String message) throws JsonParseException, JsonMappingException, IOException {
 		// TODO: pending...
+		ObjectMapper om = new ObjectMapper();
+		Schema inputSchema = om.readValue(message, Schema.class);
+		processSchema(inputSchema, message);
+	}
+	
+	private void processSchema(Schema schema, String schemaBody) throws IOException {
+		if("eppr/room-auth".equals(schema.namespace)) {
+			switch(schema.schema) {
+			case "signup":
+				processSignupSchema(schemaBody);
+				break;
+			case "signupResponse":
+				processSignupResponseSchema(schemaBody);
+				break;
+			case "retry":
+				processRetrySchema(schemaBody);
+				break;
+			case "rejected":
+				processRejectedSchema(schemaBody);
+				break;
+			case "exceeded":
+				processExceededSchema(schemaBody);
+				break;
+			case "tokenUpdate":
+				processTokenUpdate(schemaBody);
+				break;
+			case "busy":
+				processBusySchema(schemaBody);
+				break;
+			default:
+				logger.debug("Schema not recognized: "+schema.schema);
+				break;
+			}
+		}
+	}
+	
+	private void processSignupSchema(String schemaBody) throws JsonProcessingException {
+		SignupData signupData = roomAuthProto.getSignupSchema();
+		ObjectMapper om = new ObjectMapper();
+		sendDataToServer(om.writeValueAsString(signupData));
+	}
+	
+	// TODO: finish this and persist ID for next handshake
+	private void processSignupResponseSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper om = new ObjectMapper();
+		SignupResponse signupResponse = om.readValue(schemaBody, SignupResponse.class);
+		// signupResponse.serverID;
+	}
+	
+	// FIXME: validate retry times
+	private void processRetrySchema(String schemaBody) throws JsonProcessingException {
+		Handshake hs = roomAuthProto.getHandshakeSchema();
+		ObjectMapper om = new ObjectMapper();
+		sendDataToServer(om.writeValueAsString(hs));
+	}
+	
+	private void processRejectedSchema(String schemaBody) {
+		logger.error("The registration was rejected by the Orchestrator server.");
+		// TODO: check this, verify if really close the backend:
+		((ConfigurableApplicationContext) context).close();
+	}
+	
+	private void processExceededSchema(String schemaBody) {
+		logger.error("You exceeded the limit of signups.");
+		// TODO: check this, verify if really close the backend:
+		((ConfigurableApplicationContext) context).close();
+	}
+	
+	// TODO: finish this and persist token for next handshake
+	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper om = new ObjectMapper();
+		TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
+		// signupResponse.securityToken;
+	}
+	
+	// FIXME: add sleep time.
+	private void processBusySchema(String schemaBody) throws JsonProcessingException {
+		Handshake hs = roomAuthProto.getHandshakeSchema();
+		ObjectMapper om = new ObjectMapper();
+		sendDataToServer(om.writeValueAsString(hs));
 	}
 
 }

@@ -1,8 +1,11 @@
 package ar.com.tandilweb.orchestrator.persistence.repository;
 
+import org.springframework.stereotype.Repository;
+
 import ar.com.tandilweb.orchestrator.persistence.BaseRepository;
 import ar.com.tandilweb.orchestrator.persistence.domain.Warnings;
 
+@Repository
 public class WarningsRepository extends BaseRepository<Warnings, Long> {
 
 	@Override

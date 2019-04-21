@@ -8,18 +8,17 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -48,8 +47,8 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	BufferedReader socketBufferReader;
 	private PrintWriter socketBufferOutput;
 	
-	@Autowired
-	private ApplicationContext context;
+//	@Autowired
+//	private ApplicationContext context;
 	
 	private Socket socket;
 	private boolean scanning;
@@ -121,8 +120,8 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	}
 	
 	private void processIncommingMessage(String message) throws JsonParseException, JsonMappingException, IOException {
-		// TODO: pending...
 		ObjectMapper om = new ObjectMapper();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		Schema inputSchema = om.readValue(message, Schema.class);
 		processSchema(inputSchema, message);
 	}
@@ -184,13 +183,13 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	private void processRejectedSchema(String schemaBody) {
 		logger.error("The registration was rejected by the Orchestrator server.");
 		// TODO: check this, verify if really close the backend:
-		((ConfigurableApplicationContext) context).close();
+//		((ConfigurableApplicationContext) context).close();
 	}
 	
 	private void processExceededSchema(String schemaBody) {
 		logger.error("You exceeded the limit of signups.");
 		// TODO: check this, verify if really close the backend:
-		((ConfigurableApplicationContext) context).close();
+//		((ConfigurableApplicationContext) context).close();
 	}
 	
 	// TODO: finish this and persist token for next handshake

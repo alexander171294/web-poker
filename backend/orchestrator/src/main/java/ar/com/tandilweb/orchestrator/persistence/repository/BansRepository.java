@@ -1,0 +1,26 @@
+package ar.com.tandilweb.orchestrator.persistence.repository;
+
+import ar.com.tandilweb.orchestrator.persistence.BaseRepository;
+import ar.com.tandilweb.orchestrator.persistence.domain.Bans;
+
+public class BansRepository extends BaseRepository<Bans, Long> {
+
+	@Override
+	public Bans create(Bans record) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Bans record) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Bans findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

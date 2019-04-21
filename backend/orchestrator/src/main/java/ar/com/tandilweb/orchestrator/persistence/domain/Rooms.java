@@ -13,8 +13,11 @@ public class Rooms {
 	private String recoveryEmail;
 	private int badLogins;
 	
+	private boolean nowConnected;
+	private boolean isOfficial;
+	
 	public Rooms(long id_room, String name, String accessPassword, String securityToken, String gproto, int max_players,
-			String description, int minCoinForAccess, String recoveryEmail, int badLogins) {
+			String description, int minCoinForAccess, String recoveryEmail, int badLogins, boolean nowConnected, boolean isOfficial) {
 		super();
 		this.id_room = id_room;
 		this.name = name;
@@ -26,6 +29,8 @@ public class Rooms {
 		this.minCoinForAccess = minCoinForAccess;
 		this.recoveryEmail = recoveryEmail;
 		this.badLogins = badLogins;
+		this.nowConnected = nowConnected;
+		this.isOfficial = isOfficial;
 	}
 
 	public Rooms() {
@@ -110,6 +115,22 @@ public class Rooms {
 
 	public void setBadLogins(int badLogins) {
 		this.badLogins = badLogins;
+	}
+
+	public boolean isNowConnected() {
+		return nowConnected;
+	}
+
+	public void setNowConnected(boolean nowConnected) {
+		this.nowConnected = nowConnected;
+	}
+
+	public boolean isOfficial() {
+		return isOfficial;
+	}
+
+	public void setOfficial(boolean isOfficial) {
+		this.isOfficial = isOfficial;
 	}
 	
 }

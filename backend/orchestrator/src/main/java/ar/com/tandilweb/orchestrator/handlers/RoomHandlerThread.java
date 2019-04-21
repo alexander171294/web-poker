@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
-import ar.com.tandilweb.orchestrator.protocols.EpprRoomAuth;
+import ar.com.tandilweb.orchestrator.adapters.RoomAuthService;
 
 @Component
 @Scope("prototype")
@@ -33,7 +33,7 @@ public class RoomHandlerThread implements Runnable {
 	protected String name;
 	
 	@Autowired
-	private EpprRoomAuth roomAuthProto;
+	RoomAuthService roomAuthSrv;
 
 	public RoomHandlerThread() {
 		logger.debug("Socket connected - New Thread");
@@ -124,9 +124,7 @@ public class RoomHandlerThread implements Runnable {
 		logger.debug("Schema body Handshake");
 		ObjectMapper om = new ObjectMapper();
 		Handshake inputSchema = om.readValue(schemaBody, Handshake.class);
-		// TODO: validate, send correct response and persist.
-		TokenUpdate tU = roomAuthProto.getTokenUpdateSchema();
-		sendToClient(om.writeValueAsString(tU));
+		sendToClient(om.writeValueAsString(roomAuthSrv.handshakeValidate(inputSchema)));
 	}
 
 }

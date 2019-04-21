@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan("ar.com.tandilweb.byo.backend.Model.repository")
+@ComponentScan("ar.com.tandilweb.orchestrator.persistence.repository")
 @EnableTransactionManagement
 public class JDBConfig {
 	

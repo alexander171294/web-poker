@@ -10,6 +10,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 
 import ar.com.tandilweb.ApiServer.filters.CorsFilter;
 import ar.com.tandilweb.ApiServer.filters.jwt.JWTFilter;
@@ -18,7 +20,10 @@ import ar.com.tandilweb.ApiServer.filters.jwt.JWTValidFilter;
 @SpringBootApplication
 @EntityScan("ar.com.tandilweb.ApiServer.dataBase.domain")
 @ComponentScan("ar.com.tandilweb.ApiServer.rests")
-@Configuration("ar.com.tandilweb.ApiServer.ataBase.JDBConfig")
+@PropertySources(value = {
+		@PropertySource("classpath:database.properties"),
+	})
+@Configuration("ar.com.tandilweb.ApiServer.persistence.JDBConfig")
 public class App extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {

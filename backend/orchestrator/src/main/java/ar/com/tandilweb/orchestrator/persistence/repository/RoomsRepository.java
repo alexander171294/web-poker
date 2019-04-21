@@ -40,10 +40,11 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 					ps.setInt(5, record.getMax_players());
 					//ps.setDate(5, new java.sql.Date(record.getLast_login().getTime()));
 					ps.setString(6, record.getDescription());
-					ps.setString(7, record.getRecoveryEmail());
-					ps.setInt(8, record.getBadLogins());
-					ps.setBoolean(9, record.isNowConnected());
-					ps.setBoolean(10, record.isOfficial());
+					ps.setInt(7, record.getMinCoinForAccess());
+					ps.setString(8, record.getRecoveryEmail());
+					ps.setInt(9, record.getBadLogins());
+					ps.setBoolean(10, record.isNowConnected());
+					ps.setBoolean(11, record.isOfficial());
 					return ps;
 				}
 			}, holder);

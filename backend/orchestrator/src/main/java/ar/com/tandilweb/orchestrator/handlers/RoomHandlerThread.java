@@ -33,6 +33,7 @@ public class RoomHandlerThread implements Runnable {
 	protected String name;
 	
 	protected Handshake handshakeSchema;
+	protected boolean logged;
 	
 	@Autowired
 	RoomAuthService roomAuthSrv;
@@ -117,6 +118,7 @@ public class RoomHandlerThread implements Runnable {
 				break;
 			case "signupData":
 				processSignupDataSchema(schemaBody);
+				break;
 			default:
 				logger.debug("Schema not recognized: " + schema.schema);
 				break;
@@ -128,14 +130,18 @@ public class RoomHandlerThread implements Runnable {
 		logger.debug("Schema body Handshake");
 		ObjectMapper om = new ObjectMapper();
 		this.handshakeSchema = om.readValue(schemaBody, Handshake.class);
-		sendToClient(om.writeValueAsString(roomAuthSrv.handshakeValidate(this.handshakeSchema)));
+		LoginResponse loginResponse = roomAuthSrv.handshakeValidate(this.handshakeSchema);
+		this.logged = loginResponse.logged;
+		sendToClient(om.writeValueAsString(loginResponse.response));
 	}
 	
 	protected void processSignupDataSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
 		logger.debug("Schema body Handshake");
 		ObjectMapper om = new ObjectMapper();
 		SignupData inputSchema = om.readValue(schemaBody, SignupData.class);
-		sendToClient(om.writeValueAsString(roomAuthSrv.signupDataValidate(inputSchema, this.handshakeSchema)));
+		LoginResponse loginResponse = roomAuthSrv.signupDataValidate(inputSchema, this.handshakeSchema);
+		this.logged = loginResponse.logged;
+		sendToClient(om.writeValueAsString(loginResponse.response));
 	}
 	
 }

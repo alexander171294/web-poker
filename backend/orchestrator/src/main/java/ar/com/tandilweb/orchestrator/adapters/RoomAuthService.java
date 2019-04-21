@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Busy;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.exchange.roomAuth.Rejected;
@@ -16,6 +15,7 @@ import ar.com.tandilweb.exchange.roomAuth.Signup;
 import ar.com.tandilweb.exchange.roomAuth.SignupData;
 import ar.com.tandilweb.exchange.roomAuth.SignupResponse;
 import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
+import ar.com.tandilweb.orchestrator.handlers.LoginResponse;
 import ar.com.tandilweb.orchestrator.persistence.domain.Rooms;
 import ar.com.tandilweb.orchestrator.persistence.repository.RoomsRepository;
 import ar.com.tandilweb.orchestrator.protocols.EpprRoomAuth;
@@ -31,34 +31,42 @@ public class RoomAuthService {
 	@Autowired
 	private EpprRoomAuth roomAuthProto;
 	
-	public Schema handshakeValidate(Handshake handshake) {
+	public LoginResponse handshakeValidate(Handshake handshake) {
+		LoginResponse out = new LoginResponse();
+		out.logged = false;
 		if(handshake.serverID > 0) {
 			// limit exceeded
 			Rooms room = roomsRepository.findById(handshake.serverID);
 			if(room.getBadLogins() > 3) { // FIXME: get this hardcoded value from properties.
 				// TODO: send email warning of block.
-				return new Rejected();
+				out.response = new Rejected();
+				return out;
 			}
 			if(room.getSecurityToken().equals(handshake.securityToken) && room.getAccessPassword().equals(handshake.accessPassword)) {
 				TokenUpdate tU = roomAuthProto.getTokenUpdateSchema();
 				tU.securityToken = UUID.randomUUID().toString();
 				room.setSecurityToken(tU.securityToken);
 				roomsRepository.update(room);
-				return tU;
+				out.response = tU;
+				out.logged = true;
+				return out;
 			}
 			// security fail
 			room.setBadLogins(room.getBadLogins() + 1);
 			roomsRepository.update(room);
-			return new Retry();
+			out.response = new Retry();
+			return out;
 		}
 		// TODO: check limit of IP in new server.
 		// return new Exceeded();
 		// if not exceeded the limit:
-		return new Signup();
+		out.response = new Signup();
+		return out;
 	}
 	
-	public Schema signupDataValidate(SignupData signupData, Handshake handshake) {
+	public LoginResponse signupDataValidate(SignupData signupData, Handshake handshake) {
 		// TODO: check limit of IP in new server.
+		LoginResponse out = new LoginResponse();
 		Rooms room = new Rooms();
 		room.setAccessPassword(handshake.accessPassword);
 		room.setBadLogins(0);
@@ -78,13 +86,16 @@ public class RoomAuthService {
 			SignupResponse sr = new SignupResponse();
 			sr.securityToken = room.getSecurityToken();
 			sr.serverID = room.getId_room();
-			return sr;
-		} else {
-			// fail register
-			// FIXME: add ip of request to log.-
-			logger.error("Room Signup fatal error", handshake);
-			return new Busy();
+			out.response = sr;
+			out.logged = true;
+			return out;
 		}
+		// fail register
+		// FIXME: add ip of request to log.-
+		logger.error("Room Signup fatal error", handshake);
+		out.response = new Busy();
+		out.logged = false;
+		return out;
 	}
 
 }

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
-import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
+import ar.com.tandilweb.exchange.roomAuth.SignupData;
 import ar.com.tandilweb.orchestrator.adapters.RoomAuthService;
 
 @Component
@@ -31,6 +31,8 @@ public class RoomHandlerThread implements Runnable {
 	protected BufferedReader input = null;
 	protected static Logger logger = LoggerFactory.getLogger(RoomHandlerThread.class);
 	protected String name;
+	
+	protected Handshake handshakeSchema;
 	
 	@Autowired
 	RoomAuthService roomAuthSrv;
@@ -113,6 +115,8 @@ public class RoomHandlerThread implements Runnable {
 			case "handshake":
 				processHandshakeSchema(schemaBody);
 				break;
+			case "signupData":
+				processSignupDataSchema(schemaBody);
 			default:
 				logger.debug("Schema not recognized: " + schema.schema);
 				break;
@@ -123,8 +127,15 @@ public class RoomHandlerThread implements Runnable {
 	protected void processHandshakeSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
 		logger.debug("Schema body Handshake");
 		ObjectMapper om = new ObjectMapper();
-		Handshake inputSchema = om.readValue(schemaBody, Handshake.class);
-		sendToClient(om.writeValueAsString(roomAuthSrv.handshakeValidate(inputSchema)));
+		this.handshakeSchema = om.readValue(schemaBody, Handshake.class);
+		sendToClient(om.writeValueAsString(roomAuthSrv.handshakeValidate(this.handshakeSchema)));
 	}
-
+	
+	protected void processSignupDataSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
+		logger.debug("Schema body Handshake");
+		ObjectMapper om = new ObjectMapper();
+		SignupData inputSchema = om.readValue(schemaBody, SignupData.class);
+		sendToClient(om.writeValueAsString(roomAuthSrv.signupDataValidate(inputSchema, this.handshakeSchema)));
+	}
+	
 }

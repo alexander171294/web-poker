@@ -159,6 +159,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	}
 	
 	private void processSignupSchema(String schemaBody) throws JsonProcessingException {
+		logger.debug("Processing processSignupSchema.");
 		SignupData signupData = roomAuthProto.getSignupSchema();
 		ObjectMapper om = new ObjectMapper();
 		sendDataToServer(om.writeValueAsString(signupData));
@@ -166,6 +167,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	// TODO: finish this and persist ID for next handshake
 	private void processSignupResponseSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
+		logger.debug("Processing processSignupResponseSchema.");
 		ObjectMapper om = new ObjectMapper();
 		SignupResponse signupResponse = om.readValue(schemaBody, SignupResponse.class);
 		// signupResponse.serverID;
@@ -173,6 +175,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	// FIXME: validate retry times
 	private void processRetrySchema(String schemaBody) throws JsonProcessingException {
+		logger.debug("Processing processRetrySchema.");
 		Handshake hs = roomAuthProto.getHandshakeSchema();
 		ObjectMapper om = new ObjectMapper();
 		sendDataToServer(om.writeValueAsString(hs));
@@ -192,6 +195,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	// TODO: finish this and persist token for next handshake
 	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
+		logger.debug("Processing processTokenUpdate.");
 		ObjectMapper om = new ObjectMapper();
 		TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
 		// signupResponse.securityToken;
@@ -199,6 +203,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	// FIXME: add sleep time.
 	private void processBusySchema(String schemaBody) throws JsonProcessingException {
+		logger.debug("Processing processBusySchema.");
 		Handshake hs = roomAuthProto.getHandshakeSchema();
 		ObjectMapper om = new ObjectMapper();
 		sendDataToServer(om.writeValueAsString(hs));

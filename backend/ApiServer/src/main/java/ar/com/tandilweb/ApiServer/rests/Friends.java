@@ -1,5 +1,6 @@
 package ar.com.tandilweb.ApiServer.rests;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,7 @@ public class Friends {
 	}
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
-	public String deleteFriends() {
+	public String deleteFriends(@PathVariable("id") int friendID) {
 		return "";
 	}
 	
@@ -24,12 +25,12 @@ public class Friends {
 	}
 	
 	@RequestMapping(path="/requests/{id}", method=RequestMethod.PUT)
-	public String responseFriendsRequest() {
+	public String responseFriendsRequest(@PathVariable("id") int requestID) {
 		return "";
 	}
 	
 	@RequestMapping(path="/requests/{id}", method=RequestMethod.POST)
-	public String sendFriendsRequest() {
+	public String sendFriendsRequest(@PathVariable("id") int requestID) {
 		return "";
 	}
 	

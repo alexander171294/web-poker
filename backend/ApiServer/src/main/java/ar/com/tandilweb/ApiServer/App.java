@@ -19,9 +19,10 @@ import ar.com.tandilweb.ApiServer.filters.jwt.JWTValidFilter;
 
 @SpringBootApplication
 @EntityScan("ar.com.tandilweb.ApiServer.dataBase.domain")
-@ComponentScan("ar.com.tandilweb.ApiServer.rests")
+@ComponentScan({"ar.com.tandilweb.ApiServer.rests", "ar.com.tandilweb.ApiServer.transport"})
 @PropertySources(value = {
 		@PropertySource("classpath:database.properties"),
+		@PropertySource("classpath:apiServer.properties"),
 	})
 @Configuration("ar.com.tandilweb.ApiServer.persistence.JDBConfig")
 public class App extends SpringBootServletInitializer {

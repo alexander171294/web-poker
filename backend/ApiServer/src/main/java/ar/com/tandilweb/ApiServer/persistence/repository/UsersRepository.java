@@ -29,4 +29,8 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	public boolean checkEmailUser(String email, String nick_name) {
 		return false;
 	}
+	
+	public Users findByEmailOrUser(String umail) {
+		return null;
+	}
 }

@@ -2,6 +2,7 @@ package ar.com.tandilweb.ApiServer.persistence.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,10 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 		} catch(DataAccessException e) {
 			return null;
 		}
+	}
+	
+	public List<Rooms> getAll() {
+		return null;
 	}
 	
 	class RoomsRowMapper implements RowMapper<Rooms> {

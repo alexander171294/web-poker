@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.friends.FriendRequest;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
+import ar.com.tandilweb.ApiServer.persistence.domain.Friendships;
 import ar.com.tandilweb.ApiServer.persistence.domain.Users;
 import ar.com.tandilweb.ApiServer.persistence.repository.FriendshipsRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.UsersRepository;
@@ -36,8 +37,13 @@ public class FriendsAdapter {
 		return out;
 	}
 	
-	public boolean deleteFriend(long me, long friendID) {
-		return false;
+	public boolean deleteFriend(long me, long friendID) throws ValidationException {
+		Friendships fs = friendshipsRepository.findFor(me, friendID);
+		if(fs == null) {
+			throw new ValidationException(2, "Friendship not exists");
+		}
+		friendshipsRepository.delete(fs);
+		return true;
 	}
 	
 	public boolean deleteRequest(long me, long requestID) {

@@ -25,11 +25,19 @@ public class FriendshipsRepository extends BaseRepository<Friendships, Long> {
 	public List<Friendships> getAllFor(long target_origin) {
 		return null;
 	}
+	
+	public Friendships findFor(long me, long target) {
+		return null;
+	}
 
 	@Override
 	public Friendships findById(Long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void delete(Friendships record) {
+		
 	}
 	
 }

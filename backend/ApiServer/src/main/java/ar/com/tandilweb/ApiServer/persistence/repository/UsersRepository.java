@@ -80,11 +80,33 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	}
 	
 	public List<Users> getFromFriendshipsFor(long origin_target) {
-		return null;
+		try {
+			// FIXME: imporve this queries:
+			List<Users> users = jdbcTemplate.query(
+	                "SELECT * FROM users as U LEFT JOIN friendships AS F ON F.id_user_target = ? AND F.accepted = true WHERE U.id_user = F.id_user_origin",
+	                new Object[]{ origin_target }, new UsersRowMapper());
+			users.addAll(jdbcTemplate.query(
+	                "SELECT * FROM users as U LEFT JOIN friendships AS F ON F.id_user_origin = ? AND F.accepted = true WHERE U.id_user = F.id_user_target",
+	                new Object[]{ origin_target }, new UsersRowMapper()));
+			return users;
+		} catch(DataAccessException e) {
+			return null;
+		}
 	}
 	
 	public List<Users> getFromFriendshipsPendingsFor(long origin_target) {
-		return null;
+		try {
+			// FIXME: imporve this queries:
+			List<Users> users = jdbcTemplate.query(
+	                "SELECT * FROM users as U LEFT JOIN friendships AS F ON F.id_user_target = ? AND F.accepted = false WHERE U.id_user = F.id_user_origin",
+	                new Object[]{ origin_target }, new UsersRowMapper());
+			users.addAll(jdbcTemplate.query(
+	                "SELECT * FROM users as U LEFT JOIN friendships AS F ON F.id_user_origin = ? AND F.accepted = false WHERE U.id_user = F.id_user_target",
+	                new Object[]{ origin_target }, new UsersRowMapper()));
+			return users;
+		} catch(DataAccessException e) {
+			return null;
+		}
 	}
 	
 	public boolean checkEmailUser(String email, String nick_name) {

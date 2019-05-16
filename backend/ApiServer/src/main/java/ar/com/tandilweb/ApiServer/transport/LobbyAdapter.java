@@ -54,7 +54,17 @@ public class LobbyAdapter {
 	}
 	
 	public RoomResponse getRoomByID(long roomID) {
-		return null;
+		RoomResponse out = new RoomResponse();
+		Rooms room = roomsRepository.findById(roomID);
+		out.description = room.getDescription();
+		out.gproto = room.getGproto();
+		out.id_room = room.getId_room();
+		out.isOfficial = room.isOfficial();
+		out.max_players = room.getMax_players();
+		out.minCoinForAccess = room.getMinCoinForAccess();
+		out.name = room.getName();
+		out.server_ip = room.getServer_ip();
+		return out;
 	}
 	
 	public ChallengeResponse challengeRoomByID(long roomID)  {

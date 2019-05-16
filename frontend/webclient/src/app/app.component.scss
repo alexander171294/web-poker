@@ -1,0 +1,27 @@
+main {
+    width: 800px;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(108deg, #1f7046, #154c46);
+    box-shadow: 0px 2px 10px 0px #072427;
+}
+
+header {
+    background: #072932;
+    padding: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: Myriad;
+    line-height: 16px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    color: #ffffffa3;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}

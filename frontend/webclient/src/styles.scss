@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Myriad';
+    src: url(assets/fonts/Myriad.otf);
+}
+@font-face {
+    font-family: 'Keepcalm';
+    src: url(assets/fonts/keepcalm.ttf);
+}
+html, body {
+    height: 100%;
+    margin: 0px;
+    font-family: Keepcalm;
+    font-size: 15px;
+}
+body {
+    background: radial-gradient(#175655, #082e37);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: helvetica;
+}

@@ -86,12 +86,12 @@ public class Friends {
 	}
 	
 	@RequestMapping(path="/requests/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<GeneralResponse> rejectFriendsRequest(@PathVariable("id") int requestID) {
+	public ResponseEntity<GeneralResponse> rejectFriendsRequest(@PathVariable("id") int userID) {
 		try {
-			if(requestID <= 0) {
+			if(userID <= 0) {
 				throw new ValidationException(1, "Invalid request id");
 			}
-			friendsAdapter.deleteRequest(0, requestID);
+			friendsAdapter.deleteFriend(0, userID);
 			GeneralResponse out = new GeneralResponse();
 			out.operationSuccess = true;
 			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);

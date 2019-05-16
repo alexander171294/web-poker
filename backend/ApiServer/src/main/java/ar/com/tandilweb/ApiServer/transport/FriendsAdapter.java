@@ -46,10 +46,6 @@ public class FriendsAdapter {
 		return true;
 	}
 	
-	public boolean deleteRequest(long me, long requestID) {
-		return false;
-	}
-	
 	public boolean acceptRequest(long me, long requestID) {
 		return false;
 	}

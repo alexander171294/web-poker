@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.com.tandilweb.ApiServer.dataTypesObjects.friends.FriendRequest;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
 import ar.com.tandilweb.ApiServer.persistence.domain.Friendships;
@@ -80,8 +79,17 @@ public class FriendsAdapter {
 
 	}
 
-	public List<FriendRequest> getFriendRequests(long me) throws ValidationException {
-		return null;
+	public List<UserProfile> getFriendRequests(long me) throws ValidationException {
+		List<Users> users = usersRepository.getFromFriendshipsPendingsFor(me);
+		List<UserProfile> out = new ArrayList<UserProfile>();
+		for (Users user : users) {
+			UserProfile uP = new UserProfile();
+			uP.idUser = user.getId_user();
+			uP.nick = user.getNick_name();
+			uP.photo = user.getPhoto();
+			out.add(uP);
+		}
+		return out;
 	}
 
 }

@@ -83,6 +83,10 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 		return null;
 	}
 	
+	public List<Users> getFromFriendshipsPendingsFor(long origin_target) {
+		return null;
+	}
+	
 	public boolean checkEmailUser(String email, String nick_name) {
 		try {
 			int total = jdbcTemplate.queryForObject(

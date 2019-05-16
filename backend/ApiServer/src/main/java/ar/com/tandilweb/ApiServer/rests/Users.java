@@ -50,6 +50,13 @@ public class Users {
 			if(userID <= 0) {
 				throw new ValidationException(1, "Invalid user id");
 			}
+			// FIXME: validate email
+			if(userProfile.email != null && userProfile.email.length() > 0 && userProfile.email.length() < 5) {
+				throw new ValidationException(2, "Invalid email");
+			}
+			if(userProfile.password != null && userProfile.password.length() > 0 && userProfile.password.length() < 8) {
+				throw new ValidationException(3, "Password must be more than 8 characters.");
+			}
 			UserProfile up = usersAdapter.updateProfileByID(userID, userProfile);
 			return new ResponseEntity<UserProfile>(up, HttpStatus.BAD_REQUEST);
 		} catch (ValidationException e) {

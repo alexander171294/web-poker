@@ -40,15 +40,31 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	}
 	
 	public List<Rooms> getAll() {
-		return null;
+		try {
+			return jdbcTemplate.query(
+                "SELECT * FROM rooms", new RoomsRowMapper());
+		} catch(DataAccessException e) {
+			return null;
+		}
 	}
 	
 	public List<Rooms> getConnecteds() {
-		return null;
+		try {
+			return jdbcTemplate.query(
+                "SELECT * FROM rooms WHERE now_connected = TRUE", new RoomsRowMapper());
+		} catch(DataAccessException e) {
+			return null;
+		}
 	}
 	
 	public List<Rooms> getByGproto(String gproto) {
-		return null;
+		try {
+			return jdbcTemplate.query(
+                "SELECT * FROM rooms WHERE gproto = ?",
+                new Object[]{ gproto }, new RoomsRowMapper());
+		} catch(DataAccessException e) {
+			return null;
+		}
 	}
 	
 	class RoomsRowMapper implements RowMapper<Rooms> {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,12 +87,15 @@ public class Lobby {
 	}
 	
 	@RequestMapping(path="/rooms/{id}", method=RequestMethod.POST)
-	public ResponseEntity<ChallengeResponse> challengeRooms(@PathVariable("id") int roomID) {
+	public ResponseEntity<ChallengeResponse> challengeRooms(@PathVariable("id") int roomID, @RequestBody String claimToken) {
 		try {
 			if (roomID <= 0) {
 				throw new ValidationException(1, "Invalid RoomID");
 			}
-			ChallengeResponse out = lobbyAdapter.challengeRoomByID(roomID);
+			if (claimToken == null || claimToken.length() == 0) {
+				throw new ValidationException(2, "Invalid claimToken");
+			}
+			ChallengeResponse out = lobbyAdapter.challengeRoomByID(0, roomID, claimToken);
 			return new ResponseEntity<ChallengeResponse>(out, HttpStatus.OK);
 		} catch (ValidationException vE) {
 			ChallengeResponse out = new ChallengeResponse();

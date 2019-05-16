@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.GeneralResponse;
+import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.ChallengeResponse;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.RoomResponse;
+import ar.com.tandilweb.ApiServer.persistence.domain.Challenges;
 import ar.com.tandilweb.ApiServer.persistence.domain.Rooms;
+import ar.com.tandilweb.ApiServer.persistence.repository.ChallengesRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.RoomsRepository;
 
 @Service
@@ -16,6 +20,9 @@ public class LobbyAdapter {
 	
 	@Autowired
 	RoomsRepository roomsRepository;
+	
+	@Autowired
+	ChallengesRepository challengesRepository;
 	
 	public List<RoomResponse> getRooms() {
 		List<RoomResponse> out = new ArrayList<RoomResponse>();
@@ -67,8 +74,22 @@ public class LobbyAdapter {
 		return out;
 	}
 	
-	public ChallengeResponse challengeRoomByID(long roomID)  {
-		return null;
+	public ChallengeResponse challengeRoomByID(long meID, long roomID, String claimToken) throws ValidationException  {
+		ChallengeResponse out = new ChallengeResponse();
+		
+		Rooms room = roomsRepository.findById(roomID);
+		if (room == null) {
+			throw new ValidationException(3, "The room doesn't exists");
+		}
+		
+		Challenges challenge = new Challenges();
+		challenge.setChallenge(claimToken);
+		challenge.setId_room(roomID);
+		challenge.setId_user(meID);
+		challenge = challengesRepository.create(challenge);
+
+		out.operationSuccess = true;
+		return out;
 	}
 
 }

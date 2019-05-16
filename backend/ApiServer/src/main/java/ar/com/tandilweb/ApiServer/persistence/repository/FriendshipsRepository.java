@@ -29,6 +29,10 @@ public class FriendshipsRepository extends BaseRepository<Friendships, Long> {
 	public Friendships findFor(long me, long target) {
 		return null;
 	}
+	
+	public Friendships findByOriginTarget(long origin, long target) {
+		return null;
+	}
 
 	@Override
 	public Friendships findById(Long id) {

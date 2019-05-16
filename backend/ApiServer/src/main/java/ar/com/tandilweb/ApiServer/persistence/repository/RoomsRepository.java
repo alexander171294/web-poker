@@ -47,6 +47,10 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 		return null;
 	}
 	
+	public List<Rooms> getByGproto(String gproto) {
+		return null;
+	}
+	
 	class RoomsRowMapper implements RowMapper<Rooms> {
 		public Rooms mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Rooms(

@@ -3,6 +3,7 @@ package ar.com.tandilweb.ApiServer.persistence.domain;
 public class Rooms {
 	
 	private long id_room;
+	private String server_ip;
 	private String name;
 	private String accessPassword;
 	private String securityToken;
@@ -15,11 +16,13 @@ public class Rooms {
 	
 	private boolean nowConnected;
 	private boolean isOfficial;
-	
-	public Rooms(long id_room, String name, String accessPassword, String securityToken, String gproto, int max_players,
-			String description, int minCoinForAccess, String recoveryEmail, int badLogins, boolean nowConnected, boolean isOfficial) {
+
+	public Rooms(long id_room, String server_ip, String name, String accessPassword, String securityToken,
+			String gproto, int max_players, String description, int minCoinForAccess, String recoveryEmail,
+			int badLogins, boolean nowConnected, boolean isOfficial) {
 		super();
 		this.id_room = id_room;
+		this.server_ip = server_ip;
 		this.name = name;
 		this.accessPassword = accessPassword;
 		this.securityToken = securityToken;
@@ -131,6 +134,14 @@ public class Rooms {
 
 	public void setOfficial(boolean isOfficial) {
 		this.isOfficial = isOfficial;
+	}
+
+	public String getServer_ip() {
+		return server_ip;
+	}
+
+	public void setServer_ip(String server_ip) {
+		this.server_ip = server_ip;
 	}
 	
 }

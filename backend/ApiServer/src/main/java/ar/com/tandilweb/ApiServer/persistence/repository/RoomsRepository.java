@@ -43,10 +43,15 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 		return null;
 	}
 	
+	public List<Rooms> getConnecteds() {
+		return null;
+	}
+	
 	class RoomsRowMapper implements RowMapper<Rooms> {
 		public Rooms mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Rooms(
 	        		rs.getLong("id_room"),
+	        		rs.getString("server_ip"),
 	        		rs.getString("name"),
 	        		rs.getString("accessPassword"),
 	        		rs.getString("securityToken"),

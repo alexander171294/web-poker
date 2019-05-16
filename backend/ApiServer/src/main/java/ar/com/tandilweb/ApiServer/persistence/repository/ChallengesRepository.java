@@ -17,8 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import ar.com.tandilweb.ApiServer.persistence.BaseRepository;
 import ar.com.tandilweb.ApiServer.persistence.domain.Challenges;
-import ar.com.tandilweb.ApiServer.persistence.domain.Sessions;
-import ar.com.tandilweb.ApiServer.persistence.repository.SessionsRepository.SessionsRowMapper;
 
 @Repository
 public class ChallengesRepository extends BaseRepository<Challenges, Long> {

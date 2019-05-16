@@ -1,5 +1,7 @@
 package ar.com.tandilweb.ApiServer.persistence.repository;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import ar.com.tandilweb.ApiServer.persistence.BaseRepository;
@@ -18,6 +20,10 @@ public class FriendshipsRepository extends BaseRepository<Friendships, Long> {
 	public void update(Friendships record) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public List<Friendships> getAllFor(long target_origin) {
+		return null;
 	}
 
 	@Override

@@ -12,8 +12,6 @@ import ar.com.tandilweb.ApiServer.dataTypesObjects.friends.FriendList;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.friends.FriendRequests;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.GeneralResponse;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
-import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.RoomsResponse;
-import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
 import ar.com.tandilweb.ApiServer.transport.FriendsAdapter;
 
 @RestController

@@ -17,8 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import ar.com.tandilweb.ApiServer.persistence.BaseRepository;
 import ar.com.tandilweb.ApiServer.persistence.domain.Sessions;
-import ar.com.tandilweb.ApiServer.persistence.domain.Users;
-import ar.com.tandilweb.ApiServer.persistence.repository.UsersRepository.UsersRowMapper;
 
 @Repository
 public class SessionsRepository extends BaseRepository<Sessions, Long> {

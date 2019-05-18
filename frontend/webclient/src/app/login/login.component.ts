@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PublicService } from '../providers/public/public.service';
 import { SignupRequest } from '../providers/public/SignupRequest';
+import { LoginRequest } from '../providers/public/LoginRequest';
 
 @Component({
   selector: 'app-login',
@@ -70,7 +71,30 @@ export class LoginComponent implements OnInit {
   signIn() {
     if(!this.isSignup && !this.isSignin) {
       this.isSignin = true;
-      
+      // TODO: validations
+      const data = new LoginRequest();
+      data.umail = this.loginEmail;
+      data.password = this.loginPassword;
+      this.publicSrv.login(data).subscribe((data) => {
+        console.log(data);
+        if(data.operationSuccess) {
+          // TODO: init session
+          this.router.navigate(['/lobby']);
+        } else {
+          // TODO: improve alert.
+          alert(response.errorDescription);
+        }
+        this.isSignin = false;
+      }, (err) => {
+        console.log();
+        // TODO: improve error and catch error codes.
+        if(err.status == 400 && err.error) {
+          alert(err.error.errorDescription);
+        } else {
+          alert('Connection error.');
+        }
+        this.isSignin = false;
+      });
     }
   }
 

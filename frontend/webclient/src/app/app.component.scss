@@ -13,6 +13,11 @@ header {
     color: rgba(255, 255, 255, 0.85);
     font-family: Myriad;
     line-height: 16px;
+    span {
+        font-family: helvetica;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
 }
 
 footer {

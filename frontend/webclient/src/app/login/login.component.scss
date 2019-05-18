@@ -61,9 +61,19 @@ button {
 button.redBtn{
     background: #d44052;
 }
+button.redBtn:hover{
+    background: #d0384b;
+}
+button:active, button:focus {
+    box-shadow: none;
+}
 button.greenBtn{
     background: #218464;
 }
+button.greenBtn:hover {
+    background: #1d7f60;
+}
+
 
 .separator {
     text-align: center;

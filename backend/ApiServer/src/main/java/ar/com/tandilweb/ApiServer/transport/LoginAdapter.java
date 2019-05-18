@@ -1,5 +1,6 @@
 package ar.com.tandilweb.ApiServer.transport;
 
+import java.util.Calendar;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,11 @@ public class LoginAdapter {
 		user = userRepository.create(user);
 		// create session for new user:
 		Sessions session = new Sessions();
-		// TODO: session.setExpiration(expiration); // dentro de 10 min
+		
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 20);
+		session.setExpiration(c.getTime());
+		
 		session.setId_user(user.getId_user());
 		String sessionPassphrase = UUID.randomUUID().toString();
 		session.setJwt_passphrase(sessionPassphrase);
@@ -73,7 +78,11 @@ public class LoginAdapter {
 		}
 		// create session for new user:
 		Sessions session = new Sessions();
-		// TODO: session.setExpiration(expiration); // dentro de 10 min
+		
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 20);
+		session.setExpiration(c.getTime());
+		
 		session.setId_user(user.getId_user());
 		String sessionPassphrase = UUID.randomUUID().toString();
 		session.setJwt_passphrase(sessionPassphrase);

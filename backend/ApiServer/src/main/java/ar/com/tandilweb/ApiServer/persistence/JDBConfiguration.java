@@ -19,9 +19,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan("ar.com.tandilweb.orchestrator.persistence.repository")
+@ComponentScan("ar.com.tandilweb.ApiServer.persistence.repository")
 @EnableTransactionManagement
-public class JDBConfig {
+public class JDBConfiguration {
 	
 	@Autowired
     private Environment env;

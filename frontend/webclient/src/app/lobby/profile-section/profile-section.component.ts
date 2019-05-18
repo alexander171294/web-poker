@@ -12,7 +12,7 @@ export class ProfileSectionComponent implements OnInit {
   constructor(private session: SessionService, private userSrv: UsersService) { }
 
   ngOnInit() {
-
+    
   }
 
 }

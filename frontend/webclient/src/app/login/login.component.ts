@@ -53,8 +53,14 @@ export class LoginComponent implements OnInit {
           alert(response.errorDescription);
         }
       }, (err) => {
+        console.log();
         // TODO: improve error and catch error codes.
-        alert('Connection error.');
+        if(err.status == 400 && err.error) {
+          alert(err.error.errorDescription);
+        } else {
+          alert('Connection error.');
+        }
+        
         this.isSignup = false;
       });
       // this.router.navigate(['/lobby']);
@@ -64,7 +70,7 @@ export class LoginComponent implements OnInit {
   signIn() {
     if(!this.isSignup && !this.isSignin) {
       this.isSignin = true;
-
+      
     }
   }
 

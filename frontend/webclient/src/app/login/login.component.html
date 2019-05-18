@@ -5,11 +5,11 @@
     <form>
         <div class="group-form">
             <label>Nick o Email</label>
-            <input type="email" name="login_email" ([ngModel])="loginEmail"/>
+            <input type="email" name="login_email" [(ngModel)]="loginEmail"/>
         </div>
         <div class="group-form">
             <label>Password</label>
-            <input type="password" name="login_password" ([ngModel])="loginPassword"/>
+            <input type="password" name="login_password" [(ngModel)]="loginPassword"/>
         </div>
 
         <button class="redBtn" (click)="signIn()" [class.loading]="isSignin">Sign-in</button>
@@ -24,19 +24,19 @@
     <form>
         <div class="group-form">
             <label>Nick</label>
-            <input type="text" name="signupNick" ([ngModel])="signupNick"/>
+            <input type="text" name="signupNick" [(ngModel)]="signupNick"/>
         </div>
         <div class="group-form">
             <label>Email</label>
-            <input type="email" name="signupEmail" ([ngModel])="signupEmail"/>
+            <input type="email" name="signupEmail" [(ngModel)]="signupEmail"/>
         </div>
         <div class="group-form">
             <label>Password</label>
-            <input type="password" name="signupPassword" ([ngModel])="signupPassword"/>
+            <input type="password" name="signupPassword" [(ngModel)]="signupPassword"/>
         </div>
         <div class="group-form">
             <label>Repeat password</label>
-            <input type="password" name="signupPassword2" ([ngModel])="signupPassword2"/>
+            <input type="password" name="signupPassword2" [(ngModel)]="signupPassword2"/>
         </div>
 
         <button class="greenBtn" (click)="signUp()"  [class.loading]="isSignup">Sign-up</button>

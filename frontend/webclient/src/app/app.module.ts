@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { ProfileSectionComponent } from './lobby/profile-section/profile-section.component';
+import { BodyComponent } from './lobby/body/body.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LobbyComponent,
-    ProfileSectionComponent
+    ProfileSectionComponent,
+    BodyComponent
   ],
   imports: [
     BrowserModule,

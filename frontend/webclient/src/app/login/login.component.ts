@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/lobby']);
         } else {
           // TODO: improve alert.
-          alert(response.errorDescription);
+          alert(data.errorDescription);
         }
         this.isSignin = false;
       }, (err) => {

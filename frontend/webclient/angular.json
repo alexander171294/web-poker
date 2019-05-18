@@ -27,7 +27,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "fontawesome-free/css/all.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true

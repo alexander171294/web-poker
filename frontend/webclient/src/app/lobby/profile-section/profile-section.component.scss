@@ -59,6 +59,22 @@ section.profile .buttonBlock span {
     text-align: center;
     left: 1px;
     margin-left: -19px;
-    font-weight: bolder;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0px 2px rgba(0, 0, 0, 0.8);
+}
+
+section.profile .buttonBlock .fa {
+    font-size: 35px;
+    line-height: 70px;
+    color: rgb(239, 182, 26);
+}
+section.profile .buttonBlock.disabled span {
     color: #0b4222;
+    font-weight: bolder;
+    text-shadow: 0px;
+}
+
+section.profile .buttonBlock.disabled .fa {
+    color: #1b6d3e;
 }

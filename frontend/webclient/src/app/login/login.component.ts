@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PublicService } from '../providers/public/public.service';
 import { SignupRequest } from '../providers/public/SignupRequest';
 import { LoginRequest } from '../providers/public/LoginRequest';
+import { SessionService } from '../providers/session.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   isSignup: boolean; // loading...
   isSignin: boolean; // loading...
 
-  constructor(private router: Router, private publicSrv: PublicService) { }
+  constructor(private router: Router, private publicSrv: PublicService, private session: SessionService) { }
 
   ngOnInit() {
   }
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.publicSrv.signup(data).subscribe((response) => {
         this.isSignup = false;
         if (response.operationSuccess) {
-          // TODO: init session
+          this.session.setSessionInfo(response);
           this.router.navigate(['/lobby']);
         } else {
           // TODO: improve alert.
@@ -78,7 +79,7 @@ export class LoginComponent implements OnInit {
       this.publicSrv.login(data).subscribe((data) => {
         console.log(data);
         if(data.operationSuccess) {
-          // TODO: init session
+          this.session.setSessionInfo(data);
           this.router.navigate(['/lobby']);
         } else {
           // TODO: improve alert.

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { SessionInformation } from './public/SessionInformation';
 import { SessionData } from '../utils/jwt/sessionData';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ export class SessionService {
 
   private sessionInfo: SessionInformation;
   private loginEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  private sessionActive: boolean = false; 
 
   constructor() { }
 
@@ -31,7 +32,8 @@ export class SessionService {
       (fechaExpiracion.getTime() + 1 * 60 * 60 * 1000) / 1000
     );
     // guardamos la sesión:
-    sessionData.saveData("JWTData");
+    sessionData.saveData(environment.sesStorageKey);
+    this.sessionActive = true;
     this.loginEvent.emit(true);
   }
 
@@ -41,5 +43,9 @@ export class SessionService {
 
   public getLoginEvent(): EventEmitter<boolean> {
     return this.loginEvent;
+  }
+
+  public isSessionActive() {
+    return this.sessionActive;
   }
 }

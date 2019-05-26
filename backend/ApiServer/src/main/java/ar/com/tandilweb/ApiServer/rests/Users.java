@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfileEdited;
+import ar.com.tandilweb.ApiServer.persistence.domain.Sessions;
 import ar.com.tandilweb.ApiServer.transport.UsersAdapter;
 
 @RestController
@@ -22,7 +24,7 @@ public class Users {
 	UsersAdapter usersAdapter;
 	
 	@RequestMapping(path="/users/profile/{id}", method=RequestMethod.GET)
-	public ResponseEntity<UserProfile> getProfile(@PathVariable("id") long userID) {
+	public ResponseEntity<UserProfile> getProfile(@PathVariable("id") long userID, @RequestAttribute("jwtSessionOrigin") Sessions session) {
 		try {
 			if(userID <= 0) {
 				throw new ValidationException(1, "Invalid user id");

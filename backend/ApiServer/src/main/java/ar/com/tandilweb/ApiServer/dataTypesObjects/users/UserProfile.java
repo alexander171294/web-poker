@@ -7,5 +7,6 @@ public class UserProfile extends GeneralResponse {
 	public long idUser;
 	public String nick;
 	public String photo;
+	public long chips;
 	
 }

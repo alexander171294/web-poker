@@ -27,6 +27,7 @@ public class UsersAdapter {
 		uP.idUser = user.getId_user();
 		uP.nick = user.getNick_name();
 		uP.photo = user.getPhoto();
+		uP.chips = user.getChips();
 		
 		return uP;
 	}

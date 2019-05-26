@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../providers/session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lobby',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LobbyComponent implements OnInit {
 
-  constructor() { }
+  constructor(private session: SessionService, private router: Router) { }
 
   ngOnInit() {
+    if(!this.session.isSessionActive()) {
+      this.router.navigate(['/login']);
+    }
   }
 
 }

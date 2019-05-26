@@ -80,6 +80,18 @@ Backend
 * ~~Hibernate~~ (more problems than solutions for this simple persistence)
 * SLF4J
 
+## Download the repo
+
+git clone --recursive [URL from this repo]
+
+if you already cloned this repo, you have to use submodule update:
+
+git submodule update --init --recursive
+
+## Pulling repo:
+
+git pull --recurse-submodule
+
 ## Frontend
 
 The frontend is maked with Nativescript Schematics for Angular using shared code.

@@ -1,12 +1,13 @@
 <section class="profile">
   
   <div class="mainSection">
-    <img src="assets/uknown.gif" />
-    <span class="nick">
-      @Alexander171294
+    <img src="assets/uknown.gif" *ngIf="!userData || userData.photo === '#'"/>
+    <img [src]="userData.photo" *ngIf="userData && userData.photo !== '#'"/>
+    <span class="nick" *ngIf="userData">
+      @{{userData.nick}}
     </span>
     <span class="coins">
-      <i class="fas fa-coins"></i> 2500
+      <i class="fas fa-coins"></i> {{userData.chips}}
     </span>
   </div>
 

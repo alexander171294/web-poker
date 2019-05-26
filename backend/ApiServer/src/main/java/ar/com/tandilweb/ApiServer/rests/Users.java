@@ -23,14 +23,14 @@ public class Users {
 	@Autowired
 	UsersAdapter usersAdapter;
 	
-	@RequestMapping(path="/users/profile/{id}", method=RequestMethod.GET)
+	@RequestMapping(path="/profile/{id}", method=RequestMethod.GET)
 	public ResponseEntity<UserProfile> getProfile(@PathVariable("id") long userID, @RequestAttribute("jwtSessionOrigin") Sessions session) {
 		try {
 			if(userID <= 0) {
 				throw new ValidationException(1, "Invalid user id");
 			}
 			UserProfile up = usersAdapter.getUserByID(userID);
-			return new ResponseEntity<UserProfile>(up, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<UserProfile>(up, HttpStatus.OK);
 		} catch (ValidationException e) {
 			UserProfile out = new UserProfile();
 			out.operationSuccess = false;
@@ -46,7 +46,7 @@ public class Users {
 		}
 	}
 	
-	@RequestMapping(path="/users/profile/{id}", method=RequestMethod.PUT)
+	@RequestMapping(path="/profile/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<UserProfile> updateProfile(@PathVariable("id") long userID, @RequestBody UserProfileEdited userProfile) {
 		try {
 			if(userID <= 0) {

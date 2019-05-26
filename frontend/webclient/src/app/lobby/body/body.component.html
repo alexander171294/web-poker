@@ -6,7 +6,7 @@
         <li>Texas Tournament</li>
         <li>Black Jack</li>
       </ul>
-      <i class="fas fa-sync"></i>
+      <i class="fas fa-sync" (click)="updateRooms()"></i>
     </nav>
     <div class="tableContainer">
       <table>
@@ -17,31 +17,12 @@
           <td>Deposit</td>
         </thead>
         <tbody>
-          <tr>
-            <td>Probando</td>
-            <td>Descripcion</td>
-            <td>0/6</td>
-            <td>2.600</td>
+          <tr *ngFor="let room of rooms">
+            <td>{{room.name}}</td>
+            <td>{{room.description}}</td>
+            <td>?/{{room.max_players}}</td>
+            <td>{{room.minCoinForAccess}}</td>
           </tr>
-          <tr>
-            <td>Probando</td>
-            <td>Descripcion</td>
-            <td>0/6</td>
-            <td>2.600</td>
-          </tr>
-          <tr>
-            <td>Probando</td>
-            <td>Descripcion</td>
-            <td>0/6</td>
-            <td>2.600</td>
-          </tr>
-          <tr>
-            <td>Probando</td>
-            <td>Descripcion</td>
-            <td>0/6</td>
-            <td>2.600</td>
-          </tr>
-
         </tbody>
       </table>
     </div>

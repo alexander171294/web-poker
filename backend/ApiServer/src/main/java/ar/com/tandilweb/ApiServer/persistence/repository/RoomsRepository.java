@@ -51,7 +51,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	public List<Rooms> getConnecteds() {
 		try {
 			return jdbcTemplate.query(
-                "SELECT * FROM rooms WHERE now_connected = TRUE", new RoomsRowMapper());
+                "SELECT * FROM rooms WHERE now_connected = 1", new RoomsRowMapper());
 		} catch(DataAccessException e) {
 			return null;
 		}
@@ -81,7 +81,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	        		rs.getInt("minCoinForAccess"),
 	        		rs.getString("recoveryEmail"),
 	        		rs.getInt("badLogins"),
-	        		rs.getBoolean("nowConnected"),
+	        		rs.getBoolean("now_connected"),
 	        		rs.getBoolean("isOfficial")
 	        		);
 	    }

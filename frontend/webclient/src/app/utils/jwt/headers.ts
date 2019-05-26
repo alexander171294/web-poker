@@ -9,7 +9,7 @@ export const httpOptions = {
 };
   
 export class jwtPacker {
-  public getHttpOptionsJWT(storageKey: string): {headers}{
+  public getHttpOptionsJWT(storageKey: string): HttpHeaders{
     let token: JWToken = new JWToken();
     let sessionData: SessionData = <SessionData>JSON.parse(sessionStorage.getItem(storageKey));
     
@@ -22,10 +22,7 @@ export class jwtPacker {
       "jti": sessionData.TrackingId
     };
 
-    const header = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer<' + token.pack(sessionData.Secret) + '>', 'SessID': sessionData.Subject.toString()});
-    return {
-            headers: header
-            }
+    return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer<' + token.pack(sessionData.Secret) + '>', 'Identity': sessionData.Subject.toString()});
   }
 
   public getHttpOptions() : {headers}{

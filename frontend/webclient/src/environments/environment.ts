@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   version: '0.0.1-DEV',
-  apiServer: 'http://localhost:8083/'
+  apiServer: 'http://localhost:8083/',
+  platform: 'web',
+  sesStorageKey: 'JWTSession'
 };
 
 /*

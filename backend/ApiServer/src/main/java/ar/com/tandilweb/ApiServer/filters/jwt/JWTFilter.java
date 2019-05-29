@@ -47,36 +47,38 @@ public class JWTFilter implements Filter {
 		if(httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
 			httpResponse.setStatus(200); // forbidden
 		} else {
-			Pattern r = Pattern.compile("Bearer<([^>]+)>");
-			Matcher m = r.matcher(httpRequest.getHeader("authorization"));
-			String jwToken = null;
-			if(m.find()) {
+			try {
+				Pattern r = Pattern.compile("Bearer<([^>]+)>");
+				if(httpRequest.getHeader("authorization") == null) throw new Exception("No authorization tag finded in header.");
+				Matcher m = r.matcher(httpRequest.getHeader("authorization"));
+				String jwToken = null;
+				if(!m.find()) throw new Exception("Invalid Bearer.");
 				jwToken = m.group(1);
 				String identity = httpRequest.getHeader("identity");
-				try {
-					if(identity == null) throw new ExceptionJWT();
-					Sessions session = sessionsRepository.findById(Long.parseLong(identity));
-					if(session == null) throw new ExceptionJWT();
-					String key = new String(Base64.getEncoder().encode(session.getJwt_passphrase().getBytes()));
-					Jws<Claims> jt = Jwts.parser().setSigningKey(key).parseClaimsJws(jwToken);
-					Claims data = jt.getBody();
-					if(!identity.equals(data.getSubject())) throw new ExceptionJWT();
-					JWTUnpackedData uD = new JWTUnpackedData();
-					uD.setExpiration(data.getExpiration());
-					uD.setId(data.getId());
-					uD.setIssuedAt(data.getIssuedAt());
-					uD.setIssuer(data.getIssuer());
-					uD.setNotBefore(data.getNotBefore());
-					uD.setSubject(data.getSubject());
-					httpRequest.setAttribute("jwtParsed", uD);
-					httpRequest.setAttribute("jwtTrusted", true);
-					httpRequest.setAttribute("jwtSessionOrigin", session);
-					filterChain.doFilter(httpRequest, httpResponse);
-				} catch (ExceptionJWT e) {
-					httpResponse.setHeader("Authorization-Requested", "jwt.0.14.1");
-					httpResponse.setStatus(400); // bad request
-				}
-			} else {
+				if(identity == null) throw new ExceptionJWT();
+				Sessions session = sessionsRepository.findById(Long.parseLong(identity));
+				if(session == null) throw new ExceptionJWT();
+				String key = new String(Base64.getEncoder().encode(session.getJwt_passphrase().getBytes()));
+				Jws<Claims> jt = Jwts.parser().setSigningKey(key).parseClaimsJws(jwToken);
+				Claims data = jt.getBody();
+				if(!identity.equals(data.getSubject())) throw new ExceptionJWT();
+				JWTUnpackedData uD = new JWTUnpackedData();
+				uD.setExpiration(data.getExpiration());
+				uD.setId(data.getId());
+				uD.setIssuedAt(data.getIssuedAt());
+				uD.setIssuer(data.getIssuer());
+				uD.setNotBefore(data.getNotBefore());
+				uD.setSubject(data.getSubject());
+				httpRequest.setAttribute("jwtParsed", uD);
+				httpRequest.setAttribute("jwtTrusted", true);
+				httpRequest.setAttribute("jwtSessionOrigin", session);
+				filterChain.doFilter(httpRequest, httpResponse);
+			} catch (ExceptionJWT e) {
+				log.info("Error in jwt validation", e);
+				httpResponse.setHeader("Authorization-Requested", "jwt.0.14.1");
+				httpResponse.setStatus(400); // bad request
+			} catch(Exception e) {
+				log.info("Error getting Authorization", e);
 				httpResponse.setHeader("Authorization-Requested", "jwt.0.14.1");
 				httpResponse.setStatus(403); // forbidden
 			}

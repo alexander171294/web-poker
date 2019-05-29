@@ -166,9 +166,9 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	// TODO: finish this and persist ID for next handshake
 	private void processSignupResponseSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		logger.debug("Processing processSignupResponseSchema.");
 		ObjectMapper om = new ObjectMapper();
 		SignupResponse signupResponse = om.readValue(schemaBody, SignupResponse.class);
+		logger.debug("Processing processSignupResponseSchema. New server ID:" + signupResponse.serverID);
 		// signupResponse.serverID;
 	}
 	
@@ -194,9 +194,9 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	// TODO: finish this and persist token for next handshake
 	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		logger.debug("Processing processTokenUpdate.");
 		ObjectMapper om = new ObjectMapper();
 		TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
+		logger.debug("Processing processTokenUpdate. new token ["+signupResponse.securityToken+"]");
 		// signupResponse.securityToken;
 	}
 	

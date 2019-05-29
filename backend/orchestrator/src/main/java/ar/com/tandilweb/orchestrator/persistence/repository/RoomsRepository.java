@@ -27,8 +27,8 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	public Rooms create(Rooms record) {
 		try {
 			final String sql = "INSERT INTO rooms "
-					+ "(name, accessPassword, securityToken, gproto, max_players, description, minCoinForAccess, recoveryEmail, badLogins, now_connected, isOfficial) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+					+ "(name, accessPassword, securityToken, gproto, max_players, description, minCoinForAccess, recoveryEmail, badLogins, now_connected, isOfficial, server_ip) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 			KeyHolder holder = new GeneratedKeyHolder();
 			jdbcTemplate.update(new PreparedStatementCreator() {
 				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -45,6 +45,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 					ps.setInt(9, record.getBadLogins());
 					ps.setBoolean(10, record.isNowConnected());
 					ps.setBoolean(11, record.isOfficial());
+					ps.setString(12, record.getServer_ip());
 					return ps;
 				}
 			}, holder);
@@ -59,9 +60,11 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	@Override
 	public void update(Rooms record) {
 		try {
-			final String sql = "UPDATE rooms SET name = ? WHERE id_room = ?";
+			final String sql = "UPDATE rooms SET name = ?, securityToken = ?, server_ip = ? WHERE id_room = ?";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getName(),
+					record.getSecurityToken(),
+					record.getServer_ip(),
 					record.getId_room()
 			});
 		} catch(DataAccessException e) {
@@ -84,6 +87,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 		public Rooms mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Rooms(
 	        		rs.getLong("id_room"),
+	        		rs.getString("server_ip"),
 	        		rs.getString("name"),
 	        		rs.getString("accessPassword"),
 	        		rs.getString("securityToken"),

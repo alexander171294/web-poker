@@ -46,6 +46,7 @@ public class RoomAuthService {
 				TokenUpdate tU = roomAuthProto.getTokenUpdateSchema();
 				tU.securityToken = UUID.randomUUID().toString();
 				room.setSecurityToken(tU.securityToken);
+				room.setServer_ip(handshake.serverPublicAP);
 				roomsRepository.update(room);
 				out.response = tU;
 				out.logged = true;
@@ -80,6 +81,7 @@ public class RoomAuthService {
 		String token = UUID.randomUUID().toString();
 		room.setSecurityToken(token);
 		room.setRecoveryEmail(signupData.recoveryEmail);
+		room.setServer_ip(handshake.serverPublicAP);
 		room = roomsRepository.create(room);
 		if(room != null) {
 			// registered ok:

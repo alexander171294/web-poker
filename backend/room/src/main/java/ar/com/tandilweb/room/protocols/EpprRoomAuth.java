@@ -29,7 +29,10 @@ public class EpprRoomAuth {
 	
 	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.recoveryEmail}")
 	private String recoveryEmail;
-
+	
+	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.serverPublicIP}")
+	private String serverPublicIP;
+	
 	// TODO: finish logic of this (see eppr/room-auth::handshake) 
 	public Handshake getHandshakeSchema() {
 		Handshake handshake = new Handshake();
@@ -41,6 +44,7 @@ public class EpprRoomAuth {
 		handshake.maxPlayers = maxPlayers;
 		handshake.description = description;
 		handshake.minCoinsForAccess = minCoinsForAccess;
+		handshake.serverPublicAP = serverPublicIP;
 		return handshake;
 	}
 	

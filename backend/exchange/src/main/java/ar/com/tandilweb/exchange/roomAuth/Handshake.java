@@ -12,6 +12,7 @@ public class Handshake extends RoomAuthSchema {
 	public int maxPlayers;
 	public String description;
 	public int minCoinsForAccess;
+	public String serverPublicAP;
 	
 	public Handshake() {
 		super("handshake");

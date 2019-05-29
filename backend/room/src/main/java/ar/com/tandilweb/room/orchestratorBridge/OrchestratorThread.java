@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -35,10 +34,10 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	public static Logger logger = LoggerFactory.getLogger(OrchestratorThread.class);
 	private Thread thread;
 	
-	@Value("${ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread.remoteListenerPort}")
+	@Value("${act.room.orchestrator.remoteListenerPort}")
     private volatile int remoteListenerPort;
 	
-	@Value("${ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread.remoteAddr}")
+	@Value("${act.room.orchestrator.remoteAddr}")
 	private volatile String remoteAddr;
 	
 //	@Autowired
@@ -109,16 +108,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		socketBufferOutput.println(data);
 		socketBufferOutput.flush();
 	}
-	
-	private String getMyLocalIP() {
-		try {
-			return InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException ukHostException) {
-			logger.error("Unknown Host Exception", ukHostException);
-			return null;
-		}
-	}
-	
+
 	private void processIncommingMessage(String message) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

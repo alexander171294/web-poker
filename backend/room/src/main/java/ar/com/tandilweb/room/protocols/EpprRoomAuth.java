@@ -1,5 +1,10 @@
 package ar.com.tandilweb.room.protocols;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,28 +14,30 @@ import ar.com.tandilweb.exchange.roomAuth.SignupData;
 @Component
 public class EpprRoomAuth {
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.name}")
+	public static Logger logger = LoggerFactory.getLogger(EpprRoomAuth.class);
+	
+	@Value("${act.room.RoomAuth.name}")
 	private String name;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.accessPassword}")
+	@Value("${act.room.RoomAuth.accessPassword}")
 	private String accessPassword;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.securityToken}")
+	@Value("${act.room.RoomAuth.securityToken}")
 	private String securityToken;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.maxPlayers}")
+	@Value("${act.room.RoomAuth.maxPlayers}")
 	private int maxPlayers;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.description}")
+	@Value("${act.room.RoomAuth.description}")
 	private String description;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.minCoinsForAccess}")
+	@Value("${act.room.RoomAuth.minCoinsForAccess}")
 	private int minCoinsForAccess;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.recoveryEmail}")
+	@Value("${act.room.RoomAuth.recoveryEmail}")
 	private String recoveryEmail;
 	
-	@Value("${ar.com.tandilweb.room.protocols.EpprRoomAuth.serverPublicIP}")
+	@Value("${act.room.RoomAuth.serverPublicIP}")
 	private String serverPublicIP;
 	
 	// TODO: finish logic of this (see eppr/room-auth::handshake) 
@@ -44,7 +51,7 @@ public class EpprRoomAuth {
 		handshake.maxPlayers = maxPlayers;
 		handshake.description = description;
 		handshake.minCoinsForAccess = minCoinsForAccess;
-		handshake.serverPublicAP = serverPublicIP;
+		handshake.serverPublicAP = (serverPublicIP == null) ? getMyLocalIP() : serverPublicIP;
 		return handshake;
 	}
 	
@@ -52,6 +59,15 @@ public class EpprRoomAuth {
 		SignupData signupData = new SignupData();
 		signupData.recoveryEmail = recoveryEmail;
 		return signupData;
+	}
+	
+	private String getMyLocalIP() {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException ukHostException) {
+			logger.error("Unknown Host Exception", ukHostException);
+			return null;
+		}
 	}
 
 }

@@ -9,10 +9,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @Configuration
 public class ServerRegisterConfiguration {
 	
-	@Value("${ar.com.tandilweb.orchestrator.serverRegisterConfiguration.corePoolSize}")
+	@Value("${act.orchestrator.corePoolSize}")
 	private int corePoolSize;
 	
-	@Value("${ar.com.tandilweb.orchestrator.serverRegisterConfiguration.maxPoolSize}")
+	@Value("${act.orchestrator.maxPoolSize}")
 	private int maxPoolSize;
 
 	@Bean(value = "taskExecutor")

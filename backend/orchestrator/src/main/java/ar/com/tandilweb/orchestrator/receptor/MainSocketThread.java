@@ -26,7 +26,7 @@ public class MainSocketThread implements Runnable, ApplicationListener<ContextRe
 	private Thread thread;
 	private volatile boolean stopRequest;
 
-	@Value("${ar.com.tandilweb.orchestrator.receptor.listenPort}")
+	@Value("${act.orchestrator.listenPort}")
 	private volatile int listenPort;
 
 	@Autowired

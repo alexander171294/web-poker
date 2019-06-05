@@ -29,22 +29,22 @@ export class LoginComponent implements OnInit {
   }
 
   signUp() {
-    if(this.signupNick.length<3 || this.signupNick.length>12) {
+    if (this.signupNick.length < 3 || this.signupNick.length > 12) {
       // TODO: show local error
       return;
     }
     // TODO: validate email.
-    if(this.signupPassword != this.signupPassword2) {
+    if (this.signupPassword !== this.signupPassword2) {
       // TODO: show local error
       return;
     }
-    if(!this.isSignup && !this.isSignin) {
+    if (!this.isSignup && !this.isSignin) {
       this.isSignup = true;
       const data = new SignupRequest();
       data.email = this.signupEmail;
       data.nick_name = this.signupNick;
       data.password = this.signupPassword;
-      // data.photo = 
+      // data.photo =
       this.publicSrv.signup(data).subscribe((response) => {
         this.isSignup = false;
         if (response.operationSuccess) {
@@ -57,12 +57,12 @@ export class LoginComponent implements OnInit {
       }, (err) => {
         console.log();
         // TODO: improve error and catch error codes.
-        if(err.status == 400 && err.error) {
+        if (err.status === 400 && err.error) {
           alert(err.error.errorDescription);
         } else {
           alert('Connection error.');
         }
-        
+
         this.isSignup = false;
       });
       // this.router.navigate(['/lobby']);
@@ -70,15 +70,15 @@ export class LoginComponent implements OnInit {
   }
 
   signIn() {
-    if(!this.isSignup && !this.isSignin) {
+    if (!this.isSignup && !this.isSignin) {
       this.isSignin = true;
       // TODO: validations
-      const data = new LoginRequest();
-      data.umail = this.loginEmail;
-      data.password = this.loginPassword;
-      this.publicSrv.login(data).subscribe((data) => {
+      const loginData = new LoginRequest();
+      loginData.umail = this.loginEmail;
+      loginData.password = this.loginPassword;
+      this.publicSrv.login(loginData).subscribe((data) => {
         console.log(data);
-        if(data.operationSuccess) {
+        if (data.operationSuccess) {
           this.session.setSessionInfo(data);
           this.router.navigate(['/lobby']);
         } else {
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
       }, (err) => {
         console.log();
         // TODO: improve error and catch error codes.
-        if(err.status == 400 && err.error) {
+        if (err.status === 400 && err.error) {
           alert(err.error.errorDescription);
         } else {
           alert('Connection error.');

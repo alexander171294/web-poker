@@ -1,5 +1,5 @@
 export class GeneralResponse {
     public operationSuccess: boolean;
-    public errorDescription: String;
+    public errorDescription: string;
     public errorCode: number;
 }

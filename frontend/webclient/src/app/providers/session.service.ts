@@ -10,7 +10,7 @@ export class SessionService {
 
   private sessionInfo: SessionInformation;
   private loginEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
-  private sessionActive: boolean = false; 
+  private sessionActive = false;
 
   constructor() { }
 

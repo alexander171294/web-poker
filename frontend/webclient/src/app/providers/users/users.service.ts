@@ -14,9 +14,9 @@ export class UsersService {
 
   constructor(private httpClient: HttpClient) { }
 
-  //httpPacker.getHttpOptionsJWT("loginJWTData")
+  // httpPacker.getHttpOptionsJWT("loginJWTData")
   public getProfile(id: number): Observable<UserProfile> {
-    const url = environment.apiServer+'users/profile/'+id;
+    const url = environment.apiServer + 'users/profile/' + id;
     return this.httpClient.get<UserProfile>(url, {headers: this.jwt.getHttpOptionsJWT(environment.sesStorageKey) });
   }
 

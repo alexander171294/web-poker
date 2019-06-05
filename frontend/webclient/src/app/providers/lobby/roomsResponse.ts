@@ -1,6 +1,6 @@
 import { GeneralResponse } from '../GeneralResponse';
 
-export class RoomsResponse extends GeneralResponse{
+export class RoomsResponse extends GeneralResponse {
     public rooms: RoomResponse[];
 }
 

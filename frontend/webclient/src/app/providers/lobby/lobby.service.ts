@@ -15,7 +15,7 @@ export class LobbyService {
   constructor(private httpClient: HttpClient) { }
 
   public getRooms(): Observable<RoomsResponse> {
-    const url = environment.apiServer+'lobby/rooms';
+    const url = environment.apiServer + 'lobby/rooms';
     return this.httpClient.get<RoomsResponse>(url, {headers: this.jwt.getHttpOptionsJWT(environment.sesStorageKey) });
   }
 }

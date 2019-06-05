@@ -1,25 +1,9 @@
 <main>
-  <header>
-    WEB POKER <span class="version">{{version}}</span>
-    <div class="rightArea">
-      <i class="fas fa-bell disabled" *ngIf="isLogged"></i>
-      <i class="fas fa-address-card disabled" *ngIf="isLogged"></i>
-      <i class="fas fa-question-circle" (click)="infoOpened = true"></i>
-      <button (click)="logout()" *ngIf="isLogged">Logout</button>
-    </div>
-  </header>
+  <app-box-header (info)="infoOpened = true" [isLogged]="isLogged"></app-box-header>
+  <!-- page content: -->
   <router-outlet></router-outlet>
+  <!-- end page content -->
+
 </main>
-<footer>
-  Yoy can download this project from <a href="https://github.com/alexander171294/web-poker" target="_blank">GitHub</a>
-</footer>
-<div class="popup" *ngIf="infoOpened">
-  <h3>WebPoker <i class="fas fa-times" (click)="infoOpened = false"></i></h3>
-  <div>
-    <div class="row"><label>Implementation version:</label> <span>{{version}}</span></div>
-    <div class="row"><label>Author:</label> <span>Alexander Eberle < alexander171294@gmail.com ></span></div>
-    <div class="row"><label>Github:</label> <span>https://github.com/alexander171294/web-poker</span></div>
-    <div class="row"><label>Protocol:</label> <span><a href="https://docs.google.com/document/d/1gBXpZ4h8RLj_pJVv9hG6ApM5y0AJc0k10xR1c9yYKWg/edit" target="_blank">EPPR/SN</a></span></div>
-    <div class="row"><label>Protocol version:</label> <span>Prototype-01 Rev:1 CIIR:0</span></div>
-  </div>
-</div>
+<app-box-footer></app-box-footer>
+<app-box-popup *ngIf="infoOpened" (close)="infoOpened = false"></app-box-popup>

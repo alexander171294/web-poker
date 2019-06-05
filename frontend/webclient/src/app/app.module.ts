@@ -9,6 +9,10 @@ import { LoginComponent } from './login/login.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { ProfileSectionComponent } from './lobby/profile-section/profile-section.component';
 import { BodyComponent } from './lobby/body/body.component';
+import { RoomComponent } from './room/room/room.component';
+import { HeaderComponent } from './utils/box/header/header.component';
+import { FooterComponent } from './utils/box/footer/footer.component';
+import { PopupComponent } from './utils/box/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,11 @@ import { BodyComponent } from './lobby/body/body.component';
     LoginComponent,
     LobbyComponent,
     ProfileSectionComponent,
-    BodyComponent
+    BodyComponent,
+    RoomComponent,
+    HeaderComponent,
+    FooterComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,

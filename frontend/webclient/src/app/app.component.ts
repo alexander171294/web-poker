@@ -5,13 +5,13 @@ import { SessionService } from './providers/session.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss', './utils/box/main.box.scss']
 })
 export class AppComponent {
 
   title = 'webclient';
   version = environment.version;
-  infoOpened: boolean = false;
+  infoOpened = false;
   isLogged: boolean;
 
   constructor(private sessionSrv: SessionService) {

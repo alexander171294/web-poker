@@ -8,7 +8,7 @@ import { SessionService } from '../providers/session.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss', '../utils/box/main.box.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -23,7 +23,18 @@ export class LoginComponent implements OnInit {
   isSignup: boolean; // loading...
   isSignin: boolean; // loading...
 
-  constructor(private router: Router, private publicSrv: PublicService, private session: SessionService) { }
+  infoOpened = false;
+  isLogged: boolean;
+
+  constructor(
+    private router: Router,
+    private publicSrv: PublicService,
+    private session: SessionService,
+    private sessionSrv: SessionService) {
+    sessionSrv.getLoginEvent().subscribe(logged => {
+      this.isLogged = logged;
+    });
+  }
 
   ngOnInit() {
   }

@@ -24,10 +24,10 @@ export class SessionService {
     sessionData.notBefore = (fechaActual.getTime() / 1000) - 30; // 30 seconds before now.
     sessionData.Secret = data.jwtPasspharse;
     sessionData.Subject = data.sessionID.toString();
-    let min = 100000;
-    let max = 999999;
-    sessionData.TrackingId =  Math.floor(Math.random() * (max - min + 1)) + min;  
-    let fechaExpiracion = new Date();
+    const min = 100000;
+    const max = 999999;
+    sessionData.TrackingId =  Math.floor(Math.random() * (max - min + 1)) + min;
+    const fechaExpiracion = new Date();
     sessionData.Expiration = Math.floor(
       (fechaExpiracion.getTime() + 1 * 60 * 60 * 1000) / 1000
     );

@@ -13,6 +13,7 @@ import { RoomComponent } from './room/room/room.component';
 import { HeaderComponent } from './utils/box/header/header.component';
 import { FooterComponent } from './utils/box/footer/footer.component';
 import { PopupComponent } from './utils/box/popup/popup.component';
+import { PokerComponent } from './room/tables/poker/poker.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PopupComponent } from './utils/box/popup/popup.component';
     RoomComponent,
     HeaderComponent,
     FooterComponent,
-    PopupComponent
+    PopupComponent,
+    PokerComponent
   ],
   imports: [
     BrowserModule,

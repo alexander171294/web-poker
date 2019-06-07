@@ -13,6 +13,11 @@
         border-radius: 250px;
         background: linear-gradient(45deg, #255460, #0f2b34);
         box-shadow: 0px 0px 0px 1px #00000045;
+        position: relative;
+        app-room-vcard {
+            position: absolute;
+            z-index: 1;
+        }
         .borderIn {
             width: 94%;
             height: 91%;

@@ -15,6 +15,7 @@ import { FooterComponent } from './utils/box/footer/footer.component';
 import { PopupComponent } from './utils/box/popup/popup.component';
 import { PokerComponent } from './room/tables/poker/poker.component';
 import { VcardComponent } from './room/vcard/vcard.component';
+import { ChatBoxComponent } from './room/chat-box/chat-box.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { VcardComponent } from './room/vcard/vcard.component';
     FooterComponent,
     PopupComponent,
     PokerComponent,
-    VcardComponent
+    VcardComponent,
+    ChatBoxComponent
   ],
   imports: [
     BrowserModule,

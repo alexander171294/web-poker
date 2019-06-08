@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatBoxComponent implements OnInit {
 
+  opened: boolean;
+
   constructor() { }
 
   ngOnInit() {
+    this.opened = false;
   }
 
 }

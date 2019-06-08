@@ -16,6 +16,7 @@ import { PopupComponent } from './utils/box/popup/popup.component';
 import { PokerComponent } from './room/tables/poker/poker.component';
 import { VcardComponent } from './room/vcard/vcard.component';
 import { ChatBoxComponent } from './room/chat-box/chat-box.component';
+import { ActionBoxComponent } from './room/action-box/action-box.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ChatBoxComponent } from './room/chat-box/chat-box.component';
     PopupComponent,
     PokerComponent,
     VcardComponent,
-    ChatBoxComponent
+    ChatBoxComponent,
+    ActionBoxComponent
   ],
   imports: [
     BrowserModule,

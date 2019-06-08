@@ -24,6 +24,24 @@ Additionally, sorry for my bad english, I speak spanish and learn english only r
 
 ![login](https://i.imgur.com/qaK4Nkv.png)
 
+### Table room
+
+![table](https://i.imgur.com/YGr6v5Z.png)
+
+### Chips
+
+Full Size:
+
+![fullSize](https://i.imgur.com/TFwcrKS.png)
+
+Scaled:
+
+![scaled](https://i.imgur.com/GLlGMiN.png)
+
+### Cards
+
+W.I.P.
+
 # Roadmap
 
 ## Short term

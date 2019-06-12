@@ -7,6 +7,10 @@
     font-family: 'Keepcalm';
     src: url(assets/fonts/keepcalm.ttf);
 }
+@font-face {
+    src: url(assets/fonts/chloe.ttf);
+    font-family: 'Chloe';
+}
 html, body {
     height: 100%;
     margin: 0px;
@@ -19,4 +23,10 @@ body {
     align-items: center;
     justify-content: center;
     font-family: helvetica;
+}
+.stack .chip{
+    display: block!important;
+    margin-bottom: -156px;
+    box-shadow: 0px 0px 2px 4px black;
+    z-index: 1;
 }

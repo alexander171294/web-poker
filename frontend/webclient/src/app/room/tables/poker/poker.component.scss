@@ -14,6 +14,108 @@
         background: linear-gradient(45deg, #255460, #0f2b34);
         box-shadow: 0px 0px 0px 1px #00000045;
         position: relative;
+        .zone {
+            position: absolute;
+            width: 100px;
+            height: 55px;
+            background: transparent;
+            z-index: 1;
+            transform: scale(0.25);
+            &:hover {
+                transform: scale(1);   
+            }
+            &.a {
+                top: 50px;
+                left: 165px;
+            }
+            &.b {
+                top: 50px;
+                left: 350px;
+            }
+            &.c {
+                top: 55px;
+                left: 540px;
+            }
+            &.d {
+                top: 130px;
+                left: 660px;
+                transform: rotate(90deg), scale(0.25);
+                &:hover {
+                    transform: rotate(90deg), scale(1);
+                }
+            }
+            &.e {
+                top: 240px;
+                left: 650px;
+                transform: rotate(90deg), scale(0.25);
+                &:hover {
+                    transform: rotate(90deg), scale(1);
+                }
+                &.value{
+                    padding-top: 5px;
+                }
+            }
+            &.f {
+                top: 320px;
+                left: 540px;
+                transform: rotate(180deg), scale(0.25);
+                &:hover {
+                    transform: rotate(180deg), scale(1);
+                }
+                &.value{
+                    padding-top: 5px;
+                }
+            }
+            &.g {
+                top: 320px;
+                left: 350px;
+                transform: rotate(180deg), scale(0.25);
+                &:hover {
+                    transform: rotate(180deg), scale(1);
+                }
+                &.value{
+                    padding-top: 5px;
+                }
+            }
+            &.h {
+                top: 320px;
+                left: 165px;
+                transform: rotate(180deg), scale(0.25);
+                &:hover {
+                    transform: rotate(180deg), scale(1);
+                }
+                &.value{
+                    padding-top: 5px;
+                }
+            }
+            &.i {
+                top: 260px;
+                left: 45px;
+                transform: rotate(-90deg), scale(0.25);
+                &:hover {
+                    transform: rotate(-90deg), scale(1);
+                }
+                &.value{
+                    padding-top: 5px;
+                }
+            }
+            &.j {
+                top: 130px;
+                left: 45px;
+                transform: rotate(-90deg), scale(0.25);
+                &:hover {
+                    transform: rotate(-90deg), scale(1);
+                }
+            }
+            &.value{
+                padding-top: 66px;
+                padding-left: 5px;
+                transform: scale(1);
+                text-align: center;
+                color: #fde9ba;
+                text-shadow: 1px 1px 0px black;
+            }
+        }
         app-room-vcard {
             position: absolute;
             z-index: 1;

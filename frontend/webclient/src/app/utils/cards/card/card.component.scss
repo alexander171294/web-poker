@@ -1,3 +1,7 @@
+.presentationRow {
+  margin: 15px;
+  width: 500%;
+}
 .card {
   width: 200px;
   height: 300px;
@@ -26,12 +30,12 @@
 .card .back .container01:after {
   content: '';
   display: block;
-  width: 180px;
+  width: 182px;
   height: 320px;
   background: linear-gradient(-45deg, #00000096, transparent);
   position: absolute;
-  top: -7px;
-  transform: rotate(45deg);
+  top: -2px;
+  transform: rotate(43.5deg);
 }
 .card .back .container01:before {
   content: '';
@@ -40,21 +44,21 @@
   height: 320px;
   background: linear-gradient(45deg, #9c4242b3, transparent);
   position: absolute;
-  top: -7px;
-  transform: rotate(-45deg);
+  top: -13px;
+  transform: rotate(-43.5deg);
 }
 .card .back .row {
-  width: 200;
+  width: 200px;
   margin-left: -10px;
   text-align: center;
 }
 .card .back .circle {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background:#671515;
   border-radius: 20px;
   display: inline-block;
-  margin: -2px;
+  margin: -2px -1px;
 }
 .container02 {
   position: absolute;

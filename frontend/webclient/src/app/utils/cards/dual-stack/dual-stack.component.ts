@@ -8,7 +8,7 @@ import { Card } from './Card';
 })
 export class DualStackComponent implements OnInit {
 
-  @Input() upsideDown: boolean;
+  @Input() upsidedown: boolean;
   @Input() cards: Card[];
 
   constructor() { }

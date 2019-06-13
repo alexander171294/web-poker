@@ -19,6 +19,9 @@ import { ChatBoxComponent } from './room/chat-box/chat-box.component';
 import { ActionBoxComponent } from './room/action-box/action-box.component';
 import { ChipsComponent } from './utils/chips/chips/chips.component';
 import { StackerComponent } from './utils/chips/stacker/stacker.component';
+import { CardComponent } from './utils/cards/card/card.component';
+import { MazoComponent } from './utils/cards/mazo/mazo.component';
+import { DualStackComponent } from './utils/cards/dual-stack/dual-stack.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { StackerComponent } from './utils/chips/stacker/stacker.component';
     ChatBoxComponent,
     ActionBoxComponent,
     ChipsComponent,
-    StackerComponent
+    StackerComponent,
+    CardComponent,
+    MazoComponent,
+    DualStackComponent
   ],
   imports: [
     BrowserModule,

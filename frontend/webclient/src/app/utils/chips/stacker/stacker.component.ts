@@ -22,6 +22,7 @@ export class StackerComponent implements OnInit, OnChanges {
 
   recalcChips() {
     this.chipsStacked = [];
+    const chipsToStack = [];
     /*
       values:
       10
@@ -47,7 +48,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (M5 >= 1) {
       const cant = Math.floor(M5);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('5M');
+        chipsToStack.unshift('5M');
       }
       fichas = fichas % 5000000;
     }
@@ -65,7 +66,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (M1 >= 1) {
       const cant = Math.floor(M1);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('1M');
+        chipsToStack.unshift('1M');
       }
       fichas = fichas % 1000000;
     }
@@ -74,7 +75,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K500 >= 1) {
       const cant = Math.floor(K500);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('500K');
+        chipsToStack.unshift('500K');
       }
       fichas = fichas % 500000;
     }
@@ -83,7 +84,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K250 >= 1) {
       const cant = Math.floor(K250);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('250K');
+        chipsToStack.unshift('250K');
       }
       fichas = fichas % 250000;
     }
@@ -92,7 +93,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K100 >= 1) {
       const cant = Math.floor(K100);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('100K');
+        chipsToStack.unshift('100K');
       }
       fichas = fichas % 100000;
     }
@@ -101,7 +102,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K50 >= 1) {
       const cant = Math.floor(K50);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('50K');
+        chipsToStack.unshift('50K');
       }
       fichas = fichas % 50000;
     }
@@ -110,7 +111,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K25 >= 1) {
       const cant = Math.floor(K25);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('25K');
+        chipsToStack.unshift('25K');
       }
       fichas = fichas % 25000;
     }
@@ -119,7 +120,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K10 >= 1) {
       const cant = Math.floor(K10);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('10K');
+        chipsToStack.unshift('10K');
       }
       fichas = fichas % 10000;
     }
@@ -128,7 +129,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K5 >= 1) {
       const cant = Math.floor(K5);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('5K');
+        chipsToStack.unshift('5K');
       }
       fichas = fichas % 5000;
     }
@@ -137,7 +138,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K2 >= 1) {
       const cant = Math.floor(K2);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('2K');
+        chipsToStack.unshift('2K');
       }
       fichas = fichas % 2000;
     }
@@ -146,7 +147,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (K1 >= 1) {
       const cant = Math.floor(K1);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('1K');
+        chipsToStack.unshift('1K');
       }
       fichas = fichas % 1000;
     }
@@ -155,7 +156,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v500 >= 1) {
       const cant = Math.floor(v500);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('500');
+        chipsToStack.unshift('500');
       }
       fichas = fichas % 500;
     }
@@ -164,7 +165,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v250 >= 1) {
       const cant = Math.floor(v250);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('250');
+        chipsToStack.unshift('250');
       }
       fichas = fichas % 250;
     }
@@ -173,7 +174,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v100 >= 1) {
       const cant = Math.floor(v100);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('100');
+        chipsToStack.unshift('100');
       }
       fichas = fichas % 100;
     }
@@ -182,7 +183,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v50 >= 1) {
       const cant = Math.floor(v50);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('50');
+        chipsToStack.unshift('50');
       }
       fichas = fichas % 50;
     }
@@ -191,7 +192,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v25 >= 1) {
       const cant = Math.floor(v25);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('25');
+        chipsToStack.unshift('25');
       }
       fichas = fichas % 25;
     }
@@ -200,7 +201,7 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v10 >= 1) {
       const cant = Math.floor(v10);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('10');
+        chipsToStack.unshift('10');
       }
       fichas = fichas % 10;
     }
@@ -209,9 +210,11 @@ export class StackerComponent implements OnInit, OnChanges {
     if (v1 >= 1) {
       const cant = Math.floor(v1);
       for (let i = 0; i < cant; i++) {
-        this.chipsStacked.unshift('1');
+        chipsToStack.unshift('1');
       }
     }
+    console.log('Real stacked chips', chipsToStack);
+    this.chipsStacked = chipsToStack.slice(chipsToStack.length - 25, chipsToStack.length);
   }
 
 }

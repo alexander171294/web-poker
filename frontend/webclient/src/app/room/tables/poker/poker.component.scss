@@ -22,7 +22,7 @@
             z-index: 1;
             transform: scale(0.25);
             &:hover {
-                transform: scale(1);   
+                transform: scale(0.85);
             }
             &.a {
                 top: 50px;
@@ -41,7 +41,14 @@
                 left: 660px;
                 transform: rotate(90deg), scale(0.25);
                 &:hover {
-                    transform: rotate(90deg), scale(1);
+                  transform: rotate(90deg), scale(0.85);
+                }
+                &.value{
+                  padding: 0px;
+                  right: 5px;
+                  left: 590px;
+                  top: 165px;
+                  text-align: right;
                 }
             }
             &.e {
@@ -49,10 +56,14 @@
                 left: 650px;
                 transform: rotate(90deg), scale(0.25);
                 &:hover {
-                    transform: rotate(90deg), scale(1);
+                  transform: rotate(90deg), scale(0.85);
                 }
                 &.value{
-                    padding-top: 5px;
+                  padding: 0px;
+                  right: 5px;
+                  top: 274px;
+                  left: 583px;
+                  text-align: right;
                 }
             }
             &.f {
@@ -60,10 +71,7 @@
                 left: 540px;
                 transform: rotate(180deg), scale(0.25);
                 &:hover {
-                    transform: rotate(180deg), scale(1);
-                }
-                &.value{
-                    padding-top: 5px;
+                  transform: rotate(180deg), scale(0.85);
                 }
             }
             &.g {
@@ -71,10 +79,7 @@
                 left: 350px;
                 transform: rotate(180deg), scale(0.25);
                 &:hover {
-                    transform: rotate(180deg), scale(1);
-                }
-                &.value{
-                    padding-top: 5px;
+                  transform: rotate(180deg), scale(0.85);
                 }
             }
             &.h {
@@ -82,10 +87,7 @@
                 left: 165px;
                 transform: rotate(180deg), scale(0.25);
                 &:hover {
-                    transform: rotate(180deg), scale(1);
-                }
-                &.value{
-                    padding-top: 5px;
+                  transform: rotate(180deg), scale(0.85);
                 }
             }
             &.i {
@@ -93,10 +95,7 @@
                 left: 45px;
                 transform: rotate(-90deg), scale(0.25);
                 &:hover {
-                    transform: rotate(-90deg), scale(1);
-                }
-                &.value{
-                    padding-top: 5px;
+                  transform: rotate(-90deg), scale(0.85);
                 }
             }
             &.j {
@@ -104,14 +103,13 @@
                 left: 45px;
                 transform: rotate(-90deg), scale(0.25);
                 &:hover {
-                    transform: rotate(-90deg), scale(1);
+                  transform: rotate(-90deg), scale(0.85);
                 }
             }
             &.value{
-                padding-top: 66px;
-                padding-left: 5px;
+                padding-top: 34px;
+                padding-left: 80px;
                 transform: scale(1);
-                text-align: center;
                 color: #fde9ba;
                 text-shadow: 1px 1px 0px black;
             }

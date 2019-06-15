@@ -1,0 +1,38 @@
+<section class="body">
+  <div class="leftColumn">
+    <nav>
+      <ul class="gameProto">
+        <li>Texas Holdem's</li>
+        <li>Texas Tournament</li>
+        <li>Black Jack</li>
+      </ul>
+      <i class="fas fa-sync" (click)="updateRooms()"></i>
+    </nav>
+    <div class="tableContainer">
+      <table>
+        <thead>
+          <td>Room Name</td>
+          <td>Description</td>
+          <td>Players</td>
+          <td>Deposit</td>
+        </thead>
+        <tbody>
+          <tr *ngFor="let room of rooms">
+            <td>{{room.name}}</td>
+            <td>{{room.description}}</td>
+            <td>?/{{room.max_players}}</td>
+            <td>{{room.minCoinForAccess}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="rightColumn">
+    <div class="friends">
+      <!-- <h3>Friends</h3>
+      <ul>
+        <li></li>
+      </ul> -->
+    </div>
+  </div>
+</section>

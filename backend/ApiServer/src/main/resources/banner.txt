@@ -1,0 +1,19 @@
+  ___        _   _____                          
+ / _ \      (_) /  ___|                         
+/ /_\ \_ __  _  \ `--.  ___ _ ____   _____ _ __ 
+|  _  | '_ \| |  `--. \/ _ \ '__\ \ / / _ \ '__|
+| | | | |_) | | /\__/ /  __/ |   \ V /  __/ |   
+\_| |_/ .__/|_| \____/ \___|_|    \_/ \___|_|   
+      | |                                       
+      |_|                                       
+ ==========================================================
+ :: Poker Network ::                (EPPR/SN Protocol Based)
+  
+ {+} Author: Alexander Eberle <alexander171294@gmail.com>
+ {+} Repository: https://github.com/alexander171294/web-poker
+ {+} Protocol RFC: https://docs.google.com/document/d/1gBXpZ4h8RLj_pJVv9hG6ApM5y0AJc0k10xR1c9yYKWg/edit
+ {+} Wiki: https://github.com/alexander171294/web-poker/wiki
+  
+ LOG:
+-------------------------------------------------------------
+ 

@@ -1,0 +1,87 @@
+section.body {
+    margin: 0px 10px 10px 10px;
+    height: calc(100% - 205px);
+    border-radius: 0px 0px 10px 10px;
+    overflow: hidden;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+    .leftColumn {
+        float: left;
+        vertical-align: top;
+        width: 65%;
+        background: linear-gradient(45deg, #2f615d, #4cac98);
+        height: 100%;
+        nav {
+            position: relative;
+            ul {
+                margin: 0px;
+                list-style: none;
+                padding: 10px;
+                background: linear-gradient(90deg, #175846, #2c8073);
+                color: rgba(255, 255, 255, 0.65);
+                li {
+                    display: inline-block;
+                    padding: 5px 10px;
+                    border: 1px solid #5e9284;
+                    border-left: 0px;
+                    cursor: pointer;
+                    &:first-child {
+                        border-left: 1px solid #5e9284;
+                        border-radius: 3px 0px 0px 3px;
+                    }
+                    &:last-child {
+                        border-radius: 0px 3px 3px 0px;
+                    }
+                    &:hover {
+                        color: wheat;
+                    }
+                }
+            }
+            i {
+                position: absolute;
+                right: 10px;
+                top: 18px;
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.60);
+                cursor: pointer;
+            }
+        }
+        .tableContainer {
+            height: calc(100% - 50px);
+            overflow-y: auto;
+            padding: 6px;
+            table {
+                width: 100%;
+                thead{
+                    td{
+                        border-bottom: 1px solid #24614a;
+                        color: #79cead;
+                        background: rgba(0, 0, 0, 0.15);
+                        padding-left: 5px;
+                    }
+                }
+                tbody {
+                    tr { 
+                        td {
+                            color: rgba(255, 255, 255, 0.85);
+                            text-shadow: 0px 1px #4c4c4c;
+                            padding: 5px 0px;
+                            cursor: pointer;
+                            padding-left: 5px;
+                        }
+                        &:hover {
+                            td {
+                                background: rgba(255, 255, 255, 0.20);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .rightColumn {
+        float: right;
+        width: 35%;
+        background: linear-gradient(#2e8979, #1f7072);
+        height: 100%;
+    }
+}

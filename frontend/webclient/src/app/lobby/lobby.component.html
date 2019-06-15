@@ -1,0 +1,12 @@
+<main>
+    <app-box-header (info)="infoOpened = true" [isLogged]="isLogged"></app-box-header>
+    <!-- page content: -->
+    <app-profile-section></app-profile-section>
+    <app-body></app-body>
+    <section class="footer">
+
+    </section>
+    <!-- end page content -->
+</main>
+<app-box-footer></app-box-footer>
+<app-box-popup *ngIf="infoOpened" (close)="infoOpened = false"></app-box-popup>

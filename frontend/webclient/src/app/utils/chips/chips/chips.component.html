@@ -1,0 +1,41 @@
+<div class="chip"
+  [class.one]="valor=='1'"
+  [class.gray]="valor=='10'"
+  [class.orange]="valor=='25'"
+  [class.blue]="valor=='100'"
+  [class.green]="valor=='250'"
+  [class.purple]="valor=='500'"
+  [class.yellow]="valor=='1k'"
+  [class.pink]="valor=='2K'"
+  [class.brown]="valor=='5K'"
+  [class.K10]="valor=='10K'"
+  [class.K25]="valor=='25k'"
+  [class.K50]="valor=='50k'"
+  [class.k100]="valor=='100k'"
+  [class.k250]="valor=='250k'"
+  [class.K500]="valor=='500k'"
+  [class.M1]="valor=='1M'"
+  [class.M5]="valor=='5M'"
+  [class.M10]="valor=='10M'"
+>
+  <div class="whiteBand"></div>
+  <div class="whiteBand b"></div>
+  <div class="whiteBand c"></div>
+  <div class="internalBand">
+      <div class="curved topText">
+          <span>W</span><span>E</span><span>B</span><span>P</span><span>O</span><span>K</span><span>E</span><span>R</span>
+      </div>
+      <div class="internalCircle">
+          <div class="subCircle">
+              <div class="finalCircle">
+                  <div class="topIcons"></div>
+                  <div class="value">{{valor}}</div>
+                  <div class="botIcons"></div>
+              </div>
+          </div>
+      </div>
+      <div class="curved botText">
+          <span>W</span><span>E</span><span>B</span><span>P</span><span>O</span><span>K</span><span>E</span><span>R</span>
+      </div>
+  </div>
+</div>

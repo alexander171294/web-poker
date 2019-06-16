@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-mazo',
+  selector: 'app-deck',
   templateUrl: './mazo.component.html',
   styleUrls: ['./mazo.component.scss']
 })

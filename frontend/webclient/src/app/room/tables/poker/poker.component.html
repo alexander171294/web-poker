@@ -1,4 +1,4 @@
-<!-- <app-dual-stack [upsidedown]="true" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></!--> -->
+<!-- </!-->
 
 <div class="borderOut">
   <div class="restFrame">
@@ -9,6 +9,9 @@
     </div>
     <div class="zone a">
       <app-stacker valor="1"></app-stacker>
+    </div>
+    <div class="cardStack a">
+      <app-dual-stack [upsidedown]="true" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
     </div>
 
 
@@ -23,7 +26,9 @@
     <div class="zone b">
       <app-stacker valor="568"></app-stacker>
     </div>
-
+    <div class="cardStack b">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: -48px;left: 570px;"
       image="https://www.google.com/s2/u/0/photos/public/AIbEiAIAAABECL_Ghp-b5dWTvQEiC3ZjYXJkX3Bob3RvKigzY2M2YWI1ZjgwMTI0NWI3NTdiMGM3Nzg0NTg2NmU1NDQwZjY1YjZmMAEKH2W8-j10E2_HwiZli252CzSxtA?sz=48"
@@ -37,7 +42,9 @@
     <div class="zone c">
       <app-stacker valor="25"></app-stacker>
     </div>
-
+    <div class="cardStack c">
+      <app-dual-stack [upsidedown]="true" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: 80px;left: 740px;"></app-room-vcard>
     <div class="zone d value">
@@ -46,7 +53,9 @@
     <div class="zone d">
       <app-stacker valor="50"></app-stacker>
     </div>
-
+    <div class="cardStack d">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: 284px;left: 740px;"></app-room-vcard>
     <div class="zone e value">
@@ -55,7 +64,9 @@
     <div class="zone e">
       <app-stacker valor="100"></app-stacker>
     </div>
-
+    <div class="cardStack e">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 9},{palo: 3, valor: 12}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: 413px;left: 570px;"
       image="https://www.google.com/s2/u/0/photos/public/AIbEiAIAAABECL_Ghp-b5dWTvQEiC3ZjYXJkX3Bob3RvKigzY2M2YWI1ZjgwMTI0NWI3NTdiMGM3Nzg0NTg2NmU1NDQwZjY1YjZmMAEKH2W8-j10E2_HwiZli252CzSxtA?sz=48"
@@ -68,7 +79,9 @@
     <div class="zone f">
       <app-stacker valor="175"></app-stacker>
     </div>
-
+    <div class="cardStack f">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard
       style="top: 416px;left: 360px;"
@@ -79,7 +92,9 @@
     <div class="zone g">
       <app-stacker valor="15"></app-stacker>
     </div>
-
+    <div class="cardStack g">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: 413px;left: 150px;"></app-room-vcard>
     <div class="zone h value">
@@ -88,7 +103,9 @@
     <div class="zone h">
       <app-stacker valor="250"></app-stacker>
     </div>
-
+    <div class="cardStack h">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: 284px;left: -25px;"></app-room-vcard>
     <div class="zone i value">
@@ -97,7 +114,9 @@
     <div class="zone i">
       <app-stacker valor="500"></app-stacker>
     </div>
-
+    <div class="cardStack i">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 13},{palo: 2, valor: 8}]"></app-dual-stack>
+    </div>
 
     <app-room-vcard style="top: 80px;left: -24px;"></app-room-vcard>
     <div class="zone j value">
@@ -105,6 +124,9 @@
     </div>
     <div class="zone j ">
       <app-stacker valor="10500"></app-stacker>
+    </div>
+    <div class="cardStack j">
+      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 2},{palo: 0, valor: 7}]"></app-dual-stack>
     </div>
 
     <!-- <app-room-vcard style="top: -50px;left: 150px;"></app-room-vcard>
@@ -117,6 +139,22 @@
             <div class="bigLine">
               <div class="waterMark">
                 WebPoker
+              </div>
+              <div class="cardsZone">
+                <div class="cards">
+                  <app-card [upsidedown]="false" [palo]="1" [valor]="14"></app-card>
+                  <app-card [upsidedown]="false" [palo]="2" [valor]="11"></app-card>
+                  <app-card [upsidedown]="false" [palo]="3" [valor]="3"></app-card>
+                  <app-card [upsidedown]="true" [palo]="3" [valor]="3"></app-card>
+                  <app-card [upsidedown]="true" [palo]="3" [valor]="3"></app-card>
+                </div>
+                <label class="pot">Pot: 3800</label>
+                <div class="potChips">
+                  <app-stacker valor="3800"></app-stacker>
+                </div>
+                <div class="deck">
+                  <app-deck></app-deck>
+                </div>
               </div>
             </div>
           </div>

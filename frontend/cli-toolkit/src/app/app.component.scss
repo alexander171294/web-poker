@@ -1,0 +1,58 @@
+.box {
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 25px;
+  border: 1px solid #f3f3f3;
+  padding: 5px;
+  border-radius: 3px;
+  background: linear-gradient(#f3f3f4, #c2c6c9, #f3f3f3);
+  .botonera {
+    margin: 0px 0px 5px 0px;
+    button {
+      border: none;
+      background: gray;
+      border-radius: 3px;
+      color: white;
+      padding: 5px;
+      margin-right: 5px;
+    }
+  }
+  .events {
+    height: 400px;
+    font-family: monospace;
+    padding: 5px;
+    background: #464646;
+    color: lightblue;
+    overflow: auto;
+    ul {
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
+    }
+  }
+  .prompt {
+    position: relative;
+    border-top: 1px solid #e6e7e8;
+    input {
+      width: calc(100% - 35px);
+      font-size: 13px;
+      height: 20px;
+      padding: 5px;
+      font-family: monospace;
+      background: #464646;
+      border: none;
+      color: lightgreen;
+      padding-left: 30px;
+    }
+    &:before {
+      content: "{}:";
+      position: absolute;
+      font-family: monospace;
+      font-size: 13px;
+      color: lightgreen;
+      top: 8px;
+      left: 5px;
+    }
+  }
+}
+

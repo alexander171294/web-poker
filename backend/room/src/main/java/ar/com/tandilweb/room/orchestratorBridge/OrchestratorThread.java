@@ -1,6 +1,7 @@
 package ar.com.tandilweb.room.orchestratorBridge;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -40,20 +41,17 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	@Value("${act.room.orchestrator.remoteAddr}")
 	private volatile String remoteAddr;
 	
-//	@Autowired
-//	private TaskScheduler taskScheduler;
-	
 	BufferedReader socketBufferReader;
 	private PrintWriter socketBufferOutput;
-	
-//	@Autowired
-//	private ApplicationContext context;
 	
 	private Socket socket;
 	private boolean scanning;
 	
 	@Autowired
 	private EpprRoomAuth roomAuthProto;
+	
+	@Value("${act.room.cfgFileSave}")
+	private String cfgFileSave;
 	
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -89,13 +87,24 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	private void main() throws IOException {
 		scanning = true;
-		Handshake hs = roomAuthProto.getHandshakeSchema();
+		File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
+		Handshake hs;
+		if(configuration.exists()) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			hs = objectMapper.readValue(configuration, Handshake.class);
+		} else {
+			hs = roomAuthProto.getHandshakeSchema();
+		}
 		ObjectMapper om = new ObjectMapper();
 		sendDataToServer(om.writeValueAsString(hs));
+		String message;
 		do {
-			String message = socketBufferReader.readLine();
-			processIncommingMessage(message);
-		} while(scanning);
+			message = socketBufferReader.readLine();
+			if(message != null) {
+				processIncommingMessage(message);	
+			}
+		} while(scanning && message != null);
+		logger.debug("Finish thread by: " + (message == null ? "Null message received (connection lost?)" : "scanning off"));
 	}
 	
 	private void createSocketConneciton() throws UnknownHostException, IOException {
@@ -154,20 +163,26 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		sendDataToServer(om.writeValueAsString(signupData));
 	}
 	
-	// TODO: finish this and persist ID for next handshake
 	private void processSignupResponseSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper om = new ObjectMapper();
-		SignupResponse signupResponse = om.readValue(schemaBody, SignupResponse.class);
-		logger.debug("Processing processSignupResponseSchema. New server ID:" + signupResponse.serverID);
-		// signupResponse.serverID;
+		ObjectMapper objectMapper = new ObjectMapper();
+		SignupResponse signupResponse = objectMapper.readValue(schemaBody, SignupResponse.class);
+		Handshake handshake = roomAuthProto.getHandshakeSchema();
+		handshake.serverID = signupResponse.serverID;
+		handshake.securityToken = signupResponse.securityToken;
+		objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
+		logger.debug("Processed processSignupResponseSchema. New server ID:" + signupResponse.serverID);
 	}
 	
 	// FIXME: validate retry times
 	private void processRetrySchema(String schemaBody) throws JsonProcessingException {
 		logger.debug("Processing processRetrySchema.");
-		Handshake hs = roomAuthProto.getHandshakeSchema();
-		ObjectMapper om = new ObjectMapper();
-		sendDataToServer(om.writeValueAsString(hs));
+		try {
+			Handshake hs = roomAuthProto.getHandshakeSchema();
+			ObjectMapper om = new ObjectMapper();
+			sendDataToServer(om.writeValueAsString(hs));
+		} catch (IOException e) {
+			logger.error("I/O Exception (processRetrySchema): ", e);
+		}
 	}
 	
 	private void processRejectedSchema(String schemaBody) {
@@ -182,20 +197,36 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 //		((ConfigurableApplicationContext) context).close();
 	}
 	
-	// TODO: finish this and persist token for next handshake
+	// TODO: finish this
 	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper om = new ObjectMapper();
 		TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
-		logger.debug("Processing processTokenUpdate. new token ["+signupResponse.securityToken+"]");
-		// signupResponse.securityToken;
+		File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
+		if(configuration.exists()) {
+			logger.debug("Processing processTokenUpdate. new token ["+signupResponse.securityToken+"]");
+			ObjectMapper objectMapper = new ObjectMapper();
+			Handshake handshake = objectMapper.readValue(configuration, Handshake.class);
+			handshake.securityToken = signupResponse.securityToken;
+			objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
+		} else {
+			logger.error("Configuration file isn't exists and cant be updated with new token: " + signupResponse.securityToken);
+		}
 	}
 	
-	// FIXME: add sleep time.
 	private void processBusySchema(String schemaBody) throws JsonProcessingException {
 		logger.debug("Processing processBusySchema.");
-		Handshake hs = roomAuthProto.getHandshakeSchema();
-		ObjectMapper om = new ObjectMapper();
-		sendDataToServer(om.writeValueAsString(hs));
+		try {
+			Handshake hs = roomAuthProto.getHandshakeSchema();
+			ObjectMapper om = new ObjectMapper();
+			logger.info("Waiting for...");
+			Thread.sleep(3500); // TODO: param this 3500 sleep time.
+			logger.info("Retrying");
+			sendDataToServer(om.writeValueAsString(hs));
+		} catch (IOException e) {
+			logger.error("I/O Exception in process busy schema: ", e);
+		} catch (InterruptedException e) {
+			logger.error("Interrupted Exception in process busy schema:", e);
+		}
 	}
 
 }

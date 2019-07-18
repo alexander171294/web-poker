@@ -1,5 +1,6 @@
 package ar.com.tandilweb.room.protocols;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -7,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.exchange.roomAuth.SignupData;
@@ -40,17 +44,15 @@ public class EpprRoomAuth {
 	@Value("${act.room.RoomAuth.serverPublicIP}")
 	private String serverPublicIP;
 	
-	// TODO: finish logic of this (see eppr/room-auth::handshake) 
 	public Handshake getHandshakeSchema() {
 		Handshake handshake = new Handshake();
 		handshake.name = name;
-		//handshake.serverID = 0;
 		handshake.accessPassword = accessPassword;
 		handshake.securityToken = securityToken;
-		handshake.gproto = "eppr/game-proto#texasholdem";
 		handshake.maxPlayers = maxPlayers;
 		handshake.description = description;
 		handshake.minCoinsForAccess = minCoinsForAccess;
+		handshake.gproto = "eppr/game-proto#texasholdem";
 		handshake.serverPublicAP = (serverPublicIP == null) ? getMyLocalIP() : serverPublicIP;
 		return handshake;
 	}

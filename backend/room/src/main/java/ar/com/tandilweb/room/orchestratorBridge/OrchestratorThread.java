@@ -85,26 +85,30 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
         }
 	}
 	
-	private void main() throws IOException {
-		scanning = true;
-		File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
-		Handshake hs;
-		if(configuration.exists()) {
-			ObjectMapper objectMapper = new ObjectMapper();
-			hs = objectMapper.readValue(configuration, Handshake.class);
-		} else {
-			hs = roomAuthProto.getHandshakeSchema();
-		}
-		ObjectMapper om = new ObjectMapper();
-		sendDataToServer(om.writeValueAsString(hs));
-		String message;
-		do {
-			message = socketBufferReader.readLine();
-			if(message != null) {
-				processIncommingMessage(message);	
+	private void main() {
+		try {
+			scanning = true;
+			File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
+			Handshake hs;
+			if(configuration.exists()) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				hs = objectMapper.readValue(configuration, Handshake.class);
+			} else {
+				hs = roomAuthProto.getHandshakeSchema();
 			}
-		} while(scanning && message != null);
-		logger.debug("Finish thread by: " + (message == null ? "Null message received (connection lost?)" : "scanning off"));
+			ObjectMapper om = new ObjectMapper();
+			sendDataToServer(om.writeValueAsString(hs));
+			String message;
+			do {
+				message = socketBufferReader.readLine();
+				if(message != null) {
+					processIncommingMessage(message);	
+				}
+			} while(scanning && message != null);
+			logger.debug("Finish thread by: " + (message == null ? "Null message received (connection lost?)" : "scanning off"));
+		} catch(IOException e) {
+			logger.error("MAIN THREAD IO EXCEPTION: ", e);
+		}
 	}
 	
 	private void createSocketConneciton() throws UnknownHostException, IOException {
@@ -163,14 +167,18 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		sendDataToServer(om.writeValueAsString(signupData));
 	}
 	
-	private void processSignupResponseSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		SignupResponse signupResponse = objectMapper.readValue(schemaBody, SignupResponse.class);
-		Handshake handshake = roomAuthProto.getHandshakeSchema();
-		handshake.serverID = signupResponse.serverID;
-		handshake.securityToken = signupResponse.securityToken;
-		objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
-		logger.debug("Processed processSignupResponseSchema. New server ID:" + signupResponse.serverID);
+	private void processSignupResponseSchema(String schemaBody) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			SignupResponse signupResponse = objectMapper.readValue(schemaBody, SignupResponse.class);
+			Handshake handshake = roomAuthProto.getHandshakeSchema();
+			handshake.serverID = signupResponse.serverID;
+			handshake.securityToken = signupResponse.securityToken;
+			objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
+			logger.debug("Processed processSignupResponseSchema. New server ID:" + signupResponse.serverID);
+		} catch(IOException e) {
+			logger.error("I/O Exception in processSignupResponseSchema", e);
+		}
 	}
 	
 	// FIXME: validate retry times
@@ -198,18 +206,22 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	}
 	
 	// TODO: finish this
-	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper om = new ObjectMapper();
-		TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
-		File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
-		if(configuration.exists()) {
-			logger.debug("Processing processTokenUpdate. new token ["+signupResponse.securityToken+"]");
-			ObjectMapper objectMapper = new ObjectMapper();
-			Handshake handshake = objectMapper.readValue(configuration, Handshake.class);
-			handshake.securityToken = signupResponse.securityToken;
-			objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
-		} else {
-			logger.error("Configuration file isn't exists and cant be updated with new token: " + signupResponse.securityToken);
+	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException {
+		try {
+			ObjectMapper om = new ObjectMapper();
+			TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
+			File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
+			if(configuration.exists()) {
+				logger.debug("Processing processTokenUpdate. new token ["+signupResponse.securityToken+"]");
+				ObjectMapper objectMapper = new ObjectMapper();
+				Handshake handshake = objectMapper.readValue(configuration, Handshake.class);
+				handshake.securityToken = signupResponse.securityToken;
+				objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
+			} else {
+				logger.error("Configuration file isn't exists and cant be updated with new token: " + signupResponse.securityToken);
+			}
+		} catch (IOException e) {
+			logger.error("I/O Exception in processTokenUpdate", e);
 		}
 	}
 	

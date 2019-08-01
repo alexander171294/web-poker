@@ -37,26 +37,28 @@ public class RoomAuthService {
 		if(handshake.serverID > 0) {
 			// limit exceeded
 			Rooms room = roomsRepository.findById(handshake.serverID);
-			if(room.getBadLogins() > 3) { // FIXME: get this hardcoded value from properties.
-				// TODO: send email warning of block.
-				out.response = new Rejected();
-				return out;
-			}
-			if(room.getSecurityToken().equals(handshake.securityToken) && room.getAccessPassword().equals(handshake.accessPassword)) {
-				TokenUpdate tU = roomAuthProto.getTokenUpdateSchema();
-				tU.securityToken = UUID.randomUUID().toString();
-				room.setSecurityToken(tU.securityToken);
-				room.setServer_ip(handshake.serverPublicAP);
+			if(room != null) {
+				if(room.getBadLogins() > 3) { // FIXME: get this hardcoded value from properties.
+					// TODO: send email warning of block.
+					out.response = new Rejected();
+					return out;
+				}
+				if(room.getSecurityToken().equals(handshake.securityToken) && room.getAccessPassword().equals(handshake.accessPassword)) {
+					TokenUpdate tU = roomAuthProto.getTokenUpdateSchema();
+					tU.securityToken = UUID.randomUUID().toString();
+					room.setSecurityToken(tU.securityToken);
+					room.setServer_ip(handshake.serverPublicAP);
+					roomsRepository.update(room);
+					out.response = tU;
+					out.logged = true;
+					return out;
+				}
+				// security fail
+				room.setBadLogins(room.getBadLogins() + 1);
 				roomsRepository.update(room);
-				out.response = tU;
-				out.logged = true;
+				out.response = new Retry();
 				return out;
 			}
-			// security fail
-			room.setBadLogins(room.getBadLogins() + 1);
-			roomsRepository.update(room);
-			out.response = new Retry();
-			return out;
 		}
 		// TODO: check limit of IP in new server.
 		// return new Exceeded();

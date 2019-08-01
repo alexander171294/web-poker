@@ -77,8 +77,9 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 		try {
 			return jdbcTemplate.queryForObject(
                 "SELECT * FROM rooms WHERE id_room = ?",
-                new Object[]{id}, new RoomsRowMapper());
+                new Object[]{ id }, new RoomsRowMapper());
 		} catch(DataAccessException e) {
+			logger.debug("Data Access Exception", e);
 			return null;
 		}
 	}
@@ -97,7 +98,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	        		rs.getInt("minCoinForAccess"),
 	        		rs.getString("recoveryEmail"),
 	        		rs.getInt("badLogins"),
-	        		rs.getBoolean("nowConnected"),
+	        		rs.getBoolean("now_connected"),
 	        		rs.getBoolean("isOfficial")
 	        		);
 	    }

@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~8.1.0",
     "@angular/router": "~8.1.0",
     "rxjs": "~6.4.0",
-    "stompjs": "~2.3.3",
+    "stompjs": "^2.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

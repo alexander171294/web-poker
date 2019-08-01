@@ -88,7 +88,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	private void main() {
 		try {
 			scanning = true;
-			File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
+			File configuration = new File(cfgFileSave + File.separator + "lastHandshake.json");
 			Handshake hs;
 			if(configuration.exists()) {
 				ObjectMapper objectMapper = new ObjectMapper();
@@ -174,7 +174,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 			Handshake handshake = roomAuthProto.getHandshakeSchema();
 			handshake.serverID = signupResponse.serverID;
 			handshake.securityToken = signupResponse.securityToken;
-			objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
+			objectMapper.writeValue(new File(cfgFileSave + File.separator + "lastHandshake.json"), handshake);
 			logger.debug("Processed processSignupResponseSchema. New server ID:" + signupResponse.serverID);
 		} catch(IOException e) {
 			logger.error("I/O Exception in processSignupResponseSchema", e);
@@ -210,13 +210,13 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		try {
 			ObjectMapper om = new ObjectMapper();
 			TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
-			File configuration = new File(cfgFileSave + "\\lastHandshake.json"); // Fixme: DS
+			File configuration = new File(cfgFileSave + File.separator + "lastHandshake.json");
 			if(configuration.exists()) {
 				logger.debug("Processing processTokenUpdate. new token ["+signupResponse.securityToken+"]");
 				ObjectMapper objectMapper = new ObjectMapper();
 				Handshake handshake = objectMapper.readValue(configuration, Handshake.class);
 				handshake.securityToken = signupResponse.securityToken;
-				objectMapper.writeValue(new File(cfgFileSave + "\\lastHandshake.json"), handshake); // Fixme: DS
+				objectMapper.writeValue(new File(cfgFileSave + File.separator + "lastHandshake.json"), handshake);
 			} else {
 				logger.error("Configuration file isn't exists and cant be updated with new token: " + signupResponse.securityToken);
 			}

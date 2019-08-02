@@ -10,6 +10,9 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ar.com.tandilweb.exchange.UserAuthSchema;
 import ar.com.tandilweb.exchange.backwardValidation.ChallengeValidation;
 import ar.com.tandilweb.exchange.userAuth.ActiveSession;
@@ -26,6 +29,7 @@ import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
 import ar.com.tandilweb.room.handlers.dto.UserData;
 import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
+import ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread;
 
 @Controller
 @MessageMapping("/user")
@@ -38,6 +42,9 @@ public class AuthController {
 	
 	@Autowired
 	private RoomHandler roomHandler;
+	
+	@Autowired
+	private OrchestratorThread orchestrator;
 	
 	@MessageMapping("/authorization")
 	@SendToUser("/userAuth/challenge")
@@ -62,27 +69,33 @@ public class AuthController {
 	}
 	
 	@MessageMapping("/backwardValidation")
-	public UserAuthSchema backwardValidation(BackwardValidation bV, SimpMessageHeaderAccessor headerAccessor) {
+	public void backwardValidation(BackwardValidation bV, SimpMessageHeaderAccessor headerAccessor) {
+		
+		String sessID = headerAccessor.getSessionId();
 		
 		// send to orchestrator:
 		ChallengeValidation challengeValidation = new ChallengeValidation();
+		challengeValidation.idChallenge = bV.idChallenge;
 		
-//		server response:
+		ObjectMapper om = new ObjectMapper();
+		try {
+			orchestrator.sendDataToServer(om.writeValueAsString(challengeValidation));
+//			server response:
 //			eppr/backward-validation::unknown
 //			eppr/backward-validation::invalid
 //			eppr/backward-validation::dataChallenge
-		
-		// if unknown or invalid:
-		Rejected reject = new Rejected();
-		//return reject;
-		
-		// if dataChallange:
-		BadRequest badReq = new BadRequest();
-		FullRejected frej = new FullRejected();
-		Validated validated = new Validated();
-		Kicked kicked = new Kicked();
-		
-		return kicked;
+			// if unknown or invalid:
+			Rejected reject = new Rejected();
+			//return reject;
+			
+			// if dataChallange:
+			BadRequest badReq = new BadRequest();
+			FullRejected frej = new FullRejected();
+			Validated validated = new Validated();
+			Kicked kicked = new Kicked();
+		} catch (JsonProcessingException e) {
+			log.error("Error processing challenge validation", e);
+		}
 	}
 	
 	// TODO: make user-deposit schema implementation.

@@ -185,13 +185,13 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	private void backwardValidationProcessorSelector(Schema schema, String schemaBody) throws JsonProcessingException {
 		switch (schema.schema) {
 		case "dataChallenge":
-			backwardValidationProcessor.processBVDataChallengeSchema(schemaBody);
+			backwardValidationProcessor.processDataChallengeSchema(schemaBody);
 			break;
 		case "invalid":
-			backwardValidationProcessor.processBVInvalidSchema(schemaBody);
+			backwardValidationProcessor.processInvalidSchema(schemaBody);
 			break;
 		case "unknown":
-			backwardValidationProcessor.processBVUnknownSchema(schemaBody);
+			backwardValidationProcessor.processUnknownSchema(schemaBody);
 			break;
 		default:
 			logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);

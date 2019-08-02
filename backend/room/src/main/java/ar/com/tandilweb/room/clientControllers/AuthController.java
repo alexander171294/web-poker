@@ -78,15 +78,6 @@ public class AuthController {
 //			eppr/backward-validation::unknown
 //			eppr/backward-validation::invalid
 //			eppr/backward-validation::dataChallenge
-			// if unknown or invalid:
-//			Rejected reject = new Rejected();
-//			//return reject;
-//			
-//			// if dataChallange:
-//			BadRequest badReq = new BadRequest();
-//			FullRejected frej = new FullRejected();
-//			Validated validated = new Validated();
-//			Kicked kicked = new Kicked();
 		} catch (JsonProcessingException e) {
 			log.error("Error processing challenge validation", e);
 		}

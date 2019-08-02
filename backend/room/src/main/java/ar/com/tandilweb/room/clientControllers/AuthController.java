@@ -1,9 +1,13 @@
 package ar.com.tandilweb.room.clientControllers;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import ar.com.tandilweb.exchange.UserAuthSchema;
@@ -17,6 +21,10 @@ import ar.com.tandilweb.exchange.userAuth.FullRejected;
 import ar.com.tandilweb.exchange.userAuth.Kicked;
 import ar.com.tandilweb.exchange.userAuth.Rejected;
 import ar.com.tandilweb.exchange.userAuth.Validated;
+import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
+import ar.com.tandilweb.room.handlers.SessionHandler;
+import ar.com.tandilweb.room.handlers.dto.UserData;
+import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
 
 @Controller
 @MessageMapping("/user")
@@ -24,16 +32,28 @@ public class AuthController {
 	
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 	
+	@Autowired
+	private SessionHandler sessionHandler;
+	
 	@MessageMapping("/authorization")
+	@SendToUser("/") // FIXME: add route
 	public UserAuthSchema authorization(Authorization auth, SimpMessageHeaderAccessor headerAccessor) {
-		
-		
-		// verify if session exists:
-		ActiveSession activeSesison = new ActiveSession();
-//		return activeSesison;
-		
-		// if not, create challenge: 
+		String sessID = headerAccessor.getSessionId();
+		log.debug("New session: " + sessID);
+		if(sessionHandler.isActiveSessionForUser(auth.userID)) {
+			ActiveSession activeSession = new ActiveSession();
+			sessionHandler.sendToUserID("/", auth.userID, activeSession); // FIXME: add Route.
+		}
 		Challenge challenge = new Challenge();
+		challenge.action = ChallengeActions.LOGIN;
+		challenge.roomID = 4; // FIXME: GET ROOM ID
+		challenge.claimToken = UUID.randomUUID().toString();
+		UserData userData = new UserData();
+		userData.lastChallenge = challenge;
+		userData.sessID = sessID;
+		userData.userID = auth.userID;
+		userData.status = UserDataStatus.PENDING;
+		sessionHandler.assocSessionWithUserData(sessID, userData);
 		return challenge;
 	}
 	

@@ -7,6 +7,7 @@ public class DataChallenge<UserDataTemplate> extends BackwardValidationSchema {
 	public long idUser;
 	public String claimToken;
 	public UserDataTemplate userData;
+	public String transactionID;
 	
 	public DataChallenge() {
 		super("dataChallenge");

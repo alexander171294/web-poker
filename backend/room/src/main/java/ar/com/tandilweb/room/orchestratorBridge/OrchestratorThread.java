@@ -27,6 +27,7 @@ import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.exchange.roomAuth.SignupData;
 import ar.com.tandilweb.exchange.roomAuth.SignupResponse;
 import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
+import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.protocols.EpprRoomAuth;
 
 @Component
@@ -49,6 +50,9 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	@Autowired
 	private EpprRoomAuth roomAuthProto;
+	
+	@Autowired
+	private RoomHandler roomHandler;
 	
 	@Value("${act.room.cfgFileSave}")
 	private String cfgFileSave;
@@ -93,6 +97,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 			if(configuration.exists()) {
 				ObjectMapper objectMapper = new ObjectMapper();
 				hs = objectMapper.readValue(configuration, Handshake.class);
+				roomHandler.setRoomID(hs.serverID);
 			} else {
 				hs = roomAuthProto.getHandshakeSchema();
 			}
@@ -173,6 +178,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 			SignupResponse signupResponse = objectMapper.readValue(schemaBody, SignupResponse.class);
 			Handshake handshake = roomAuthProto.getHandshakeSchema();
 			handshake.serverID = signupResponse.serverID;
+			roomHandler.setRoomID(signupResponse.serverID);
 			handshake.securityToken = signupResponse.securityToken;
 			objectMapper.writeValue(new File(cfgFileSave + File.separator + "lastHandshake.json"), handshake);
 			logger.debug("Processed processSignupResponseSchema. New server ID:" + signupResponse.serverID);

@@ -22,6 +22,7 @@ import ar.com.tandilweb.exchange.userAuth.Kicked;
 import ar.com.tandilweb.exchange.userAuth.Rejected;
 import ar.com.tandilweb.exchange.userAuth.Validated;
 import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
+import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
 import ar.com.tandilweb.room.handlers.dto.UserData;
 import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
@@ -35,6 +36,9 @@ public class AuthController {
 	@Autowired
 	private SessionHandler sessionHandler;
 	
+	@Autowired
+	private RoomHandler roomHandler;
+	
 	@MessageMapping("/authorization")
 	@SendToUser("/userAuth/challenge")
 	public UserAuthSchema authorization(Authorization auth, SimpMessageHeaderAccessor headerAccessor) {
@@ -46,7 +50,7 @@ public class AuthController {
 		}
 		Challenge challenge = new Challenge();
 		challenge.action = ChallengeActions.LOGIN;
-		challenge.roomID = 4; // FIXME: GET ROOM ID
+		challenge.roomID = roomHandler.getRoomID();
 		challenge.claimToken = UUID.randomUUID().toString();
 		UserData userData = new UserData();
 		userData.lastChallenge = challenge;

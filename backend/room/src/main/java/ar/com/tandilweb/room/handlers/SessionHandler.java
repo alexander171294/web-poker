@@ -1,6 +1,8 @@
 package ar.com.tandilweb.room.handlers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -37,6 +39,17 @@ public class SessionHandler {
 		return false;
 	}
 	
+	public List<UserData> getAnotherSessions(String meSession, long userID) {
+		List<UserData> out = new ArrayList<UserData>();
+		for(String sessID: userAssociation.keySet()) {
+			UserData userData = userAssociation.get(sessID);
+			if(userData.userID == userID && !userData.sessID.equals(meSession)) {
+				out.add(userData);
+			}
+		}
+		return out;
+	}
+	
 	public String getSessionByTransactionID(String transactionID) {
 		for(String sessID: userAssociation.keySet()) {
 			if(userAssociation.get(sessID).transactionID == transactionID) {
@@ -62,6 +75,11 @@ public class SessionHandler {
 	public void sendToSessID(String direction, String sessionID, Object payload) {
 		log.debug("Sending message to a sessionID: "+sessionID);
 		msgTmp.convertAndSendToUser(sessionID, direction, payload, createHeaders(sessionID));
+	}
+	
+	public void remove(String sessionID) {
+		userAssociation.remove(sessionID);
+		// FIXME: close connection.
 	}
 	
 	public void sendToUserID(String direction, long userID, Object payload) {

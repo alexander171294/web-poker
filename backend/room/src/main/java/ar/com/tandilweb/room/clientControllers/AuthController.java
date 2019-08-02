@@ -18,12 +18,7 @@ import ar.com.tandilweb.exchange.backwardValidation.ChallengeValidation;
 import ar.com.tandilweb.exchange.userAuth.ActiveSession;
 import ar.com.tandilweb.exchange.userAuth.Authorization;
 import ar.com.tandilweb.exchange.userAuth.BackwardValidation;
-import ar.com.tandilweb.exchange.userAuth.BadRequest;
 import ar.com.tandilweb.exchange.userAuth.Challenge;
-import ar.com.tandilweb.exchange.userAuth.FullRejected;
-import ar.com.tandilweb.exchange.userAuth.Kicked;
-import ar.com.tandilweb.exchange.userAuth.Rejected;
-import ar.com.tandilweb.exchange.userAuth.Validated;
 import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
 import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
@@ -70,13 +65,12 @@ public class AuthController {
 	
 	@MessageMapping("/backwardValidation")
 	public void backwardValidation(BackwardValidation bV, SimpMessageHeaderAccessor headerAccessor) {
-		
 		String sessID = headerAccessor.getSessionId();
-		
 		// send to orchestrator:
 		ChallengeValidation challengeValidation = new ChallengeValidation();
 		challengeValidation.idChallenge = bV.idChallenge;
-		
+		challengeValidation.transactionID = UUID.randomUUID().toString();
+		sessionHandler.getUserDataBySession(sessID).transactionID = challengeValidation.transactionID;
 		ObjectMapper om = new ObjectMapper();
 		try {
 			orchestrator.sendDataToServer(om.writeValueAsString(challengeValidation));
@@ -85,14 +79,14 @@ public class AuthController {
 //			eppr/backward-validation::invalid
 //			eppr/backward-validation::dataChallenge
 			// if unknown or invalid:
-			Rejected reject = new Rejected();
-			//return reject;
-			
-			// if dataChallange:
-			BadRequest badReq = new BadRequest();
-			FullRejected frej = new FullRejected();
-			Validated validated = new Validated();
-			Kicked kicked = new Kicked();
+//			Rejected reject = new Rejected();
+//			//return reject;
+//			
+//			// if dataChallange:
+//			BadRequest badReq = new BadRequest();
+//			FullRejected frej = new FullRejected();
+//			Validated validated = new Validated();
+//			Kicked kicked = new Kicked();
 		} catch (JsonProcessingException e) {
 			log.error("Error processing challenge validation", e);
 		}

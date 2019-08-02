@@ -24,6 +24,10 @@ public class SessionHandler {
 	@Autowired
 	private SimpMessagingTemplate msgTmp;
 	
+	public UserData getUserDataBySession(String session) {
+		return userAssociation.get(session);
+	}
+	
 	public boolean isActiveSessionForUser(long userID) {
 		for(String sessID: userAssociation.keySet()) {
 			if(userAssociation.get(sessID).userID == userID) {

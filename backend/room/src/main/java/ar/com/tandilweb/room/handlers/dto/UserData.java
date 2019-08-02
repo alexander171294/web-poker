@@ -7,6 +7,7 @@ public class UserData {
 	public long userID;
 	public String sessID;
 	public Challenge lastChallenge;
+	public String transactionID;
 	public UserDataStatus status;
 	
 }

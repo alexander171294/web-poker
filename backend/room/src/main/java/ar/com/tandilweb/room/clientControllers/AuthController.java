@@ -36,13 +36,13 @@ public class AuthController {
 	private SessionHandler sessionHandler;
 	
 	@MessageMapping("/authorization")
-	@SendToUser("/") // FIXME: add route
+	@SendToUser("/userAuth/challenge")
 	public UserAuthSchema authorization(Authorization auth, SimpMessageHeaderAccessor headerAccessor) {
 		String sessID = headerAccessor.getSessionId();
 		log.debug("New session: " + sessID);
 		if(sessionHandler.isActiveSessionForUser(auth.userID)) {
 			ActiveSession activeSession = new ActiveSession();
-			sessionHandler.sendToUserID("/", auth.userID, activeSession); // FIXME: add Route.
+			sessionHandler.sendToUserID("/userAuth/activeSession", auth.userID, activeSession);
 		}
 		Challenge challenge = new Challenge();
 		challenge.action = ChallengeActions.LOGIN;

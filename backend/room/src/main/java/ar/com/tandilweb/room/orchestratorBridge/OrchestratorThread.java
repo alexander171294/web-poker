@@ -24,10 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
-import ar.com.tandilweb.exchange.roomAuth.SignupData;
-import ar.com.tandilweb.exchange.roomAuth.SignupResponse;
-import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
 import ar.com.tandilweb.room.handlers.RoomHandler;
+import ar.com.tandilweb.room.orchestratorBridge.processors.BackwardValidationProcessor;
+import ar.com.tandilweb.room.orchestratorBridge.processors.RoomAuthProcessor;
 import ar.com.tandilweb.room.protocols.EpprRoomAuth;
 
 @Component
@@ -53,6 +52,12 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 
 	@Autowired
 	private RoomHandler roomHandler;
+	
+	@Autowired
+	private RoomAuthProcessor roomAuthProcessor;
+	
+	@Autowired
+	private BackwardValidationProcessor backwardValidationProcessor;
 
 	@Value("${act.room.cfgFileSave}")
 	private String cfgFileSave;
@@ -121,6 +126,9 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		socket = new Socket(remoteAddr, this.remoteListenerPort);
 		socketBufferReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		socketBufferOutput = new PrintWriter(socket.getOutputStream());
+		// set streams:
+		roomAuthProcessor.setSocketBufferOutput(socketBufferOutput);
+		backwardValidationProcessor.setSocketBufferOutput(socketBufferOutput);
 	}
 
 	public void sendDataToServer(String data) {
@@ -137,146 +145,57 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 
 	private void processSchema(Schema schema, String schemaBody) throws IOException {
 		if ("eppr/room-auth".equals(schema.namespace)) {
-			switch (schema.schema) {
-			case "signup":
-				processSignupSchema(schemaBody);
-				break;
-			case "signupResponse":
-				processSignupResponseSchema(schemaBody);
-				break;
-			case "retry":
-				processRetrySchema(schemaBody);
-				break;
-			case "rejected":
-				processRejectedSchema(schemaBody);
-				break;
-			case "exceeded":
-				processExceededSchema(schemaBody);
-				break;
-			case "tokenUpdate":
-				processTokenUpdate(schemaBody);
-				break;
-			case "busy":
-				processBusySchema(schemaBody);
-				break;
-			default:
-				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
-				break;
-			}
+			roomAuthProcessorSelector(schema, schemaBody);
 		} else if ("eppr/backward-validation".contentEquals(schema.namespace)) {
-			switch (schema.schema) {
-			case "dataChallenge":
-				processBVDataChallengeSchema(schemaBody);
-				break;
-			case "invalid":
-				processBVInvalidSchema(schemaBody);
-				break;
-			case "unknown":
-				processBVUnknownSchema(schemaBody);
-				break;
-			default:
-				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
-				break;
-			}
+			backwardValidationProcessorSelector(schema, schemaBody);
 		} else {
 			logger.debug("Unexpected namespace received", schema);
 		}
-
 	}
-
-	private void processSignupSchema(String schemaBody) throws JsonProcessingException {
-		logger.debug("Processing processSignupSchema.");
-		SignupData signupData = roomAuthProto.getSignupSchema();
-		ObjectMapper om = new ObjectMapper();
-		sendDataToServer(om.writeValueAsString(signupData));
-	}
-
-	private void processSignupResponseSchema(String schemaBody) {
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			SignupResponse signupResponse = objectMapper.readValue(schemaBody, SignupResponse.class);
-			Handshake handshake = roomAuthProto.getHandshakeSchema();
-			handshake.serverID = signupResponse.serverID;
-			roomHandler.setRoomID(signupResponse.serverID);
-			handshake.securityToken = signupResponse.securityToken;
-			objectMapper.writeValue(new File(cfgFileSave + File.separator + "lastHandshake.json"), handshake);
-			logger.debug("Processed processSignupResponseSchema. New server ID:" + signupResponse.serverID);
-		} catch (IOException e) {
-			logger.error("I/O Exception in processSignupResponseSchema", e);
+	
+	private void roomAuthProcessorSelector(Schema schema, String schemaBody) throws JsonProcessingException {
+		switch (schema.schema) {
+		case "signup":
+			roomAuthProcessor.processSignupSchema(schemaBody);
+			break;
+		case "signupResponse":
+			roomAuthProcessor.processSignupResponseSchema(schemaBody);
+			break;
+		case "retry":
+			roomAuthProcessor.processRetrySchema(schemaBody);
+			break;
+		case "rejected":
+			roomAuthProcessor.processRejectedSchema(schemaBody);
+			break;
+		case "exceeded":
+			roomAuthProcessor.processExceededSchema(schemaBody);
+			break;
+		case "tokenUpdate":
+			roomAuthProcessor.processTokenUpdate(schemaBody);
+			break;
+		case "busy":
+			roomAuthProcessor.processBusySchema(schemaBody);
+			break;
+		default:
+			logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
+			break;
 		}
 	}
-
-	// FIXME: validate retry times
-	private void processRetrySchema(String schemaBody) throws JsonProcessingException {
-		logger.debug("Processing processRetrySchema.");
-		try {
-			Handshake hs = roomAuthProto.getHandshakeSchema();
-			ObjectMapper om = new ObjectMapper();
-			sendDataToServer(om.writeValueAsString(hs));
-		} catch (IOException e) {
-			logger.error("I/O Exception (processRetrySchema): ", e);
+	
+	private void backwardValidationProcessorSelector(Schema schema, String schemaBody) throws JsonProcessingException {
+		switch (schema.schema) {
+		case "dataChallenge":
+			backwardValidationProcessor.processBVDataChallengeSchema(schemaBody);
+			break;
+		case "invalid":
+			backwardValidationProcessor.processBVInvalidSchema(schemaBody);
+			break;
+		case "unknown":
+			backwardValidationProcessor.processBVUnknownSchema(schemaBody);
+			break;
+		default:
+			logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
+			break;
 		}
 	}
-
-	private void processRejectedSchema(String schemaBody) {
-		logger.error("The registration was rejected by the Orchestrator server.");
-		// TODO: check this, verify if really close the backend:
-//		((ConfigurableApplicationContext) context).close();
-	}
-
-	private void processExceededSchema(String schemaBody) {
-		logger.error("You exceeded the limit of signups.");
-		// TODO: check this, verify if really close the backend:
-//		((ConfigurableApplicationContext) context).close();
-	}
-
-	// TODO: finish this
-	private void processTokenUpdate(String schemaBody) throws JsonParseException, JsonMappingException {
-		try {
-			ObjectMapper om = new ObjectMapper();
-			TokenUpdate signupResponse = om.readValue(schemaBody, TokenUpdate.class);
-			File configuration = new File(cfgFileSave + File.separator + "lastHandshake.json");
-			if (configuration.exists()) {
-				logger.debug("Processing processTokenUpdate. new token [" + signupResponse.securityToken + "]");
-				ObjectMapper objectMapper = new ObjectMapper();
-				Handshake handshake = objectMapper.readValue(configuration, Handshake.class);
-				handshake.securityToken = signupResponse.securityToken;
-				objectMapper.writeValue(new File(cfgFileSave + File.separator + "lastHandshake.json"), handshake);
-			} else {
-				logger.error("Configuration file isn't exists and cant be updated with new token: "
-						+ signupResponse.securityToken);
-			}
-		} catch (IOException e) {
-			logger.error("I/O Exception in processTokenUpdate", e);
-		}
-	}
-
-	private void processBusySchema(String schemaBody) throws JsonProcessingException {
-		logger.debug("Processing processBusySchema.");
-		try {
-			Handshake hs = roomAuthProto.getHandshakeSchema();
-			ObjectMapper om = new ObjectMapper();
-			logger.info("Waiting for...");
-			Thread.sleep(3500); // TODO: param this 3500 sleep time.
-			logger.info("Retrying");
-			sendDataToServer(om.writeValueAsString(hs));
-		} catch (IOException e) {
-			logger.error("I/O Exception in process busy schema: ", e);
-		} catch (InterruptedException e) {
-			logger.error("Interrupted Exception in process busy schema:", e);
-		}
-	}
-
-	private void processBVDataChallengeSchema(String schemaBody) throws JsonProcessingException {
-
-	}
-
-	private void processBVInvalidSchema(String schemaBody) throws JsonProcessingException {
-
-	}
-
-	private void processBVUnknownSchema(String schemaBody) throws JsonProcessingException {
-
-	}
-
 }

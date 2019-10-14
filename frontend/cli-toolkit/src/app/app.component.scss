@@ -6,6 +6,15 @@
   padding: 5px;
   border-radius: 3px;
   background: linear-gradient(#f3f3f4, #c2c6c9, #f3f3f3);
+  .inputData {
+    margin-bottom: 5px;
+    label {
+      width: 130px;
+      display: inline-block;
+      text-align: right;
+      margin-right: 5px;
+    }
+  }
   .botonera {
     margin: 0px 0px 5px 0px;
     button {

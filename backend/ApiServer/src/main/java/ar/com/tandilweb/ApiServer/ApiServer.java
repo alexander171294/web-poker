@@ -28,10 +28,10 @@ import ar.com.tandilweb.ApiServer.persistence.JDBConfiguration;
 	})
 @Configuration("ar.com.tandilweb.ApiServer.persistence.JDBConfig")
 @Import({JDBConfiguration.class})
-public class App extends SpringBootServletInitializer {
+public class ApiServer extends SpringBootServletInitializer {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(App.class, args);
+		SpringApplication.run(ApiServer.class, args);
 	}
 
 	@Bean

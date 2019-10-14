@@ -1,24 +1,22 @@
-package ar.com.tandilweb.orchestrator;
+package ar.com.tandilweb.room;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
-import ar.com.tandilweb.orchestrator.persistence.JDBConfig;
-
 @SpringBootApplication
+@Configuration
 @PropertySources(value = {
-			@PropertySource("classpath:serverRegisterConfig.properties"),
-			@PropertySource("classpath:database.properties"),
-		})
-@Import({ JDBConfig.class })
-public class App extends SpringBootServletInitializer
+		@PropertySource("classpath:clientRegisterConfig.properties"),
+		@PropertySource("classpath:clientDetails.properties")
+	})
+public class RoomServer  extends SpringBootServletInitializer
 {
     public static void main( String[] args )
     {
-    	SpringApplication.run(App.class, args);
+    	SpringApplication.run(RoomServer.class, args);
     }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RoomService } from './services/room.service';
+import { TerminalService } from './services/terminal.service';
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,14 @@ export class AppComponent {
   private orchestratorServer = '127.0.0.1:8082';
   private apiServer = '127.0.0.1:8083';
 
-  constructor(private room: RoomService) {
-    
+  private terminalMessages = [
+    'Ready'
+  ];
+
+  constructor(private room: RoomService, private terminal: TerminalService) {
+    terminal.event.subscribe(data => {
+      this.terminalMessages.push(data);
+    });
   }
 
   connectRoomServer() {

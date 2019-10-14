@@ -23,7 +23,7 @@ export class WebSocketService {
     this.stomp.onErrorEvent.subscribe((ev) => this.onError(ev));
   }
 
-  private setBasicConfig(server: string, port: number, endpoint: string) {
+  protected setBasicConfig(server: string, port: number, endpoint: string) {
     this.server = server;
     this.port = port;
     this.endpoint = endpoint;
@@ -35,7 +35,7 @@ export class WebSocketService {
     this.wsEventSubscriptor.emit(new EventWS(EventTypeWS.CONFIGURING));
   }
 
-  private startConnection() {
+  protected startConnection() {
     this.wsEventSubscriptor.emit(new EventWS(EventTypeWS.CONNECTING, {host: 'http://' + this.server + ':' + this.port + this.endpoint}));
     this.stomp.startConnect().then(() => {
       this.stomp.done('init');

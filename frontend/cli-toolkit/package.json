@@ -22,7 +22,9 @@
     "rxjs": "~6.4.0",
     "ng2-stomp-service": "^1.2.2",
     "sockjs-client": "^1.3.0",
+    "crypto-js": "^3.1.9-1",
     "stompjs": "^2.3.3",
+    "net": "^1.0.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

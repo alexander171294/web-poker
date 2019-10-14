@@ -1,12 +1,17 @@
 <div class="box">
   <div class="inputData">
     <label>Room Server</label> <input type="text" [(ngModel)]="roomServer" name="room" placeholder="Room server" /> <button (click)="connectRoomServer()">Connect</button><br />
-    <label>Api Server</label> <input type="text" [(ngModel)]="apiServer" name="apiSrv" placeholder="Api server" /> <button>Connect</button><br />
+    <label>Api Server</label> <input type="text" [(ngModel)]="apiServer" name="apiSrv" placeholder="Api server" /><br />
     <label>Orchestrator Server</label> <input type="text" [(ngModel)]="orchestratorServer" name="orchestrator" placeholder="Orchestrator server" /> <button>Connect</button>
   </div>
   <div class="botonera">
-    <button>Connect</button>
-    <button>Disconnect</button>
+    <button (click)="ingressCMD()" class="roomServer">Ingress</button>
+    <button (click)="depositCMD()" class="roomServer">Deposit</button>
+    <button (click)="roomChallengeCMD()" class="apiServer">Room Challenge</button>
+    <button (click)="backwardValidationCMD()" class="roomServer">Backward Validation</button>
+    <div class="separator"></div>
+    <!-- <button>Connect</button>
+    <button>Disconnect</button> -->
   </div>
   <div class="events">
     <ul>
@@ -14,6 +19,6 @@
     </ul>
   </div>
   <div class="prompt">
-    <input type="text" name="inputCommand"/>
+    <input type="text" name="inputCommand" [(ngModel)]="commandPrompt" id="commandPrompt" (keyup)="keyUp($event)"/>
   </div>
 </div>

@@ -14,16 +14,23 @@
       text-align: right;
       margin-right: 5px;
     }
+    button {
+      margin-left: 5px;
+    }
   }
   .botonera {
     margin: 0px 0px 5px 0px;
-    button {
-      border: none;
-      background: gray;
-      border-radius: 3px;
-      color: white;
-      padding: 5px;
-      margin-right: 5px;
+  }
+  button {
+    border: none;
+    background: gray;
+    border-radius: 3px;
+    color: white;
+    padding: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+    &:hover {
+      background: #636060;
     }
   }
   .events {

@@ -9,10 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
-@Service
+//@Service
 public class SessionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionHandler.class);
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();

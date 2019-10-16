@@ -20,6 +20,14 @@
   }
   .botonera {
     margin: 0px 0px 5px 0px;
+    .separator {
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: #464646;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
   }
   button {
     border: none;

@@ -33,6 +33,8 @@ export class AppComponent {
   keyUp(evt) {
     if(evt.keyCode === 13){
       // eval command.
+      this.processCommand(this.commandPrompt);
+      this.commandPrompt = '';
     }
   }
 
@@ -55,5 +57,13 @@ export class AppComponent {
   backwardValidationCMD() {
     this.commandPrompt = 'room.backwardValidation challengeID:"16"';
     document.getElementById('commandPrompt').focus();
+  }
+
+  processCommand(command: string) {
+    const part = /([a-zA-Z]+)\.([a-zA-Z]+)/gm.exec(command);
+    const target = part[1];
+    const action = part[2];
+    const params = /([a-zA-Z]+:"[a-zA-Z0-9]+")/gm.exec(command);
+    console.log(target, action, params);
   }
 }

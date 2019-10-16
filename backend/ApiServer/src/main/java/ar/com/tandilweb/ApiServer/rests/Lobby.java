@@ -95,6 +95,7 @@ public class Lobby {
 			if (claimToken == null || claimToken.length() == 0) {
 				throw new ValidationException(2, "Invalid claimToken");
 			}
+			// TODO: change 0 by the JWT user ID.
 			ChallengeResponse out = lobbyAdapter.challengeRoomByID(0, roomID, claimToken);
 			return new ResponseEntity<ChallengeResponse>(out, HttpStatus.OK);
 		} catch (ValidationException vE) {

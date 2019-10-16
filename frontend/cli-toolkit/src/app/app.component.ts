@@ -13,7 +13,7 @@ export class AppComponent {
 
   private roomServer = '127.0.0.1:8081';
   private orchestratorServer = '127.0.0.1:8082';
-  private apiServer = '127.0.0.1:8083';
+  private apiServer = 'http://127.0.0.1:8083';
   private commandPrompt: string;
 
 
@@ -56,7 +56,7 @@ export class AppComponent {
   }
 
   roomChallengeCMD() {
-    this.commandPrompt = 'apisrv.challenge challengeID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
+    this.commandPrompt = 'apisrv.challenge roomID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
     document.getElementById('commandPrompt').focus();
   }
 
@@ -91,7 +91,13 @@ export class AppComponent {
     if(target == 'apisrv') {
       if(action == 'challenge') {
         // mock user challenge for test (using the first user with id = 1 hardcoded for test purposes)
-        this.api.challenge(params.challengeID, params.claimToken);
+        this.terminal.out('Challenge Room','ApiSrv');
+        this.api.setEndpoint(this.apiServer);
+        this.api.challenge(params.roomID, params.claimToken).subscribe(data => {
+          this.terminal.in('Challenge Response OK','ApiSrv')
+        }, err => {
+          this.terminal.in('Challenge refused','ApiSrv');
+        });
       }
     }
   }

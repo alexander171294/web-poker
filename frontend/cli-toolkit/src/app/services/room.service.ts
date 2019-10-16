@@ -60,7 +60,18 @@ export class RoomService {
       this.ws.connect(res[1], res[2]);
     } else {
       this.terminal.err('Room server ip doesn\'t match with the regex: /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]+)/');
-    }
-    
+    } 
+  }
+
+  ingress(user: string, photo: string, chips: number) {
+
+  }
+
+  deposit(userID: number, coins: number, challengeID: number, claimToken: string) {
+
+  }
+
+  backwardValidation(challengeID: number) {
+
   }
 }

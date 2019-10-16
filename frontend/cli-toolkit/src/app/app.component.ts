@@ -1,6 +1,7 @@
 import { Component, ViewChildren } from '@angular/core';
 import { RoomService } from './services/room.service';
 import { TerminalService } from './services/terminal.service';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent {
     'Ready'
   ];
 
-  constructor(private room: RoomService, private terminal: TerminalService) {
+  constructor(private room: RoomService, private terminal: TerminalService, private api: ApiService) {
     terminal.event.subscribe(data => {
       this.terminalMessages.push(data);
     });
@@ -45,7 +46,7 @@ export class AppComponent {
   }
 
   depositCMD() {
-    this.commandPrompt = 'room.deposit user:"57" coins:"500" challengeID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
+    this.commandPrompt = 'room.deposit userID:"57" coins:"500" challengeID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
     document.getElementById('commandPrompt').focus();
   }
 
@@ -63,7 +64,27 @@ export class AppComponent {
     const part = /([a-zA-Z]+)\.([a-zA-Z]+)/gm.exec(command);
     const target = part[1];
     const action = part[2];
-    const params = /([a-zA-Z]+:"[a-zA-Z0-9]+")/gm.exec(command);
-    console.log(target, action, params);
+    var params: any = {};
+    command.match(/[a-zA-Z]+:"[a-zA-Z0-9]+"/gm).forEach(data => {
+      const result = /([a-zA-Z]+):"([a-zA-Z0-9]+)"/gm.exec(data);
+      params[result[1]] = result[2];
+    });
+    if(target == 'room') {
+      if(action == 'ingress') {
+        this.room.ingress(params.user, params.photo, params.chips);
+      }
+      if(action == 'deposit') {
+        this.room.deposit(params.userID, params.coins, params.challengeID, params.claimToken);
+      }
+      if(action == 'backwardValidation') {
+        this.room.backwardValidation(params.challengeID);
+      }
+    }
+    if(target == 'apisrv') {
+      if(action == 'challenge') {
+        // mock user challenge for test (using the first user with id = 1 hardcoded for test purposes)
+        this.api.challenge(params.challengeID, params.claimToken);
+      }
+    }
   }
 }

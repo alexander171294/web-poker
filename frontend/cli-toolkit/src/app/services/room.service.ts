@@ -4,13 +4,19 @@ import { TerminalService } from './terminal.service';
 import { environment } from 'src/environments/environment';
 import { EventWS } from '../utils/EventWS';
 import { EventTypeWS } from '../utils/EventTypeWS';
+import { MessageDefinition } from '../utils/MessageDefinition';
+import { Authorization } from '../epprProtocol/userAuth/Authorization';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
 
-  constructor(private ws: WsRoomService, private terminal: TerminalService) { }
+  readonly serviceName = 'RoomServer'; 
+
+  constructor(private ws: WsRoomService, private terminal: TerminalService) {
+
+  }
 
   public connect(serverIP: string) {
 
@@ -25,6 +31,7 @@ export class RoomService {
           }
           if(data.eventType == EventTypeWS.CONNECTED) {
             prefix += 'Connected';
+            this.subscriptions();
           }
           if(data.eventType == EventTypeWS.CONNECTING) {
             prefix += 'Connecting';
@@ -63,8 +70,30 @@ export class RoomService {
     } 
   }
 
-  ingress(user: string, photo: string, chips: number) {
+  authorization(userID: number) {
+    this.terminal.out('Authorization [' + userID + ']', this.serviceName);
+    const auth = new Authorization();
+    auth.userID = userID;
+    const dBlock = new MessageDefinition();
+    dBlock.data = auth;
+    dBlock.endpoint = '/user/authorization';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
 
+  }
+
+  onAuthorizationResponse(data: any) {
+    console.log(data);
+    this.terminal.in('Challenge Claim [' + data.claimToken + '] roomID: [' + data.roomID + ']', this.serviceName);
+  }
+
+  ingress(user: string, photo: string) {
+    this.terminal.out('Ingress ['+user+']', this.serviceName);
+    const dBlock = new MessageDefinition();
+    dBlock.data = {user, photo};
+    dBlock.endpoint = '/clientInterceptor';
+    dBlock.prefix = '/clientInterceptor';
+    
   }
 
   deposit(userID: number, coins: number, challengeID: number, claimToken: string) {
@@ -72,6 +101,13 @@ export class RoomService {
   }
 
   backwardValidation(challengeID: number) {
+
+  }
+
+  subscriptions() {
+    this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
+      this.onAuthorizationResponse(data);
+    });
 
   }
 }

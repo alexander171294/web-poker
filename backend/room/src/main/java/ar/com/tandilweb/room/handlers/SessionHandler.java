@@ -83,7 +83,7 @@ public class SessionHandler {
 	}
 	
 	public void sendToUserID(String direction, long userID, Object payload) {
-		sendToSessID(direction, getActiveSessionForUser(userID), payload);;
+		sendToSessID(direction, getActiveSessionForUser(userID), payload);
 	}
 	
 	private MessageHeaders createHeaders(String sessionId) {

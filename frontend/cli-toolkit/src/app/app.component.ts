@@ -40,6 +40,11 @@ export class AppComponent {
   }
 
   // Command writter helper // 
+  authCMD() {
+    this.commandPrompt = 'room.authorization userID:"1"';
+    document.getElementById('commandPrompt').focus();
+  }
+
   ingressCMD() {
     this.commandPrompt = 'room.ingress user:"NickName" photo:"PhotoURL" chips:"4500"';
     document.getElementById('commandPrompt').focus();
@@ -70,8 +75,11 @@ export class AppComponent {
       params[result[1]] = result[2];
     });
     if(target == 'room') {
+      if(action == 'authorization') {
+        this.room.authorization(params.userID);
+      }
       if(action == 'ingress') {
-        this.room.ingress(params.user, params.photo, params.chips);
+        this.room.ingress(params.user, params.photo);
       }
       if(action == 'deposit') {
         this.room.deposit(params.userID, params.coins, params.challengeID, params.claimToken);

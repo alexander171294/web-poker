@@ -5,9 +5,10 @@
     <label>Orchestrator Server</label> <input type="text" [(ngModel)]="orchestratorServer" name="orchestrator" placeholder="Orchestrator server" /> <button>Connect</button>
   </div>
   <div class="botonera">
+    <button (click)="authCMD()" class="roomServer">Authorization</button>
+    <button (click)="roomChallengeCMD()" class="apiServer">Room Challenge</button>
     <button (click)="ingressCMD()" class="roomServer">Ingress</button>
     <button (click)="depositCMD()" class="roomServer">Deposit</button>
-    <button (click)="roomChallengeCMD()" class="apiServer">Room Challenge</button>
     <button (click)="backwardValidationCMD()" class="roomServer">Backward Validation</button>
     <div class="separator"></div>
     <!-- <button>Connect</button>

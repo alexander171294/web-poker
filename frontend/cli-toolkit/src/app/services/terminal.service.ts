@@ -21,6 +21,14 @@ export class TerminalService {
     this.event.emit('[?] ' + text);
   }
 
+  out(text: string, srv: string) {
+    this.event.emit('@'+srv+' << ' + text);
+  }
+
+  in(text: string, srv: string) {
+    this.event.emit('@'+srv+' >> ' + text);
+  }
+
   dlog(text: string) {
     this.event.emit(' - - - - >' + text);
   }

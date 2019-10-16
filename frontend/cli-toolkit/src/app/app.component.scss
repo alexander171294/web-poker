@@ -44,6 +44,9 @@
       list-style: none;
       padding: 0px;
       margin: 0px;
+      li {
+        width: max-content;
+      }
     }
   }
   .prompt {

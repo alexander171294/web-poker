@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ar.com.tandilweb.exchange.UserAuthSchema;
 import ar.com.tandilweb.exchange.backwardValidation.ChallengeValidation;
 import ar.com.tandilweb.exchange.userAuth.ActiveSession;
 import ar.com.tandilweb.exchange.userAuth.Authorization;
@@ -42,13 +41,13 @@ public class AuthController {
 	private OrchestratorThread orchestrator;
 	
 	@MessageMapping("/authorization")
-	@SendToUser("/userAuth/challenge")
-	public UserAuthSchema authorization(Authorization auth, SimpMessageHeaderAccessor headerAccessor) {
+	@SendToUser("/AuthController/challenge")
+	public Challenge authorization(Authorization auth, SimpMessageHeaderAccessor headerAccessor) {
 		String sessID = headerAccessor.getSessionId();
 		log.debug("New session: " + sessID);
 		if(sessionHandler.isActiveSessionForUser(auth.userID)) {
 			ActiveSession activeSession = new ActiveSession();
-			sessionHandler.sendToUserID("/userAuth/activeSession", auth.userID, activeSession);
+			sessionHandler.sendToUserID("/AuthController/activeSession", auth.userID, activeSession);
 		}
 		Challenge challenge = new Challenge();
 		challenge.action = ChallengeActions.LOGIN;
@@ -60,6 +59,7 @@ public class AuthController {
 		userData.userID = auth.userID;
 		userData.status = UserDataStatus.PENDING;
 		sessionHandler.assocSessionWithUserData(sessID, userData);
+		//sessionHandler.sendToSessID("/AuthController/challenge", sessID, challenge);
 		return challenge;
 	}
 	

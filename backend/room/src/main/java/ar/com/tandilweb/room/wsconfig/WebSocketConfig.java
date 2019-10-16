@@ -25,8 +25,10 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
 
 	@Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/clientInterceptor"); // prefijos de salida
-        config.setApplicationDestinationPrefixes("/stompApi"); // prefijos de entrada (api)
+		config.setApplicationDestinationPrefixes("/stompApi"); // prefijos de entrada (api)
+		// controllers:
+        config.enableSimpleBroker("/AuthController"); // prefijos de salida
+        // frontend-endpoint
         config.setUserDestinationPrefix("/userInterceptor"); // prefijo para single user (tome)
     }
 	
@@ -42,7 +44,7 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
 	
 	@Override
     public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
-	        return super.configureMessageConverters(messageConverters);
+		return super.configureMessageConverters(messageConverters);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
     
     @Bean
     public WebSocketHandler subProtocolWebSocketHandler() {
-	        return new WebSocketMonitor(clientInboundChannel(), clientOutboundChannel());
+    	return new WebSocketMonitor(clientInboundChannel(), clientOutboundChannel());
 	}
 	
 }

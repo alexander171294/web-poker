@@ -6,6 +6,8 @@ import { EventWS } from '../utils/EventWS';
 import { EventTypeWS } from '../utils/EventTypeWS';
 import { MessageDefinition } from '../utils/MessageDefinition';
 import { Authorization } from '../epprProtocol/userAuth/Authorization';
+import { BackwardValidation } from '../epprProtocol/userAuth/BackwardValidation';
+import { ChallengeActions } from '../epprProtocol/userAuth/types/ChallengeActions';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +81,6 @@ export class RoomService {
     dBlock.endpoint = '/user/authorization';
     dBlock.prefix = '/stompApi';
     this.ws.sendMessage(dBlock);
-
   }
 
   onAuthorizationResponse(data: any) {
@@ -90,9 +91,6 @@ export class RoomService {
   ingress(user: string, photo: string) {
     this.terminal.out('Ingress ['+user+']', this.serviceName);
     const dBlock = new MessageDefinition();
-    dBlock.data = {user, photo};
-    dBlock.endpoint = '/clientInterceptor';
-    dBlock.prefix = '/clientInterceptor';
     
   }
 
@@ -101,7 +99,15 @@ export class RoomService {
   }
 
   backwardValidation(challengeID: number) {
-
+    this.terminal.out('Backward Validation CID ['+challengeID+']', this.serviceName);
+    const bV = new BackwardValidation();
+    bV.action = ChallengeActions.LOGIN;
+    bV.idChallenge = challengeID;
+    const dBlock = new MessageDefinition();
+    dBlock.data = bV;
+    dBlock.endpoint = '/user/backwardValidation';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
   }
 
   subscriptions() {

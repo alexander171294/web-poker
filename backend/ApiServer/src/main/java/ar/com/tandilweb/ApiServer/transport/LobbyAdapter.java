@@ -88,7 +88,8 @@ public class LobbyAdapter {
 		challenge.setId_room(roomID);
 		challenge.setId_user(meID);
 		challenge = challengesRepository.create(challenge);
-
+		
+		out.challengeID = challenge.getChallengeID();
 		out.operationSuccess = true;
 		return out;
 	}

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ChallengeResponse } from './api/ChallengeResponse';
 
 
 @Injectable({
@@ -16,7 +17,7 @@ export class ApiService {
     this.endpoint = endpoint;
   }
 
-  challenge(roomID, claimToken): Observable<string> {
-    return this.http.post<string>(this.endpoint + '/mock/lobby/rooms/' + roomID, claimToken);
+  challenge(roomID, claimToken): Observable<ChallengeResponse> {
+    return this.http.post<ChallengeResponse>(this.endpoint + '/mock/lobby/rooms/' + roomID, claimToken);
   }
 }

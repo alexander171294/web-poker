@@ -70,8 +70,8 @@ export class AppComponent {
     const target = part[1];
     const action = part[2];
     var params: any = {};
-    command.match(/[a-zA-Z]+:"[a-zA-Z0-9]+"/gm).forEach(data => {
-      const result = /([a-zA-Z]+):"([a-zA-Z0-9]+)"/gm.exec(data);
+    command.match(/[a-zA-Z]+:"[a-zA-Z0-9-]+"/gm).forEach(data => {
+      const result = /([a-zA-Z]+):"([a-zA-Z0-9-]+)"/gm.exec(data);
       params[result[1]] = result[2];
     });
     if(target == 'room') {
@@ -94,7 +94,7 @@ export class AppComponent {
         this.terminal.out('Challenge Room','ApiSrv');
         this.api.setEndpoint(this.apiServer);
         this.api.challenge(params.roomID, params.claimToken).subscribe(data => {
-          this.terminal.in('Challenge Response OK','ApiSrv')
+          this.terminal.in('Challenge Response OK, challengeID: ' + data.challengeID ,'ApiSrv')
         }, err => {
           this.terminal.in('Challenge refused','ApiSrv');
         });

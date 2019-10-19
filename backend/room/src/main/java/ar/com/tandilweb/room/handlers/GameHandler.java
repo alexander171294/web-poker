@@ -62,8 +62,12 @@ public class GameHandler {
 			// DEPOSIT SCHEMA -- see documentation of eppr
 			sessionHandler.sendToSessID("gameController/deposit", userData.sessID, roomAuthProtocol.getDepositSchema());
 		} else {
-			// FIXME: check if user already in spectators list.
-			this.spectators.add(userData);
+			for(UserData spectator: spectators) {
+				if(spectator.userID == userData.userID) {
+					spectators.remove(spectator);
+				}
+			}
+			spectators.add(userData);
 			sessionHandler.sendToSessID("gameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
 		}
 		

@@ -84,7 +84,7 @@ public class SessionHandler {
 	
 	public void remove(String sessionID) {
 		userAssociation.remove(sessionID);
-		// FIXME: close connection.
+		// TODO: close connection.
 	}
 	
 	public void sendToUserID(String direction, long userID, Object payload) {

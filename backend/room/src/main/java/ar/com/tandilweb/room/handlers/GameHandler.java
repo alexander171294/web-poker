@@ -97,6 +97,10 @@ public class GameHandler {
 	
 	public void ingressSchema(int position, UserData userData) {
 		// INGRESS SCHEMA
+		if(userData.chips == 0) {
+			sessionHandler.sendToSessID("GameController/deposit", userData.sessID, roomAuthProtocol.getDepositSchema());
+			return;
+		}
 		sessionHandler.sendToSessID("GameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));
 		// Announcement
 		sessionHandler.sendToAll("GameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));

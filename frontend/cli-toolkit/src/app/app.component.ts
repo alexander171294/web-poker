@@ -90,7 +90,7 @@ export class AppComponent {
   }
 
   sitCMD() {
-    this.commandPrompt = 'room.sit position:2';
+    this.commandPrompt = 'room.sit position:"2"';
     document.getElementById('commandPrompt').focus();
   }
 
@@ -103,6 +103,7 @@ export class AppComponent {
       const result = /([a-zA-Z]+):"([a-zA-Z0-9-]+)"/gm.exec(data);
       params[result[1]] = result[2];
     });
+    console.log(target, action, params);
     if(target == 'room') {
       if(action == 'authorization') {
         this.room.authorization(params.userID);

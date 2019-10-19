@@ -57,6 +57,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 							sessionHandler.remove(anotherSession.sessID);
 						}
 					}
+					userData.dataBlock = dataResponse.userData;
 					this.gameHandler.ingressFlow(userData);
 				} else {
 					// TODO: check fails and send full rejected and block ip

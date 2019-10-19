@@ -14,11 +14,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.backwardValidation.ChallengeValidation;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SelectPosition;
 import ar.com.tandilweb.exchange.userAuth.ActiveSession;
 import ar.com.tandilweb.exchange.userAuth.Authorization;
 import ar.com.tandilweb.exchange.userAuth.BackwardValidation;
 import ar.com.tandilweb.exchange.userAuth.Challenge;
 import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
+import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
 import ar.com.tandilweb.room.handlers.dto.UserData;
@@ -39,6 +41,9 @@ public class AuthController {
 	
 	@Autowired
 	private OrchestratorThread orchestrator;
+	
+	@Autowired
+	private GameHandler gameHandler;
 	
 	@MessageMapping("/authorization")
 	@SendToUser("/AuthController/challenge")
@@ -83,8 +88,16 @@ public class AuthController {
 		}
 	}
 	
+	@MessageMapping("/selectPosition")
+	public void selectPosition(SelectPosition selectedPosition, SimpMessageHeaderAccessor headerAccessor){
+		String sessID = headerAccessor.getSessionId();
+		gameHandler.sitFlow(selectedPosition.position, sessionHandler.getUserDataBySession(sessID));
+	}
+	
 	// TODO: make user-deposit schema implementation.
 	
+	
 	// TODO: make leave schema implementation.
+	
 
 }

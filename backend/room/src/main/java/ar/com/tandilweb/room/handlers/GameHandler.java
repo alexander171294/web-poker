@@ -73,6 +73,28 @@ public class GameHandler {
 		
 	}
 	
+	public void sitFlow(int position, UserData userData) {
+		if(position >= maxPlayers || usersInTable[position] != null) {
+			List<Integer> freeSpaces = new ArrayList<Integer>();
+			for(int i = 0; i<maxPlayers; i++) {
+				if (usersInTable[i] == null) {
+					freeSpaces.add(i);
+				}
+			}
+			if(freeSpaces.size() > 0) {
+				sessionHandler.sendToAll("GameController/rejectedPosition", gameProtocol.getRejectedPositionSchema(freeSpaces));
+			} else {
+				sessionHandler.sendToSessID("GameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
+			}
+		} else {
+			usersInTable[position] = userData;
+			if(userData.chips > 0) {
+				this.ingressSchema(position, userData);
+			}
+		}
+		
+	}
+	
 	public void ingressSchema(int position, UserData userData) {
 		// INGRESS SCHEMA
 		sessionHandler.sendToSessID("GameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));

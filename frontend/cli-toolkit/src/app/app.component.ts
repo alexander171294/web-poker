@@ -74,11 +74,6 @@ export class AppComponent {
     document.getElementById('commandPrompt').focus();
   }
 
-  ingressCMD() {
-    this.commandPrompt = 'room.ingress user:"NickName" photo:"PhotoURL" chips:"4500"';
-    document.getElementById('commandPrompt').focus();
-  }
-
   depositCMD() {
     this.commandPrompt = 'room.deposit userID:"57" coins:"500" challengeID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
     document.getElementById('commandPrompt').focus();
@@ -91,6 +86,11 @@ export class AppComponent {
 
   backwardValidationCMD() {
     this.commandPrompt = 'room.backwardValidation challengeID:"16"';
+    document.getElementById('commandPrompt').focus();
+  }
+
+  sitCMD() {
+    this.commandPrompt = 'room.sit position:2';
     document.getElementById('commandPrompt').focus();
   }
 
@@ -115,6 +115,9 @@ export class AppComponent {
       }
       if(action == 'backwardValidation') {
         this.room.backwardValidation(params.challengeID);
+      }
+      if(action == 'sit') {
+        this.room.selectPosition(params.position);
       }
     }
     if(target == 'apisrv') {

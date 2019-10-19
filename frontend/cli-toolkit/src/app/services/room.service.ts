@@ -8,6 +8,7 @@ import { MessageDefinition } from '../utils/MessageDefinition';
 import { Authorization } from '../epprProtocol/userAuth/Authorization';
 import { BackwardValidation } from '../epprProtocol/userAuth/BackwardValidation';
 import { ChallengeActions } from '../epprProtocol/userAuth/types/ChallengeActions';
+import { SelectPosition } from '../epprProtocol/userAuth/SelectPosition';
 
 @Injectable({
   providedIn: 'root'
@@ -89,8 +90,8 @@ export class RoomService {
   }
 
   ingress(user: string, photo: string) {
-    this.terminal.out('Ingress ['+user+']', this.serviceName);
-    const dBlock = new MessageDefinition();
+    this.terminal.info('Ingress ['+user+']');
+    //const dBlock = new MessageDefinition();
     
   }
 
@@ -110,6 +111,17 @@ export class RoomService {
     this.ws.sendMessage(dBlock);
   }
 
+  selectPosition(position: number) {
+    this.terminal.out('Select Position ['+position+']', this.serviceName);
+    const sP = new SelectPosition();
+    sP.position = position;
+    const dBlock = new MessageDefinition();
+    dBlock.data = sP;
+    dBlock.endpoint = '/user/selectPosition';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
+  }
+
   subscriptions() {
     this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
       this.onAuthorizationResponse(data);
@@ -124,10 +136,11 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/GameController/rejectFullyfied', (data) => this.onRejectFullyfied(data));
     this.ws.suscribe('/userInterceptor/GameController/announcement', (data) => this.onAnnouncement(data));
     this.ws.suscribe('/userInterceptor/GameController/ingress', (data) => this.onIngress(data));
+    this.ws.suscribe('/userInterceptor/GameController/rejectedPosition', (data) => this.onRejectedPosition(data));
   }
 
   onIngress(data) {
-    this.terminal.in('Ingress Chips: '+data.chips+' - position: '+data.position, this.serviceName);
+    this.terminal.info('Ingress Chips: '+data.chips+' - position: '+data.position);
   }
 
   onAnnouncement(data) {
@@ -135,7 +148,7 @@ export class RoomService {
   }
 
   onRejectFullyfied(data) {
-    this.terminal.in('REJECTED Fullyfied', this.serviceName);
+    this.terminal.err('REJECTED Fullyfied');
   }
 
   onDefinePosition(data) {
@@ -144,6 +157,11 @@ export class RoomService {
 
   onDeposit(data) {
     this.terminal.in('Requesting deposit...', this.serviceName);
+  }
+
+  onRejectedPosition(data) {
+    this.terminal.err('Rejected Position');
+    this.terminal.in('Rejected, available positions: '+JSON.stringify(data.positions), this.serviceName);
   }
 
   onAuthResponse(dataResponse) {

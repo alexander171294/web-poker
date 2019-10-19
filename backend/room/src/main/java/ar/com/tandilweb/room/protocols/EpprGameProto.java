@@ -10,6 +10,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Announcement
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.DefinePosition;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Ingress;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RejectFullyfied;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RejectedPosition;
 import ar.com.tandilweb.room.handlers.dto.UserData;
 
 @Component
@@ -41,5 +42,11 @@ public class EpprGameProto {
 		out.avatar = userData.dataBlock.getPhoto();
 		out.user = userData.dataBlock.getNick_name();
 		return out;
+	}
+	
+	public RejectedPosition getRejectedPositionSchema(List<Integer> freeSpaces) {
+		RejectedPosition position = new RejectedPosition();
+		position.positions = freeSpaces;
+		return position;
 	}
 }

@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,9 @@ import ar.com.tandilweb.room.handlers.dto.UserData;
 public class GameHandler {
 	
 	public static Logger logger = LoggerFactory.getLogger(GameHandler.class);
+	
+	@Autowired
+	private SessionHandler sessionHandler;
 	
 	private UserData[] usersInTable;
 	

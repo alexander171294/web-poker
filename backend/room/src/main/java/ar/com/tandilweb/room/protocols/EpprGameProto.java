@@ -38,7 +38,8 @@ public class EpprGameProto {
 		Announcement out = new Announcement();
 		out.position = position;
 		out.chips = userData.chips;
-		// FIXME: add other user data.
+		out.avatar = userData.dataBlock.getPhoto();
+		out.user = userData.dataBlock.getNick_name();
 		return out;
 	}
 }

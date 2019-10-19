@@ -63,7 +63,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 				// FullRejected frej = new FullRejected();
 				out = new BadRequest();
 			}
-			sessionHandler.sendToSessID("/userAuth/response", sessionID, out);
+			sessionHandler.sendToSessID("/AuthController/response", sessionID, out);
 		} catch (IOException e) {
 			logger.error("Error processing schema from orchestrator", e);
 		}
@@ -75,7 +75,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			Invalid invalidResponse = objectMapper.readValue(schemaBody, Invalid.class);
 			String sessionID = sessionHandler.getSessionByTransactionID(invalidResponse.transactionID);
 			Rejected reject = new Rejected();
-			sessionHandler.sendToSessID("/userAuth/rejected", sessionID, reject);
+			sessionHandler.sendToSessID("/AuthController/rejected", sessionID, reject);
 		} catch (IOException e) {
 			logger.error("Error processing schema from orchestrator", e);
 		}
@@ -86,8 +86,11 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			ObjectMapper objectMapper = new ObjectMapper();
 			Unknown unknownResponse = objectMapper.readValue(schemaBody, Unknown.class);
 			String sessionID = sessionHandler.getSessionByTransactionID(unknownResponse.transactionID);
+			if(sessionID == null) {
+				logger.error("Failed to recover Session ID in Transaction ID: " + unknownResponse.transactionID);
+			}
 			Rejected reject = new Rejected();
-			sessionHandler.sendToSessID("/userAuth/rejected", sessionID, reject);
+			sessionHandler.sendToSessID("/AuthController/rejected", sessionID, reject);
 		} catch (IOException e) {
 			logger.error("Error processing schema from orchestrator", e);
 		}

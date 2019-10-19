@@ -52,7 +52,8 @@ public class SessionHandler {
 	
 	public String getSessionByTransactionID(String transactionID) {
 		for(String sessID: userAssociation.keySet()) {
-			if(userAssociation.get(sessID).transactionID == transactionID) {
+			if(userAssociation.get(sessID).transactionID != null && 
+			   userAssociation.get(sessID).transactionID.equals(transactionID)) {
 				return sessID;
 			}
 		}

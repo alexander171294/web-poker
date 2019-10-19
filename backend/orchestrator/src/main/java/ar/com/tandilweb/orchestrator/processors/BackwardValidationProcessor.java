@@ -17,10 +17,10 @@ import ar.com.tandilweb.exchange.backwardValidation.DataChallenge;
 import ar.com.tandilweb.exchange.backwardValidation.Invalid;
 import ar.com.tandilweb.exchange.backwardValidation.Unknown;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
-import ar.com.tandilweb.orchestrator.persistence.domain.Challenges;
-import ar.com.tandilweb.orchestrator.persistence.domain.Users;
 import ar.com.tandilweb.orchestrator.persistence.repository.ChallengesRepository;
 import ar.com.tandilweb.orchestrator.persistence.repository.UsersRepository;
+import ar.com.tandilweb.persistence.domain.Challenges;
+import ar.com.tandilweb.persistence.domain.Users;
 
 @Service
 public class BackwardValidationProcessor {

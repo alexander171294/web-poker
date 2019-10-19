@@ -16,9 +16,9 @@ import ar.com.tandilweb.exchange.roomAuth.SignupData;
 import ar.com.tandilweb.exchange.roomAuth.SignupResponse;
 import ar.com.tandilweb.exchange.roomAuth.TokenUpdate;
 import ar.com.tandilweb.orchestrator.handlers.LoginResponse;
-import ar.com.tandilweb.orchestrator.persistence.domain.Rooms;
 import ar.com.tandilweb.orchestrator.persistence.repository.RoomsRepository;
 import ar.com.tandilweb.orchestrator.protocols.EpprRoomAuth;
+import ar.com.tandilweb.persistence.domain.Rooms;
 
 @Service
 public class RoomAuthService {

@@ -1,13 +1,19 @@
 package ar.com.tandilweb.persistence.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import ar.com.tandilweb.persistence.BaseRepository;
 import ar.com.tandilweb.persistence.domain.Rooms;
@@ -17,13 +23,52 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	public static Logger logger = LoggerFactory.getLogger(RoomsRepository.class);
 
 	@Override
-	public Rooms create(Rooms record) {
-		return null;
+	public Rooms create(final Rooms record) {
+		try {
+			final String sql = "INSERT INTO rooms "
+					+ "(name, accessPassword, securityToken, gproto, max_players, description, minCoinForAccess, recoveryEmail, badLogins, now_connected, isOfficial, server_ip) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+			KeyHolder holder = new GeneratedKeyHolder();
+			jdbcTemplate.update(new PreparedStatementCreator() {
+				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+					PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					ps.setString(1, record.getName());
+					ps.setString(2, record.getAccessPassword());
+					ps.setString(3, record.getSecurityToken());
+					ps.setString(4, record.getGproto());
+					ps.setInt(5, record.getMax_players());
+					//ps.setDate(5, new java.sql.Date(record.getLast_login().getTime()));
+					ps.setString(6, record.getDescription());
+					ps.setInt(7, record.getMinCoinForAccess());
+					ps.setString(8, record.getRecoveryEmail());
+					ps.setInt(9, record.getBadLogins());
+					ps.setBoolean(10, record.isNowConnected());
+					ps.setBoolean(11, record.isOfficial());
+					ps.setString(12, record.getServer_ip());
+					return ps;
+				}
+			}, holder);
+			record.setId_room(holder.getKey().longValue());
+			return record;
+		} catch(DataAccessException e) {
+			logger.error("RoomsRepository::create", e);
+			return null;
+		}
 	}
 
 	@Override
 	public void update(Rooms record) {
-		
+		try {
+			final String sql = "UPDATE rooms SET name = ?, securityToken = ?, server_ip = ? WHERE id_room = ?";
+			jdbcTemplate.update(sql, new Object[] {
+					record.getName(),
+					record.getSecurityToken(),
+					record.getServer_ip(),
+					record.getId_room()
+			});
+		} catch(DataAccessException e) {
+			logger.error("RoomsRepository::update", e);
+		}
 	}
 
 	@Override
@@ -31,7 +76,7 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 		try {
 			return jdbcTemplate.queryForObject(
                 "SELECT * FROM rooms WHERE id_room = ?",
-                new Object[]{id}, new RoomsRowMapper());
+                new Object[]{ id }, new RoomsRowMapper());
 		} catch(DataAccessException e) {
 			return null;
 		}

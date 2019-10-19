@@ -10,6 +10,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Announcement
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.DefinePosition;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Ingress;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RejectFullyfied;
+import ar.com.tandilweb.room.handlers.dto.UserData;
 
 @Component
 public class EpprGameProto {
@@ -17,18 +18,27 @@ public class EpprGameProto {
 	public static Logger logger = LoggerFactory.getLogger(EpprGameProto.class);
 	
 	public DefinePosition getDefinePositionSchema(List<Integer> freeSpaces) {
-		return null;
+		DefinePosition out = new DefinePosition();
+		out.positions = freeSpaces;
+		return out;
 	}
 
 	public RejectFullyfied getRejectFullyfiedSchema() {
-		return null;
+		return new RejectFullyfied();
 	}
 	
-	public Ingress getIngressSchema() {
-		return null;
+	public Ingress getIngressSchema(UserData userData, int position) {
+		Ingress out = new Ingress();
+		out.chips = userData.chips;
+		out.position = position;
+		return out;
 	}
 	
-	public Announcement getAnnouncementSchema() {
-		return null;
+	public Announcement getAnnouncementSchema(UserData userData, int position) {
+		Announcement out = new Announcement();
+		out.position = position;
+		out.chips = userData.chips;
+		// FIXME: add other user data.
+		return out;
 	}
 }

@@ -10,4 +10,6 @@ public class UserData {
 	public String transactionID;
 	public UserDataStatus status;
 	
+	public long chips;
+	
 }

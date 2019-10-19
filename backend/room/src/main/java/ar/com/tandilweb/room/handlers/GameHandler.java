@@ -71,10 +71,18 @@ public class GameHandler {
 	
 	public void ingressSchema(int position, UserData userData) {
 		// INGRESS SCHEMA
-		sessionHandler.sendToSessID("gameController/ingress", userData.sessID, gameProtocol.getIngressSchema());
+		sessionHandler.sendToSessID("gameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));
 		// Announcement
-		sessionHandler.sendToAll("gameController/announcement", gameProtocol.getAnnouncementSchema());
+		sessionHandler.sendToAll("gameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
 		// FIXME: check start game?
 	}
 	
+	public int getPositionOfUser(long userId) {
+		for(int i = 0; i<maxPlayers; i++) {
+			if(usersInTable[i] != null && usersInTable[i].userID == userId) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }

@@ -110,7 +110,43 @@ export class RoomService {
     this.ws.sendMessage(dBlock);
   }
 
-  onAutResponse(dataResponse) {
+  subscriptions() {
+    this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
+      this.onAuthorizationResponse(data);
+    });
+    this.ws.suscribe('/userInterceptor/AuthController/rejected', (data) => {
+      this.terminal.in('UserAuth Rejected', this.serviceName);
+    });
+    this.ws.suscribe('/userInterceptor/AuthController/response', (data) => this.onAuthResponse(data));
+    this.ws.suscribe('/userInterceptor/AuthController/kick', (data) => this.onKick(data));
+    this.ws.suscribe('/userInterceptor/GameController/definePosition', (data) => this.onDefinePosition(data));
+    this.ws.suscribe('/userInterceptor/GameController/deposit', (data) => this.onDeposit(data));
+    this.ws.suscribe('/userInterceptor/GameController/rejectFullyfied', (data) => this.onRejectFullyfied(data));
+    this.ws.suscribe('/userInterceptor/GameController/announcement', (data) => this.onAnnouncement(data));
+    this.ws.suscribe('/userInterceptor/GameController/ingress', (data) => this.onIngress(data));
+  }
+
+  onIngress(data) {
+    this.terminal.in('Ingress Chips: '+data.chips+' - position: '+data.position, this.serviceName);
+  }
+
+  onAnnouncement(data) {
+    this.terminal.in('Announcement: Pos['+data.position+'] user['+data.user+'] chips['+data.chips+'] avatar['+data.avatar+']', this.serviceName);
+  }
+
+  onRejectFullyfied(data) {
+    this.terminal.in('REJECTED Fullyfied', this.serviceName);
+  }
+
+  onDefinePosition(data) {
+    this.terminal.in('Define Position, free positions: '+JSON.stringify(data.positions), this.serviceName);
+  }
+
+  onDeposit(data) {
+    this.terminal.in('Requesting deposit...', this.serviceName);
+  }
+
+  onAuthResponse(dataResponse) {
     console.log('DR AutValidated', dataResponse);
     if (dataResponse.schema == 'validated') {
       this.terminal.in('Validated :) Schema', this.serviceName);
@@ -126,16 +162,5 @@ export class RoomService {
   onKick(dataResponse) {
     console.log('DR Kick', dataResponse);
     this.terminal.info('You are kicked from this server');
-  }
-
-  subscriptions() {
-    this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
-      this.onAuthorizationResponse(data);
-    });
-    this.ws.suscribe('/userInterceptor/AuthController/rejected', (data) => {
-      this.terminal.in('UserAuth Rejected', this.serviceName);
-    });
-    this.ws.suscribe('/userInterceptor/AuthController/response', (data) => this.onAutResponse(data));
-    this.ws.suscribe('/userInterceptor/AuthController/kick', (data) => this.onKick(data));
   }
 }

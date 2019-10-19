@@ -58,9 +58,9 @@ public class GameHandler {
 		}
 		// DEFINEPOSITION SCHEMA.
 		if(freeSpaces.size() > 0) {
-			sessionHandler.sendToSessID("gameController/definePosition", userData.sessID, this.gameProtocol.getDefinePositionSchema(freeSpaces));
+			sessionHandler.sendToSessID("GameController/definePosition", userData.sessID, this.gameProtocol.getDefinePositionSchema(freeSpaces));
 			// DEPOSIT SCHEMA -- see documentation of eppr
-			sessionHandler.sendToSessID("gameController/deposit", userData.sessID, roomAuthProtocol.getDepositSchema());
+			sessionHandler.sendToSessID("GameController/deposit", userData.sessID, roomAuthProtocol.getDepositSchema());
 		} else {
 			for(UserData spectator: spectators) {
 				if(spectator.userID == userData.userID) {
@@ -68,16 +68,16 @@ public class GameHandler {
 				}
 			}
 			spectators.add(userData);
-			sessionHandler.sendToSessID("gameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
+			sessionHandler.sendToSessID("GameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
 		}
 		
 	}
 	
 	public void ingressSchema(int position, UserData userData) {
 		// INGRESS SCHEMA
-		sessionHandler.sendToSessID("gameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));
+		sessionHandler.sendToSessID("GameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));
 		// Announcement
-		sessionHandler.sendToAll("gameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
+		sessionHandler.sendToAll("GameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
 		// FIXME: check start game?
 	}
 	

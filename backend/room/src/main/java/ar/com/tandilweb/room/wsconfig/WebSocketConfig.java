@@ -27,7 +27,7 @@ public class WebSocketConfig extends  WebSocketMessageBrokerConfigurationSupport
     public void configureMessageBroker(MessageBrokerRegistry config) {
 		config.setApplicationDestinationPrefixes("/stompApi"); // prefijos de entrada (api)
 		// controllers:
-        config.enableSimpleBroker("/AuthController", "/gameController"); // prefijos de salida
+        config.enableSimpleBroker("/AuthController", "/GameController"); // prefijos de salida
         // frontend-endpoint
         config.setUserDestinationPrefix("/userInterceptor"); // prefijo para single user (tome)
     }

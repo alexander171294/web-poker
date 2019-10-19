@@ -20,6 +20,7 @@ import ar.com.tandilweb.exchange.userAuth.BadRequest;
 import ar.com.tandilweb.exchange.userAuth.Kicked;
 import ar.com.tandilweb.exchange.userAuth.Rejected;
 import ar.com.tandilweb.exchange.userAuth.Validated;
+import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
 import ar.com.tandilweb.room.handlers.dto.UserData;
 import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
@@ -32,6 +33,9 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 	
 	@Autowired
 	private SessionHandler sessionHandler;
+	
+	@Autowired
+	private GameHandler gameHandler;
 
 	public void processDataChallengeSchema(String schemaBody) {
 		try {
@@ -53,6 +57,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 							sessionHandler.remove(anotherSession.sessID);
 						}
 					}
+					this.gameHandler.ingressFlow(userData);
 				} else {
 					// TODO: check fails and send full rejected and block ip
 					// FullRejected frej = new FullRejected();

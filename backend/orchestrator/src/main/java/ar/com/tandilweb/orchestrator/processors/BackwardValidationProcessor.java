@@ -59,7 +59,7 @@ public class BackwardValidationProcessor {
 		dch.idUser = challenge.getId_user();
 		dch.transactionID = inputSchema.transactionID;
 		dch.userData = userRepository.findById(challenge.getId_user());
-		
+		dch.userData.setPassword("*****");
 		// send to room.
 		return dch;
 	}

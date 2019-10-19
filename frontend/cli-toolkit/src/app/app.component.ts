@@ -28,18 +28,21 @@ export class AppComponent {
         msg: data,
         type: 'normal'
       });
+      this.goToBottom();
     });
     terminal.errorEvent.subscribe(data => {
       this.terminalMessages.push({
         msg: data,
         type: 'error'
       });
+      this.goToBottom();
     });
     terminal.infoEvent.subscribe(data => {
       this.terminalMessages.push({
         msg: data,
         type: 'info'
       });
+      this.goToBottom();
     });
     this.debugMode = environment.debugMode;
     if(environment.debugMode) {
@@ -48,6 +51,7 @@ export class AppComponent {
           msg: data,
           type: 'debug'
         });
+        this.goToBottom();
       });
     }
   }
@@ -125,5 +129,12 @@ export class AppComponent {
         });
       }
     }
+  }
+
+  goToBottom() {
+    setTimeout(() => {
+      const objDiv = document.getElementById('eventsTerminal');
+      objDiv.scrollTop = objDiv.scrollHeight;
+    }, 100);
   }
 }

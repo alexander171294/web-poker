@@ -16,7 +16,7 @@
     <!-- <button>Connect</button>
     <button>Disconnect</button> -->
   </div>
-  <div class="events">
+  <div class="events" id="eventsTerminal">
     <ul>
       <li *ngFor="let message of terminalMessages" [ngClass]="{'hidden': !debugMode && message.type === 'debug', 'debug': message.type === 'debug', 'error': message.type === 'error', 'info': message.type === 'info'}">{{message.msg}}</li>
     </ul>

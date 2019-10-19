@@ -20,11 +20,11 @@ import ar.com.tandilweb.exchange.userAuth.BadRequest;
 import ar.com.tandilweb.exchange.userAuth.Kicked;
 import ar.com.tandilweb.exchange.userAuth.Rejected;
 import ar.com.tandilweb.exchange.userAuth.Validated;
+import ar.com.tandilweb.persistence.domain.Users;
 import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
 import ar.com.tandilweb.room.handlers.dto.UserData;
 import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
-import ar.com.tandilweb.room.orchestratorBridge.processors.dtoDB.Users;
 
 @Component
 public class BackwardValidationProcessor extends OrchestratorGenericProcessor {

@@ -1,5 +1,8 @@
 package ar.com.tandilweb.room.handlers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ar.com.tandilweb.room.handlers.dto.UserData;
+import ar.com.tandilweb.room.protocols.EpprGameProto;
+import ar.com.tandilweb.room.protocols.EpprRoomAuth;
 
 @Service
 public class GameHandler {
@@ -18,7 +23,14 @@ public class GameHandler {
 	@Autowired
 	private SessionHandler sessionHandler;
 	
+	@Autowired
+	private EpprGameProto gameProtocol;
+	
+	@Autowired
+	private EpprRoomAuth roomAuthProtocol;
+	
 	private UserData[] usersInTable;
+	private List<UserData> spectators = new ArrayList<UserData>();
 	
 	@Value("${act.room.RoomAuth.maxPlayers}")
 	private int maxPlayers;
@@ -33,25 +45,35 @@ public class GameHandler {
 		// TODO: dump table snapshot (including table size)
 		logger.debug("Ingressed user", userData);
 		// check old position 
-		int freeSpaces = 0;
+		List<Integer> freeSpaces = new ArrayList<Integer>();
 		for(int i = 0; i<maxPlayers; i++) {
 			if (usersInTable[i] != null) {
 				if(usersInTable[i].userID == userData.userID) {
 					this.ingressSchema(i, userData);
-				} else {
-					// DEFINEPOSITION SCHEMA
-					// DEPOSIT SCHEMA -- see documentation of eppr
-					// INGRESS SCHEMA
+					return;
 				}
 			} else {
-				freeSpaces++;
+				freeSpaces.add(i);
 			}
 		}
+		// DEFINEPOSITION SCHEMA.
+		if(freeSpaces.size() > 0) {
+			sessionHandler.sendToSessID("gameController/definePosition", userData.sessID, this.gameProtocol.getDefinePositionSchema(freeSpaces));
+			// DEPOSIT SCHEMA -- see documentation of eppr
+			sessionHandler.sendToSessID("gameController/deposit", userData.sessID, roomAuthProtocol.getDepositSchema());
+		} else {
+			// FIXME: check if user already in spectators list.
+			this.spectators.add(userData);
+			sessionHandler.sendToSessID("gameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
+		}
+		
 	}
 	
 	public void ingressSchema(int position, UserData userData) {
 		// INGRESS SCHEMA
+		sessionHandler.sendToSessID("gameController/ingress", userData.sessID, gameProtocol.getIngressSchema());
 		// Announcement
+		
 		// FIXME: check start game?
 	}
 	

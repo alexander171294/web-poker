@@ -47,7 +47,7 @@ public class BackwardValidationProcessor {
 			// send to room
 			return uknSchema;
 		}
-		if(challenge.getId_room() != roomData.serverID) {
+		if(roomData == null || challenge.getId_room() != roomData.serverID) {
 			Invalid invalidSchema = new Invalid();
 			invalidSchema.transactionID = inputSchema.transactionID;
 			

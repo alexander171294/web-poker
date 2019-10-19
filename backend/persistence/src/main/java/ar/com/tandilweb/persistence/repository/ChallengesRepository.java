@@ -56,7 +56,7 @@ public class ChallengesRepository extends BaseRepository<Challenges, Long> {
 	public Challenges findById(Long id) {
 		try {
 			return jdbcTemplate.queryForObject(
-                "SELECT * FROM sessions WHERE challengeID = ?",
+                "SELECT * FROM challenges WHERE challengeID = ?",
                 new Object[]{id}, new ChallengesRowMapper());
 		} catch(DataAccessException e) {
 			return null;

@@ -25,10 +25,11 @@ public class RoomAuthProcessor {
 	
 	protected static Logger logger = LoggerFactory.getLogger(RoomAuthProcessor.class);
 	
-	public boolean processHandshakeSchema(String schemaBody, Handshake handshakeSchema, RoomHandlerThread roomThread) throws JsonParseException, JsonMappingException, IOException {
+	public boolean processHandshakeSchema(String schemaBody, RoomHandlerThread roomThread) throws JsonParseException, JsonMappingException, IOException {
 		logger.debug("Schema body Handshake");
 		ObjectMapper om = new ObjectMapper();
-		handshakeSchema = om.readValue(schemaBody, Handshake.class);
+		Handshake handshakeSchema = om.readValue(schemaBody, Handshake.class);
+		roomThread.setHandshakeSchema(handshakeSchema);
 		LoginResponse loginResponse = roomAuthSrv.handshakeValidate(handshakeSchema);
 		roomThread.sendToClient(om.writeValueAsString(loginResponse.response));
 		return loginResponse.logged;

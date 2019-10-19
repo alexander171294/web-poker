@@ -86,6 +86,10 @@ public class RoomHandlerThread implements Runnable {
 		output.println(data);
 		output.flush();
 	}
+	
+	public void setHandshakeSchema(Handshake hs) {
+		this.handshakeSchema = hs;
+	}
 
 	protected void closeConnection() {
 		try {
@@ -120,7 +124,7 @@ public class RoomHandlerThread implements Runnable {
 		if ("eppr/room-auth".equals(schema.namespace)) {
 			switch (schema.schema) {
 			case "handshake":
-				this.logged = this.roomAuthProcessor.processHandshakeSchema(schemaBody, this.handshakeSchema, this);
+				this.logged = this.roomAuthProcessor.processHandshakeSchema(schemaBody, this);
 				return;
 			case "signupData":
 				this.logged = this.roomAuthProcessor.processSignupDataSchema(schemaBody, this.handshakeSchema, this);

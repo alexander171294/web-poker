@@ -28,8 +28,25 @@ public class GameHandler {
 	public void ingressFlow(UserData userData) {
 		// TODO: dump table snapshot (including table size)
 		logger.debug("Ingressed user", userData);
-		// request define position (if is needed) or Reject fully?
-		// request deposit (if is needed)
+		// check old position 
+		int freeSpaces = 0;
+		for(int i = 0; i<maxPlayers; i++) {
+			if (usersInTable[i] != null) {
+				if(usersInTable[i].userID == userData.userID) {
+					this.ingressSchema(i, userData);
+				} else {
+					// DEFINEPOSITION SCHEMA
+					// DEPOSIT SCHEMA -- see documentation of eppr
+					// INGRESS SCHEMA
+				}
+			} else {
+				freeSpaces++;
+			}
+		}
+	}
+	
+	public void ingressSchema(int position, UserData userData) {
+		// INGRESS SCHEMA
 		// Announcement
 		// FIXME: check start game?
 	}

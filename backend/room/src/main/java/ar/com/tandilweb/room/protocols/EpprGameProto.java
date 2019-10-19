@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Announcement;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.DefinePosition;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Ingress;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RejectFullyfied;
@@ -24,6 +25,10 @@ public class EpprGameProto {
 	}
 	
 	public Ingress getIngressSchema() {
+		return null;
+	}
+	
+	public Announcement getAnnouncementSchema() {
 		return null;
 	}
 }

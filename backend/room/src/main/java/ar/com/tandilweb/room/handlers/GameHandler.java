@@ -73,7 +73,7 @@ public class GameHandler {
 		// INGRESS SCHEMA
 		sessionHandler.sendToSessID("gameController/ingress", userData.sessID, gameProtocol.getIngressSchema());
 		// Announcement
-		
+		sessionHandler.sendToAll("gameController/announcement", gameProtocol.getAnnouncementSchema());
 		// FIXME: check start game?
 	}
 	

@@ -6,6 +6,9 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class TerminalService {
 
   public event = new EventEmitter<string>();
+  public errorEvent = new EventEmitter<string>();
+  public infoEvent = new EventEmitter<string>();
+  public debugEvents = new EventEmitter<string>();
 
   constructor() { }
 
@@ -14,11 +17,11 @@ export class TerminalService {
   }
 
   err(text:string) {
-    this.event.emit('[!] ' + text);
+    this.errorEvent.emit('[!] ' + text);
   }
 
   info(text:string) {
-    this.event.emit('[?] ' + text);
+    this.infoEvent.emit('[?] ' + text);
   }
 
   out(text: string, srv: string) {
@@ -30,6 +33,6 @@ export class TerminalService {
   }
 
   dlog(text: string) {
-    this.event.emit(' - - - - >' + text);
+    this.debugEvents.emit(' - - - - >' + text);
   }
 }

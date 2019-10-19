@@ -2,6 +2,7 @@ import { Component, ViewChildren } from '@angular/core';
 import { RoomService } from './services/room.service';
 import { TerminalService } from './services/terminal.service';
 import { ApiService } from './services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +16,40 @@ export class AppComponent {
   private orchestratorServer = '127.0.0.1:8082';
   private apiServer = 'http://127.0.0.1:8083';
   private commandPrompt: string;
-
+  private debugMode: boolean;
 
   private terminalMessages = [
-    'Ready'
+    {msg: 'Ready', type: 'info'}
   ];
 
   constructor(private room: RoomService, private terminal: TerminalService, private api: ApiService) {
     terminal.event.subscribe(data => {
-      this.terminalMessages.push(data);
+      this.terminalMessages.push({
+        msg: data,
+        type: 'normal'
+      });
     });
+    terminal.errorEvent.subscribe(data => {
+      this.terminalMessages.push({
+        msg: data,
+        type: 'error'
+      });
+    });
+    terminal.infoEvent.subscribe(data => {
+      this.terminalMessages.push({
+        msg: data,
+        type: 'info'
+      });
+    });
+    this.debugMode = environment.debugMode;
+    if(environment.debugMode) {
+      terminal.debugEvents.subscribe(data => {
+        this.terminalMessages.push({
+          msg: data,
+          type: 'debug'
+        });
+      });
+    }
   }
 
   connectRoomServer() {

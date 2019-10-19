@@ -6,6 +6,7 @@
   padding: 5px;
   border-radius: 3px;
   background: linear-gradient(#f3f3f4, #c2c6c9, #f3f3f3);
+  position: relative;
   .inputData {
     margin-bottom: 5px;
     label {
@@ -16,6 +17,18 @@
     }
     button {
       margin-left: 5px;
+    }
+    .debug {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      color: gray;
+      padding: 2px;
+      font-family: helvetica;
+      font-size: 11px;
+      input {
+        vertical-align: middle;
+      }
     }
   }
   .botonera {
@@ -54,6 +67,18 @@
       margin: 0px;
       li {
         width: max-content;
+        &.debug {
+          opacity: 0.5;
+        }
+        &.info {
+          color: #86eee4;
+        }
+        &.error {
+          color: #ee8686;
+        }
+        &.hidden {
+          display: none;
+        }
       }
     }
   }

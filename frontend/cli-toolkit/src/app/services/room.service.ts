@@ -25,7 +25,7 @@ export class RoomService {
     let res = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]+)/gm.exec(serverIP);
     if(res.length > 2) {
       this.terminal.log('Connecting to ip: ['+res[1]+'] at port {'+res[2]+'}');
-      if(environment.debugMode) {
+      // if(environment.debugMode) {
         this.ws.wsEventSubscriptor.subscribe((data: EventWS) => {
           let prefix = '{';
           if(data.eventType == EventTypeWS.CONFIGURING) {
@@ -65,7 +65,7 @@ export class RoomService {
           prefix += '}';
           this.terminal.dlog(prefix + ' ' + JSON.stringify(data.data));
         });
-      }
+      // }
       this.ws.connect(res[1], res[2]);
     } else {
       this.terminal.err('Room server ip doesn\'t match with the regex: /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]+)/');

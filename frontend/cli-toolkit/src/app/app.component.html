@@ -3,6 +3,7 @@
     <label>Room Server</label> <input type="text" [(ngModel)]="roomServer" name="room" placeholder="Room server" /> <button (click)="connectRoomServer()">Connect</button><br />
     <label>Api Server</label> <input type="text" [(ngModel)]="apiServer" name="apiSrv" placeholder="Api server" /><br />
     <label>Orchestrator Server</label> <input type="text" [(ngModel)]="orchestratorServer" name="orchestrator" placeholder="Orchestrator server" /> <button>Connect</button>
+    <div class="debug">Debug mode <input type="checkbox" [(ngModel)]="debugMode" /> </div>
   </div>
   <div class="botonera">
     <button (click)="authCMD()" class="roomServer">Authorization</button>
@@ -17,7 +18,7 @@
   </div>
   <div class="events">
     <ul>
-      <li *ngFor="let message of terminalMessages">{{message}}</li>
+      <li *ngFor="let message of terminalMessages" [ngClass]="{'hidden': !debugMode && message.type === 'debug', 'debug': message.type === 'debug', 'error': message.type === 'error', 'info': message.type === 'info'}">{{message.msg}}</li>
     </ul>
   </div>
   <div class="prompt">

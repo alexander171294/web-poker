@@ -19,24 +19,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
-import ar.com.tandilweb.exchange.roomAuth.SignupData;
-import ar.com.tandilweb.orchestrator.adapters.RoomAuthService;
+import ar.com.tandilweb.orchestrator.processors.BackwardValidationProcessor;
+import ar.com.tandilweb.orchestrator.processors.RoomAuthProcessor;
 
 @Component
 @Scope("prototype")
 public class RoomHandlerThread implements Runnable {
+	
+	protected static Logger logger = LoggerFactory.getLogger(RoomHandlerThread.class);
 
 	protected Socket socket;
 	protected PrintWriter output = null;
 	protected BufferedReader input = null;
-	protected static Logger logger = LoggerFactory.getLogger(RoomHandlerThread.class);
+	
 	protected String name;
 	
 	protected Handshake handshakeSchema;
 	protected boolean logged;
 	
 	@Autowired
-	RoomAuthService roomAuthSrv;
+	RoomAuthProcessor roomAuthProcessor;
+	
+	@Autowired
+	BackwardValidationProcessor backwardValidationProcessor;
 
 	public RoomHandlerThread() {
 		logger.debug("Socket connected - New Thread");
@@ -77,7 +82,7 @@ public class RoomHandlerThread implements Runnable {
 		}
 	}
 
-	protected void sendToClient(String data) {
+	public void sendToClient(String data) {
 		output.println(data);
 		output.flush();
 	}
@@ -111,37 +116,32 @@ public class RoomHandlerThread implements Runnable {
 
 	protected void processSchema(Schema schema, String schemaBody) throws JsonParseException, JsonMappingException, IOException {
 		logger.debug(schemaBody);
+		ObjectMapper om = new ObjectMapper();
 		if ("eppr/room-auth".equals(schema.namespace)) {
 			switch (schema.schema) {
 			case "handshake":
-				processHandshakeSchema(schemaBody);
-				break;
+				this.logged = this.roomAuthProcessor.processHandshakeSchema(schemaBody, this.handshakeSchema, this);
+				return;
 			case "signupData":
-				processSignupDataSchema(schemaBody);
-				break;
+				this.logged = this.roomAuthProcessor.processSignupDataSchema(schemaBody, this.handshakeSchema, this);
+				return;
 			default:
-				logger.debug("Schema not recognized: " + schema.schema);
-				break;
+				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
+				return;
 			}
 		}
+		if ("eppr/backward-validation".equals(schema.namespace)) {
+			switch (schema.schema) {
+			case "challengeValidation":
+				this.sendToClient(om.writeValueAsString(this.backwardValidationProcessor.challengeValidation(schemaBody, this.handshakeSchema)));
+				return;
+			default:
+				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
+				return;
+			}
+		}
+		
+		logger.debug("Namespace not recognized: " + schema.namespace);
 	}
-	
-	protected void processHandshakeSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		logger.debug("Schema body Handshake");
-		ObjectMapper om = new ObjectMapper();
-		this.handshakeSchema = om.readValue(schemaBody, Handshake.class);
-		LoginResponse loginResponse = roomAuthSrv.handshakeValidate(this.handshakeSchema);
-		this.logged = loginResponse.logged;
-		sendToClient(om.writeValueAsString(loginResponse.response));
-	}
-	
-	protected void processSignupDataSchema(String schemaBody) throws JsonParseException, JsonMappingException, IOException {
-		logger.debug("Schema body Handshake");
-		ObjectMapper om = new ObjectMapper();
-		SignupData inputSchema = om.readValue(schemaBody, SignupData.class);
-		LoginResponse loginResponse = roomAuthSrv.signupDataValidate(inputSchema, this.handshakeSchema);
-		this.logged = loginResponse.logged;
-		sendToClient(om.writeValueAsString(loginResponse.response));
-	}
-	
+
 }

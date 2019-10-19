@@ -110,6 +110,24 @@ export class RoomService {
     this.ws.sendMessage(dBlock);
   }
 
+  onAutResponse(dataResponse) {
+    console.log('DR AutValidated', dataResponse);
+    if (dataResponse.schema == 'validated') {
+      this.terminal.in('Validated :) Schema', this.serviceName);
+    }
+    if (dataResponse.schem == 'badRequest') {
+      this.terminal.in('Bad request schema', this.serviceName);
+    }
+    if (dataResponse.schem == 'fullRejected') {
+      this.terminal.in('Full rejected (Banned) Schema', this.serviceName);
+    }
+  }
+
+  onKick(dataResponse) {
+    console.log('DR Kick', dataResponse);
+    this.terminal.info('You are kicked from this server');
+  }
+
   subscriptions() {
     this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
       this.onAuthorizationResponse(data);
@@ -117,5 +135,7 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/AuthController/rejected', (data) => {
       this.terminal.in('UserAuth Rejected', this.serviceName);
     });
+    this.ws.suscribe('/userInterceptor/AuthController/response', (data) => this.onAutResponse(data));
+    this.ws.suscribe('/userInterceptor/AuthController/kick', (data) => this.onKick(data));
   }
 }

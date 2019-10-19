@@ -1,4 +1,4 @@
-package ar.com.tandilweb.ApiServer.persistence.domain;
+package ar.com.tandilweb.persistence.domain;
 
 import java.sql.Date;
 

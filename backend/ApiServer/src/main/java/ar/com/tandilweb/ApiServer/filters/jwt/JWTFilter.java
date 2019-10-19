@@ -18,8 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import ar.com.tandilweb.ApiServer.persistence.domain.Sessions;
-import ar.com.tandilweb.ApiServer.persistence.repository.SessionsRepository;
+import ar.com.tandilweb.persistence.domain.Sessions;
+import ar.com.tandilweb.persistence.repository.SessionsRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

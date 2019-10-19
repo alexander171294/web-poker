@@ -1,10 +1,10 @@
-package ar.com.tandilweb.ApiServer.persistence;
+package ar.com.tandilweb.persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public abstract class BaseRepository<t, pk> {
-	
+
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
 	

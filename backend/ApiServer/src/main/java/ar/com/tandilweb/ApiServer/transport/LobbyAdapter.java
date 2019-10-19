@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.ChallengeResponse;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.RoomResponse;
-import ar.com.tandilweb.ApiServer.persistence.domain.Challenges;
-import ar.com.tandilweb.ApiServer.persistence.domain.Rooms;
 import ar.com.tandilweb.ApiServer.persistence.repository.ChallengesRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.RoomsRepository;
+import ar.com.tandilweb.persistence.domain.Challenges;
+import ar.com.tandilweb.persistence.domain.Rooms;
 
 @Service
 public class LobbyAdapter {

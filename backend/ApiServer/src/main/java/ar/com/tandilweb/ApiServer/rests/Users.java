@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfileEdited;
-import ar.com.tandilweb.ApiServer.persistence.domain.Sessions;
 import ar.com.tandilweb.ApiServer.transport.UsersAdapter;
+import ar.com.tandilweb.persistence.domain.Sessions;
 
 @RestController
 @RequestMapping("/users")

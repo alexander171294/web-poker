@@ -11,10 +11,10 @@ import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.LoginRequest;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.SessionInformation;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.SignupRequest;
-import ar.com.tandilweb.ApiServer.persistence.domain.Sessions;
-import ar.com.tandilweb.ApiServer.persistence.domain.Users;
 import ar.com.tandilweb.ApiServer.persistence.repository.SessionsRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.UsersRepository;
+import ar.com.tandilweb.persistence.domain.Sessions;
+import ar.com.tandilweb.persistence.domain.Users;
 
 @Service
 public class LoginAdapter {

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfileEdited;
-import ar.com.tandilweb.ApiServer.persistence.domain.Users;
 import ar.com.tandilweb.ApiServer.persistence.repository.UsersRepository;
+import ar.com.tandilweb.persistence.domain.Users;
 
 @Service
 public class UsersAdapter {

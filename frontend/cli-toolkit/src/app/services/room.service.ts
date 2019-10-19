@@ -54,7 +54,7 @@ export class RoomService {
             prefix += 'Full Connection';
           }
           if(data.eventType == EventTypeWS.MESSAGE) {
-            prefix += 'Message';
+            prefix += 'Receiving';
           }
           if(data.eventType == EventTypeWS.SENDING) {
             prefix += 'Sending';
@@ -114,6 +114,8 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
       this.onAuthorizationResponse(data);
     });
-
+    this.ws.suscribe('/userInterceptor/AuthController/rejected', (data) => {
+      this.terminal.in('UserAuth Rejected', this.serviceName);
+    });
   }
 }

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import ar.com.tandilweb.exchange.clientOperations.Deposit;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RequestDeposit;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.exchange.roomAuth.SignupData;
 
@@ -71,9 +71,8 @@ public class EpprRoomAuth {
 		}
 	}
 	
-	public Deposit getDepositSchema() {
-		// FIXME: end this schema.
-		return null;
+	public RequestDeposit getDepositSchema() {
+		return new RequestDeposit();
 	}
 
 }

@@ -49,7 +49,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 					if(anotherSessions.size() > 0) {
 						for(UserData anotherSession: anotherSessions) {
 							anotherSession.status = UserDataStatus.KICKED;
-							sessionHandler.sendToSessID("/userAuth/kick", anotherSession.sessID, kicked);
+							sessionHandler.sendToSessID("/AuthController/kick", anotherSession.sessID, kicked);
 							sessionHandler.remove(anotherSession.sessID);
 						}
 					}

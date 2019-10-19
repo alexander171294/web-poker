@@ -78,6 +78,10 @@ public class SessionHandler {
 		msgTmp.convertAndSendToUser(sessionID, direction, payload, createHeaders(sessionID));
 	}
 	
+	public void sendToAll(String direction, Object payload) {
+		msgTmp.convertAndSend(direction, payload);
+	}
+	
 	public void remove(String sessionID) {
 		userAssociation.remove(sessionID);
 		// FIXME: close connection.

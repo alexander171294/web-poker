@@ -92,6 +92,9 @@ public class GameHandler {
 				this.ingressSchema(position, userData);
 			}
 		}
+	}
+	
+	public void depositFlow() {
 		
 	}
 	

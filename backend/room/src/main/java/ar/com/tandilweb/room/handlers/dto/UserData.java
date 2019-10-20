@@ -1,6 +1,7 @@
 package ar.com.tandilweb.room.handlers.dto;
 
 import ar.com.tandilweb.exchange.userAuth.Challenge;
+import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
 import ar.com.tandilweb.persistence.domain.Users;
 
 public class UserData {
@@ -9,6 +10,7 @@ public class UserData {
 	public String sessID;
 	public Challenge lastChallenge;
 	public String transactionID;
+	public ChallengeActions challengeAction;
 	public UserDataStatus status;
 	
 	public long chips; // chips in table

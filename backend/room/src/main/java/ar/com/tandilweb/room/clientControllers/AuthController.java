@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.backwardValidation.ChallengeValidation;
+import ar.com.tandilweb.exchange.clientOperations.Deposit;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SelectPosition;
 import ar.com.tandilweb.exchange.userAuth.ActiveSession;
 import ar.com.tandilweb.exchange.userAuth.Authorization;
@@ -75,11 +76,13 @@ public class AuthController {
 		ChallengeValidation challengeValidation = new ChallengeValidation();
 		challengeValidation.idChallenge = bV.idChallenge;
 		challengeValidation.transactionID = UUID.randomUUID().toString();
-		sessionHandler.getUserDataBySession(sessID).transactionID = challengeValidation.transactionID;
+		UserData uD = sessionHandler.getUserDataBySession(sessID);
+		uD.transactionID = challengeValidation.transactionID;
+		uD.challengeAction = bV.action;
 		ObjectMapper om = new ObjectMapper();
 		try {
 			orchestrator.sendDataToServer(om.writeValueAsString(challengeValidation));
-//			server response:
+//			server response: (catched in Orchestrator Thread class.)
 //			eppr/backward-validation::unknown
 //			eppr/backward-validation::invalid
 //			eppr/backward-validation::dataChallenge
@@ -94,8 +97,17 @@ public class AuthController {
 		gameHandler.sitFlow(selectedPosition.position, sessionHandler.getUserDataBySession(sessID));
 	}
 	
-	// TODO: make user-deposit schema implementation.
-	
+	@MessageMapping("/deposit")
+	@SendToUser("/AuthController/challenge")
+	public Challenge deposit(Deposit selectedPosition, SimpMessageHeaderAccessor headerAccessor){
+		String sessID = headerAccessor.getSessionId();
+		Challenge challenge = new Challenge();
+		challenge.action = ChallengeActions.DEPOSIT;
+		challenge.roomID = roomHandler.getRoomID();
+		challenge.claimToken = UUID.randomUUID().toString();
+		sessionHandler.getUserDataBySession(sessID).lastChallenge = challenge;
+		return challenge;
+	}
 	
 	// TODO: make leave schema implementation.
 	

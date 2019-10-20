@@ -43,17 +43,16 @@ public class BackwardValidationProcessor {
 		if(challenge == null) {
 			Unknown uknSchema = new Unknown();
 			uknSchema.transactionID = inputSchema.transactionID;
-			
 			// send to room
 			return uknSchema;
 		}
 		if(roomData == null || challenge.getId_room() != roomData.serverID) {
 			Invalid invalidSchema = new Invalid();
 			invalidSchema.transactionID = inputSchema.transactionID;
-			
 			// send to room
 			return invalidSchema;
 		}
+		// TODO: *BUG* remove the challenge from database to prevent reuse the old challenge.
 		DataChallenge<Users> dch = new DataChallenge<Users>();
 		dch.claimToken = challenge.getChallenge();
 		dch.idUser = challenge.getId_user();

@@ -121,6 +121,7 @@ public class RoomHandlerThread implements Runnable {
 	protected void processSchema(Schema schema, String schemaBody) throws JsonParseException, JsonMappingException, IOException {
 		logger.debug(schemaBody);
 		ObjectMapper om = new ObjectMapper();
+		// TODO: validate room ip against Whitelist.
 		if ("eppr/room-auth".equals(schema.namespace)) {
 			switch (schema.schema) {
 			case "handshake":

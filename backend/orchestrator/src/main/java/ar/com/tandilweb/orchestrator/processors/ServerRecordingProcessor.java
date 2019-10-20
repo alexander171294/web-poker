@@ -42,14 +42,16 @@ public class ServerRecordingProcessor {
 			if (!challenge.getChallenge().equals(inputSchema.claimToken)) throw new Exception("Challenge not match with claim token");
 			if (challenge.getId_user() != inputSchema.userID) throw new Exception("Challenge isn't for this user");
 			if (challenge.getDeposit() == null) throw new Exception("This challenge isn't for deposit transaction");
-			if (challenge.getDeposit().longValue() != inputSchema.coins) throw new Exception("The challenge doesn't match witt the chips user inform to deposit.");
+			if (challenge.getDeposit().longValue() != inputSchema.chips) throw new Exception("The challenge doesn't match witt the chips user inform to deposit.");
 			Users user = userRepository.findById(inputSchema.userID);
 			if(user == null) throw new Exception("The user doesn't exists");
-			if(user.getChips() < inputSchema.coins) throw new Exception("The user not have enough chips to deposit.");
-			user.setChips(user.getChips() - inputSchema.coins);
+			if(user.getChips() < inputSchema.chips) throw new Exception("The user not have enough chips to deposit.");
+			user.setChips(user.getChips() - inputSchema.chips);
 			userRepository.update(user);
 			challengeRepository.delete(challenge);
 			SuccessDeposit sD = new SuccessDeposit();
+			sD.depositedChips = inputSchema.chips;
+			sD.chips = user.getChips();
 			sD.userID = inputSchema.userID;
 			return sD;
 		} catch(Exception e) {

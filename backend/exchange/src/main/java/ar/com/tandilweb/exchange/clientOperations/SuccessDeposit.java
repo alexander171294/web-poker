@@ -4,7 +4,7 @@ import ar.com.tandilweb.exchange.ClientOperationsSchema;
 
 public class SuccessDeposit extends ClientOperationsSchema {
 	
-	public long coins;
+	public long chips;
 	
 	public SuccessDeposit() {
 		super("successDeposit");

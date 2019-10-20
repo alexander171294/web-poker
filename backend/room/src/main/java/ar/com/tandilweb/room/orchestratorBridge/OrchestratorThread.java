@@ -27,6 +27,7 @@ import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.orchestratorBridge.processors.BackwardValidationProcessor;
 import ar.com.tandilweb.room.orchestratorBridge.processors.RoomAuthProcessor;
+import ar.com.tandilweb.room.orchestratorBridge.processors.ServerRecordingProcessor;
 import ar.com.tandilweb.room.protocols.EpprRoomAuth;
 
 @Component
@@ -58,6 +59,9 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	@Autowired
 	private BackwardValidationProcessor backwardValidationProcessor;
+	
+	@Autowired
+	private ServerRecordingProcessor serverRecordingProcessor;
 
 	@Value("${act.room.cfgFileSave}")
 	private String cfgFileSave;
@@ -146,8 +150,10 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	private void processSchema(Schema schema, String schemaBody) throws IOException {
 		if ("eppr/room-auth".equals(schema.namespace)) {
 			roomAuthProcessorSelector(schema, schemaBody);
-		} else if ("eppr/backward-validation".contentEquals(schema.namespace)) {
+		} else if ("eppr/backward-validation".equals(schema.namespace)) {
 			backwardValidationProcessorSelector(schema, schemaBody);
+		} else if ("eppr/server-recording".equals(schema.namespace)) {
+			serverRecordingProcessorSelector(schema, schemaBody);
 		} else {
 			logger.debug("Unexpected namespace received", schema);
 		}
@@ -192,6 +198,20 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 			break;
 		case "unknown":
 			backwardValidationProcessor.processUnknownSchema(schemaBody);
+			break;
+		default:
+			logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
+			break;
+		}
+	}
+	
+	private void serverRecordingProcessorSelector(Schema schema, String schemaBody) throws JsonProcessingException {
+		switch(schema.schema) {
+		case "successDeposit":
+			serverRecordingProcessor.processSuccessDeposit(schemaBody);
+			break;
+		case "invalidDeposit":
+			serverRecordingProcessor.processInvalidDeposit(schemaBody);
 			break;
 		default:
 			logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);

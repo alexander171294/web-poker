@@ -118,4 +118,13 @@ public class GameHandler {
 		}
 		return -1;
 	}
+	
+	public void addChipsToUser(long userID, long chips, long accountChips) {
+		for(int i = 0; i<maxPlayers; i++) {
+			if(usersInTable[i] != null && usersInTable[i].userID == userID) {
+				usersInTable[i].chips += chips;
+				usersInTable[i].dataBlock.setChips(accountChips);
+			}
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package ar.com.tandilweb.ApiServer.rests;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
@@ -25,11 +28,11 @@ public class MockService {
 	LobbyAdapter lobbyAdapter;
 	
 	@Value("${mockService.roomChallenge}")
-	boolean roomChallenge;
+	boolean enabledMockRoomChallenge;
 	
 	@RequestMapping(path="/lobby/rooms/{id}", method=RequestMethod.POST)
-	public ResponseEntity<ChallengeResponse> challengeRooms(@PathVariable("id") int roomID, @RequestBody String claimToken) {
-		if(!roomChallenge) {
+	public ResponseEntity<ChallengeResponse> challengeRooms(@PathVariable("id") int roomID, @RequestBody String claimToken, @RequestParam(name = "deposit", required = false) Optional<Long> deposit) {
+		if(!enabledMockRoomChallenge) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 		try {
@@ -39,7 +42,7 @@ public class MockService {
 			if (claimToken == null || claimToken.length() == 0) {
 				throw new ValidationException(2, "Invalid claimToken");
 			}
-			ChallengeResponse out = lobbyAdapter.challengeRoomByID(1, roomID, claimToken);
+			ChallengeResponse out = lobbyAdapter.challengeRoomByID(1, roomID, claimToken, deposit);
 			return new ResponseEntity<ChallengeResponse>(out, HttpStatus.OK);
 		} catch (ValidationException vE) {
 			ChallengeResponse out = new ChallengeResponse();

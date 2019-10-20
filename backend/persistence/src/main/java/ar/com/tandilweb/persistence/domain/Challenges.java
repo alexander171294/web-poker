@@ -6,13 +6,15 @@ public class Challenges {
 	private long id_user;
 	private long id_room;
 	private String challenge;
+	private Long deposit;
 	
-	public Challenges(long challengeID, long id_user, long id_room, String challenge) {
+	public Challenges(long challengeID, long id_user, long id_room, String challenge, Long deposit) {
 		super();
 		this.challengeID = challengeID;
 		this.id_user = id_user;
 		this.id_room = id_room;
 		this.challenge = challenge;
+		this.deposit = deposit;
 	}
 	
 	public Challenges() {
@@ -49,6 +51,14 @@ public class Challenges {
 
 	public void setChallenge(String challenge) {
 		this.challenge = challenge;
+	}
+
+	public Long getDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(Long deposit) {
+		this.deposit = deposit;
 	}
 
 }

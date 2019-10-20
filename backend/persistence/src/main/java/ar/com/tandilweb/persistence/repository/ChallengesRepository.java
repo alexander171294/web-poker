@@ -25,8 +25,8 @@ public class ChallengesRepository extends BaseRepository<Challenges, Long> {
 	public Challenges create(final Challenges record) {
 		try {
 			final String sql = "INSERT INTO challenges "
-					+ "(id_user, id_room, challenge) "
-					+ "VALUES(?,?,?)";
+					+ "(id_user, id_room, challenge, deposit) "
+					+ "VALUES(?,?,?,?)";
 			KeyHolder holder = new GeneratedKeyHolder();
 			jdbcTemplate.update(new PreparedStatementCreator() {
 				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -34,6 +34,7 @@ public class ChallengesRepository extends BaseRepository<Challenges, Long> {
 					ps.setLong(1, record.getId_user());
 					ps.setLong(2, record.getId_room());
 					ps.setString(3, record.getChallenge());
+					ps.setLong(4, record.getDeposit());
 					return ps;
 				}
 			}, holder);
@@ -69,7 +70,8 @@ public class ChallengesRepository extends BaseRepository<Challenges, Long> {
 	        		rs.getLong("challengeID"),
 	        		rs.getLong("id_user"),
 	        		rs.getLong("id_room"),
-	        		rs.getString("challenge") // claimToken
+	        		rs.getString("challenge"), // claimToken
+	        		rs.getLong("deposit") //if is a deposit, the quanitity of deposit.
 	        		);
 	    }
 	}

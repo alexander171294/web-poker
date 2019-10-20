@@ -2,6 +2,7 @@ package ar.com.tandilweb.ApiServer.transport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,7 @@ public class LobbyAdapter {
 		return out;
 	}
 	
-	public ChallengeResponse challengeRoomByID(long meID, long roomID, String claimToken) throws ValidationException  {
+	public ChallengeResponse challengeRoomByID(long meID, long roomID, String claimToken, Optional<Long> deposit) throws ValidationException  {
 		ChallengeResponse out = new ChallengeResponse();
 		
 		Rooms room = roomsRepository.findById(roomID);
@@ -87,6 +88,7 @@ public class LobbyAdapter {
 		challenge.setChallenge(claimToken);
 		challenge.setId_room(roomID);
 		challenge.setId_user(meID);
+		challenge.setDeposit(deposit.get());
 		challenge = challengesRepository.create(challenge);
 		
 		out.challengeID = challenge.getChallengeID();

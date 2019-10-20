@@ -9,6 +9,7 @@ import { Authorization } from '../epprProtocol/userAuth/Authorization';
 import { BackwardValidation } from '../epprProtocol/userAuth/BackwardValidation';
 import { ChallengeActions } from '../epprProtocol/userAuth/types/ChallengeActions';
 import { SelectPosition } from '../epprProtocol/userAuth/SelectPosition';
+import { Deposit } from '../epprProtocol/clientOperations/Deposit';
 
 @Injectable({
   providedIn: 'root'
@@ -95,8 +96,15 @@ export class RoomService {
     
   }
 
-  deposit(userID: number, coins: number, challengeID: number, claimToken: string) {
-
+  deposit(chips: number) {
+    this.terminal.out('Request deposit of ' + chips + ' chips', this.serviceName);
+    const deposit = new Deposit();
+    deposit.chips = chips;
+    const dBlock = new MessageDefinition();
+    dBlock.data = deposit;
+    dBlock.endpoint = '/user/deposit';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
   }
 
   backwardValidation(challengeID: number) {

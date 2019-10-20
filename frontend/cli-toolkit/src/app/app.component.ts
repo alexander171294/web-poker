@@ -75,12 +75,17 @@ export class AppComponent {
   }
 
   depositCMD() {
-    this.commandPrompt = 'room.deposit userID:"57" coins:"500" challengeID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
+    this.commandPrompt = 'room.deposit chips:"500"';
     document.getElementById('commandPrompt').focus();
   }
 
   roomChallengeCMD() {
-    this.commandPrompt = 'apisrv.challenge roomID:"16" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
+    this.commandPrompt = 'apisrv.challenge roomID:"15" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva"';
+    document.getElementById('commandPrompt').focus();
+  }
+
+  depositChallengeCMD() {
+    this.commandPrompt = 'apisrv.depositChallenge roomID:"15" claimToken:"xMjM0NTY3ODkwIiwibmFtZSI6Ikpva" chips:"500"';
     document.getElementById('commandPrompt').focus();
   }
 
@@ -112,7 +117,7 @@ export class AppComponent {
         this.room.ingress(params.user, params.photo);
       }
       if(action == 'deposit') {
-        this.room.deposit(params.userID, params.coins, params.challengeID, params.claimToken);
+        this.room.deposit(params.chips);
       }
       if(action == 'backwardValidation') {
         this.room.backwardValidation(params.challengeID);
@@ -127,6 +132,16 @@ export class AppComponent {
         this.terminal.out('Challenge Room','ApiSrv');
         this.api.setEndpoint(this.apiServer);
         this.api.challenge(params.roomID, params.claimToken).subscribe(data => {
+          this.terminal.in('Challenge Response OK, challengeID: ' + data.challengeID ,'ApiSrv')
+        }, err => {
+          this.terminal.in('Challenge refused','ApiSrv');
+        });
+      }
+      if(action == 'depositChallenge') {
+        // mock user challenge for test (using the first user with id = 1 hardcoded for test purposes)
+        this.terminal.out('Challenge Deposit','ApiSrv');
+        this.api.setEndpoint(this.apiServer);
+        this.api.challengeD(params.roomID, params.claimToken, params.chips).subscribe(data => {
           this.terminal.in('Challenge Response OK, challengeID: ' + data.challengeID ,'ApiSrv')
         }, err => {
           this.terminal.in('Challenge refused','ApiSrv');

@@ -20,4 +20,8 @@ export class ApiService {
   challenge(roomID, claimToken): Observable<ChallengeResponse> {
     return this.http.post<ChallengeResponse>(this.endpoint + '/mock/lobby/rooms/' + roomID, claimToken);
   }
+
+  challengeD(roomID, claimToken, chips): Observable<ChallengeResponse> {
+    return this.http.post<ChallengeResponse>(this.endpoint + '/mock/lobby/rooms/' + roomID + '?deposit=' + chips, claimToken);
+  }
 }

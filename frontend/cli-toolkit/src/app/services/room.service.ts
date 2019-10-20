@@ -170,7 +170,7 @@ export class RoomService {
   }
 
   onInvalidDeposit(data) {
-    this.terminal.err('Invalid deposit: ' + data.chips);
+    this.terminal.err('Invalid deposit.');
   }
 
   onDeposit(data) {

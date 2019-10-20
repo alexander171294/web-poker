@@ -6,7 +6,7 @@ I made a extensible protocol for organize the develop, the RFC of the protocol i
 
 https://github.com/alexander171294/web-poker/wiki
 
-In the past, i tried to start this project using php and simple html/javascript/jquery client, but for various reasons i never finished it. Now i started this project to continue this ambitious project, but this time using java and angular/Nativescript.
+In the past, I tried to start this project using php and simple html/javascript/jquery client, but for various reasons I never finished it. Now I started a new repo to continue this ambitious project, but this time using java and angular/Nativescript.
 
 **Don't worry**, I put simple instructions for you to install all without know how to work these technologies.
 
@@ -20,10 +20,6 @@ Additionally, sorry for my bad english, I speak spanish and learn english only r
 
 ![lobby](https://i.imgur.com/HUCeZBr.png)
 
-### Login
-
-![login](https://i.imgur.com/qaK4Nkv.png)
-
 ### Table room
 
 ![table](https://i.imgur.com/YGr6v5Z.png)
@@ -34,9 +30,7 @@ Full Size:
 
 ![fullSize](https://i.imgur.com/TFwcrKS.png)
 
-Scaled:
-
-![scaled](https://i.imgur.com/GLlGMiN.png)
+Scaled here: https://i.imgur.com/GLlGMiN.png
 
 ### Cards
 
@@ -46,8 +40,6 @@ Scaled:
 
 ![toolkit](https://i.imgur.com/dr7rspE.png)
 
-https://imgur.com/dr7rspE
-
 # Roadmap
 
 ## Short term
@@ -56,13 +48,13 @@ I will code these subjects in respective order:
 
 ### General Lobby System:
 
-* Rework frontend (WIP)
-* Finishing new backend based on RFC. (WIP)
+* ~~Rework frontend~~ DONE
+* ~~Finishing new backend based on RFC~~ DONE
 
 ### Sit and go
 
-* Poker rules and gameplay.
-* Frontend design of simple table.
+* Poker rules and gameplay. WIP
+* Frontend design of simple table. WIP
 
 ## Medium term
 
@@ -80,7 +72,7 @@ I will code these subjects in respective order:
 * Mobile frontend.
 * Desktop frontend (with electronJS)
 * rank system
-* Servers Administration/Deployer tool (as jboss (of redhat) but in this case working... xD)
+* Servers Manager Tool (¿Based on RCP?)
 
 # Architecture
 
@@ -89,11 +81,9 @@ I will code these subjects in respective order:
 Frontend
 
 * Angular +6
-* ~~Material Design (although only for login/signup)~~
 * Websocket
 * Stomp (for websocket routing)
-* Nativescript ~~with Schematics~~ Try with xplat.
-* GraphQL
+* Nativescript/Xplat.
 
 Backend
 
@@ -101,8 +91,6 @@ Backend
 * Websockets and sockets (for inter-servers communication)
 * JWT for session handling
 * Mysql
-* ~~Hibernate~~ (more problems than solutions for this simple persistence)
-* SLF4J
 
 ## Download the repo
 
@@ -118,9 +106,11 @@ git pull --recurse-submodule
 
 ## Frontend
 
-The frontend is maked with Nativescript Schematics for Angular using shared code.
+~~The frontend is maked with Nativescript Schematics for Angular using shared code.
 In my first app i decided to use Apache Cordova for build a web-view based mobile application, but in the last months i tried to apply nativescript, and in the last days they added support to codeshare/schematics to make web and mobile project in the same workspace.
-Then i decide to start this proyect with nativescript (by telerik).
+Then i decide to start this proyect with nativescript (by telerik).~~
+
+For now I am centered on finish the web version only with Angular and Stomp.
 
 The frontend use websockets to connect with the backend (see below).-
 
@@ -140,13 +130,13 @@ You need Angular Cli (https://angular.io/guide/quickstart) and Nativescript with
 
 ´tns update´
 
-For build/run ~~i write the instructions soon~~ see the wiki.
+For build/run see the wiki.
 
 ## Bakend
 
-The backend is splitted in two proyects, the lobby (users login/tables), and the table/turnament severs, for simple test you can use the same physical server to run all of this (Frontend, backend lobby, and backends tables/rooms). Aditionally I created a shared jar project for DTO classes
+The backend is splitted in ~~two~~ five proyects, the ApiServer for web operations, as see the room servers, or login with your user, and some specific parts of the room protocol as Auth Challenge (See the protocol RFC for more details). The Orchestrator, in charge of register and organize room servers, The room servers for do the game (All tables are a server). Additionally have two projects, one for RFC Protocol DTOs (exchange), and another for Domain/Repository of persistence.
 
-You need to start the lobby server and configure your ip in the frontend and the table backends proyect (see in the wiki soon), and start new tables executing process of backends tables. Then build/run the client and login/register.
+You need to start the Orchestrator, then ApiServer and RoomServer.
 
 ### Build backend:
 
@@ -155,8 +145,7 @@ You need jdk (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downl
 For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions ~~soon~~, including adding this to a apache/nginx server).-
 
 I'm not sure if this is deployable in shared web hosting, but I'll start an investigation after writing this readme :O.
---Revision #1: about this last comment, i lied a little bit... twenty days later i didn't investigate nothing at all... :'(
-
+--Revision #2: about this last comment, I lied a little bit... ~~twenty days~~ a year later I didn't investigate nothing at all... :'(
 
 # Finally
 

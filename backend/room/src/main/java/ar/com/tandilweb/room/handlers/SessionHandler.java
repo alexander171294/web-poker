@@ -39,6 +39,15 @@ public class SessionHandler {
 		return false;
 	}
 	
+	public UserData getUserDataFromActiveSessionForUser(long userID) {
+		for(String sessID: userAssociation.keySet()) {
+			if(userAssociation.get(sessID).userID == userID) {
+				return userAssociation.get(sessID);
+			}
+		}
+		return null;
+	}
+	
 	public List<UserData> getAnotherSessions(String meSession, long userID) {
 		List<UserData> out = new ArrayList<UserData>();
 		for(String sessID: userAssociation.keySet()) {

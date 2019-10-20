@@ -82,15 +82,14 @@ public class GameHandler {
 				}
 			}
 			if(freeSpaces.size() > 0) {
-				sessionHandler.sendToAll("GameController/rejectedPosition", gameProtocol.getRejectedPositionSchema(freeSpaces));
+				sessionHandler.sendToSessID("GameController/rejectedPosition", userData.sessID, gameProtocol.getRejectedPositionSchema(freeSpaces));
 			} else {
 				sessionHandler.sendToSessID("GameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
 			}
 		} else {
+			// FIXME: check if is in other position and remove.
 			usersInTable[position] = userData;
-			if(userData.chips > 0) {
-				this.ingressSchema(position, userData);
-			}
+			this.ingressSchema(position, userData);
 		}
 	}
 	
@@ -120,10 +119,22 @@ public class GameHandler {
 	}
 	
 	public void addChipsToUser(long userID, long chips, long accountChips) {
+		boolean done = false;
 		for(int i = 0; i<maxPlayers; i++) {
 			if(usersInTable[i] != null && usersInTable[i].userID == userID) {
 				usersInTable[i].chips += chips;
 				usersInTable[i].dataBlock.setChips(accountChips);
+				done = true;
+			}
+		}
+		if(!done) {
+			// not in table.
+			UserData uD = sessionHandler.getUserDataFromActiveSessionForUser(userID);
+			if(uD != null) {
+				uD.chips = chips;
+			} else {
+				// TODO: refound chips.
+				logger.error("Not user in memory for deposit: UID: "+userID+" Chips: "+chips+" AccountChips: "+accountChips);
 			}
 		}
 	}

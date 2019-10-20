@@ -21,6 +21,7 @@ import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.orchestrator.processors.BackwardValidationProcessor;
 import ar.com.tandilweb.orchestrator.processors.RoomAuthProcessor;
+import ar.com.tandilweb.orchestrator.processors.ServerRecordingProcessor;
 
 @Component
 @Scope("prototype")
@@ -42,6 +43,9 @@ public class RoomHandlerThread implements Runnable {
 	
 	@Autowired
 	BackwardValidationProcessor backwardValidationProcessor;
+	
+	@Autowired
+	ServerRecordingProcessor serverRecordingProcessor;
 
 	public RoomHandlerThread() {
 		logger.debug("Socket connected - New Thread");
@@ -141,6 +145,16 @@ public class RoomHandlerThread implements Runnable {
 				this.sendToClient(om.writeValueAsString(this.backwardValidationProcessor.challengeValidation(schemaBody, this.handshakeSchema)));
 				return;
 			default:
+				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
+				return;
+			}
+		}
+		if ("eppr/server-recording".equals(schema.namespace)) {
+			switch(schema.schema) {
+			case "deposit" :
+				this.sendToClient(om.writeValueAsString(this.serverRecordingProcessor.deposit(schemaBody, this.handshakeSchema)));
+				return;
+			default: 
 				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
 				return;
 			}

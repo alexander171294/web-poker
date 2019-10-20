@@ -72,6 +72,17 @@ public class ChallengesRepository extends BaseRepository<Challenges, Long> {
 		}
 	}
 	
+	public void delete(Challenges record) {
+		try {
+			final String sql = "DELETE FROM challenges WHERE challengeID = ?";
+			jdbcTemplate.update(sql, new Object[] {
+				record.getChallengeID()
+			});
+		} catch(DataAccessException e) {
+			logger.error("ChallengesRepository::delete", e);
+		}
+	}
+	
 	class ChallengesRowMapper implements RowMapper<Challenges> {
 		public Challenges mapRow(ResultSet rs, int rowNum) throws SQLException {
 	        return new Challenges(

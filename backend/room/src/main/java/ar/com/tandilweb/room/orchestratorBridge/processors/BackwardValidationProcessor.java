@@ -54,7 +54,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 				if(dataResponse.claimToken.equals(userData.lastChallenge.claimToken)) {
 					if(userData.challengeAction == ChallengeActions.DEPOSIT) { // DEPOSIT:
 						Deposit deposit = new Deposit();
-//						deposit.challengeID = dataResponse. FIXME: needed challengeID
+						deposit.challengeID = dataResponse.challengeID;
 						deposit.chips = userData.requestForDeposit;
 						deposit.userID = userData.userID;
 						deposit.claimToken = userData.lastChallenge.claimToken;

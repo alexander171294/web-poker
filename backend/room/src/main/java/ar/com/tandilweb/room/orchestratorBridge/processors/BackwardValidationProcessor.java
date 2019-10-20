@@ -20,6 +20,7 @@ import ar.com.tandilweb.exchange.userAuth.BadRequest;
 import ar.com.tandilweb.exchange.userAuth.Kicked;
 import ar.com.tandilweb.exchange.userAuth.Rejected;
 import ar.com.tandilweb.exchange.userAuth.Validated;
+import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
 import ar.com.tandilweb.persistence.domain.Users;
 import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
@@ -46,19 +47,25 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			UserAuthSchema out;
 			if(userData.userID == dataResponse.idUser) {
 				if(dataResponse.claimToken.equals(userData.lastChallenge.claimToken)) {
-					out = new Validated();
-					userData.status = UserDataStatus.ACTIVED;
-					List<UserData> anotherSessions = sessionHandler.getAnotherSessions(sessionID, userData.userID);
-					Kicked kicked = new Kicked();
-					if(anotherSessions.size() > 0) {
-						for(UserData anotherSession: anotherSessions) {
-							anotherSession.status = UserDataStatus.KICKED;
-							sessionHandler.sendToSessID("/AuthController/kick", anotherSession.sessID, kicked);
-							sessionHandler.remove(anotherSession.sessID);
+					if(userData.challengeAction == ChallengeActions.DEPOSIT) { // DEPOSIT:
+						// FIXME: SEND TO ORCHESTRATOR server-recording::deposit
+						// ...
+						return;
+					} else { // LOGIN:
+						out = new Validated();
+						userData.status = UserDataStatus.ACTIVED;
+						List<UserData> anotherSessions = sessionHandler.getAnotherSessions(sessionID, userData.userID);
+						Kicked kicked = new Kicked();
+						if(anotherSessions.size() > 0) {
+							for(UserData anotherSession: anotherSessions) {
+								anotherSession.status = UserDataStatus.KICKED;
+								sessionHandler.sendToSessID("/AuthController/kick", anotherSession.sessID, kicked);
+								sessionHandler.remove(anotherSession.sessID);
+							}
 						}
+						userData.dataBlock = dataResponse.userData;
+						this.gameHandler.ingressFlow(userData);
 					}
-					userData.dataBlock = dataResponse.userData;
-					this.gameHandler.ingressFlow(userData);
 				} else {
 					// TODO: check fails and send full rejected and block ip
 					// FullRejected frej = new FullRejected();

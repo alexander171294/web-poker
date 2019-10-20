@@ -15,4 +15,5 @@ public class UserData {
 	
 	public long chips; // chips in table
 	public Users dataBlock; // user of DB.
+	public long requestForDeposit;
 }

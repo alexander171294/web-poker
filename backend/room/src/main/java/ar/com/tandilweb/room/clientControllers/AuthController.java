@@ -99,13 +99,15 @@ public class AuthController {
 	
 	@MessageMapping("/deposit")
 	@SendToUser("/AuthController/challenge")
-	public Challenge deposit(Deposit selectedPosition, SimpMessageHeaderAccessor headerAccessor){
+	public Challenge deposit(Deposit deposit, SimpMessageHeaderAccessor headerAccessor){
 		String sessID = headerAccessor.getSessionId();
 		Challenge challenge = new Challenge();
 		challenge.action = ChallengeActions.DEPOSIT;
 		challenge.roomID = roomHandler.getRoomID();
 		challenge.claimToken = UUID.randomUUID().toString();
-		sessionHandler.getUserDataBySession(sessID).lastChallenge = challenge;
+		UserData uD = sessionHandler.getUserDataBySession(sessID);
+		uD.lastChallenge = challenge;
+		uD.requestForDeposit = deposit.chips;
 		return challenge;
 	}
 	

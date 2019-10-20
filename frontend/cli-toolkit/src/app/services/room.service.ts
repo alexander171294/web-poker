@@ -107,10 +107,10 @@ export class RoomService {
     this.ws.sendMessage(dBlock);
   }
 
-  backwardValidation(challengeID: number) {
+  backwardValidation(challengeID: number, deposit: boolean) {
     this.terminal.out('Backward Validation CID ['+challengeID+']', this.serviceName);
     const bV = new BackwardValidation();
-    bV.action = ChallengeActions.LOGIN;
+    bV.action = deposit ? ChallengeActions.DEPOSIT : ChallengeActions.LOGIN;
     bV.idChallenge = challengeID;
     const dBlock = new MessageDefinition();
     dBlock.data = bV;

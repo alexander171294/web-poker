@@ -88,7 +88,7 @@ public class LobbyAdapter {
 		challenge.setChallenge(claimToken);
 		challenge.setId_room(roomID);
 		challenge.setId_user(meID);
-		challenge.setDeposit(deposit.get());
+		challenge.setDeposit(deposit.isPresent() ? deposit.get() : null);
 		challenge = challengesRepository.create(challenge);
 		
 		out.challengeID = challenge.getChallengeID();

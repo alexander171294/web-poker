@@ -94,6 +94,11 @@ export class AppComponent {
     document.getElementById('commandPrompt').focus();
   }
 
+  backwardValidationDCMD() {
+    this.commandPrompt = 'room.backwardValidation challengeID:"16" deposit:"true"';
+    document.getElementById('commandPrompt').focus();
+  }
+
   sitCMD() {
     this.commandPrompt = 'room.sit position:"2"';
     document.getElementById('commandPrompt').focus();
@@ -120,7 +125,7 @@ export class AppComponent {
         this.room.deposit(params.chips);
       }
       if(action == 'backwardValidation') {
-        this.room.backwardValidation(params.challengeID);
+        this.room.backwardValidation(params.challengeID, params.deposit === 'true');
       }
       if(action == 'sit') {
         this.room.selectPosition(params.position);

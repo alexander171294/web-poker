@@ -33,7 +33,7 @@ public class ServerRecordingProcessor extends OrchestratorGenericProcessor {
 			ar.com.tandilweb.exchange.clientOperations.SuccessDeposit out = new ar.com.tandilweb.exchange.clientOperations.SuccessDeposit();
 			out.chips = dataResponse.depositedChips;
 			gameHandler.addChipsToUser(dataResponse.userID, dataResponse.depositedChips, dataResponse.chips);
-			sessionHandler.sendToUserID("GameController/invalidDeposit", dataResponse.userID, out);
+			sessionHandler.sendToUserID("GameController/successDeposit", dataResponse.userID, out);
 		} catch (IOException e) {
 			logger.error("Error processing schema from orchestrator", e);
 		}

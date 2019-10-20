@@ -145,6 +145,8 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/GameController/announcement', (data) => this.onAnnouncement(data));
     this.ws.suscribe('/userInterceptor/GameController/ingress', (data) => this.onIngress(data));
     this.ws.suscribe('/userInterceptor/GameController/rejectedPosition', (data) => this.onRejectedPosition(data));
+    this.ws.suscribe('/userInterceptor/GameController/successDeposit', (data) => this.onSuccessDeposit(data));
+    this.ws.suscribe('/userInterceptor/GameController/invalidDeposit', (data) => this.onInvalidDeposit(data));
   }
 
   onIngress(data) {
@@ -161,6 +163,14 @@ export class RoomService {
 
   onDefinePosition(data) {
     this.terminal.in('Define Position, free positions: '+JSON.stringify(data.positions), this.serviceName);
+  }
+
+  onSuccessDeposit(data) {
+    this.terminal.info('Success deposit: ' + data.chips);
+  }
+
+  onInvalidDeposit(data) {
+    this.terminal.err('Invalid deposit: ' + data.chips);
   }
 
   onDeposit(data) {

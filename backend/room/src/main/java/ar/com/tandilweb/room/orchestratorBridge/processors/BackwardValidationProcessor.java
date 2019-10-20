@@ -16,6 +16,7 @@ import ar.com.tandilweb.exchange.UserAuthSchema;
 import ar.com.tandilweb.exchange.backwardValidation.DataChallenge;
 import ar.com.tandilweb.exchange.backwardValidation.Invalid;
 import ar.com.tandilweb.exchange.backwardValidation.Unknown;
+import ar.com.tandilweb.exchange.serverRecording.Deposit;
 import ar.com.tandilweb.exchange.userAuth.BadRequest;
 import ar.com.tandilweb.exchange.userAuth.Kicked;
 import ar.com.tandilweb.exchange.userAuth.Rejected;
@@ -26,6 +27,7 @@ import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
 import ar.com.tandilweb.room.handlers.dto.UserData;
 import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
+import ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread;
 
 @Component
 public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
@@ -37,6 +39,9 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 	
 	@Autowired
 	private GameHandler gameHandler;
+	
+	@Autowired
+	private OrchestratorThread orchestrator;
 
 	public void processDataChallengeSchema(String schemaBody) {
 		try {
@@ -48,8 +53,13 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			if(userData.userID == dataResponse.idUser) {
 				if(dataResponse.claimToken.equals(userData.lastChallenge.claimToken)) {
 					if(userData.challengeAction == ChallengeActions.DEPOSIT) { // DEPOSIT:
-						// FIXME: SEND TO ORCHESTRATOR server-recording::deposit
-						// ...
+						Deposit deposit = new Deposit();
+//						deposit.challengeID = dataResponse. FIXME: needed challengeID
+						deposit.coins = userData.requestForDeposit;
+						deposit.userID = userData.userID;
+						deposit.claimToken = userData.lastChallenge.claimToken;
+						ObjectMapper om = new ObjectMapper();
+						orchestrator.sendDataToServer(om.writeValueAsString(deposit));
 						return;
 					} else { // LOGIN:
 						out = new Validated();

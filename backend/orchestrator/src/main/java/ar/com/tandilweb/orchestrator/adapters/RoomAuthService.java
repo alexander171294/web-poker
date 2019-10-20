@@ -48,6 +48,7 @@ public class RoomAuthService {
 					tU.securityToken = UUID.randomUUID().toString();
 					room.setSecurityToken(tU.securityToken);
 					room.setServer_ip(handshake.serverPublicAP);
+					room.setNowConnected(true);
 					roomsRepository.update(room);
 					out.response = tU;
 					out.logged = true;
@@ -78,7 +79,7 @@ public class RoomAuthService {
 		room.setMax_players(handshake.maxPlayers);
 		room.setMinCoinForAccess(handshake.minCoinsForAccess);
 		room.setName(handshake.name);
-		room.setNowConnected(false);
+		room.setNowConnected(true);
 		room.setOfficial(false);
 		String token = UUID.randomUUID().toString();
 		room.setSecurityToken(token);
@@ -100,6 +101,14 @@ public class RoomAuthService {
 		out.response = new Busy();
 		out.logged = false;
 		return out;
+	}
+	
+	public void goOffline(long serverID) {
+		Rooms room = roomsRepository.findById(serverID);
+		if(room != null) {
+			room.setNowConnected(false);
+			roomsRepository.update(room);
+		}
 	}
 
 }

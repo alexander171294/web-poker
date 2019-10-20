@@ -17,6 +17,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import ar.com.tandilweb.orchestrator.handlers.RoomHandlerThread;
+import ar.com.tandilweb.persistence.repository.RoomsRepository;
 
 @Component
 public class MainSocketThread implements Runnable, ApplicationListener<ContextRefreshedEvent>, DisposableBean {
@@ -34,10 +35,15 @@ public class MainSocketThread implements Runnable, ApplicationListener<ContextRe
 
 	@Autowired
 	private ApplicationContext applicationContext;
+	
+	@Autowired
+	private RoomsRepository roomsRepository;
 
 	@Override
 	public void run() {
 		ServerSocket serverSocket = null;
+		// remove active rooms
+		roomsRepository.updateAllOffline();
 		Socket socket = null;
 		try {
 			logger.debug("Starting Register Server in port " + listenPort);

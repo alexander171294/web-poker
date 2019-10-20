@@ -98,6 +98,7 @@ public class RoomHandlerThread implements Runnable {
 	protected void closeConnection() {
 		try {
 			logger.debug("Connection closing...");
+			this.roomAuthProcessor.goOffline(this.handshakeSchema.serverID);
 			if (input != null) {
 				input.close();
 				logger.debug("Socket Input Stream Closed");

@@ -59,11 +59,12 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
 	@Override
 	public void update(Rooms record) {
 		try {
-			final String sql = "UPDATE rooms SET name = ?, securityToken = ?, server_ip = ? WHERE id_room = ?";
+			final String sql = "UPDATE rooms SET name = ?, securityToken = ?, server_ip = ?, now_connected = ? WHERE id_room = ?";
 			jdbcTemplate.update(sql, new Object[] {
 					record.getName(),
 					record.getSecurityToken(),
 					record.getServer_ip(),
+					record.isNowConnected(),
 					record.getId_room()
 			});
 		} catch(DataAccessException e) {
@@ -107,6 +108,14 @@ public class RoomsRepository extends BaseRepository<Rooms, Long> {
                 new Object[]{ gproto }, new RoomsRowMapper());
 		} catch(DataAccessException e) {
 			return null;
+		}
+	}
+	
+	public void updateAllOffline() {
+		try {
+			jdbcTemplate.update("UPDATE rooms SET now_connected = FALSE");
+		} catch(DataAccessException e) {
+			logger.error("Cannot update rooms", e);
 		}
 	}
 	

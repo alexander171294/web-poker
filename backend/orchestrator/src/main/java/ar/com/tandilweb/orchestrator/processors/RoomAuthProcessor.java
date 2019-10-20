@@ -43,5 +43,9 @@ public class RoomAuthProcessor {
 		roomThread.sendToClient(om.writeValueAsString(loginResponse.response));
 		return loginResponse.logged;
 	}
+	
+	public void goOffline(long serverID) {
+		roomAuthSrv.goOffline(serverID);
+	}
 
 }

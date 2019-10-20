@@ -142,7 +142,7 @@ You need to start the Orchestrator, then ApiServer and RoomServer.
 
 You need jdk (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and eclipse (we use oxygen 3).
 
-For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions ~~soon~~, including adding this to a apache/nginx server).-
+~~For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions, including adding this to a apache/nginx server).-~~ Docker is all you need.
 
 I'm not sure if this is deployable in shared web hosting, but I'll start an investigation after writing this readme :O.
 --Revision #2: about this last comment, I lied a little bit... ~~twenty days~~ a year later I didn't investigate nothing at all... :'(

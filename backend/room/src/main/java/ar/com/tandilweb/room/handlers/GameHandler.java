@@ -107,6 +107,7 @@ public class GameHandler {
 		// Announcement
 		sessionHandler.sendToAll("GameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
 		// FIXME: check start game?
+		
 	}
 	
 	public int getPositionOfUser(long userId) {

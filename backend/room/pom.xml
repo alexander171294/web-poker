@@ -62,6 +62,16 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>ar.com.tandilweb</groupId>
+			<artifactId>room-int</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>ar.com.tandilweb</groupId>
+			<artifactId>room-poker</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.10</version>

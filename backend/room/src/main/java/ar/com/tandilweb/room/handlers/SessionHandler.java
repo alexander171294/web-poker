@@ -14,7 +14,7 @@ import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import ar.com.tandilweb.room.handlers.dto.UserData;
+import ar.com.tandilweb.room_int.handlers.dto.UserData;
 
 @Service
 public class SessionHandler {

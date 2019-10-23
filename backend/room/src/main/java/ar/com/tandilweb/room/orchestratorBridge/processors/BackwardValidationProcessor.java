@@ -25,9 +25,9 @@ import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;
 import ar.com.tandilweb.persistence.domain.Users;
 import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.SessionHandler;
-import ar.com.tandilweb.room.handlers.dto.UserData;
-import ar.com.tandilweb.room.handlers.dto.UserDataStatus;
 import ar.com.tandilweb.room.orchestratorBridge.OrchestratorThread;
+import ar.com.tandilweb.room_int.handlers.dto.UserData;
+import ar.com.tandilweb.room_int.handlers.dto.UserDataStatus;
 
 @Component
 public class BackwardValidationProcessor extends OrchestratorGenericProcessor {

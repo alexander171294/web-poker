@@ -1,4 +1,4 @@
-package ar.com.tandilweb.room.handlers.dto;
+package ar.com.tandilweb.room_int.handlers.dto;
 
 import ar.com.tandilweb.exchange.userAuth.Challenge;
 import ar.com.tandilweb.exchange.userAuth.types.ChallengeActions;

@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ar.com.tandilweb.room.handlers.dto.UserData;
 import ar.com.tandilweb.room.protocols.EpprGameProto;
 import ar.com.tandilweb.room.protocols.EpprRoomAuth;
+import ar.com.tandilweb.room_int.GameCtrlInt;
+import ar.com.tandilweb.room_int.handlers.dto.UserData;
 
 @Service
 public class GameHandler {
@@ -29,6 +30,9 @@ public class GameHandler {
 	@Autowired
 	private EpprRoomAuth roomAuthProtocol;
 	
+	@Autowired
+	private GameCtrlInt gameController;
+	
 	private UserData[] usersInTable;
 	private List<UserData> spectators = new ArrayList<UserData>();
 	
@@ -38,6 +42,7 @@ public class GameHandler {
 	@PostConstruct
     public void init() {
 		usersInTable = new UserData[maxPlayers];
+		gameController.setUsersInTableRef(usersInTable);
 		logger.debug("Started pool of users with size: "+maxPlayers);
 	 }
 	

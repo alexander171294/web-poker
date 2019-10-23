@@ -11,7 +11,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.DefinePositi
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Ingress;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RejectFullyfied;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RejectedPosition;
-import ar.com.tandilweb.room.handlers.dto.UserData;
+import ar.com.tandilweb.room_int.handlers.dto.UserData;
 
 @Component
 public class EpprGameProto {

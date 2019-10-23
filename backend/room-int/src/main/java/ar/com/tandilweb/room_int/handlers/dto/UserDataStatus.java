@@ -1,4 +1,4 @@
-package ar.com.tandilweb.room.handlers.dto;
+package ar.com.tandilweb.room_int.handlers.dto;
 
 public enum UserDataStatus {
 	PENDING,

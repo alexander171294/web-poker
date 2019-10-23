@@ -47,7 +47,7 @@ public class GameHandler {
 	 }
 	
 	public void ingressFlow(UserData userData) {
-		// TODO: dump table snapshot (including table size)
+		gameController.dumpSnapshot();
 		logger.debug("Ingressed user", userData);
 		// check old position 
 		List<Integer> freeSpaces = new ArrayList<Integer>();
@@ -75,7 +75,6 @@ public class GameHandler {
 			spectators.add(userData);
 			sessionHandler.sendToSessID("GameController/rejectFullyfied", userData.sessID, this.gameProtocol.getRejectFullyfiedSchema());
 		}
-		
 	}
 	
 	public void sitFlow(int position, UserData userData) {
@@ -99,7 +98,7 @@ public class GameHandler {
 	}
 	
 	public void depositFlow() {
-		
+		// TODO: finish this.
 	}
 	
 	public void ingressSchema(int position, UserData userData) {
@@ -111,8 +110,7 @@ public class GameHandler {
 		sessionHandler.sendToSessID("GameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));
 		// Announcement
 		sessionHandler.sendToAll("GameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
-		// FIXME: check start game?
-		
+		gameController.checkStartGame();
 	}
 	
 	public int getPositionOfUser(long userId) {

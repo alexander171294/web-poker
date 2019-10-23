@@ -14,10 +14,11 @@ import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 
 @Service
-public class SessionHandler {
+public class SessionHandler implements SessionHandlerInt {
 	
 	private static final Logger log = LoggerFactory.getLogger(SessionHandler.class);
 
@@ -88,6 +89,7 @@ public class SessionHandler {
 	}
 	
 	public void sendToAll(String direction, Object payload) {
+		// FIXME: not working
 		msgTmp.convertAndSend(direction, payload);
 	}
 	

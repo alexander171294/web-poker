@@ -18,7 +18,7 @@ Additionally, sorry for my bad english, I speak spanish and learn english only r
 
 ### Lobby
 
-![lobby](https://i.imgur.com/HUCeZBr.png)
+We need to redesign because a copyright. Wait for it.
 
 ### Table room
 
@@ -145,6 +145,7 @@ You need jdk (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downl
 ~~For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions, including adding this to a apache/nginx server).-~~ Docker is all you need.
 
 I'm not sure if this is deployable in shared web hosting, but I'll start an investigation after writing this readme :O.
+
 --Revision #2: about this last comment, I lied a little bit... ~~twenty days~~ a year later I didn't investigate nothing at all... :'(
 
 # Finally

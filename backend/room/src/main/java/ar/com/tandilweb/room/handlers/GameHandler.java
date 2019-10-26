@@ -9,7 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.room.protocols.EpprGameProto;
 import ar.com.tandilweb.room.protocols.EpprRoomAuth;
@@ -162,5 +166,11 @@ public class GameHandler {
 				logger.error("Not user in memory for deposit: UID: "+userID+" Chips: "+chips+" AccountChips: "+accountChips);
 			}
 		}
+	}
+	
+	@Scheduled(fixedRate = 2500)
+	public void scheduleRoomStatus() throws JsonProcessingException {
+		ObjectMapper om = new ObjectMapper();
+		logger.info("[Room Monitor] Users in table: " + om.writeValueAsString(usersInTable));
 	}
 }

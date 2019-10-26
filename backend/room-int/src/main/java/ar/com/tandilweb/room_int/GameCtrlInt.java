@@ -15,5 +15,7 @@ public interface GameCtrlInt {
 	void receivedMessage(SchemaGameProto message, String socketSessionID, SessionHandlerInt sessionHandler);
 	
 	void onNewPlayerSitdown(UserData player);
+	
+	void onDeposit(UserData player, long chipsDeposited);
 
 }

@@ -98,10 +98,6 @@ public class GameHandler {
 		}
 	}
 	
-	public void depositFlow() {
-		// TODO: finish this.
-	}
-	
 	public void ingressSchema(int position, UserData userData) {
 		// INGRESS SCHEMA
 		if(userData.chips == 0) {
@@ -125,16 +121,18 @@ public class GameHandler {
 	
 	public void addChipsToUser(long userID, long chips, long accountChips) {
 		boolean done = false;
+		UserData uD = null;
 		for(int i = 0; i<maxPlayers; i++) {
 			if(usersInTable[i] != null && usersInTable[i].userID == userID) {
 				usersInTable[i].chips += chips;
 				usersInTable[i].dataBlock.setChips(accountChips);
+				uD = usersInTable[i];
 				done = true;
 			}
 		}
 		if(!done) {
 			// not in table.
-			UserData uD = sessionHandler.getUserDataFromActiveSessionForUser(userID);
+			uD = sessionHandler.getUserDataFromActiveSessionForUser(userID);
 			if(uD != null) {
 				uD.chips = chips;
 			} else {
@@ -142,5 +140,6 @@ public class GameHandler {
 				logger.error("Not user in memory for deposit: UID: "+userID+" Chips: "+chips+" AccountChips: "+accountChips);
 			}
 		}
+		gameController.onDeposit(uD, chips);
 	}
 }

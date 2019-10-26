@@ -37,4 +37,9 @@ public class PokerRoom implements GameCtrlInt {
 		log.debug("New Player: " + player.userID);
 	}
 
+	public void onDeposit(UserData player, long chipsDeposited) {
+		// TODO Auto-generated method stub
+		log.debug("New Deposit to: " + player.userID + " chips: " + chipsDeposited);
+	}
+
 }

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
+import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.orchestratorBridge.processors.BackwardValidationProcessor;
 import ar.com.tandilweb.room.orchestratorBridge.processors.RoomAuthProcessor;

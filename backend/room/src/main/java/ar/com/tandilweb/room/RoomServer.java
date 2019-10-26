@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import ar.com.tandilweb.room_int.GameCtrlInt;
 import ar.com.tandilweb.room_poker.PokerRoom;
@@ -17,6 +18,7 @@ import ar.com.tandilweb.room_poker.PokerRoom;
 		@PropertySource("classpath:clientRegisterConfig.properties"),
 		@PropertySource("classpath:clientDetails.properties")
 	})
+@EnableScheduling
 public class RoomServer  extends SpringBootServletInitializer
 {
     public static void main( String[] args )

@@ -1,9 +1,13 @@
 package ar.com.tandilweb.room_poker;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.com.tandilweb.exchange.gameProtocol.SchemaGameProto;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
 import ar.com.tandilweb.room_int.GameCtrlInt;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
@@ -29,6 +33,19 @@ public class PokerRoom implements GameCtrlInt {
 			log.debug("START GAME");
 			this.inGame = true;
 			// start game:
+			final StartGame startGame = new StartGame();
+			startGame.startIn = 30;
+			//final SessionHandlerInt _sessionHandler = sessionHandler;
+			TimerTask timeToStartGame = new TimerTask() {
+				public void run() {
+					startGame.startIn -= 10;
+					log.debug("Start game in: " + startGame.startIn);
+					//sessionHandler
+				}
+			};
+			Timer timer = new Timer("StartGameTimmer");
+			timer.scheduleAtFixedRate(timeToStartGame, 1000L, 1000L);
+			log.debug("Start game in: " + startGame.startIn);
 			//sessionHandler.sendToAll("", "");
 		}
 	}

@@ -47,8 +47,8 @@ KEY (`id_user`)
 DROP TABLE IF EXISTS `friendships`;
 		
 CREATE TABLE `friendships` (
-  `id_user_origin` INTEGER NOT NULL,
-  `id_user_target` INTEGER NOT NULL,
+  `id_user_origin` BIGINT NOT NULL,
+  `id_user_target` BIGINT NOT NULL,
   `requested` DATETIME NOT NULL,
   `accepted` bit NOT NULL,
   PRIMARY KEY (`id_user_origin`, `id_user_target`)
@@ -104,7 +104,7 @@ CREATE TABLE `challenges` (
   `id_user` BIGINT NOT NULL,
   `id_room` BIGINT NOT NULL,
   `challenge` VARCHAR(250) NOT NULL,
-  `deposit` BIGINT NOT NULL DEFAULT NULL,
+  `deposit` BIGINT DEFAULT NULL,
   PRIMARY KEY (`challengeID`),
 KEY (`id_user`, `id_room`)
 );
@@ -117,7 +117,7 @@ KEY (`id_user`, `id_room`)
 DROP TABLE IF EXISTS `bans`;
 		
 CREATE TABLE `bans` (
-  `id_user` INTEGER NOT NULL,
+  `id_user` BIGINT NOT NULL,
   `reason` VARCHAR(128) NOT NULL,
   `registered` DATE NOT NULL,
   `expire` DATETIME NOT NULL,

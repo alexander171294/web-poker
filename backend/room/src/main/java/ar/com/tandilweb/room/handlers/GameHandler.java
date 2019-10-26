@@ -63,7 +63,7 @@ public class GameHandler {
 		}
 		// DEFINEPOSITION SCHEMA.
 		if(freeSpaces.size() > 0) {
-			sessionHandler.sendToSessID("GameController/definePosition", userData.sessID, this.gameProtocol.getDefinePositionSchema(freeSpaces));
+			this.definePosition(userData.sessID, freeSpaces);
 			// DEPOSIT SCHEMA -- see documentation of eppr
 			sessionHandler.sendToSessID("GameController/deposit", userData.sessID, roomAuthProtocol.getDepositSchema());
 		} else {
@@ -77,8 +77,26 @@ public class GameHandler {
 		}
 	}
 	
+	private void definePosition(String sessID, List<Integer> freeSpaces) {
+		sessionHandler.sendToSessID("GameController/definePosition", sessID, this.gameProtocol.getDefinePositionSchema(freeSpaces));
+	}
+	
+	private void definePosition(String sessID) {
+		List<Integer> freeSpaces = new ArrayList<Integer>();
+		for(int i = 0; i<maxPlayers; i++) {
+			if (usersInTable[i] == null) {
+				freeSpaces.add(i);
+			}
+		}
+		if(freeSpaces.size() > 0) {
+			definePosition(sessID, freeSpaces);
+		} else {
+			sessionHandler.sendToSessID("GameController/rejectFullyfied", sessID, this.gameProtocol.getRejectFullyfiedSchema());
+		}
+	}
+	
 	public void sitFlow(int position, UserData userData) {
-		if(position >= maxPlayers || usersInTable[position] != null) {
+		if(position >= maxPlayers || position < 0 || usersInTable[position] != null) {
 			List<Integer> freeSpaces = new ArrayList<Integer>();
 			for(int i = 0; i<maxPlayers; i++) {
 				if (usersInTable[i] == null) {
@@ -126,6 +144,7 @@ public class GameHandler {
 			if(usersInTable[i] != null && usersInTable[i].userID == userID) {
 				usersInTable[i].chips += chips;
 				usersInTable[i].dataBlock.setChips(accountChips);
+				gameController.checkStartGame();
 				uD = usersInTable[i];
 				done = true;
 			}
@@ -135,6 +154,7 @@ public class GameHandler {
 			uD = sessionHandler.getUserDataFromActiveSessionForUser(userID);
 			if(uD != null) {
 				uD.chips = chips;
+				definePosition(sessionHandler.getActiveSessionForUser(userID));
 			} else {
 				// TODO: refound chips.
 				logger.error("Not user in memory for deposit: UID: "+userID+" Chips: "+chips+" AccountChips: "+accountChips);

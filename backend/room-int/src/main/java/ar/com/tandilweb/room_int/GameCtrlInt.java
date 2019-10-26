@@ -13,5 +13,7 @@ public interface GameCtrlInt {
 	void dumpSnapshot();
 	
 	void receivedMessage(SchemaGameProto message, String socketSessionID, SessionHandlerInt sessionHandler);
+	
+	void onNewPlayerSitdown(UserData player);
 
 }

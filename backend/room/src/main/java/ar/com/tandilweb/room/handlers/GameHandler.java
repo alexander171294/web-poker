@@ -92,6 +92,7 @@ public class GameHandler {
 			}
 		} else {
 			// FIXME: check if is in other position and remove.
+			this.gameController.onNewPlayerSitdown(userData);
 			usersInTable[position] = userData;
 			this.ingressSchema(position, userData);
 		}

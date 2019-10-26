@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
+import ar.com.tandilweb.room_poker.deck.cards.Card;
 
 public class Utils {
 	

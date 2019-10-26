@@ -20,6 +20,7 @@ public class Card {
 			}
 		} catch(Exception e) {
 			// out of index probably.
+			System.out.println("Out of the index?");
 		}
 	}
 

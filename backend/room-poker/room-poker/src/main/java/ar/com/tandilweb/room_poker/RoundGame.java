@@ -12,9 +12,10 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.BetDecision;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Blind;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
-import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCards;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
@@ -38,6 +39,8 @@ public class RoundGame {
 	private long[] bets;
 	private Card[] playerFirstCards;
 	private Card[] playerSecondCards;
+	private Card[] flop;
+	private Card turn;
 	
 	private int roundStep;
 	private int dealerPosition;
@@ -114,7 +117,7 @@ public class RoundGame {
 		List<Integer> players = Utils.getPlayersFromPosition(usersInGame, this.dealerPosition);
 		//deck.getNextCard(); // burn a card ?.
 		// first iteration:
-		int lastPosition = 0;
+		int lastPosition = 1;
 		try {
 			for(int position: players) {
 				playerFirstCards[position] = deck.getNextCard();
@@ -125,8 +128,8 @@ public class RoundGame {
 				ICardDist icd = new ICardDist();
 				icd.position = position;
 				lastPosition = position;
-				SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
-				icd.cards = new SchemaCards[] {stCard, null};
+				SchemaCard stCard = new SchemaCard(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
+				icd.cards = new SchemaCard[] {stCard, null};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
 				Thread.sleep(250);
@@ -141,14 +144,15 @@ public class RoundGame {
 				ICardDist icd = new ICardDist();
 				icd.position = position;
 				lastPosition = position;
-				SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
-				SchemaCards ndCard = new SchemaCards(playerSecondCards[position].suit.ordinal(), playerSecondCards[position].value.getNumericValue());
-				icd.cards = new SchemaCards[] {stCard, ndCard};
+				SchemaCard stCard = new SchemaCard(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
+				SchemaCard ndCard = new SchemaCard(playerSecondCards[position].suit.ordinal(), playerSecondCards[position].value.getNumericValue());
+				icd.cards = new SchemaCard[] {stCard, ndCard};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
 				Thread.sleep(250);
 			}
 		} catch(NullPointerException npe) {
+			
 			log.debug("npe: " + lastPosition, npe);
 		}
 		
@@ -222,20 +226,17 @@ public class RoundGame {
 			roundStep = 2;
 			dealFlop();
 			nextPlayer(nextPj);
-		}
-		if(roundStep == 2) {
+		} else if(roundStep == 2) {
 			// turn:
 			roundStep = 3;
 			dealTurn();
 			nextPlayer(nextPj);
-		}
-		if(roundStep == 3) {
+		} else if(roundStep == 3) {
 			// turn:
 			roundStep = 4;
 			dealRiver();
 			nextPlayer(nextPj);
-		}
-		if(roundStep == 4) {
+		} else if(roundStep == 4) {
 			// showdown
 			log.debug("!!! SHOWDOWN !!!");
 		}
@@ -248,15 +249,22 @@ public class RoundGame {
 	
 	private void dealFlop() {
 		deck.getNextCard(); // burn a card 
-		Card[] flop = new Card[3];
-		flop[0] = deck.getNextCard();
-		flop[1] = deck.getNextCard();
-		flop[2] = deck.getNextCard();
+		FlopBegins fb = new FlopBegins();
+		SchemaCard[] schemaCards = new SchemaCard[3];
+		flop = new Card[3];
+		for(int i = 0; i<3; i++) {
+			flop[i] = deck.getNextCard();
+			schemaCards[i] = new SchemaCard(flop[i].suit.ordinal(), flop[i].value.getNumericValue());
+		}
+		fb.cards = schemaCards;
+		// flop begins:
+		sessionHandler.sendToAll("/GameController/flop", fb);
 	}
 	
 	private void dealTurn() {
 		deck.getNextCard(); // burn a card 
-		Card turn = deck.getNextCard();
+		turn = deck.getNextCard();
+		
 	}
 	
 	private void dealRiver() {

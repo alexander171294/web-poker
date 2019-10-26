@@ -114,6 +114,26 @@ export class AppComponent {
     document.getElementById('commandPrompt').focus();
   }
 
+  foldCommand() {
+    this.commandPrompt = 'game.bridge action:"fold"';
+    document.getElementById('commandPrompt').focus();
+  }
+
+  callCommand() {
+    this.commandPrompt = 'game.bridge action:"call"';
+    document.getElementById('commandPrompt').focus();
+  }
+
+  checkCommand() {
+    this.commandPrompt = 'game.bridge action:"check"';
+    document.getElementById('commandPrompt').focus();
+  }
+
+  raiseCommand() {
+    this.commandPrompt = 'game.bridge action:"raise" raise:"100"';
+    document.getElementById('commandPrompt').focus();
+  }
+
   processCommand(command: string) {
     const part = /([a-zA-Z]+)\.([a-zA-Z]+)/gm.exec(command);
     const target = part[1];
@@ -161,6 +181,15 @@ export class AppComponent {
         }, err => {
           this.terminal.in('Challenge refused','ApiSrv');
         });
+      }
+    }
+    if(target == 'game') {
+      if(action == 'bridge') {
+        if(params.action == 'raise') {
+          this.room.bridge(params.action, params.raise);
+        } else {
+          this.room.bridge(params.action);
+        }
       }
     }
   }

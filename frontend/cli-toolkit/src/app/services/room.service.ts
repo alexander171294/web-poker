@@ -10,6 +10,7 @@ import { BackwardValidation } from '../epprProtocol/userAuth/BackwardValidation'
 import { ChallengeActions } from '../epprProtocol/userAuth/types/ChallengeActions';
 import { SelectPosition } from '../epprProtocol/userAuth/SelectPosition';
 import { Deposit } from '../epprProtocol/clientOperations/Deposit';
+import { DecisionInform } from '../epprProtocol/game/DecisionInform';
 
 @Injectable({
   providedIn: 'root'
@@ -127,6 +128,18 @@ export class RoomService {
     const dBlock = new MessageDefinition();
     dBlock.data = sP;
     dBlock.endpoint = '/user/selectPosition';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
+  }
+
+  bridge(action: string, raise?: number){
+    this.terminal.out('Action ['+action+'] - ' + raise, this.serviceName);
+    const dI = new DecisionInform();
+    dI.action = action;
+    dI.ammount = raise;
+    const dBlock = new MessageDefinition();
+    dBlock.data = dI;
+    dBlock.endpoint = '/game/bridge';
     dBlock.prefix = '/stompApi';
     this.ws.sendMessage(dBlock);
   }

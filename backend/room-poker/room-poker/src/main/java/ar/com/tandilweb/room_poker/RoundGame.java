@@ -16,6 +16,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.TurnBegins;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
@@ -264,7 +265,10 @@ public class RoundGame {
 	private void dealTurn() {
 		deck.getNextCard(); // burn a card 
 		turn = deck.getNextCard();
-		
+		TurnBegins tb = new TurnBegins();
+		tb.card = new SchemaCard(turn.suit.ordinal(), turn.value.getNumericValue());
+		// turn begins:
+		sessionHandler.sendToAll("/GameController/turn", turn);
 	}
 	
 	private void dealRiver() {

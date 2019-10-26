@@ -144,6 +144,7 @@ public class GameHandler {
 			if(usersInTable[i] != null && usersInTable[i].userID == userID) {
 				usersInTable[i].chips += chips;
 				usersInTable[i].dataBlock.setChips(accountChips);
+				gameController.onDeposit(uD, chips);
 				gameController.checkStartGame();
 				uD = usersInTable[i];
 				done = true;
@@ -154,12 +155,12 @@ public class GameHandler {
 			uD = sessionHandler.getUserDataFromActiveSessionForUser(userID);
 			if(uD != null) {
 				uD.chips = chips;
+				gameController.onDeposit(uD, chips);
 				definePosition(sessionHandler.getActiveSessionForUser(userID));
 			} else {
 				// TODO: refound chips.
 				logger.error("Not user in memory for deposit: UID: "+userID+" Chips: "+chips+" AccountChips: "+accountChips);
 			}
 		}
-		gameController.onDeposit(uD, chips);
 	}
 }

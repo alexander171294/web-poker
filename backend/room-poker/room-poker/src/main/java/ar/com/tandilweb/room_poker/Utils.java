@@ -25,7 +25,17 @@ public class Utils {
 	}
 	
 	public static int getNextPositionOfPlayers(UserData[] usersInGame, int actualPosition) {
-		return 3; // FIXME
+		for(int i = actualPosition+1; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				return i;
+			}
+		}
+		for(int i = 0; i < actualPosition; i++) {
+			if(usersInGame[i] != null) {
+				return i;
+			}
+		}
+		return actualPosition; // wtf?, this only can be if the room has configured the minimum on 1 player.
 	}
 	
 	public static UserData[] getNewArrayOfUsers(UserData[] usersInTable) {

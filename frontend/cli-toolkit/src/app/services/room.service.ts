@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { WsRoomService } from './room/ws-room.service';
 import { TerminalService } from './terminal.service';
 import { environment } from 'src/environments/environment';
@@ -17,6 +17,7 @@ import { Deposit } from '../epprProtocol/clientOperations/Deposit';
 export class RoomService {
 
   readonly serviceName = 'RoomServer'; 
+  public actionButtonEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private ws: WsRoomService, private terminal: TerminalService) {
 
@@ -190,7 +191,8 @@ export class RoomService {
   }
 
   onBetDecision(data) {
-    this.terminal.info('BetDecision: To Call: '+data.toCall+' can check? ' + (data.canCheck ? 'Yes' : 'No') + ' Raise >' + data.minRaise + ' and <' + data.maxRaise);
+    this.terminal.info('BetDecision: To Call: '+data.toCall+' can check? ' + (data.canCheck ? '[Yes]' : '{No}') + ' Raise >' + data.minRaise + ' and <' + data.maxRaise);
+    this.actionButtonEvent.emit(data.toCall);
   }
 
   onRejectFullyfied(data) {

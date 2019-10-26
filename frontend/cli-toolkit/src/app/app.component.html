@@ -14,7 +14,13 @@
     <button (click)="depositCMD()" class="roomServer">Deposit</button>
     <button (click)="depositChallengeCMD()" class="apiServer">Deposit Challenge</button>
     <button (click)="backwardValidationDCMD()" class="roomServer">BW Valid Deposit</button>
-    <div class="separator"></div>
+    <div *ngIf="actionButtons">
+      <div class="separator"></div>
+      <button (click)="foldCommand()" class="actionButton">Fold</button>
+      <button (click)="callCommand()" *ngIf="!check" class="actionButton">Call {{callSize}}</button>
+      <button (click)="checkCommand()" *ngIf="check" class="actionButton">Check</button>
+      <button (click)="raiseCommand()" class="actionButton">Raise</button>
+    </div>
     <!-- <button>Connect</button>
     <button>Disconnect</button> -->
   </div>

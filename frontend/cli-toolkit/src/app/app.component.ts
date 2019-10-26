@@ -18,11 +18,21 @@ export class AppComponent {
   private commandPrompt: string;
   private debugMode: boolean;
 
+  callSize: number;
+  check: boolean = false;
+  actionButtons: boolean = false;
+
+
   private terminalMessages = [
     {msg: 'Ready', type: 'info'}
   ];
 
   constructor(private room: RoomService, private terminal: TerminalService, private api: ApiService) {
+    room.actionButtonEvent.subscribe(data => {
+      this.actionButtons = true;
+      this.check = data === 0;
+      this.callSize = data;
+    });
     terminal.event.subscribe(data => {
       this.terminalMessages.push({
         msg: data,

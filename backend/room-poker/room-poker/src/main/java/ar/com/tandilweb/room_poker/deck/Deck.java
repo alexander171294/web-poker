@@ -36,5 +36,10 @@ public class Deck {
 		index = 0;
 		log.debug("Cards shuffled.");
 	}
+	
+	public Card getNextCard() {
+		index++; // increment index.
+		return deck.get(index-1); // get the card.
+	}
 
 }

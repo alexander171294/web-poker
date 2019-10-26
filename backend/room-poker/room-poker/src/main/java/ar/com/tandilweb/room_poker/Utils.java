@@ -19,12 +19,7 @@ public class Utils {
 	}
 	
 	public static int getRandomPositionOfTakens(UserData[] usersInTable) {
-		List<Integer> takenSpaces = new ArrayList<Integer>();
-		for(int i = 0; i < usersInTable.length; i++) {
-			if (usersInTable[i] != null) {
-				takenSpaces.add(i);
-			}
-		}
+		List<Integer> takenSpaces = getPlayers(usersInTable);
 		Random rand = new Random();
 		return takenSpaces.get(rand.nextInt(takenSpaces.size()));
 	}
@@ -39,6 +34,31 @@ public class Utils {
 			usersInGame[i] = usersInTable[i];
 		}
 		return usersInGame;
+	}
+	
+	public static List<Integer> getPlayers(UserData[] usersInTable) {
+		List<Integer> players = new ArrayList<Integer>();
+		for(int i = 0; i < usersInTable.length; i++) {
+			if (usersInTable[i] != null) {
+				players.add(i);
+			}
+		}
+		return players;
+	}
+	
+	public static List<Integer> getPlayersFromPosition(UserData[] usersInTable, int startPosition) {
+		List<Integer> players = new ArrayList<Integer>();
+		for(int i = startPosition + 1; i < usersInTable.length; i++) {
+			if (usersInTable[i] != null) {
+				players.add(i);
+			}
+		}
+		for(int i = 0; i <= startPosition; i++) {
+			if (usersInTable[i] != null) {
+				players.add(i);
+			}
+		}
+		return players;
 	}
 
 }

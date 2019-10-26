@@ -24,6 +24,12 @@ public class RoundGame {
 	private static SessionHandlerInt sessionHandler;
 	private static long rounds = 0;
 	
+	private static final int MIN_RAISE = 50; // TODO: adjust according to configuration.
+	private static final int MAX_RAISE = -1; // TODO: adjust according to configuration.
+	private static int SMALL_BLIND = 25; // TODO: adjust according to configuration.
+	private static int BIG_BLIND = 50; // TODO: adjust according to configuration.
+	private static final int BLIND_MULTIPLIER = 2; // TODO: adjust according to configuration.
+	
 	// player datas:
 	private UserData[] usersInGame;
 	private long[] bets;
@@ -35,6 +41,9 @@ public class RoundGame {
 	private int tableSize;
 	private int waitingActionFromPlayer; // id of player are waiting.
 	private int lastActionedPosition; // for cut actions.
+	private int bigBlind;
+	private long lastRise;
+	
 	private Deck deck;
 	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
@@ -53,11 +62,11 @@ public class RoundGame {
 		roundStartSchema.dealerPosition = this.dealerPosition;
 		roundStartSchema.roundNumber = rounds;
 		sessionHandler.sendToAll("/GameController/roundStart", roundStartSchema);
-		requestBlind(25, 50); // FXIME: adjust according to configuration.
+		requestBlind(SMALL_BLIND, BIG_BLIND); // FXIME: adjust according to configuration.
 		try {
 			dealCards();
 			roundStep = 1; // pre-flop
-			sendWaitAction(50, false);
+			sendWaitAction(false);
 		} catch (InterruptedException e) {
 			log.warn("Interrupted Exception ", e);
 			// FIXME: if this explode, then the cards are never ends to dealing.
@@ -66,7 +75,8 @@ public class RoundGame {
 	
 	private void requestBlind(int smallBlindSize, int bigBlindSize) {
 		int smallBlind = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
-		int bigBlind = Utils.getNextPositionOfPlayers(usersInGame, smallBlind);
+		bigBlind = Utils.getNextPositionOfPlayers(usersInGame, smallBlind);
+		lastRise = bigBlindSize;
 		Blind blindObject = new Blind();
 		blindObject.sbPosition = smallBlind;
 		blindObject.sbChips = smallBlindSize;
@@ -81,17 +91,17 @@ public class RoundGame {
 		lastActionedPosition = bigBlind;
 	}
 	
-	private void sendWaitAction(long toCall, boolean canCheck) {
+	private void sendWaitAction(boolean canCheck) {
 		ActionFor aFor = new ActionFor();
 		aFor.position = waitingActionFromPlayer;
 		aFor.remainingTime = 30; // TODO: adjust according to configuration.
 		sessionHandler.sendToAll("/GameController/actionFor", aFor);
 		// action for:
 		BetDecision bd = new BetDecision();
-		bd.toCall = toCall;
-		bd.canCheck = canCheck;
-		bd.minRaise = toCall; // TODO: adjust according to configuration.
-		bd.maxRaise = -1; // TODO: adjust according to configuration.
+		bd.toCall = lastRise - bets[waitingActionFromPlayer];
+		bd.canCheck = bd.toCall == 0;
+		bd.minRaise = MIN_RAISE; 
+		bd.maxRaise = MAX_RAISE; 
 		// send wait for bet decision:
 		sessionHandler.sendToSessID("GameController/betDecision", usersInGame[aFor.position].sessID, bd);
 		// TODO: implement timer for wait stop.
@@ -111,7 +121,7 @@ public class RoundGame {
 			icd.position = position;
 			SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
 			icd.cards = new SchemaCards[] {stCard, null};
-			sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, cd); // to the player
+			sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 			// wait a moment?
 			Thread.sleep(250);
 		}
@@ -127,7 +137,7 @@ public class RoundGame {
 			SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
 			SchemaCards ndCard = new SchemaCards(playerSecondCards[position].suit.ordinal(), playerSecondCards[position].value.getNumericValue());
 			icd.cards = new SchemaCards[] {stCard, ndCard};
-			sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, cd); // to the player
+			sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 			// wait a moment?
 			Thread.sleep(250);
 		}
@@ -161,6 +171,11 @@ public class RoundGame {
 	
 	public long getRounds() {
 		return rounds;
+	}
+	
+	public static void increaseBlind() {
+		SMALL_BLIND *= BLIND_MULTIPLIER;
+		BIG_BLIND *= BLIND_MULTIPLIER;
 	}
 
 }

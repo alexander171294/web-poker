@@ -148,6 +148,12 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/GameController/successDeposit', (data) => this.onSuccessDeposit(data));
     this.ws.suscribe('/userInterceptor/GameController/invalidDeposit', (data) => this.onInvalidDeposit(data));
     this.ws.suscribe('/GameController/startGame', (data) => this.onStartGame(data)); // global message
+    this.ws.suscribe('/GameController/roundStart', (data) => this.onRoundStart(data)); // global message
+    this.ws.suscribe('/GameController/blind', (data) => this.onBlind(data)); // global message
+    this.ws.suscribe('/GameController/cardsDist', (data) => this.onCardsDist(data)); // global message
+    this.ws.suscribe('/userInterceptor/GameController/cardsDist', (data) => this.onICardsDist(data));
+    this.ws.suscribe('/GameController/actionFor', (data) => this.onActionFor(data)); // global message
+    this.ws.suscribe('/userInterceptor/GameController/betDecision', (data) => this.onBetDecision(data));
   }
 
   onIngress(data) {
@@ -160,6 +166,31 @@ export class RoomService {
 
   onStartGame(data) {
     this.terminal.info('Start game in: ' + data.startIn + ' secs');
+  }
+
+  onRoundStart(data) {
+    this.terminal.info('Starting round, Dealer: ' + data.dealerPosition + ' Round number: ' + data.roundNumber);
+  }
+
+  onBlind(data) {
+    this.terminal.info('Small blind: {pos:' + data.sbPosition + ' $'+ data.sbChips + '} Big blind: {pos: ' + data.bbPosition + ' $'+data.bbChips+'}');
+  }
+
+  onCardsDist(data) {
+    const cards = data.cards[1] ? '[][]' : '[]';
+    this.terminal.log('Cards for ' + data.position + ' - ' + cards)
+  }
+
+  onICardsDist(data) {
+    this.terminal.info('Cards for you ' + JSON.stringify(data.cards));
+  }
+
+  onActionFor(data) {
+    this.terminal.log('Waiting '+data.position+' for: '+data.remainingTime+' seconds');
+  }
+
+  onBetDecision(data) {
+    this.terminal.info('BetDecision: To Call: '+data.toCall+' can check? ' + (data.canCheck ? 'Yes' : 'No') + ' Raise >' + data.minRaise + ' and <' + data.maxRaise);
   }
 
   onRejectFullyfied(data) {

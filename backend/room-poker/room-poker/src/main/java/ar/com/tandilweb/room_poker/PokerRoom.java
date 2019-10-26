@@ -35,7 +35,7 @@ public class PokerRoom implements GameCtrlInt {
 
 	public void checkStartGame() {
 		log.debug("Check Start Game");
-		if(!inGame && Utils.checkPlayers(usersInTable) >= 1) { // FIXME: change this to 2 or get from configuration, is in one only for test/dev purposes.
+		if(!inGame && Utils.checkPlayers(usersInTable) >= 2) { // FIXME: change this, get from configuration, is in two only for test/dev purposes.
 			// START GAME
 			log.debug("START GAME");
 			this.inGame = true;

@@ -30,6 +30,7 @@ public class RoundGame {
 	private Card[] playerFirstCards;
 	private Card[] playerSecondCards;
 	
+	private int roundStep;
 	private int dealerPosition;
 	private int tableSize;
 	private int waitingActionFromPlayer; // id of player are waiting.
@@ -53,6 +54,7 @@ public class RoundGame {
 		requestBlind(25, 50); // FXIME: adjust according to configuration.
 		try {
 			dealCards();
+			roundStep = 1; // pre-flop
 			sendWaitAction(50, false);
 		} catch (InterruptedException e) {
 			log.warn("Interrupted Exception ", e);

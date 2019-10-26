@@ -74,7 +74,7 @@ public class Utils {
 	public static int getPlyerPosition(UserData[] usersInGame, UserData userSearched) {
 		// TODO: only for ready users?
 		for(int i = 0; i<usersInGame.length; i++) {
-			if(usersInGame[i].userID == userSearched.userID) {
+			if(usersInGame[i]!= null && usersInGame[i].userID == userSearched.userID) {
 				return i;
 			}
 		}

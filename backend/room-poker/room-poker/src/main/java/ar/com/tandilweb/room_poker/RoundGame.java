@@ -114,36 +114,44 @@ public class RoundGame {
 		List<Integer> players = Utils.getPlayersFromPosition(usersInGame, this.dealerPosition);
 		//deck.getNextCard(); // burn a card ?.
 		// first iteration:
-		for(int position: players) {
-			playerFirstCards[position] = deck.getNextCard();
-			CardDist cd = new CardDist();
-			cd.position = position;
-			cd.cards = new boolean[]{ true, false };
-			sessionHandler.sendToAll("/GameController/cardsDist", cd); // to all
-			ICardDist icd = new ICardDist();
-			icd.position = position;
-			SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
-			icd.cards = new SchemaCards[] {stCard, null};
-			sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
-			// wait a moment?
-			Thread.sleep(250);
+		int lastPosition = 0;
+		try {
+			for(int position: players) {
+				playerFirstCards[position] = deck.getNextCard();
+				CardDist cd = new CardDist();
+				cd.position = position;
+				cd.cards = new boolean[]{ true, false };
+				sessionHandler.sendToAll("/GameController/cardsDist", cd); // to all
+				ICardDist icd = new ICardDist();
+				icd.position = position;
+				lastPosition = position;
+				SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
+				icd.cards = new SchemaCards[] {stCard, null};
+				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
+				// wait a moment?
+				Thread.sleep(250);
+			}
+			// second iteration:
+			for(int position: players) {
+				playerSecondCards[position] = deck.getNextCard();
+				CardDist cd = new CardDist();
+				cd.position = position;
+				cd.cards = new boolean[]{ true, true };
+				sessionHandler.sendToAll("/GameController/cardsDist", cd); // to all
+				ICardDist icd = new ICardDist();
+				icd.position = position;
+				lastPosition = position;
+				SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
+				SchemaCards ndCard = new SchemaCards(playerSecondCards[position].suit.ordinal(), playerSecondCards[position].value.getNumericValue());
+				icd.cards = new SchemaCards[] {stCard, ndCard};
+				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
+				// wait a moment?
+				Thread.sleep(250);
+			}
+		} catch(NullPointerException npe) {
+			log.debug("npe: " + lastPosition, npe);
 		}
-		// second iteration:
-		for(int position: players) {
-			playerSecondCards[position] = deck.getNextCard();
-			CardDist cd = new CardDist();
-			cd.position = position;
-			cd.cards = new boolean[]{ true, true };
-			sessionHandler.sendToAll("/GameController/cardsDist", cd); // to all
-			ICardDist icd = new ICardDist();
-			icd.position = position;
-			SchemaCards stCard = new SchemaCards(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
-			SchemaCards ndCard = new SchemaCards(playerSecondCards[position].suit.ordinal(), playerSecondCards[position].value.getNumericValue());
-			icd.cards = new SchemaCards[] {stCard, ndCard};
-			sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
-			// wait a moment?
-			Thread.sleep(250);
-		}
+		
 	}
 	
 	public void processDecision(DecisionInform dI, UserData uD) {
@@ -172,12 +180,13 @@ public class RoundGame {
 				// TODO: check maximums and minimums.
 				long ammount = dI.ammount;
 				long initialBet = lastRise - bets[position];
-				long lastActionedPosition = position;
+				lastActionedPosition = position;
 				long totalAmmount = initialBet+ammount;
 				if(usersInGame[position].chips >= totalAmmount) {
 					usersInGame[position].chips -= totalAmmount;
 					actionDoed = true;
-					lastRise = totalAmmount;
+					bets[position] +=  totalAmmount;
+					lastRise = bets[position];
 					bigBlind = -1;
 				}
 			}
@@ -190,7 +199,7 @@ public class RoundGame {
 					if(nextPosition == bigBlind) {
 						nextPlayer(nextPosition);
 					} else {
-						if(lastActionedPosition == nextPosition || position == lastActionedPosition) { // if next is last or actual is last (in bigBlind case)
+						if(lastActionedPosition == nextPosition || position == bigBlind) { // if next is last or actual is last (in bigBlind case)
 							finishBets();
 						} else {
 							nextPlayer(nextPosition);
@@ -206,23 +215,25 @@ public class RoundGame {
 	
 	private void finishBets() {
 		bigBlind = -1;
+		int nextPj = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
+		lastActionedPosition = nextPj;
 		if(roundStep == 1) {
 			// flop:
 			roundStep = 2;
 			dealFlop();
-			nextPlayer(Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition));
+			nextPlayer(nextPj);
 		}
 		if(roundStep == 2) {
 			// turn:
 			roundStep = 3;
 			dealTurn();
-			nextPlayer(Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition));
+			nextPlayer(nextPj);
 		}
 		if(roundStep == 3) {
 			// turn:
 			roundStep = 4;
 			dealRiver();
-			nextPlayer(Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition));
+			nextPlayer(nextPj);
 		}
 		if(roundStep == 4) {
 			// showdown

@@ -11,10 +11,12 @@ import ar.com.tandilweb.room_int.handlers.dto.UserData;
 public class PokerRoom implements GameCtrlInt {
 	
 	private static final Logger log = LoggerFactory.getLogger(PokerRoom.class);
+	private UserData[] usersInTable;
+	private SessionHandlerInt sessionHandler;
 
-	public void setUsersInTableRef(UserData[] usersInTable) {
-		// TODO Auto-generated method stub
+	public void setUsersInTableRef(UserData[] usersInTable, SessionHandlerInt sessionHandler) {
 		log.debug("Set Users In Table Ref");
+		this.usersInTable = usersInTable;
 	}
 
 	public void checkStartGame() {
@@ -27,7 +29,7 @@ public class PokerRoom implements GameCtrlInt {
 		log.debug("Dump Snapshot");
 	}
 
-	public void receivedMessage(SchemaGameProto message, String socketSessionID, SessionHandlerInt sessionHandler) {
+	public void receivedMessage(SchemaGameProto message, String socketSessionID) {
 		// TODO Auto-generated method stub
 		log.debug("Receive message from " + socketSessionID);
 	}

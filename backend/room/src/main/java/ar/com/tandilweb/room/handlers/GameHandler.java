@@ -42,7 +42,7 @@ public class GameHandler {
 	@PostConstruct
     public void init() {
 		usersInTable = new UserData[maxPlayers];
-		gameController.setUsersInTableRef(usersInTable);
+		gameController.setUsersInTableRef(usersInTable, sessionHandler);
 		logger.debug("Started pool of users with size: "+maxPlayers);
 	 }
 	

@@ -6,13 +6,13 @@ import ar.com.tandilweb.room_int.handlers.dto.UserData;
 
 public interface GameCtrlInt {
 	
-	void setUsersInTableRef(UserData[] usersInTable);
+	void setUsersInTableRef(UserData[] usersInTable, SessionHandlerInt sessionHandler);
 	
 	void checkStartGame();
 	
 	void dumpSnapshot();
 	
-	void receivedMessage(SchemaGameProto message, String socketSessionID, SessionHandlerInt sessionHandler);
+	void receivedMessage(SchemaGameProto message, String socketSessionID);
 	
 	void onNewPlayerSitdown(UserData player);
 	

@@ -26,7 +26,7 @@ public class GameController {
 	@MessageMapping("/bridge")
 	public void bridge(SchemaGameProto message, SimpMessageHeaderAccessor headerAccessor) {
 		String sessID = headerAccessor.getSessionId();
-		gameController.receivedMessage(message, sessID, sessionHandler);
+		gameController.receivedMessage(message, sessID);
 	}
 
 }

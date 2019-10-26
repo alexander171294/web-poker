@@ -142,11 +142,12 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/GameController/definePosition', (data) => this.onDefinePosition(data));
     this.ws.suscribe('/userInterceptor/GameController/deposit', (data) => this.onDeposit(data));
     this.ws.suscribe('/userInterceptor/GameController/rejectFullyfied', (data) => this.onRejectFullyfied(data));
-    this.ws.suscribe('/userInterceptor/GameController/announcement', (data) => this.onAnnouncement(data));
+    this.ws.suscribe('/GameController/announcement', (data) => this.onAnnouncement(data)); // global message
     this.ws.suscribe('/userInterceptor/GameController/ingress', (data) => this.onIngress(data));
     this.ws.suscribe('/userInterceptor/GameController/rejectedPosition', (data) => this.onRejectedPosition(data));
     this.ws.suscribe('/userInterceptor/GameController/successDeposit', (data) => this.onSuccessDeposit(data));
     this.ws.suscribe('/userInterceptor/GameController/invalidDeposit', (data) => this.onInvalidDeposit(data));
+    this.ws.suscribe('/GameController/startGame', (data) => this.onStartGame(data)); // global message
   }
 
   onIngress(data) {
@@ -155,6 +156,10 @@ export class RoomService {
 
   onAnnouncement(data) {
     this.terminal.in('Announcement: Pos['+data.position+'] user['+data.user+'] chips['+data.chips+'] avatar['+data.avatar+']', this.serviceName);
+  }
+
+  onStartGame(data) {
+    this.terminal.info('Start game in: ' + data.startIn + ' secs');
   }
 
   onRejectFullyfied(data) {

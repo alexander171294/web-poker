@@ -44,14 +44,14 @@ public class PokerRoom implements GameCtrlInt {
 						timer.cancel();
 						realStartGame();
 					} else {
-						sessionHandler.sendToAll("GameController/startGame", startGame);
+						sessionHandler.sendToAll("/GameController/startGame", startGame);
 						log.debug("Start game in: " + startGame.startIn);
 					}
 				}
 			};
 			timer.scheduleAtFixedRate(timeToStartGame, 10000L, 10000L);
 			log.debug("Start game in: " + startGame.startIn);
-			sessionHandler.sendToAll("GameController/startGame", startGame);
+			sessionHandler.sendToAll("/GameController/startGame", startGame);
 		}
 	}
 	

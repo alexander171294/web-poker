@@ -128,7 +128,7 @@ public class GameHandler {
 		}
 		sessionHandler.sendToSessID("GameController/ingress", userData.sessID, gameProtocol.getIngressSchema(userData, position));
 		// Announcement
-		sessionHandler.sendToAll("GameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
+		sessionHandler.sendToAll("/GameController/announcement", gameProtocol.getAnnouncementSchema(userData, position));
 		gameController.checkStartGame();
 	}
 	

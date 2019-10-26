@@ -89,13 +89,13 @@ public class SessionHandler implements SessionHandlerInt {
 	}
 	
 	public void sendToAll(String direction, Object payload) {
-		// FIXME: not working
+		// This work, but you don't use the UserDestinationPrefix in frontend subscription (check the announcement subscription as example).
 		msgTmp.convertAndSend(direction, payload);
 	}
 	
 	public void remove(String sessionID) {
 		userAssociation.remove(sessionID);
-		// TODO: close connection.
+		// TODO: close connection. (bind events?)
 	}
 	
 	public void sendToUserID(String direction, long userID, Object payload) {

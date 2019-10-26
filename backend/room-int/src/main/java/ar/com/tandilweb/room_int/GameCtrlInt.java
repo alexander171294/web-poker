@@ -17,5 +17,11 @@ public interface GameCtrlInt {
 	void onNewPlayerSitdown(UserData player);
 	
 	void onDeposit(UserData player, long chipsDeposited);
+	
+	// TODO: add onLeave
+	//void onUserLeave(UserData player);
+	
+	// TODO: add unexpected disconnect
+	//void onUserUnexpectedDisconnect(UserData player);
 
 }

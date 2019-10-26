@@ -13,15 +13,24 @@ public class PokerRoom implements GameCtrlInt {
 	private static final Logger log = LoggerFactory.getLogger(PokerRoom.class);
 	private UserData[] usersInTable;
 	private SessionHandlerInt sessionHandler;
+	public boolean inGame;
 
 	public void setUsersInTableRef(UserData[] usersInTable, SessionHandlerInt sessionHandler) {
 		log.debug("Set Users In Table Ref");
 		this.usersInTable = usersInTable;
+		this.sessionHandler = sessionHandler;
+		this.inGame = false;
 	}
 
 	public void checkStartGame() {
-		// TODO Auto-generated method stub
 		log.debug("Check Start Game");
+		if(!inGame && Utils.checkPlayers(usersInTable) >= 2) {
+			// START GAME
+			log.debug("START GAME");
+			this.inGame = true;
+			// start game:
+			//sessionHandler.sendToAll("", "");
+		}
 	}
 
 	public void dumpSnapshot() {

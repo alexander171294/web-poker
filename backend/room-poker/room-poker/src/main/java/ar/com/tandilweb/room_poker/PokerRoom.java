@@ -34,20 +34,30 @@ public class PokerRoom implements GameCtrlInt {
 			this.inGame = true;
 			// start game:
 			final StartGame startGame = new StartGame();
-			startGame.startIn = 30;
+			startGame.startIn = 30; // initial time
 			//final SessionHandlerInt _sessionHandler = sessionHandler;
+			final Timer timer = new Timer("StartGameTimmer");
 			TimerTask timeToStartGame = new TimerTask() {
 				public void run() {
 					startGame.startIn -= 10;
-					log.debug("Start game in: " + startGame.startIn);
-					//sessionHandler
+					if(startGame.startIn <= 0) {
+						timer.cancel();
+						realStartGame();
+					} else {
+						sessionHandler.sendToAll("GameController/startGame", startGame);
+						log.debug("Start game in: " + startGame.startIn);
+					}
 				}
 			};
-			Timer timer = new Timer("StartGameTimmer");
-			timer.scheduleAtFixedRate(timeToStartGame, 1000L, 1000L);
+			timer.scheduleAtFixedRate(timeToStartGame, 10000L, 10000L);
 			log.debug("Start game in: " + startGame.startIn);
-			//sessionHandler.sendToAll("", "");
+			sessionHandler.sendToAll("GameController/startGame", startGame);
 		}
+	}
+	
+	public void realStartGame() {
+		log.debug("Starting game.");
+		
 	}
 
 	public void dumpSnapshot() {

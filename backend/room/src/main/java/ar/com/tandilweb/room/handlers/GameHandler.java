@@ -148,7 +148,7 @@ public class GameHandler {
 			if(usersInTable[i] != null && usersInTable[i].userID == userID) {
 				usersInTable[i].chips += chips;
 				usersInTable[i].dataBlock.setChips(accountChips);
-				gameController.onDeposit(uD, chips);
+				gameController.onDeposit(usersInTable[i], chips);
 				gameController.checkStartGame();
 				uD = usersInTable[i];
 				done = true;
@@ -168,7 +168,7 @@ public class GameHandler {
 		}
 	}
 	
-	@Scheduled(fixedRate = 2500)
+	@Scheduled(fixedRate = 60000)
 	public void scheduleRoomStatus() throws JsonProcessingException {
 		ObjectMapper om = new ObjectMapper();
 		logger.info("[Room Monitor] Users in table: " + om.writeValueAsString(usersInTable));

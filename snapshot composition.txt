@@ -1,0 +1,5 @@
+snapshot:
+
+UserStatus in table.
+Dealer position.
+roundStep, flop, turn, river

@@ -26,7 +26,7 @@
   </div>
   <div class="events" id="eventsTerminal">
     <ul>
-      <li *ngFor="let message of terminalMessages" [ngClass]="{'hidden': !debugMode && message.type === 'debug', 'debug': message.type === 'debug', 'error': message.type === 'error', 'info': message.type === 'info'}">{{message.msg}}</li>
+      <li *ngFor="let message of terminalMessages" [ngClass]="{'hidden': !debugMode && message.type === 'debug', 'debug': message.type === 'debug', 'error': message.type === 'error', 'info': message.type === 'info', 'note': message.type === 'note'}">{{message.msg}}</li>
     </ul>
   </div>
   <div class="prompt">

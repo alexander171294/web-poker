@@ -168,6 +168,21 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/GameController/cardsDist', (data) => this.onICardsDist(data));
     this.ws.suscribe('/GameController/actionFor', (data) => this.onActionFor(data)); // global message
     this.ws.suscribe('/userInterceptor/GameController/betDecision', (data) => this.onBetDecision(data));
+    this.ws.suscribe('/GameController/flop', (data) => this.onFlop(data)); // global message
+    this.ws.suscribe('/GameController/river', (data) => this.onRiver(data)); // global message
+    this.ws.suscribe('/GameController/turn', (data) => this.onTurn(data)); // global message
+  }
+
+  onFlop(data) {
+    this.terminal.note('FLOP: ' + JSON.stringify(data.cards));
+  }
+
+  onRiver(data) {
+    this.terminal.note('River: ' + JSON.stringify(data.card));
+  }
+
+  onTurn(data) {
+    this.terminal.note('Turn: ' + JSON.stringify(data.card));
   }
 
   onIngress(data) {

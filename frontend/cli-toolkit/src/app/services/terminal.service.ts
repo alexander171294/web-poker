@@ -8,6 +8,7 @@ export class TerminalService {
   public event = new EventEmitter<string>();
   public errorEvent = new EventEmitter<string>();
   public infoEvent = new EventEmitter<string>();
+  public noteEvent = new EventEmitter<string>();
   public debugEvents = new EventEmitter<string>();
 
   constructor() { }
@@ -22,6 +23,10 @@ export class TerminalService {
 
   info(text:string) {
     this.infoEvent.emit('[?] ' + text);
+  }
+
+  note(text:string) {
+    this.noteEvent.emit('[?] ' + text);
   }
 
   out(text: string, srv: string) {

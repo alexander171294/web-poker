@@ -54,6 +54,12 @@ export class AppComponent {
       });
       this.goToBottom();
     });
+    terminal.noteEvent.subscribe(data => {
+      this.terminalMessages.push({
+        msg: data,
+        type: 'note'
+      });
+    });
     this.debugMode = environment.debugMode;
     if(environment.debugMode) {
       terminal.debugEvents.subscribe(data => {

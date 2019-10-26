@@ -40,6 +40,8 @@ public class RoundGame {
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
 		this.bets = new long[usersInGame.length];
+		this.playerFirstCards = new Card[usersInGame.length];
+		this.playerSecondCards = new Card[usersInGame.length];
 		this.deck = deck;
 		deck.shuffle();
 		this.dealerPosition = dealerPosition;

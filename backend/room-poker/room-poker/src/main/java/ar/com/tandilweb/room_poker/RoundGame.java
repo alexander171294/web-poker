@@ -135,7 +135,7 @@ public class RoundGame {
 				icd.cards = new SchemaCard[] {stCard, null};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
-				Thread.sleep(250);
+				Thread.sleep(500); // TODO: parameterize
 			}
 			// second iteration:
 			for(int position: players) {
@@ -152,7 +152,7 @@ public class RoundGame {
 				icd.cards = new SchemaCard[] {stCard, ndCard};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
-				Thread.sleep(250);
+				Thread.sleep(500); // TODO: parameterize
 			}
 		} catch(NullPointerException npe) {
 			
@@ -165,8 +165,13 @@ public class RoundGame {
 		int position = Utils.getPlyerPosition(usersInGame, uD);
 		if(position == waitingActionFromPlayer) {
 			boolean actionDoed = false;
+			// check if zero:
+			if("raise".equalsIgnoreCase(dI.action) && dI.ammount <= 0) {
+				dI.action = "call";	
+			}
 			if("fold".equalsIgnoreCase(dI.action)) {
 				usersInGame[position] = null; // fold user.
+				// TODO: check if is finished?.
 				actionDoed = true;
 			}
 			if("call".equalsIgnoreCase(dI.action)) {

@@ -70,5 +70,15 @@ public class Utils {
 		}
 		return players;
 	}
+	
+	public static int getPlyerPosition(UserData[] usersInGame, UserData userSearched) {
+		// TODO: only for ready users?
+		for(int i = 0; i<usersInGame.length; i++) {
+			if(usersInGame[i].userID == userSearched.userID) {
+				return i;
+			}
+		}
+		return -1; // TODO: throw user not found.-
+	}
 
 }

@@ -6,7 +6,12 @@ import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import ar.com.tandilweb.exchange.gameProtocol.SchemaGameProto;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
 import ar.com.tandilweb.room_int.GameCtrlInt;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
@@ -20,6 +25,7 @@ public class PokerRoom implements GameCtrlInt {
 	private int tableSize;
 	private SessionHandlerInt sessionHandler;
 	private int dealerPosition;
+	private RoundGame actualRound;
 	
 	public boolean inGame;
 	
@@ -46,7 +52,7 @@ public class PokerRoom implements GameCtrlInt {
 			final Timer timer = new Timer("StartGameTimmer");
 			TimerTask timeToStartGame = new TimerTask() {
 				public void run() {
-					startGame.startIn -= 10;
+					startGame.startIn -= 5;
 					if(startGame.startIn <= 0) {
 						timer.cancel();
 						realStartGame();
@@ -56,7 +62,7 @@ public class PokerRoom implements GameCtrlInt {
 					}
 				}
 			};
-			timer.scheduleAtFixedRate(timeToStartGame, 10000L, 10000L);
+			timer.scheduleAtFixedRate(timeToStartGame, 5000L, 5000L);
 			log.debug("Start game in: " + startGame.startIn);
 			sessionHandler.sendToAll("/GameController/startGame", startGame);
 		}
@@ -70,10 +76,11 @@ public class PokerRoom implements GameCtrlInt {
 	}
 	
 	private void startRound() {
+		// TODO: ignore players sitted but without deposit in usersInGame:
 		UserData[] usersInGame = Utils.getNewArrayOfUsers(usersInTable);
 		this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
-		RoundGame round = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
-		round.start();
+		actualRound = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
+		actualRound.start();
 	}
 
 	public void dumpSnapshot() {
@@ -81,9 +88,20 @@ public class PokerRoom implements GameCtrlInt {
 		log.debug("Dump Snapshot");
 	}
 	
-	public void receivedMessage(SchemaGameProto message, String socketSessionID) {
-		// TODO Auto-generated method stub
-		log.debug("Receive message from " + socketSessionID);
+	public void receivedMessage(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID) {
+		try {
+			ObjectMapper om = new ObjectMapper();
+			if(schemaGameProto.schema.equals("decisionInform")) {
+				DecisionInform dI = om.readValue(serializedMessage, DecisionInform.class);
+				UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
+				actualRound.processDecision(dI, uD);
+			}
+			log.debug("Receive message from " + socketSessionID);
+		} catch (JsonMappingException e) {
+			log.error("Fail to process Schema:",e);
+		} catch (JsonProcessingException e) {
+			log.error("Fail to process Schema:",e);
+		}
 	}
 
 	public void onNewPlayerSitdown(UserData player) {

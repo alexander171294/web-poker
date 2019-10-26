@@ -1,7 +1,9 @@
 package ar.com.tandilweb.room_poker;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +11,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ActionFor;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.BetDecision;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Blind;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCards;
@@ -48,7 +51,7 @@ public class RoundGame {
 	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
-		this.bets = new long[usersInGame.length];
+		this.bets = ArrayUtils.toPrimitive(Collections.nCopies(usersInGame.length, 0L).toArray(new Long[0]));
 		this.playerFirstCards = new Card[usersInGame.length];
 		this.playerSecondCards = new Card[usersInGame.length];
 		this.deck = deck;
@@ -66,7 +69,7 @@ public class RoundGame {
 		try {
 			dealCards();
 			roundStep = 1; // pre-flop
-			sendWaitAction(false);
+			sendWaitAction();
 		} catch (InterruptedException e) {
 			log.warn("Interrupted Exception ", e);
 			// FIXME: if this explode, then the cards are never ends to dealing.
@@ -91,7 +94,7 @@ public class RoundGame {
 		lastActionedPosition = bigBlind;
 	}
 	
-	private void sendWaitAction(boolean canCheck) {
+	private void sendWaitAction() {
 		ActionFor aFor = new ActionFor();
 		aFor.position = waitingActionFromPlayer;
 		aFor.remainingTime = 30; // TODO: adjust according to configuration.
@@ -141,6 +144,95 @@ public class RoundGame {
 			// wait a moment?
 			Thread.sleep(250);
 		}
+	}
+	
+	public void processDecision(DecisionInform dI, UserData uD) {
+		int position = Utils.getPlyerPosition(usersInGame, uD);
+		if(position == waitingActionFromPlayer) {
+			boolean actionDoed = false;
+			if("fold".equalsIgnoreCase(dI.action)) {
+				usersInGame[position] = null; // fold user.
+				actionDoed = true;
+			}
+			if("call".equalsIgnoreCase(dI.action)) {
+				long realBet = lastRise - bets[position];
+				// TODO: splitted POT
+				if(usersInGame[position].chips >= realBet) {
+					usersInGame[position].chips -= realBet;
+					actionDoed = true;
+					bets[position] = lastRise;
+				}
+			}
+			if("check".equalsIgnoreCase(dI.action)) {
+				if(lastRise == bets[position]) {
+					actionDoed = true;
+				}
+			}
+			if("raise".equalsIgnoreCase(dI.action)) {
+				// TODO: check maximums and minimums.
+				long ammount = dI.ammount;
+				long initialBet = lastRise - bets[position];
+				long lastActionedPosition = position;
+				long totalAmmount = initialBet+ammount;
+				if(usersInGame[position].chips >= totalAmmount) {
+					usersInGame[position].chips -= totalAmmount;
+					actionDoed = true;
+					lastRise = totalAmmount;
+					bigBlind = -1;
+				}
+			}
+			
+			if(actionDoed) {
+				int nextPosition = Utils.getNextPositionOfPlayers(usersInGame, position);
+				if("raise".equalsIgnoreCase(dI.action)) {
+					nextPlayer(nextPosition);
+				} else {
+					if(nextPosition == bigBlind) {
+						nextPlayer(nextPosition);
+					} else {
+						if(lastActionedPosition == nextPosition || position == lastActionedPosition) { // if next is last or actual is last (in bigBlind case)
+							finishBets();
+						} else {
+							nextPlayer(nextPosition);
+						}
+					}
+				}
+				sessionHandler.sendToAll("/GameController/DecisionInform", dI);
+			} else {
+				// TODO: error message?
+			}
+		}
+	}
+	
+	private void finishBets() {
+		bigBlind = -1;
+		if(roundStep == 1) {
+			// flop:
+			roundStep = 2;
+			dealFlop();
+			nextPlayer(Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition));
+		}
+		if(roundStep == 2) {
+			// turn:
+			roundStep = 3;
+			dealTurn();
+			nextPlayer(Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition));
+		}
+		if(roundStep == 3) {
+			// turn:
+			roundStep = 4;
+			dealRiver();
+			nextPlayer(Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition));
+		}
+		if(roundStep == 4) {
+			// showdown
+			log.debug("!!! SHOWDOWN !!!");
+		}
+	}
+	
+	private void nextPlayer(int nextPosition) {
+		waitingActionFromPlayer = nextPosition;
+		sendWaitAction();
 	}
 	
 	private void dealFlop() {

@@ -12,7 +12,7 @@ public interface GameCtrlInt {
 	
 	void dumpSnapshot();
 	
-	void receivedMessage(SchemaGameProto message, String socketSessionID);
+	void receivedMessage(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID);
 	
 	void onNewPlayerSitdown(UserData player);
 	

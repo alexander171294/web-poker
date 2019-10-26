@@ -11,11 +11,15 @@ public class Card {
 	}
 	
 	public Card(int suit, int value) {
-		if(suit < Suit.values().length && suit >= 0) {
-			this.suit = Suit.values()[value];
-		}
-		if(value < CardValue.values().length && value >= 0) {
-			this.value = CardValue.values()[value];
+		try {
+			if(suit < Suit.values().length && suit >= 0) {
+				this.suit = Suit.values()[suit];
+			}
+			if(value < CardValue.values().length && value >= 0) {
+				this.value = CardValue.values()[value];
+			}
+		} catch(Exception e) {
+			// out of index probably.
 		}
 	}
 

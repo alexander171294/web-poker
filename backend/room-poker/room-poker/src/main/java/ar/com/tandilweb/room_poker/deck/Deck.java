@@ -1,6 +1,7 @@
 package ar.com.tandilweb.room_poker.deck;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ public class Deck {
 	private static final Logger log = LoggerFactory.getLogger(Deck.class);
 	
 	private List<Card> deck = new ArrayList<Card>();
+	private int index;
 	
 	public Deck() {
 		this.add1Deck();
@@ -26,7 +28,13 @@ public class Deck {
 				deck.add(card);
 			}
 		}
-		log.debug("New deck created.");
+		log.debug("New deck created. Deck have "+deck.size()+" cards");
+	}
+	
+	public void shuffle() {
+		Collections.shuffle(deck);
+		index = 0;
+		log.debug("Cards shuffled.");
 	}
 
 }

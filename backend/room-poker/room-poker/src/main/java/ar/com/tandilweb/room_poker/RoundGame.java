@@ -14,6 +14,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RiverBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.TurnBegins;
@@ -42,6 +43,7 @@ public class RoundGame {
 	private Card[] playerSecondCards;
 	private Card[] flop;
 	private Card turn;
+	private Card river;
 	
 	private int roundStep;
 	private int dealerPosition;
@@ -268,12 +270,16 @@ public class RoundGame {
 		TurnBegins tb = new TurnBegins();
 		tb.card = new SchemaCard(turn.suit.ordinal(), turn.value.getNumericValue());
 		// turn begins:
-		sessionHandler.sendToAll("/GameController/turn", turn);
+		sessionHandler.sendToAll("/GameController/turn", tb);
 	}
 	
 	private void dealRiver() {
 		deck.getNextCard(); // burn a card 
-		Card turn = deck.getNextCard();
+		river = deck.getNextCard();
+		RiverBegins rb = new RiverBegins();
+		rb.card = new SchemaCard(river.suit.ordinal(), river.value.getNumericValue());
+		// river begins:
+		sessionHandler.sendToAll("/GameController/river", rb);
 	}
 
 	public static SessionHandlerInt getSessionHandler() {

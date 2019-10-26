@@ -51,15 +51,18 @@ public class RoundGame {
 		bets[bigBlind] = bigBlindSize;
 		sessionHandler.sendToAll("/GameController/blind", blindObject);
 		waitingActionFromPlayer = Utils.getNextPositionOfPlayers(usersInGame, bigBlind);
+	}
+	
+	public void sendWaitAction(long toCall, boolean canCheck) {
 		ActionFor aFor = new ActionFor();
 		aFor.position = waitingActionFromPlayer;
 		aFor.remainingTime = 30; // FIXME: adjust according to configuration.
 		sessionHandler.sendToAll("/GameController/actionFor", aFor);
 		// action for:
 		BetDecision bd = new BetDecision();
-		bd.toCall = bigBlindSize;
-		bd.canCheck = false;
-		bd.minRaise = bigBlindSize; // FIXME: adjust according to configuration.
+		bd.toCall = toCall;
+		bd.canCheck = canCheck;
+		bd.minRaise = toCall; // FIXME: adjust according to configuration.
 		bd.maxRaise = -1; // FIXME: adjust according to configuration.
 		// send wait for bet decision:
 		sessionHandler.sendToSessID("gameController/betDecision", usersInGame[aFor.position].sessID, bd);

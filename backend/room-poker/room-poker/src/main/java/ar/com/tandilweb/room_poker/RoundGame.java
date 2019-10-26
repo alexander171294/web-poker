@@ -53,8 +53,10 @@ public class RoundGame {
 		requestBlind(25, 50); // FXIME: adjust according to configuration.
 		try {
 			dealCards();
+			sendWaitAction(50, false);
 		} catch (InterruptedException e) {
 			log.warn("Interrupted Exception ", e);
+			// FIXME: if this explode, then the cards are never ends to dealing.
 		}
 	}
 	
@@ -78,14 +80,14 @@ public class RoundGame {
 	private void sendWaitAction(long toCall, boolean canCheck) {
 		ActionFor aFor = new ActionFor();
 		aFor.position = waitingActionFromPlayer;
-		aFor.remainingTime = 30; // FIXME: adjust according to configuration.
+		aFor.remainingTime = 30; // TODO: adjust according to configuration.
 		sessionHandler.sendToAll("/GameController/actionFor", aFor);
 		// action for:
 		BetDecision bd = new BetDecision();
 		bd.toCall = toCall;
 		bd.canCheck = canCheck;
-		bd.minRaise = toCall; // FIXME: adjust according to configuration.
-		bd.maxRaise = -1; // FIXME: adjust according to configuration.
+		bd.minRaise = toCall; // TODO: adjust according to configuration.
+		bd.maxRaise = -1; // TODO: adjust according to configuration.
 		// send wait for bet decision:
 		sessionHandler.sendToSessID("GameController/betDecision", usersInGame[aFor.position].sessID, bd);
 		// TODO: implement timer for wait stop.

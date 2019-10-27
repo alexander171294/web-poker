@@ -49,6 +49,7 @@ public class Deck {
 	}
 	
 	public HandValues getHandData(List<Card> handCards, List<Card> tableCards) {
+		// TODO: homologate this function.
 		HandValues data = new HandValues();
 		List<Card> allCardsInGame = new ArrayList<Card>();
 		allCardsInGame.addAll(handCards);
@@ -56,10 +57,6 @@ public class Deck {
 		handCards.sort(new CardComparator());
 		// sorter cards:
 		allCardsInGame.sort(new CardComparator());
-		
-
-		String handName;
-		String kickerName;
 		
 		Map<Integer, List<Card>> groupedCards = new HashMap<Integer, List<Card>>();
 		List<Integer> pairs = new ArrayList<Integer>();

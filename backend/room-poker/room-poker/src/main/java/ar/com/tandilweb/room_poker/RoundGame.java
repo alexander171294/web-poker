@@ -314,12 +314,48 @@ public class RoundGame {
 		}
 		tableCards.add(turn);
 		tableCards.add(river);
+		int winner = 0;
+		int winnerPoints = 0;
+		int winnerSecondaryPoints = 0;
+		int winnerKickerPoints = 0;
+		boolean dualWinner = false;
+		List<Integer> aditionalWinners = new ArrayList<Integer>();
 		for(int i = 0; i<usersInGame.length; i++) {
 			if(usersInGame[i] != null) {
 				List<Card> hand = new ArrayList<Card>();
 				hand.add(playerFirstCards[i]);
 				hand.add(playerSecondCards[i]);
 				hands[i] = deck.getHandData(hand, tableCards);
+				// FIXME: improve this ifs.
+				if(winnerPoints < hands[i].handPoints) {
+					winner = i;
+					winnerSecondaryPoints = hands[i].secondaryHandPoint;
+					winnerKickerPoints = hands[i].kickerPoint;
+					winnerPoints = hands[i].handPoints;
+					dualWinner = false;
+					aditionalWinners = new ArrayList<Integer>();
+				} else if(winner == hands[i].handPoints) {
+					if(winnerSecondaryPoints < hands[i].secondaryHandPoint) {
+						winner = i;
+						winnerSecondaryPoints = hands[i].secondaryHandPoint;
+						winnerKickerPoints = hands[i].kickerPoint;
+						winnerPoints = hands[i].handPoints;
+						dualWinner = false;
+						aditionalWinners = new ArrayList<Integer>();
+					} else if(winnerSecondaryPoints == hands[i].secondaryHandPoint) {
+						if(winnerKickerPoints < hands[i].kickerPoint) {
+							winner = i;
+							winnerSecondaryPoints = hands[i].secondaryHandPoint;
+							winnerKickerPoints = hands[i].kickerPoint;
+							winnerPoints = hands[i].handPoints;
+							dualWinner = false;
+							aditionalWinners = new ArrayList<Integer>();
+						} else {
+							dualWinner = true;
+							aditionalWinners.add(i);
+						}
+					}
+				}
 			}
 		}
 	}

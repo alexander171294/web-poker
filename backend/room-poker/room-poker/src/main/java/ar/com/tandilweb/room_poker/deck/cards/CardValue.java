@@ -26,4 +26,8 @@ public enum CardValue {
 		return this.value;
 	}
 	
+	public int getNumericValueBigACE() {
+		return this.value == 0 ? 14 : this.value; 
+	}
+	
 }

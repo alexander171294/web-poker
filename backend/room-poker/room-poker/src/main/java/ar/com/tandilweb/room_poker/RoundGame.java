@@ -1,5 +1,6 @@
 package ar.com.tandilweb.room_poker;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,10 +18,12 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RiverBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ShowOff;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.TurnBegins;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
+import ar.com.tandilweb.room_poker.deck.HandValues;
 import ar.com.tandilweb.room_poker.deck.cards.Card;
 
 public class RoundGame {
@@ -44,6 +47,7 @@ public class RoundGame {
 	private Card[] flop;
 	private Card turn;
 	private Card river;
+	private HandValues[] hands;
 	
 	private int roundStep;
 	private int dealerPosition;
@@ -245,9 +249,24 @@ public class RoundGame {
 			dealRiver();
 			nextPlayer(nextPj);
 		} else if(roundStep == 4) {
-			// showdown
-			log.debug("!!! SHOWDOWN !!!");
+			log.debug("-- SHOWDOWN --");
+			showOff();
+			checkHands();			
 		}
+	}
+	
+	private void showOff() {
+		ShowOff soff = new ShowOff(usersInGame.length);
+		for(int i = 0; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				soff.setCards(
+						i,
+						new SchemaCard(playerFirstCards[i].suit.ordinal(), playerFirstCards[i].value.getNumericValue()),
+						new SchemaCard(playerSecondCards[i].suit.ordinal(), playerSecondCards[i].value.getNumericValue())
+				);
+			}
+		}
+		sessionHandler.sendToAll("/GameController/showOff", soff);
 	}
 	
 	private void nextPlayer(int nextPosition) {
@@ -285,6 +304,22 @@ public class RoundGame {
 		rb.card = new SchemaCard(river.suit.ordinal(), river.value.getNumericValue());
 		// river begins:
 		sessionHandler.sendToAll("/GameController/river", rb);
+	}
+	
+	private void checkHands() {
+		hands = new HandValues[usersInGame.length];
+		List<Card> tableCards = new ArrayList<Card>();
+		for(int i = 0; i < 3; i++) {
+			tableCards.add(flop[i]);
+		}
+		tableCards.add(turn);
+		tableCards.add(river);
+		for(int i = 0; i<usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				List<Card> hand = new ArrayList<Card>();
+				hands[i] = deck.getHandData(hand, tableCards);
+			}
+		}
 	}
 
 	public static SessionHandlerInt getSessionHandler() {

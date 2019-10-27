@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.com.tandilweb.room_poker.deck.cards.Card;
+import ar.com.tandilweb.room_poker.deck.cards.CardComparator;
 
 public class Deck {
 	
@@ -40,6 +41,39 @@ public class Deck {
 	public Card getNextCard() {
 		index++; // increment index.
 		return deck.get(index-1); // get the card.
+	}
+	
+	public HandValues getHandData(List<Card> handCards, List<Card> tableCards) {
+		HandValues data = new HandValues();
+		List<Card> allCardsInGame = new ArrayList<Card>();
+		allCardsInGame.addAll(handCards);
+		allCardsInGame.addAll(tableCards);
+		allCardsInGame.sort(new CardComparator());
+		
+		int HandPoints;
+		int KickerPoint;
+		String handName;
+		String kickerName;
+		
+		// search for pairs:
+		
+		// search for two pair:
+		
+		// search for a trips (three of a kind)
+		
+		// search for Straight
+		
+		// search flush
+		
+		// search full house
+		
+		// search for quads (four of a kind)
+		
+		// sarch for Straight Flush
+		
+		// Royal Flush
+		
+		return data;
 	}
 
 }

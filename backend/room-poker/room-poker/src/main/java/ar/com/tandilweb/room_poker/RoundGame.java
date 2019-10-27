@@ -23,8 +23,8 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.TurnBegins;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
-import ar.com.tandilweb.room_poker.deck.HandValues;
 import ar.com.tandilweb.room_poker.deck.cards.Card;
+import ar.com.tandilweb.room_poker.deck.hands.HandValues;
 
 public class RoundGame {
 	
@@ -317,6 +317,8 @@ public class RoundGame {
 		for(int i = 0; i<usersInGame.length; i++) {
 			if(usersInGame[i] != null) {
 				List<Card> hand = new ArrayList<Card>();
+				hand.add(playerFirstCards[i]);
+				hand.add(playerSecondCards[i]);
 				hands[i] = deck.getHandData(hand, tableCards);
 			}
 		}

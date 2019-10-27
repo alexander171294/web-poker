@@ -12,6 +12,8 @@ public class Card {
 	
 	public Card(int suit, int value) {
 		try {
+			value = value == 0 ? 1 : value;
+			value--;
 			if(suit < Suit.values().length && suit >= 0) {
 				this.suit = Suit.values()[suit];
 			}

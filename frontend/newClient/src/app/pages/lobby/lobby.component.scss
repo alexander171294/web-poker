@@ -97,6 +97,40 @@ section {
     &#lateral {
         width: 15vw;
         height: 66vh;
+        position: relative;
+        h2 {
+            margin: 1.5vh 0.4vw;
+            font-size: 20px;
+            position: relative;
+        }
+        .cardFollowerItem {
+            margin: 0.7vh 0.4vw;
+            position: relative;
+        }
+        &::before {
+            content: "";
+            display: block;
+            width: 10vw;
+            height: 30vh;
+            position: absolute;
+            background: rgba(65, 111, 57, 0.05);
+            transform: rotate(45deg);
+            border-right: 1px dashed rgba(255, 180, 45, 0.5);
+            top: -12vh;
+            left: -4vw;
+        }
+        &::after {
+            content: "";
+            display: block;
+            width: 10vw;
+            height: 30vh;
+            position: absolute;
+            background: rgba(65, 111, 57, 0.05);
+            transform: rotate(45deg);
+            border-left: 1px dashed rgba(255, 180, 45, 0.5);
+            bottom: -12vh;
+            right: -4vw;
+        }
     }
 }
 

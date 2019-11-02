@@ -1,19 +1,18 @@
 section {
     box-shadow: 0px 0px 10px 4px #00000073;
     border: 1px solid #000000;
-    padding: 3vh 2vw;
     border-radius: 7px;
     background: #0b1b0f;
     margin: 2vh 0px;
     color: #d7a965;
     position: relative;
     z-index: 1;
-    height: 60vh;
+    min-height: 60vh;
     transition: transform 1s;
     transform-style: preserve-3d;
     overflow: hidden;
     &#main{
-        width: 45vw;
+        min-width: 45vw;
         margin-right: 5vw;
         overflow: initial;
         header {
@@ -43,9 +42,61 @@ section {
                 text-shadow: 0px 0px 5px black;
             }
         }
+        nav {
+            position: relative;
+            button {
+                outline: none;
+                width: 5vw;
+                height: 5vw;
+                border-radius: 50%;
+                border: none;
+                background: transparent;
+                vertical-align: middle;
+                color: #0b1b0f;
+                border: 3px solid rgba(215, 169, 101, 0.05);
+                background: #223c26;
+                transition: color 0.2s, border 0.2s;
+                cursor: pointer;
+                svg {
+                    width: 70%;
+                }
+                margin-left: 4vw;
+                &:hover {
+                    color: #d7a965;
+                    border: 3px solid #866a1f;
+                }
+            }
+        }
+        app-table {
+            position: relative;
+        }
+        .bg {
+            overflow: hidden;
+            width: 45vw;
+            padding: 3vh 2vw;
+            position: relative;
+            &::after {
+                content: "♥♤♣♢";
+                position: absolute;
+                font-size: 450px;
+                bottom: -130px;
+                left: -57px;
+                z-index: 0;
+                color: rgba(255, 255, 255, 0.02);
+            }
+            &::before {
+                content: "♦♧♠♡";
+                font-size: 450px;
+                position: absolute;
+                top: -231px;
+                right: -19px;
+                color: rgba(215, 169, 101, 0.05);
+            }
+        }
     }
     &#lateral {
         width: 15vw;
+        height: 66vh;
     }
 }
 

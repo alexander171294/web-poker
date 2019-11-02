@@ -1,16 +1,51 @@
 section {
     box-shadow: 0px 0px 10px 4px #00000073;
     border: 1px solid #000000;
-    width: 450px;
     padding: 3vh 2vw;
     border-radius: 7px;
     background: #0b1b0f;
     margin: 2vh 0px;
     color: #d7a965;
     position: relative;
-    overflow: hidden;
     z-index: 1;
-    height: 235px;
+    height: 50vh;
     transition: transform 1s;
     transform-style: preserve-3d;
+    overflow: hidden;
+    &#main{
+        width: 45vw;
+        margin-right: 5vw;
+        overflow: initial;
+        header {
+            font-size: 25px;
+            margin-bottom: 3vh;
+            position: absolute;
+            top: -40px;
+            left: 5px;
+            h3 {
+                display: inline-block;
+                font-family: Montserrat, Montserrat;
+                font-weight: 100;
+                margin: 0px;
+                color: #aa7f40;
+            }
+            h4 {
+                display: inline-block;
+                font-family: Paytone One, Montserrat;
+                margin: 0px;
+                color: #d7a965;
+                font-weight: 100;
+                font-size: 30px;
+            }
+            span {
+                margin-left: 5px;
+                font-size: 11px;
+                text-shadow: 0px 0px 5px black;
+            }
+        }
+    }
+    &#lateral {
+        width: 15vw;
+    }
 }
+

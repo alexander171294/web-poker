@@ -45,11 +45,16 @@ export class LoginComponent implements OnInit {
     data.umail = this.nick;
     data.password = this.password;
     this.publicSrv.login(data).subscribe(data => {
-      localStorage.setItem('jwt', data.jwtToken);
-      localStorage.setItem('sessID', data.sessionID);
-      localStorage.setItem('userID', data.userID);
+      if(data.operationSuccess) {
+        localStorage.setItem('jwt', data.jwtToken);
+        localStorage.setItem('sessID', data.sessionID);
+        localStorage.setItem('userID', data.userID);
+        this.router.navigate(['/lobby']);
+      } else {
+        alert(data.errorDescription);
+      }
       this.logining = false;
-      this.router.navigate(['/lobby']);
+      
     }, err => {
       alert('ocurrió un error');
       console.log(err);
@@ -65,11 +70,15 @@ export class LoginComponent implements OnInit {
     data.email = this.email;
     data.password = this.password;
     this.publicSrv.signup(data).subscribe(data => {
-      localStorage.setItem('jwt', data.jwtToken);
-      localStorage.setItem('sessID', data.sessionID);
-      localStorage.setItem('userID', data.userID);
+      if(data.operationSuccess) {
+        localStorage.setItem('jwt', data.jwtToken);
+        localStorage.setItem('sessID', data.sessionID);
+        localStorage.setItem('userID', data.userID);
+        this.router.navigate(['/lobby']);
+      } else {
+        alert(data.errorDescription);
+      }
       this.signing = false;
-      this.router.navigate(['/lobby']);
     }, err => {
       alert('ocurrió un error');
       console.log(err);

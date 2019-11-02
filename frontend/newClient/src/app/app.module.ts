@@ -8,6 +8,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LobbyComponent } from './pages/lobby/lobby.component';
 import { VcardComponent } from './pages/lobby/components/vcard/vcard.component';
 import { TableComponent } from './pages/lobby/components/table/table.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TableComponent } from './pages/lobby/components/table/table.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

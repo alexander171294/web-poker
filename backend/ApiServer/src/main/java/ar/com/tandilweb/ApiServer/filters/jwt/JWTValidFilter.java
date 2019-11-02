@@ -20,8 +20,8 @@ public class JWTValidFilter implements Filter {
 
 	private static final Logger log = LoggerFactory.getLogger(JWTValidFilter.class);
 
+
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
 		
 	}
 

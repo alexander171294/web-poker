@@ -8,11 +8,11 @@
             <form>
                 <div class="formControl">
                     <label>Username</label>
-                    <input type="text" />
+                    <input type="text" name="nick" [(ngModel)]="nick"/>
                 </div>
                 <div class="formControl">
                     <label>Password</label>
-                    <input type="password" />
+                    <input type="password" name="password" [(ngModel)]="password"/>
                 </div>
                 <div class="lastPart">
                     <a href="#">Forgot your password?</a>
@@ -26,18 +26,18 @@
             <form>
                 <div class="formControl">
                     <label>Username</label>
-                    <input type="text" />
+                    <input type="text" name="nick" [(ngModel)]="nick"/>
                 </div>
                 <div class="formControl">
                     <label>Email</label>
-                    <input type="email" />
+                    <input type="email" name="email" [(ngModel)]="email/>
                 </div>
                 <div class="formControl">
                     <label>Password</label>
-                    <input type="password" />
+                    <input type="password" name="password" [(ngModel)]="password"/>
                 </div>
                 <div class="lastPart">
-                    <button routerLink="/lobby">Signup</button>
+                    <button (click)="doSignup($event)" [class.spinner]="signing">Signup</button>
                 </div>
             </form>
         </div>

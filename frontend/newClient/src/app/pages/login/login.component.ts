@@ -9,6 +9,7 @@ export class LoginComponent implements OnInit {
 
   public signupEffect: boolean = false;
   public signupForm: boolean = false;
+  public logining: boolean = false;
 
   constructor() { }
 
@@ -27,6 +28,11 @@ export class LoginComponent implements OnInit {
     setTimeout(()=>{
       this.signupForm = false;
     }, 300);
+  }
+
+  doLogin(e) {
+    this.logining = true;
+    e.preventDefault();
   }
 
 }

@@ -16,7 +16,7 @@
                 </div>
                 <div class="lastPart">
                     <a href="#">Forgot your password?</a>
-                    <button>Login</button>
+                    <button (click)="doLogin($event)" [class.spinner]="logining">Login</button>
                 </div>
             </form>
             

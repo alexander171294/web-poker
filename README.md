@@ -18,7 +18,9 @@ Additionally, sorry for my bad english, I speak spanish and learn english only r
 
 ### Lobby
 
-We need to redesign because a copyright. Wait for it.
+![login](https://i.imgur.com/EZ0442P.png)
+
+![lobby](https://i.imgur.com/NLr5or2.png)
 
 ### Table room
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublicService } from 'src/app/services/public.service';
 import { LoginRequest } from 'src/app/services/LoginRequest';
 import { SignupRequest } from 'src/app/services/SignupRequest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   public password: string;
   public email: string;
 
-  constructor(private publicSrv: PublicService) { }
+  constructor(private publicSrv: PublicService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('sessID', data.sessionID);
       localStorage.setItem('userID', data.userID);
       this.logining = false;
+      this.router.navigate(['/lobby']);
     }, err => {
       alert('ocurrió un error');
       console.log(err);
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('sessID', data.sessionID);
       localStorage.setItem('userID', data.userID);
       this.signing = false;
+      this.router.navigate(['/lobby']);
     }, err => {
       alert('ocurrió un error');
       console.log(err);

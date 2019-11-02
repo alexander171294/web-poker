@@ -5,12 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LobbyComponent } from './pages/lobby/lobby.component';
+import { VcardComponent } from './pages/lobby/components/vcard/vcard.component';
+import { TableComponent } from './pages/lobby/components/table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    LobbyComponent
+    LobbyComponent,
+    VcardComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

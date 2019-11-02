@@ -1,0 +1,29 @@
+.cardContainer {
+    width: 35%;
+    height: 9vh;
+    background: rgba(65, 111, 57, 0.05);
+    border-radius: 4px;
+    border: 1px dashed rgba(255, 180, 45, 0.5);
+    img {
+        height: 7vh;
+        width: 7vh;
+        border-radius: 50%;
+        margin: 1vh;
+        box-shadow: 0px 0px 5px black, 0px 0px 2px #ffb229;
+        border: 1px solid #ffb229;
+        vertical-align: middle;
+    }
+    .textDetails {
+        display: inline-block;
+        vertical-align: middle;
+        span {
+            display: block;
+            &.name{
+                color: #ffb229;
+            }
+            svg {
+                width: 12px;
+            }
+        }
+    }
+}

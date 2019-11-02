@@ -119,6 +119,22 @@ section {
                 color: rgba(215, 169, 101, 0.05);
             }
         }
+        footer {
+            text-align: center;
+            color: rgba(0, 0, 0, 0.55);
+            position: absolute;
+            bottom: -3vh;
+            width: 100%;
+            font-weight: 700;
+            a {
+                color: black;
+                text-decoration: none;
+                svg {
+                    width: 15px;
+                    vertical-align: middle;
+                }
+            }
+        }
     }
     &#lateral {
         width: 15vw;

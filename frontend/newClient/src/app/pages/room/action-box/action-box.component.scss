@@ -5,16 +5,19 @@
   right: 0px;
   z-index: 2;
   .barBox {
-    background: radial-gradient(#206d6f, #185c5a);
-    width: 300px;
+    background: #0d2011;
+    border: 1px dashed rgba(255, 180, 45, 0.5);
+    width: 299px;
     padding: 2px;
     border-radius: 5px 0px 0px 0px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.65);
     display: inline-block;
+    border-right: 0px;
+    border-bottom: 0px;
     .potInput {
       display: block;
       margin: 5px auto;
-      background: #104141;
+      background: #09100a;
       border: 0px;
       outline: none;
       padding: 8px 3px;
@@ -29,7 +32,7 @@
       display: block;
       width: 90%;
       height: 7px;
-      background: #0d373b;
+      background: #09100a;
       margin: 5px auto;
       margin-bottom: 10px;
       border-radius: 5px;
@@ -72,7 +75,7 @@
         right: 0px;
         width: 10px;
         height: 10px;
-        background: #0d363a;
+        background: #09100a;
         top: -1px;
         border-radius: 5px;
         box-shadow: inset -1px 0px 0px rgba(0, 0, 0, 0.35);
@@ -85,29 +88,49 @@
     vertical-align: bottom;
     height: 170px;
     border-radius: 20px 0px 0px 0px;
-    background: linear-gradient( #185f61, #124a54);
-    box-shadow: 0px -2px 0px #0000004f;
     padding-top: 5px;
+    box-shadow: 0px 0px 10px 4px #00000073;
+    background: #0b1b0f;
+    color: #d7a965;
     button {
       display: block;
       width: 90%;
-      margin: 5%;
-      border: 0px;
-      padding: 5px;
-      background: #218464;
-      color: #e6e6e6;
       text-transform: uppercase;
-      font-family: helvetica;
       font-size: 14px;
       line-height: 20px;
-      cursor: pointer;
-      border-radius: 3px;
       text-shadow: 1px 1px rgba(0, 0, 0, 0.35);
-      &.info {
-        background: #dd9418;
+      background: linear-gradient(#1e3221, #102013);
+      border: 1px solid #29452d;
+      border-radius: 3px;
+      padding: 6px 15px;
+      color: #d7a965;
+      border-right: 1px solid #223c26;
+      border-left: 1px solid #223c26;
+      box-shadow: 0px 0px 6px 2px black;
+      font-family: Montserrat;
+      outline: none;
+      cursor: pointer;
+      margin: 5px auto;
+      &.blue {
+        background: linear-gradient(#1e2932, #101920);
+        border: 1px solid #293845;
+        border-right: 1px solid #22313c;
+        border-left: 1px solid #22343c;
       }
+      &.info {
+        background: linear-gradient(#32311e, #202010);
+        border: 1px solid #454429;
+        border-right: 1px solid #3a3c22;
+        border-left: 1px solid #3c3b22;
+      }      
       &.warning {
-        background: #d44052;
+        background: linear-gradient(#321e1e, #201010);
+        border: 1px solid #452929;
+        border-right: 1px solid #3c2222;
+        border-left: 1px solid #3c2222;
+      }
+      &:hover {
+        box-shadow: inset 0px 0px 15px rgba(255, 255, 255, 0.1);
       }
     }
   }

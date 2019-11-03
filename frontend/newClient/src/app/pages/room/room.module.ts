@@ -11,6 +11,7 @@ import { ChipsComponent } from './chips/chips/chips.component';
 import { StackerComponent } from './chips/stacker/stacker.component';
 import { RouterModule, Routes } from '@angular/router';
 import { RoomComponent } from './room.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 const routes: Routes = [
   { path: '',  component: RoomComponent },
@@ -27,7 +28,8 @@ const routes: Routes = [
     DualStackComponent,
     CardComponent,
     ChipsComponent,
-    StackerComponent
+    StackerComponent,
+    NavBarComponent
   ],
   imports: [
     CommonModule,

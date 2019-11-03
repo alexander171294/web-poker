@@ -1,0 +1,105 @@
+nav {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background: #0b1b0f;
+    padding: 1vh 1vw;
+    color: #d7a965;
+    z-index: 1;
+    box-shadow: 0px 0px 7px 2px black;
+    header {
+        text-align: center;
+        width: fit-content;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 1vw;
+        h3 {
+            display: inline-block;
+            font-family: Montserrat, Montserrat;
+            font-weight: 100;
+            font-size: 18px;
+            margin: 0px;
+            color: #aa7f40;
+        }
+        h4 {
+            display: inline-block;
+            font-family: Paytone One, Montserrat;
+            margin: 0px;
+            color: #d7a965;
+            font-weight: 100;
+            font-size: 19px;
+        }
+        span {
+            font-size: 8px;
+            display: block;
+        }
+    }
+    label {
+        display: inline-block;
+        padding: 1vh 1vw;
+        margin: 0px 1vw;
+        border-radius: 7px;
+        background: rgba(65, 111, 57, 0.05);
+        border: 1px dashed rgba(255, 180, 45, 0.5);
+        &.secondary {
+            color: #a78b63;
+            border: 1px dashed rgba(119, 83, 18, 0.5);
+        }
+    }
+}
+
+button {
+    margin: 5px;
+    background: linear-gradient(#1e3221, #102013);
+    border: 1px solid #29452d;
+    border-radius: 3px;
+    padding: 9px 15px;
+    color: #d7a965;
+    border-right: 1px solid #223c26;
+    border-left: 1px solid #223c26;
+    box-shadow: 0px 0px 6px 2px black;
+    font-family: Montserrat;
+    outline: none;
+    cursor: pointer;
+    &:hover {
+        color: #f09b01;
+        background: linear-gradient(#2d4b32, #172c1b);
+    }
+    &:focus {
+        box-shadow: 0px 0px 6px 2px black, inset 0px 0px 5px #2d4b32;
+    }
+    &:active {
+        box-shadow: none;
+        border: 1px solid transparent;
+        // background: #203924;
+        background: #172c1b;
+    }
+    &.spinner {
+        background: #29452d;
+        color: #29452d;
+        &::after{
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            background: transparent;
+            top: calc(50% - 7px);
+            border-radius: 50%;
+            border: 3px solid #d7a965;
+            left: calc(50% - 8px);
+            border-left: 3px solid transparent;
+            animation: rotator 0.6s linear infinite;
+        }
+    }
+}
+
+@keyframes rotator {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

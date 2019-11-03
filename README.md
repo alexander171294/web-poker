@@ -24,7 +24,7 @@ Additionally, sorry for my bad english, I speak spanish and learn english only r
 
 ### Table room
 
-![table](https://i.imgur.com/MfUhE6Y.png)
+![table](https://i.imgur.com/TBJU0wp.png)
 
 ### Chips
 

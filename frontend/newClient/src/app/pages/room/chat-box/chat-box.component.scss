@@ -1,0 +1,74 @@
+.chatBox{
+  width: 350px;
+  height: 30px;
+  position: absolute;
+  background: linear-gradient(-90deg, #145051, #0d363b);
+  z-index: 1;
+  bottom: 0px;
+  left: 0px;
+  border-radius: 0px 10px 0px 0px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.50);
+  box-shadow: 0px 0px 5px black;
+  transition: height 1s;
+  overflow: hidden;
+  &.open {
+    height: 250px;
+  }
+  .bar {
+    text-align: right;
+    padding-top: 6px;
+    padding-right: 10px;
+    color: rgba(255, 255, 255, 0.60);
+    svg {
+      cursor: pointer;
+      width: 17px;
+    }
+  }
+  ul.body{
+    color: #a0b2b3;
+    margin: 0px;
+    list-style: none;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: auto;
+    width: calc(100% - 28px);
+    height: calc(100% - 55px);
+    margin-top: 7px;
+    font-family: cursive;
+    font-size: 12px;
+    li {
+      margin: 2px 0px;
+      background: #0d373ba8;
+      padding: 2px;
+      border-radius: 3px;
+      span {
+        color: #1e775b;
+      }
+      &.system {
+        background: rgba(255, 255, 255, 0.25);
+        text-align: center;
+        color: rgba(0, 0, 0, 0.60);
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 8px;     /* Tamaño del scroll en vertical */
+      height: 8px;    /* Tamaño del scroll en horizontal */
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #b3b3b3;
+      box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+    }
+    &::-webkit-scrollbar-thumb:active {
+      background-color: #999999;
+    }
+    &::-webkit-scrollbar-track {
+      background: #3a6a6b;
+      border-radius: 4px;
+    }
+  }
+}

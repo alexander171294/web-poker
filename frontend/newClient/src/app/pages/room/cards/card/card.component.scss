@@ -1,0 +1,100 @@
+.presentationRow {
+  margin: 15px;
+  width: 500%;
+}
+.card {
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
+  background: radial-gradient(#404040, whitesmoke);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.35);
+  display: inline-block;
+  position: relative;
+}
+.card.trueWhite {
+  background: radial-gradient(#c1c1c1, whitesmoke);
+}
+.card .back {
+  width: 180px;
+  height: 280px;
+  background: #000000;
+  border-radius: 8px;
+  top: 10px;
+  position: relative;
+  left: 10px;
+  overflow: hidden;
+}
+.card .back .container01 {
+  margin-top: -10px;
+}
+.card .back .container01:after {
+  content: '';
+  display: block;
+  width: 182px;
+  height: 320px;
+  background: linear-gradient(-45deg, #00000096, transparent);
+  position: absolute;
+  top: -2px;
+  transform: rotate(43.5deg);
+}
+.card .back .container01:before {
+  content: '';
+  display: block;
+  width: 180px;
+  height: 320px;
+  background: linear-gradient(45deg, #9c4242b3, transparent);
+  position: absolute;
+  top: -13px;
+  transform: rotate(-43.5deg);
+}
+.card .back .row {
+  width: 200px;
+  margin-left: -10px;
+  text-align: center;
+}
+.card .back .circle {
+  width: 22px;
+  height: 22px;
+  background:#671515;
+  border-radius: 20px;
+  display: inline-block;
+  margin: -2px -1px;
+}
+.container02 {
+  position: absolute;
+  top: -20px;
+  left: -10px;
+  opacity: 0.2;
+}
+.card .back .container02 .circle {
+  background: white;
+}
+
+.card .red {
+  color: #b50000;
+}
+
+.card .front {
+  font-family: CardNarrow;
+  position: absolute;
+  width: 176px;
+  height: 276px;
+  top: 10px;
+  left: 10px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+}
+
+.card .front .palo {
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  font-size: 100px;
+}
+
+.card .front .valor {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  font-size: 170px;
+}

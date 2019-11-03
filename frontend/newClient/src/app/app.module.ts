@@ -9,7 +9,6 @@ import { LobbyComponent } from './pages/lobby/lobby.component';
 import { VcardComponent } from './pages/lobby/components/vcard/vcard.component';
 import { TableComponent } from './pages/lobby/components/table/table.component';
 import { FormsModule } from '@angular/forms';
-import { RoomComponent } from './pages/room/room.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +16,7 @@ import { RoomComponent } from './pages/room/room.component';
     LoginComponent,
     LobbyComponent,
     VcardComponent,
-    TableComponent,
-    RoomComponent
+    TableComponent
   ],
   imports: [
     BrowserModule,

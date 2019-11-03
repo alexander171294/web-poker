@@ -2,7 +2,6 @@ package ar.com.tandilweb.ApiServer.filters.jwt;
 
 import java.io.IOException;
 import java.security.Key;
-import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +66,7 @@ public class JWTFilter implements Filter {
 			    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 				Jws<Claims> jt = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(jwToken);
 				Claims data = jt.getBody();
+				// TODO: review this function.
 				//if(!identity.equals(data.getSubject())) throw new ExceptionJWT();
 				JWTUnpackedData uD = new JWTUnpackedData();
 				uD.setExpiration(data.getExpiration());

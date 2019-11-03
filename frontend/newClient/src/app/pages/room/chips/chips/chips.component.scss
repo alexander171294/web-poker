@@ -1,0 +1,842 @@
+
+.chip {
+    width: 150px;
+    height: 150px;
+    background: #070513;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    box-shadow: 1px 1px 7px 1px black;
+}
+.chip .whiteBand {
+    position: absolute;
+    background: #d6d6d6;
+    width: 100%;
+    height: 9%;
+    top: 46%;
+}
+
+.chip .whiteBand:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 75%;
+    top: -75%;
+    position: absolute;
+    background: #a20608;
+}
+.chip .whiteBand:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 75%;
+    bottom: -75%;
+    position: absolute;
+    background: #a20608;
+}
+
+.chip .whiteBand.b {
+    transform: rotate(56deg);
+}
+.chip .whiteBand.c {
+    transform: rotate(-56deg);
+}
+
+.chip .internalBand {
+    width: 86%;
+    top: 7%;
+    height: 86%;
+    left: 7%;
+    background: #141415;
+    border-radius: 50%;
+    z-index: 1;
+    position: absolute;
+    box-shadow: inset 0px 0px 5px black;
+}
+
+.topText{
+    color: transparent;
+    text-shadow: 0px 0px 1px #d2b48c54;
+    position: absolute;
+    top: 0;
+    height: 50%;
+    width: 100%;
+}
+
+.curved span {
+    height: 90%;
+    display: block;
+    bottom: 1px;
+    position: absolute;
+    text-align: center;
+    transform-origin: bottom center;
+    /** CHANGE FONT SIZE **/
+    font-size: 12px;
+    width: 12px;
+    left: calc(50% - 7px);
+    /** END CHANGE **/
+}
+
+.curved span:nth-of-type(1){
+    transform: rotate(-90deg);
+}
+.curved span:nth-of-type(2){
+    transform: rotate(-72deg);
+}
+.curved span:nth-of-type(3){
+    transform: rotate(-54deg);
+}
+.curved span:nth-of-type(4){
+    transform: rotate(-18deg);
+}
+.curved span:nth-of-type(5){
+    transform: rotate(0deg);
+}
+.curved span:nth-of-type(6){
+    transform: rotate(18deg);
+}
+.curved span:nth-of-type(7){
+    transform: rotate(36deg);
+}
+.curved span:nth-of-type(8){
+    transform: rotate(54deg);
+}
+
+.botText {
+    color: transparent;
+    text-shadow: 0px 0px 1px #d2b48c54;
+    position: absolute;
+    bottom: 0;
+    height: 50%;
+    width: 100%;
+    left: 0;
+    transform: rotate(180deg);
+}
+
+.internalBand .internalCircle {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    background: #272727;
+    border-radius: 50%;
+    top: 20%;
+    left: 20%;
+}
+
+.internalBand .internalCircle .subCircle {
+    width: 86%;
+    height: 86%;
+    background: transparent;
+    border-radius: 50%;
+    top: 5%;
+    left: 5%;
+    position: relative;
+    border: 2px dashed #a20608;
+}
+
+.internalBand .internalCircle .subCircle .finalCircle {
+    width: 91%;
+    height: 90%;
+    background: transparent;
+    border-radius: 50%;
+    top: 5%;
+    left: 5%;
+    position: relative;
+    overflow: hidden;
+    font-family: sans-serif;
+    font-size: 25px;
+    text-align: right;
+    letter-spacing: 9px;
+}
+
+.internalBand .internalCircle .subCircle .finalCircle:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: calc(50% - 1px);
+    background: #a20608;
+    border-bottom: 1px solid #333333;
+}
+
+.internalBand .internalCircle .subCircle .finalCircle:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: calc(50% - 1px);
+    background: #141415;
+    border-top: 1px solid #333333;
+    
+}
+
+.internalBand .internalCircle .subCircle .finalCircle .topIcons {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 1px;
+    color: rgba(0, 0, 0, 0.65);
+}
+.internalBand .internalCircle .subCircle .finalCircle .topIcons:before {
+    content: '\2660';
+    display: block;
+    left: 13px;
+    position: absolute;
+}
+.internalBand .internalCircle .subCircle .finalCircle .topIcons:after {
+    content: '\2663';
+    display: block;
+    position: absolute;
+    right: 4px;
+}
+
+
+.internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #a20608;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 1px;
+}
+.internalBand .internalCircle .subCircle .finalCircle .botIcons:before {
+    content: '\2666';
+    display: block;
+    left: 14px;
+    font-size: 27px;
+    top: -1px;
+    position: absolute;
+}
+.internalBand .internalCircle .subCircle .finalCircle .botIcons:after {
+    content: '\2665';
+    display: block;
+    right: 5px;
+    position: absolute;
+}
+.internalBand .internalCircle .subCircle .finalCircle .value {
+    position: absolute;
+    z-index: 2;
+    color: #e2e2e2;
+    width: 100%;
+    text-align: center;
+    top: calc(50% - 14px);
+    font-size: 25px;
+    font-family: Keepcalm;
+    letter-spacing: 1px;
+    text-shadow: 0px 0px 10px black;
+}
+
+/** ONE **/
+.chip.one .whiteBand {
+    background: #9899a7;
+}
+.chip.one .whiteBand:after {
+    background: #484848;
+}
+.chip.one .whiteBand:before {
+    background: #484848;
+}
+.chip.one .internalBand .internalCircle .subCircle {
+    border: 2px dashed #576368;
+}
+.chip.one .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #5b6d92;
+}
+.chip.one .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #576368;
+}
+/** END GRAY **/
+
+/** GRAY **/
+.chip.gray .whiteBand:after {
+    background: #576368;
+}
+.chip.gray .whiteBand:before {
+    background: #576368;
+}
+.chip.gray .internalBand .internalCircle .subCircle {
+    border: 2px dashed #576368;
+}
+.chip.gray .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #576368;
+}
+.chip.gray .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #576368;
+}
+/** END GRAY **/
+
+/** orange **/
+.chip.orange .whiteBand:after {
+    background: #de701d;
+}
+.chip.orange .whiteBand:before {
+    background: #de701d;
+}
+.chip.orange .internalBand .internalCircle .subCircle {
+    border: 2px dashed #f49e30;
+}
+.chip.orange .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #f49e30;
+}
+.chip.orange .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #f49e30;
+}
+/** END orange **/
+
+
+/** blue **/
+.chip.blue .whiteBand:after {
+    background: #00229d;
+}
+.chip.blue .whiteBand:before {
+    background: #00229d;
+}
+.chip.blue .internalBand .internalCircle .subCircle {
+    border: 2px dashed #0290fc;
+}
+.chip.blue .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #0290fc;
+}
+.chip.blue .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #0290fc;
+}
+/** END blue **/
+
+/** green **/
+.chip.green .whiteBand:after {
+    background: #087a6b;
+}
+.chip.green .whiteBand:before {
+    background: #087a6b;
+}
+.chip.green .internalBand .internalCircle .subCircle {
+    border: 2px dashed #019947;
+}
+.chip.green .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #019947;
+}
+.chip.green .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color:#019947;
+}
+/** END green **/
+
+/** purple **/
+.chip.purple .whiteBand:after {
+    background: #610036;
+}
+.chip.purple .whiteBand:before {
+    background: #610036;
+}
+.chip.purple .internalBand .internalCircle .subCircle {
+    border: 2px dashed #6d17a1;
+}
+.chip.purple .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #6d17a1;
+}
+.chip.purple .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color:#6d17a1;
+}
+/** END purple **/
+
+/** yellow **/
+.chip.yellow {
+    background: #080d29;
+}
+.chip.yellow .whiteBand {
+    background: #133071;
+}
+.chip.yellow .whiteBand:after {
+    background: #e9c500;
+}
+.chip.yellow .whiteBand:before {
+    background: #e9c500;
+}
+.chip.yellow .internalBand .internalCircle .subCircle {
+    border: 2px dashed #eedd08;
+}
+.chip.yellow .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #eedd08;
+}
+.chip.yellow .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color:#ffd601;
+}
+
+.chip.yellow .internalBand .internalCircle .subCircle .finalCircle .value {
+    text-shadow: 1px 1px 2px black, -1px -1px 2px black, 0px 0px 5px black;
+}
+
+.chip.yellow .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #133071;
+}
+/** END yellow **/
+
+
+/** pink **/
+.chip.pink .whiteBand {
+    background: #e38db2;
+}
+.chip.pink .whiteBand:after {
+    background: #e02b41;
+}
+.chip.pink .whiteBand:before {
+    background: #e02b41;
+}
+.chip.pink .internalBand .internalCircle .subCircle {
+    border: 2px dashed #e38db2;
+}
+.chip.pink .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #e38db2;
+}
+.chip.pink .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color:#e38db2;
+}
+/** END pink **/
+
+/** brown **/
+.chip.brown .whiteBand {
+    background: #583913;
+}
+.chip.brown .whiteBand:after {
+    background: #9a5610;
+}
+.chip.brown .whiteBand:before {
+    background: #9a5610;
+}
+.chip.brown .internalBand .internalCircle .subCircle {
+    border: 2px dashed #9a5610;
+}
+.chip.brown .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #9a5610;
+}
+.chip.brown .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color:#9a5610;
+}
+/** END brown **/
+
+
+/** K10 **/
+.chip.K10 {
+    background: #2d0b21;
+}
+.chip.K10 .internalBand {
+    background: #2d0b21;
+}
+.chip.K10 .whiteBand {
+    background: #b59b3d;
+}
+.chip.K10 .whiteBand:after {
+    background: #fede0d;
+}
+.chip.K10 .whiteBand:before {
+    background: #fede0d;
+}
+.chip.K10 .internalBand .internalCircle .subCircle {
+    border: 2px solid #b59b3d;
+}
+.chip.K10 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #fede0d;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 1px solid #333333;
+}
+.chip.K10 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #b59b3d;
+    transform: rotate(45deg);
+    transform-origin: top;
+    border-top: 1px solid #ffffff96;
+}
+.chip.K10 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color:#9a5610;
+}
+/** END K10 **/
+
+/** K25 **/
+.chip.K25 {
+    background: #0b242d;
+}
+.chip.K25 .internalBand {
+    background: #0b242d;
+}
+.chip.K25 .whiteBand {
+    background: #a22e2e;
+}
+.chip.K25 .whiteBand:after {
+    background: #611c1c;
+}
+.chip.K25 .whiteBand:before {
+    background: #611c1c;
+}
+.chip.K25 .internalBand .internalCircle .subCircle {
+    border: 2px solid #b53d3d;
+}
+.chip.K25 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #b53d3d;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 1px solid #333333;
+}
+.chip.K25 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #3f1515;
+    transform: rotate(45deg);
+    transform-origin: top;
+    border-top: 1px solid #ac3a3a;
+}
+.chip.K25 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #272727;
+    bottom: 45px;
+}
+/** END K25 **/
+
+/** K50 **/
+.chip.K50 {
+    background: #0b242d;
+}
+.chip.K50 .internalBand {
+    background: #0b242d;
+}
+.chip.K50 .whiteBand {
+    background: #3a9005;
+}
+.chip.K50 .whiteBand:after {
+    background: #215202;
+}
+.chip.K50 .whiteBand:before {
+    background: #215202;
+}
+.chip.K50 .internalBand .internalCircle .subCircle {
+    border: 2px solid #2aa014;
+}
+.chip.K50 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #2aa014;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 1px solid #333333;
+}
+.chip.K50 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #082b01;
+    transform: rotate(45deg);
+    transform-origin: top;
+    border-top: 1px solid #2aa014;
+}
+.chip.K50 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #272727;
+    bottom: 45px;
+}
+/** END K50 **/
+
+/** K100 **/
+.chip.K100 {
+    background: #132307;
+}
+.chip.K100 .internalBand {
+    background: #132307;
+}
+.chip.K100 .whiteBand {
+    background: #1473a0;
+}
+.chip.K100 .whiteBand:after {
+    background: linear-gradient(transparent, #1473a0);
+}
+.chip.K100 .whiteBand:before {
+    background: linear-gradient(#1473a0, #ffffff00);
+}
+.chip.K100 .internalBand .internalCircle .subCircle {
+    border: 2px solid #1473a0;
+}
+.chip.K100 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #1473a0;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 1px solid #333333;
+}
+.chip.K100 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #132307;
+    transform: rotate(45deg);
+    transform-origin: top;
+    border-top: 1px solid #01334a;
+}
+.chip.K100 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #272727;
+    bottom: 45px;
+}
+/** END K100 **/
+
+/** k250 **/
+.chip.k250 {
+    background: #151514;
+}
+.chip.k250 .internalBand {
+    background: #151514;
+}
+.chip.k250 .whiteBand {
+    background: #f49e30;
+}
+.chip.k250 .whiteBand:after {
+    background: linear-gradient(transparent, #de701d);
+}
+.chip.k250 .whiteBand:before {
+    background: linear-gradient(#de701d, transparent);
+}
+.chip.k250 .internalBand .internalCircle .subCircle {
+    border: 2px solid #f49e30;
+}
+.chip.k250 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #de701d;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 1px solid #333333;
+}
+.chip.k250 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #141415;
+    transform: rotate(45deg);
+    transform-origin: top;
+    border-top: 1px solid #01334a;
+}
+.chip.k250 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #272727;
+    bottom: 45px;
+}
+/** END k250 **/
+
+/** K500 **/
+.chip.K500 {
+    background: #320203;
+}
+.chip.K500 .internalBand {
+    background: #151514;
+}
+.chip.K500 .whiteBand {
+    background: #320203;
+}
+.chip.K500 .whiteBand:after {
+    background: linear-gradient(transparent, #a20608);
+}
+.chip.K500 .whiteBand:before {
+    background: linear-gradient(#a20608, transparent);
+}
+.chip.K500 .internalBand .internalCircle .subCircle {
+    border: 2px solid #a20608;
+}
+.chip.K500 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #a20608;
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 1px solid #333333;
+}
+.chip.K500 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #141415;
+    transform: rotate(45deg);
+    transform-origin: top;
+    border-top: 1px solid #01334a;
+}
+.chip.K500 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #272727;
+    bottom: 45px;
+}
+/** END K500 **/
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/** M1 **/
+.chip.M1 {
+    background: linear-gradient(32deg, #2d0b21, #f49e30, #2d0b21, #eb8a22, #2d0b21);
+}
+.chip.M1 .internalBand {
+    background: linear-gradient(#2f2f00, #230000, #172442);
+    overflow: hidden;
+}
+.chip.M1 .whiteBand {
+    background: linear-gradient(#f49e30,#2d0b21, #f49e30);
+    height: 18%;
+    width: 122%;
+    animation: rotation 10s infinite;
+}
+.chip.M1 .whiteBand.b {
+    animation: rotation 15s infinite;
+}
+.chip.M1 .whiteBand.c {
+    animation: rotation 20s infinite;
+}
+.chip.M1 .whiteBand:after {
+    background: linear-gradient(transparent, #ffc800);
+}
+.chip.M1 .whiteBand:before {
+    background: linear-gradient(#ec851b, transparent);
+}
+.chip.M1 .internalBand .internalCircle {
+    background: #291708;
+}
+.chip.M1 .internalBand .internalCircle .subCircle {
+    border: 2px dotted#ecb408;
+}
+.chip.M1 .internalBand .curved {
+    text-shadow: 0px 0px 1px #ffffff54;
+}
+.chip.M1 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: linear-gradient(#b56621, #2c180b);
+    transform: rotate(45deg);
+    transform-origin: bottom;
+    border-bottom: 0px;
+}
+.chip.M1 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: radial-gradient(transparent 6%,#ffba00,transparent 50%);
+    transform: rotate(15deg);
+    transform-origin: top;
+    border-top: 0px;
+}
+.chip.M1 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #272727;
+    bottom: 45px;
+}
+.chip.M1 .internalBand .internalCircle {
+    z-index: 1;
+}
+/** END M1 **/
+
+/** M5 **/
+@keyframes bgAnim {
+    0% {
+        box-shadow: inset 0px 0px 50px #0014ff, inset 0px 0px 20px 5px #000000;
+    }
+    50% {
+        box-shadow: inset 0px 0px 10px #0014ff, inset 0px 0px 10px 1px #000000;
+    }
+    100% {
+        box-shadow: inset 0px 0px 50px #0014ff, inset 0px 0px 20px 5px #000000;
+    }
+}
+.chip.M5 {
+    background: linear-gradient(32deg, #00229d, #6d17a1, #5b1385, #6d17a1, #e38db2);
+}
+.chip.M5 .internalBand {
+    box-shadow: inset 0px 0px 50px #0014ff, inset 0px 0px 20px 5px #000000;
+    overflow: hidden;
+    animation: bgAnim 3s linear infinite;
+}
+.chip.M5 .whiteBand {
+    background: linear-gradient(#661597,#240836, #60148d);
+    height: 18%;
+    width: 122%;
+    /* animation: rotation 15s infinite; */
+}
+.chip.M5 .whiteBand:after {
+    background: linear-gradient(transparent, #111892);
+}
+.chip.M5 .whiteBand:before {
+    background: linear-gradient(#111776, transparent);
+    border: 1px solid #ffc0cb69;
+}
+.chip.M5 .internalBand .internalCircle {
+    background: #070513;
+}
+.chip.M5 .internalBand .internalCircle .subCircle {
+    border: 2px dotted#6d17a1;
+}
+.chip.M5 .internalBand .curved {
+    text-shadow: 0px 0px 1px #ffffff54;
+}
+.chip.M5 .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: linear-gradient(#a51c74, transparent);
+    animation: rotation 20s linear infinite;
+    transform: rotate(-38deg);
+    transform-origin: bottom;
+    border-bottom: 0px;
+    height: 51%;
+}
+.chip.M5 .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: transparent;
+    border-top: 0px;
+}
+.chip.M5 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: #1a0514;
+    bottom: 0px;
+}
+.chip.M5 .internalBand .internalCircle {
+    z-index: 1;
+}
+/** END M5 **/
+
+/** dealer **/
+.chip.dealer {
+    background: #1f1f1f;
+}
+.chip.dealer .internalBand {
+    background: #b3b3b3;
+}
+.chip.dealer .whiteBand {
+    background: #ffffff;
+}
+.chip.dealer .whiteBand:after {
+    background: transparent;
+}
+.chip.dealer .whiteBand:before {
+    background: transparent;
+}
+.chip.dealer .internalBand .curved.topText,
+.chip.dealer .internalBand .curved.botText{
+    color: black;
+}
+.chip.dealer .internalBand .internalCircle {
+    background: transparent;
+}
+.chip.dealer .internalBand .internalCircle .subCircle {
+    border: 2px solid #e4e4e4;
+    background: transparent;
+}
+.chip.dealer .internalBand .internalCircle .subCircle .finalCircle {
+    background: transparent;
+}
+.chip.dealer .internalBand .internalCircle .subCircle .finalCircle:before {
+    background: #e4e4e4;
+    border-bottom: 1px solid white;
+}
+.chip.dealer .internalBand .internalCircle .subCircle .finalCircle:after {
+    background: #e4e4e4;
+    border-top: 1px solid #01334a;
+}
+.chip.dealer .internalBand .internalCircle .subCircle .finalCircle .topIcons {
+    color: transparent;
+}
+.chip.dealer .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+    color: transparent;
+}
+.chip.dealer .internalBand .internalCircle .subCircle .finalCircle .value {
+    color: #1f1f1f;
+    text-shadow: none;
+}
+/** END dealer **/
+
+.dedicated {
+    font-family: Chloe;
+    text-align: center;
+    color: #ff000066;
+    text-shadow: 0px 0px 5px #070513;
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
+    transform: rotate(-26deg);
+    left: 22px;
+    font-size: 32px;
+}
+
+.dedicatedNiko{
+    font-family: Chloe;
+    text-align: center;
+    color: #ffffff42;
+    position: absolute;
+    width: 100%;
+    transform: rotate(-26deg);
+    left: 22px;
+    font-size: 41px;
+    bottom: -38px;
+}
+.dedicatedNiko svg{
+    width: 80%;
+    height: 90%;
+    fill: rgba(110, 120, 165, 0.25);
+}
+

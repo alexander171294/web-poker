@@ -56,7 +56,9 @@ Scaled here: https://i.imgur.com/GLlGMiN.png
 
 * Reconnections.
 * Splitted pots.
-* Finish 70/70 TODOS/FIXMES
+* Finish 0/70 TODOS/FIXMES in Backend
+
+First release?
 
 ## Medium term
 
@@ -138,7 +140,7 @@ For build/run see the wiki.
 
 ## Bakend
 
-The backend is splitted in ~~two~~ five proyects, the ApiServer for web operations, as see the room servers, or login with your user, and some specific parts of the room protocol as Auth Challenge (See the protocol RFC for more details). The Orchestrator, in charge of register and organize room servers, The room servers for do the game (All tables are a server). Additionally have two projects, one for RFC Protocol DTOs (exchange), and another for Domain/Repository of persistence.
+The backend is splitted in ~~two~~ five proyects, the ApiServer for web operations, for see the room servers, or login with your user, and some specific parts of the room protocol as Auth Challenge (See the protocol RFC for more details). The Orchestrator, in charge of register and organize room servers, The room servers for do the game (All tables are a server). Additionally have two projects, one for RFC Protocol DTOs (exchange), and another for Domain/Repository of persistence.
 
 You need to start the Orchestrator, then ApiServer and RoomServer.
 

@@ -1,10 +1,12 @@
 package ar.com.tandilweb.ApiServer.filters.jwt;
 
 import java.io.IOException;
+import java.security.Key;
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -13,6 +15,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +26,7 @@ import ar.com.tandilweb.persistence.repository.SessionsRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTFilter implements Filter {
 
@@ -58,10 +62,12 @@ public class JWTFilter implements Filter {
 				if(identity == null) throw new ExceptionJWT();
 				Sessions session = sessionsRepository.findById(Long.parseLong(identity));
 				if(session == null) throw new ExceptionJWT();
-				String key = new String(Base64.getEncoder().encode(session.getJwt_passphrase().getBytes()));
-				Jws<Claims> jt = Jwts.parser().setSigningKey(key).parseClaimsJws(jwToken);
+				SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+				byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(session.getJwt_passphrase());
+			    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+				Jws<Claims> jt = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(jwToken);
 				Claims data = jt.getBody();
-				if(!identity.equals(data.getSubject())) throw new ExceptionJWT();
+				//if(!identity.equals(data.getSubject())) throw new ExceptionJWT();
 				JWTUnpackedData uD = new JWTUnpackedData();
 				uD.setExpiration(data.getExpiration());
 				uD.setId(data.getId());

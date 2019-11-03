@@ -46,17 +46,17 @@ Scaled here: https://i.imgur.com/GLlGMiN.png
 
 ## Short term
 
-I will code these subjects in respective order:
+### Gameplay:
 
-### General Lobby System:
+* Connect Room to protocol
+* Finish details of design
+* Polish the signup/login Lobby
 
-* ~~Rework frontend~~ DONE
-* ~~Finishing new backend based on RFC~~ DONE
+### Fine details
 
-### Sit and go
-
-* Poker rules and gameplay. WIP
-* Frontend design of simple table. WIP
+* Reconnections.
+* Splitted pots.
+* Finish 70/70 TODOS/FIXMES
 
 ## Medium term
 
@@ -64,8 +64,9 @@ I will code these subjects in respective order:
 
 * Turnaments.
 * User statistics.
-* Full account.
+* Full account and follow list. 
 * Chat in the game.
+* live broadcast
 
 ## Long term
 
@@ -73,8 +74,9 @@ I will code these subjects in respective order:
 
 * Mobile frontend.
 * Desktop frontend (with electronJS)
-* rank system
 * Servers Manager Tool (¿Based on RCP?)
+* Statistics
+* Train AI (Research purpose) 
 
 # Architecture
 

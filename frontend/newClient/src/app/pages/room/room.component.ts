@@ -6,6 +6,9 @@ import { TerminalService } from 'src/app/services/network/terminal.service';
 import { WsRoomService } from 'src/app/services/network/room/ws-room.service';
 import { Authorization } from 'src/app/services/network/epprProtocol/userAuth/Authorization';
 import { MessageDefinition } from 'src/app/services/network/utils/MessageDefinition';
+import { LobbyService } from 'src/app/services/lobby.service';
+import { BackwardValidation } from 'src/app/services/network/epprProtocol/userAuth/BackwardValidation';
+import { ChallengeActions } from 'src/app/services/network/epprProtocol/userAuth/types/ChallengeActions';
 
 @Component({
   selector: 'app-room',
@@ -20,7 +23,8 @@ export class RoomComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private ws: WsRoomService,
               private room: RoomService,
-              private terminal: TerminalService) {
+              private terminal: TerminalService,
+              private lobby: LobbyService) {
     terminal.event.subscribe(data => {
       console.log('[]> '+data);
     });
@@ -46,12 +50,19 @@ export class RoomComponent implements OnInit {
         this.authorization(parseInt(localStorage.getItem('userID'),10));
       }
       if(data == 11) { // requesting claim token
-        console.error('Do a claim', this.room.authClaim, this.room.roomID);
+        this.lobby.challenge(this.room.roomID, this.room.authClaim).subscribe(resp => {
+          if(resp.operationSuccess) {
+            console.log('Backward validation for challenge: ', resp.challengeID);
+            this.backwardValidation(resp.challengeID, false);
+          } else {
+            // TODO: trigger error popup.
+          }
+        }, err => {
+          // TODO: trigger error popup.
+        });
       }
     });
     this.room.connect(this.roomData.server_ip);
-
-    //console.log(this.roomData);
   }
 
   private authorization(userID: number) {
@@ -61,6 +72,18 @@ export class RoomComponent implements OnInit {
     const dBlock = new MessageDefinition();
     dBlock.data = auth;
     dBlock.endpoint = '/user/authorization';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
+  }
+
+  private backwardValidation(challengeID: number, deposit: boolean) {
+    console.log('BACKWARD VALIDATION');
+    const bV = new BackwardValidation();
+    bV.action = deposit ? ChallengeActions.DEPOSIT : ChallengeActions.LOGIN;
+    bV.idChallenge = challengeID;
+    const dBlock = new MessageDefinition();
+    dBlock.data = bV;
+    dBlock.endpoint = '/user/backwardValidation';
     dBlock.prefix = '/stompApi';
     this.ws.sendMessage(dBlock);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-deposit',
@@ -10,6 +10,7 @@ export class DepositComponent implements OnInit {
   @Output() deposit: EventEmitter<number> = new EventEmitter<number>();
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
   chips: number = 500;
+  @Input() minDeposit: number;
 
   constructor() { }
 

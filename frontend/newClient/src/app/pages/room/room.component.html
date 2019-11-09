@@ -3,7 +3,7 @@
     <app-table-poker></app-table-poker>
     <app-chat-box></app-chat-box>
     <app-action-box></app-action-box>
-
-    <app-connecting *ngIf="connecting" [detail]="connecting"></app-connecting>
-    <app-deposit *ngIf="popupDepositOpened" (deposit)="doDeposit($event)" (cancel)="popupDepositOpened = false"></app-deposit>
+    <!-- *ngIf="connecting" -->
+    <app-connecting  [detail]="connecting"></app-connecting> 
+    <app-deposit *ngIf="popupDepositOpened" (deposit)="doDeposit($event)" (cancel)="popupDepositOpened = false" [minDeposit]="roomData.minCoinForAccess"></app-deposit>
 </div>

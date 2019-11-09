@@ -32,5 +32,40 @@
             bottom: 2vh;
             color: #ffffff66;
         }
+        .progress {
+            .loader {
+                display: inline-block;
+                margin: 0px 5px;
+                font-size: 30px;
+                vertical-align: middle;
+                opacity: 0.2;
+                animation: palpit 2.5s linear infinite ;
+                color: rgb(215, 169, 101);
+                &.hearth {
+                    animation-delay: 0.5s;
+                }
+                &.diamond {
+                    animation-delay: 1s;
+                }
+                &.club {
+                    animation-delay: 1.5s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes palpit {
+    0% {
+        color: rgb(215, 169, 101);
+        opacity: 0.2;
+    }
+    50% {
+        color: #47734d;
+        opacity: 1;
+    }
+    100% {
+        color: rgb(215, 169, 101);
+        opacity: 0.2;
     }
 }

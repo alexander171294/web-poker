@@ -22,7 +22,7 @@
             Chips Req.
         </div>
     </div>
-    <div class="row" *ngFor="let room of rooms" (click)="connect(room.server_ip)">
+    <div class="row" *ngFor="let room of rooms" (click)="connect(room)">
         <div class="col col-1">
             {{room.name}}
         </div>

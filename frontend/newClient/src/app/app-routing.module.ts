@@ -7,7 +7,7 @@ import { LobbyComponent } from './pages/lobby/lobby.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'lobby', component: LobbyComponent},
-  {path: 'room', loadChildren: () => import('./pages/room/room.module').then(mod => mod.RoomModule),},
+  {path: 'room/:id', loadChildren: () => import('./pages/room/room.module').then(mod => mod.RoomModule),},
   
   { path: '',
     redirectTo: '/login',

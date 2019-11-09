@@ -25,9 +25,9 @@ export class TableComponent implements OnInit {
     // }
   }
 
-  connect(serverIp: string) {
-    sessionStorage.setItem('server', serverIp);
-    this.router.navigate(['/room']);
+  connect(room: RoomResponse) {
+    sessionStorage.setItem('room-'+room.id_room, JSON.stringify(room));
+    this.router.navigate(['/room', room.id_room]);
   }
 
 }

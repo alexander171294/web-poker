@@ -41,6 +41,9 @@ public class EpprRoomAuth {
 	@Value("${act.room.RoomAuth.serverPublicIP}")
 	private String serverPublicIP;
 	
+	@Value("${server.port}")
+	private String serverPort;
+	
 	// TODO: finish logic of this (see eppr/room-auth::handshake) 
 	public Handshake getHandshakeSchema() {
 		Handshake handshake = new Handshake();
@@ -53,6 +56,7 @@ public class EpprRoomAuth {
 		handshake.description = description;
 		handshake.minCoinsForAccess = minCoinsForAccess;
 		handshake.serverPublicAP = (serverPublicIP == null) ? getMyLocalIP() : serverPublicIP;
+		handshake.serverPublicAP += ":"+serverPort;
 		return handshake;
 	}
 	

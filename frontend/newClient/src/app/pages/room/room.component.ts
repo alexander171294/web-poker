@@ -20,6 +20,8 @@ export class RoomComponent implements OnInit {
   public roomID: number;
   public roomData: RoomResponse;
   public connecting: string;
+  public popupDepositOpened: boolean;
+  public serverName: string;
 
   constructor(private route: ActivatedRoute,
               private ws: WsRoomService,
@@ -74,6 +76,9 @@ export class RoomComponent implements OnInit {
       if(data == 14) {
         this.connecting = 'You are banned in this room :(.'
       }
+      if(data == 15) {
+        this.popupDepositOpened = true;
+      }
     });
     this.connecting = 'Server connection.';
     this.room.connect(this.roomData.server_ip);
@@ -100,6 +105,12 @@ export class RoomComponent implements OnInit {
     dBlock.endpoint = '/user/backwardValidation';
     dBlock.prefix = '/stompApi';
     this.ws.sendMessage(dBlock);
+  }
+
+  doActionNav(event: string) {
+    if(event == 'deposit') {
+      this.popupDepositOpened = true;
+    }
   }
 
 }

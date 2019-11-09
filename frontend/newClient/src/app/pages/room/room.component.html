@@ -1,8 +1,9 @@
 <div class="tableMain">
-    <app-nav-bar></app-nav-bar>
+    <app-nav-bar (action)="doActionNav($event)" [serverName]="roomData.name" [description]="roomData.description"></app-nav-bar>
     <app-table-poker></app-table-poker>
     <app-chat-box></app-chat-box>
     <app-action-box></app-action-box>
 
     <app-connecting *ngIf="connecting" [detail]="connecting"></app-connecting>
+    <app-deposit *ngIf="popupDepositOpened" (deposit)="doDeposit($event)" (cancel)="popupDepositOpened = false"></app-deposit>
 </div>

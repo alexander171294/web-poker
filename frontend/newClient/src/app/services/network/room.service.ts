@@ -11,7 +11,7 @@ import { SelectPosition } from './epprProtocol/userAuth/SelectPosition';
 import { Deposit } from './epprProtocol/clientOperations/Deposit';
 import { DecisionInform } from './epprProtocol/game/DecisionInform';
 
-// last global connection event: 14
+// last global connection event: 15
 @Injectable({
   providedIn: 'root'
 })
@@ -256,6 +256,7 @@ export class RoomService {
 
   onDeposit(data) {
     this.terminal.in('Requesting deposit...', this.serviceName);
+    this.globalConnectionEvents.emit(15);
   }
 
   onRejectedPosition(data) {

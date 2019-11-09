@@ -14,6 +14,7 @@ import { RoomComponent } from './room.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { DepositComponent } from './deposit/deposit.component';
 import { ConnectingComponent } from './connecting/connecting.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '',  component: RoomComponent },
@@ -37,7 +38,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule
   ]
 })
 export class RoomModule { }

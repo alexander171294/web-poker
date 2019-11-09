@@ -2,13 +2,10 @@
     <header><h3>WEB</h3><h4>POKER</h4><span>Version: {{version}}</span></header>
     <button>Back to lobby</button>
     <label>
-        Server name here
+        {{serverName}}
     </label>
     <label class="secondary">
-        Small blind 25
+        {{description}}
     </label>
-    <label class="secondary">
-        Big blind 50
-    </label>
-    <button>Deposit Chips</button>
+    <button (click)="action.emit('deposit')">Deposit Chips</button>
 </nav>

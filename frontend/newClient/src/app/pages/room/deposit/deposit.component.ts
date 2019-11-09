@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-deposit',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./deposit.component.scss']
 })
 export class DepositComponent implements OnInit {
+
+  @Output() deposit: EventEmitter<number> = new EventEmitter<number>();
+  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
+  chips: number = 500;
 
   constructor() { }
 

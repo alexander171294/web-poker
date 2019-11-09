@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -7,6 +7,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
+
+  @Output() action: EventEmitter<string> = new EventEmitter<string>();
+  @Input() serverName: string;
+  @Input() description: string;
 
   public version = environment.version;
 

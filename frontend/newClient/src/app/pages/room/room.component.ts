@@ -41,7 +41,13 @@ export class RoomComponent implements OnInit {
   ngOnInit() {
     this.roomID = this.route.params['value'].id; // this.route.snapshot.queryParamMap.get('id');
     this.roomData = JSON.parse(sessionStorage.getItem('room-' + this.roomID));
+    this.room.globalConnectionEvents.subscribe(data => {
+      if(data == 2) { // connected
+        this.authorization(parseInt(localStorage.getItem('userID'),10));
+      }
+    });
     this.room.connect(this.roomData.server_ip);
+
     //console.log(this.roomData);
   }
 

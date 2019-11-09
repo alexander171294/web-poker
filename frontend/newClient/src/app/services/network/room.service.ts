@@ -18,10 +18,9 @@ export class RoomService {
 
   readonly serviceName = 'RoomServer'; 
   public actionButtonEvent: EventEmitter<number> = new EventEmitter<number>();
+  public globalConnectionEvents: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private ws: WsRoomService, private terminal: TerminalService) {
-
-  }
+  constructor(private ws: WsRoomService, private terminal: TerminalService) {}
 
   public connect(serverIP: string) {
 
@@ -33,34 +32,44 @@ export class RoomService {
           let prefix = '{';
           if(data.eventType == EventTypeWS.CONFIGURING) {
             prefix += 'Configuring';
+            this.globalConnectionEvents.emit(1);
           }
           if(data.eventType == EventTypeWS.CONNECTED) {
             prefix += 'Connected';
             this.subscriptions();
+            this.globalConnectionEvents.emit(2);
           }
           if(data.eventType == EventTypeWS.CONNECTING) {
             prefix += 'Connecting';
+            this.globalConnectionEvents.emit(3);
           }
           if(data.eventType == EventTypeWS.DISCONNECT) {
             prefix += 'Disconnect';
+            this.globalConnectionEvents.emit(4);
           }
           if(data.eventType == EventTypeWS.DISCONNECTED) {
             prefix += 'Disconnected';
+            this.globalConnectionEvents.emit(5);
           }
           if(data.eventType == EventTypeWS.ERROR) {
             prefix += 'Error';
+            this.globalConnectionEvents.emit(6);
           }
           if(data.eventType == EventTypeWS.FIRST_CONNECTION) {
             prefix += 'First Connection';
+            this.globalConnectionEvents.emit(7);
           }
           if(data.eventType == EventTypeWS.FULL_CONNECTION) {
             prefix += 'Full Connection';
+            this.globalConnectionEvents.emit(8);
           }
           if(data.eventType == EventTypeWS.MESSAGE) {
             prefix += 'Receiving';
+            this.globalConnectionEvents.emit(9);
           }
           if(data.eventType == EventTypeWS.SENDING) {
             prefix += 'Sending';
+            this.globalConnectionEvents.emit(10);
           }
           if(data.eventType == EventTypeWS.SUSCRIPTION) {
             prefix += 'Suscription';

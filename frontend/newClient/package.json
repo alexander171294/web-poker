@@ -19,7 +19,11 @@
     "@angular/platform-browser": "~8.2.9",
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
+    "crypto-js": "^3.1.9-1",
+    "ng2-stomp-service": "^1.2.2",
     "rxjs": "~6.4.0",
+    "sockjs-client": "^1.4.0",
+    "stompjs": "^2.3.3",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

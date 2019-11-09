@@ -45,6 +45,9 @@ export class RoomComponent implements OnInit {
       if(data == 2) { // connected
         this.authorization(parseInt(localStorage.getItem('userID'),10));
       }
+      if(data == 11) { // requesting claim token
+        console.error('Do a claim', this.room.authClaim, this.room.roomID);
+      }
     });
     this.room.connect(this.roomData.server_ip);
 

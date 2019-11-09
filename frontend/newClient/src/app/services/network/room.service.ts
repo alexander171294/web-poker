@@ -19,6 +19,9 @@ export class RoomService {
   readonly serviceName = 'RoomServer'; 
   public actionButtonEvent: EventEmitter<number> = new EventEmitter<number>();
   public globalConnectionEvents: EventEmitter<number> = new EventEmitter<number>();
+  public authClaim: string;
+  public roomID: number;
+
 
   constructor(private ws: WsRoomService, private terminal: TerminalService) {}
 
@@ -97,7 +100,10 @@ export class RoomService {
 
   onAuthorizationResponse(data: any) {
     console.log(data);
+    this.authClaim = data.claimToken;
+    this.roomID = data.roomID;
     this.terminal.in('Challenge Claim [' + data.claimToken + '] roomID: [' + data.roomID + ']', this.serviceName);
+    this.globalConnectionEvents.emit(11);
   }
 
   ingress(user: string, photo: string) {

@@ -3,130 +3,155 @@
 <div class="borderOut">
   <div class="restFrame">
 
-    <app-room-vcard style="top: -50px;left: 150px;"></app-room-vcard>
-    <div class="zone a value">
-      10
+    <app-room-vcard style="top: -50px;left: 150px;"
+      [image]="players[0].playerDetails.image"
+      [name]="players[0].playerDetails.name"
+      [chips]="players[0].playerDetails.chips"
+    ></app-room-vcard>
+    <div class="zone a value" *ngIf="players[0].actualBet > 0">
+      {{players[0].actualBet}}
     </div>
-    <div class="zone a">
-      <app-stacker valor="1"></app-stacker>
+    <div class="zone a" *ngIf="players[0].actualBet > 0">
+      <app-stacker [valor]="players[0].actualBet"></app-stacker>
     </div>
-    <div class="cardStack a">
-      <app-dual-stack [upsidedown]="true" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    <div class="cardStack a" *ngIf="players[0].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[0].upsidedown" [cards]="players[0].cards"></app-dual-stack>
     </div>
 
 
     <app-room-vcard style="top: -51px;left: 360px;"
-      image="https://www.google.com/s2/u/0/photos/public/AIbEiAIAAABECL_Ghp-b5dWTvQEiC3ZjYXJkX3Bob3RvKigzY2M2YWI1ZjgwMTI0NWI3NTdiMGM3Nzg0NTg2NmU1NDQwZjY1YjZmMAEKH2W8-j10E2_HwiZli252CzSxtA?sz=48"
-      name="Alexander1712"
-      chips="25.186"
+      [image]="players[1].playerDetails.image"
+      [name]="players[1].playerDetails.name"
+      [chips]="players[1].playerDetails.chips"
     ></app-room-vcard>
-    <div class="zone b value">
-      175
+    <div class="zone b value" *ngIf="players[1].actualBet > 0">
+      {{players[1].actualBet}}
     </div>
-    <div class="zone b">
-      <app-stacker valor="568"></app-stacker>
+    <div class="zone b" *ngIf="players[1].actualBet > 0">
+      <app-stacker [valor]="players[1].actualBet"></app-stacker>
     </div>
-    <div class="cardStack b">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    <div class="cardStack b" *ngIf="players[1].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[1].upsidedown" [cards]="players[1].cards"></app-dual-stack>
     </div>
 
     <app-room-vcard style="top: -48px;left: 570px;"
-      image="https://www.google.com/s2/u/0/photos/public/AIbEiAIAAABECL_Ghp-b5dWTvQEiC3ZjYXJkX3Bob3RvKigzY2M2YWI1ZjgwMTI0NWI3NTdiMGM3Nzg0NTg2NmU1NDQwZjY1YjZmMAEKH2W8-j10E2_HwiZli252CzSxtA?sz=48"
-      name="Mr D."
-      timeRest="30"
-      chips="25.840.965"
+      [image]="players[2].playerDetails.image"
+      [name]="players[2].playerDetails.name"
+      [chips]="players[2].playerDetails.chips"
     ></app-room-vcard>
-    <div class="zone c value">
-      25
+    <div class="zone c value" *ngIf="players[2].actualBet > 0">
+      {{players[2].actualBet}}
     </div>
-    <div class="zone c">
-      <app-stacker valor="25"></app-stacker>
+    <div class="zone c" *ngIf="players[2].actualBet > 0">
+      <app-stacker [valor]="players[2].actualBet"></app-stacker>
     </div>
-    <div class="cardStack c">
-      <app-dual-stack [upsidedown]="true" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
-    </div>
-
-    <app-room-vcard style="top: 80px;left: 740px;"></app-room-vcard>
-    <div class="zone d value">
-      50
-    </div>
-    <div class="zone d">
-      <app-stacker valor="50"></app-stacker>
-    </div>
-    <div class="cardStack d">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    <div class="cardStack c" *ngIf="players[2].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[2].upsidedown" [cards]="players[2].cards"></app-dual-stack>
     </div>
 
-    <app-room-vcard style="top: 284px;left: 740px;"></app-room-vcard>
-    <div class="zone e value">
-      100
+    <app-room-vcard style="top: 80px;left: 740px;"
+      [image]="players[3].playerDetails.image"
+      [name]="players[3].playerDetails.name"
+      [chips]="players[3].playerDetails.chips"
+    ></app-room-vcard>
+    <div class="zone d value" *ngIf="players[3].actualBet > 0">
+      {{players[3].actualBet}}
     </div>
-    <div class="zone e">
-      <app-stacker valor="100"></app-stacker>
+    <div class="zone d" *ngIf="players[3].actualBet > 0">
+      <app-stacker [valor]="players[3].actualBet"></app-stacker>
     </div>
-    <div class="cardStack e">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 9},{palo: 3, valor: 12}]"></app-dual-stack>
+    <div class="cardStack d" *ngIf="players[3].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[3].upsidedown" [cards]="players[3].cards"></app-dual-stack>
+    </div>
+
+    <app-room-vcard style="top: 284px;left: 740px;"
+      [image]="players[4].playerDetails.image"
+      [name]="players[4].playerDetails.name"
+      [chips]="players[4].playerDetails.chips"
+    ></app-room-vcard>
+    <div class="zone e value" *ngIf="players[4].actualBet > 0">
+      {{players[4].actualBet}}
+    </div>
+    <div class="zone e" *ngIf="players[4].actualBet > 0">
+      <app-stacker [valor]="players[4].actualBet"></app-stacker>
+    </div>
+    <div class="cardStack e" *ngIf="players[4].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[4].upsidedown" [cards]="players[4].cards"></app-dual-stack>
     </div>
 
     <app-room-vcard style="top: 413px;left: 570px;"
-      image="https://www.google.com/s2/u/0/photos/public/AIbEiAIAAABECL_Ghp-b5dWTvQEiC3ZjYXJkX3Bob3RvKigzY2M2YWI1ZjgwMTI0NWI3NTdiMGM3Nzg0NTg2NmU1NDQwZjY1YjZmMAEKH2W8-j10E2_HwiZli252CzSxtA?sz=48"
-      name="Harkonnen172"
-      chips="37.643"
+      [image]="players[5].playerDetails.image"
+      [name]="players[5].playerDetails.name"
+      [chips]="players[5].playerDetails.chips"
     ></app-room-vcard>
-    <div class="zone f value">
-      175
+    <div class="zone f value" *ngIf="players[5].actualBet > 0">
+      {{players[5].actualBet}}
     </div>
-    <div class="zone f">
-      <app-stacker valor="175"></app-stacker>
+    <div class="zone f" *ngIf="players[5].actualBet > 0">
+      <app-stacker [valor]="players[5].actualBet"></app-stacker>
     </div>
-    <div class="cardStack f">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    <div class="cardStack f" *ngIf="players[5].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[5].upsidedown" [cards]="players[5].cards"></app-dual-stack>
     </div>
 
-    <app-room-vcard
-      style="top: 416px;left: 360px;"
+    <app-room-vcard style="top: 416px;left: 360px;"
+      [image]="players[6].playerDetails.image"
+      [name]="players[6].playerDetails.name"
+      [chips]="players[6].playerDetails.chips"
     ></app-room-vcard>
-    <div class="zone g value">
-      15
+    <div class="zone g value" *ngIf="players[6].actualBet > 0">
+      {{players[6].actualBet}}
     </div>
-    <div class="zone g">
-      <app-stacker valor="15"></app-stacker>
+    <div class="zone g" *ngIf="players[6].actualBet > 0">
+      <app-stacker [valor]="players[6].actualBet"></app-stacker>
     </div>
-    <div class="cardStack g">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
-    </div>
-
-    <app-room-vcard style="top: 413px;left: 150px;"></app-room-vcard>
-    <div class="zone h value">
-      250
-    </div>
-    <div class="zone h">
-      <app-stacker valor="250"></app-stacker>
-    </div>
-    <div class="cardStack h">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 14},{palo: 3, valor: 10}]"></app-dual-stack>
+    <div class="cardStack g" *ngIf="players[6].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[6].upsidedown" [cards]="players[6].cards"></app-dual-stack>
     </div>
 
-    <app-room-vcard style="top: 284px;left: -25px;"></app-room-vcard>
-    <div class="zone i value">
-      500
+    <app-room-vcard style="top: 413px;left: 150px;"
+      [image]="players[7].playerDetails.image"
+      [name]="players[7].playerDetails.name"
+      [chips]="players[7].playerDetails.chips"
+    ></app-room-vcard>
+    <div class="zone h value" *ngIf="players[7].actualBet > 0">
+      {{players[7].actualBet}}
     </div>
-    <div class="zone i">
-      <app-stacker valor="500"></app-stacker>
+    <div class="zone h" *ngIf="players[7].actualBet > 0">
+      <app-stacker [valor]="players[7].actualBet"></app-stacker>
     </div>
-    <div class="cardStack i">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 13},{palo: 2, valor: 8}]"></app-dual-stack>
+    <div class="cardStack h" *ngIf="players[7].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[7].upsidedown" [cards]="players[7].cards"></app-dual-stack>
     </div>
 
-    <app-room-vcard style="top: 80px;left: -24px;"></app-room-vcard>
-    <div class="zone j value">
-      10500
+    <app-room-vcard style="top: 284px;left: -25px;"
+      [image]="players[8].playerDetails.image"
+      [name]="players[8].playerDetails.name"
+      [chips]="players[8].playerDetails.chips"
+    ></app-room-vcard>
+    <div class="zone i value" *ngIf="players[8].actualBet > 0">
+      {{players[8].actualBet}}
     </div>
-    <div class="zone j ">
-      <app-stacker valor="10500"></app-stacker>
+    <div class="zone i" *ngIf="players[8].actualBet > 0">
+      <app-stacker [valor]="players[8].actualBet"></app-stacker>
     </div>
-    <div class="cardStack j">
-      <app-dual-stack [upsidedown]="false" [cards]="[{palo: 1, valor: 2},{palo: 0, valor: 7}]"></app-dual-stack>
+    <div class="cardStack i" *ngIf="players[8].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[8].upsidedown" [cards]="players[8].cards"></app-dual-stack>
+    </div>
+
+    <app-room-vcard style="top: 80px;left: -24px;"
+      [image]="players[9].playerDetails.image"
+      [name]="players[9].playerDetails.name"
+      [chips]="players[9].playerDetails.chips"
+    ></app-room-vcard>
+    <div class="zone j value" *ngIf="players[9].actualBet > 0">
+      {{players[9].actualBet}}
+    </div>
+    <div class="zone j" *ngIf="players[9].actualBet > 0">
+      <app-stacker [valor]="players[9].actualBet"></app-stacker>
+    </div>
+    <div class="cardStack j" *ngIf="players[9].cards.length > 0">
+      <app-dual-stack [upsidedown]="players[9].upsidedown" [cards]="players[9].cards"></app-dual-stack>
     </div>
 
     <!-- <app-room-vcard style="top: -50px;left: 150px;"></app-room-vcard>

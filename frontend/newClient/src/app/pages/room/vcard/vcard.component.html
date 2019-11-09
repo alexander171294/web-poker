@@ -2,7 +2,7 @@
     <div class="timeA">
       <div class="internalRadius"></div>
     </div>
-    <div class="head">
+    <div class="head" [class.available]="!image">
       <span *ngIf="!image">Seat</span>
       <img [src]="image" *ngIf="image" />
       <div class="name" *ngIf="name">{{name}}</div>

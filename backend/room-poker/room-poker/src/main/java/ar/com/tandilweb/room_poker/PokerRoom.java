@@ -47,7 +47,7 @@ public class PokerRoom implements GameCtrlInt {
 			this.inGame = true;
 			// start game:
 			final StartGame startGame = new StartGame();
-			startGame.startIn = 5; // initial time
+			startGame.startIn = 60; // initial time
 			//final SessionHandlerInt _sessionHandler = sessionHandler;
 			final Timer timer = new Timer("StartGameTimmer");
 			TimerTask timeToStartGame = new TimerTask() {

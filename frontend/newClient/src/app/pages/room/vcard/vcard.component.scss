@@ -60,6 +60,9 @@
         line-height: 70px;
         color: rgba(255, 255, 255, 0.75);
         font-family: helvetica;
+        &.available {
+            cursor: pointer;
+        }
         img {
             width: 70px;
             height: 70px;

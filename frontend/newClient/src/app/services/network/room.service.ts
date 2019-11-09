@@ -1,16 +1,15 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { WsRoomService } from './room/ws-room.service';
 import { TerminalService } from './terminal.service';
-import { environment } from 'src/environments/environment';
-import { EventWS } from '../utils/EventWS';
-import { EventTypeWS } from '../utils/EventTypeWS';
-import { MessageDefinition } from '../utils/MessageDefinition';
-import { Authorization } from '../epprProtocol/userAuth/Authorization';
-import { BackwardValidation } from '../epprProtocol/userAuth/BackwardValidation';
-import { ChallengeActions } from '../epprProtocol/userAuth/types/ChallengeActions';
-import { SelectPosition } from '../epprProtocol/userAuth/SelectPosition';
-import { Deposit } from '../epprProtocol/clientOperations/Deposit';
-import { DecisionInform } from '../epprProtocol/game/DecisionInform';
+import { EventWS } from './utils/EventWS';
+import { EventTypeWS } from './utils/EventTypeWS';
+import { MessageDefinition } from './utils/MessageDefinition';
+import { Authorization } from './epprProtocol/userAuth/Authorization';
+import { BackwardValidation } from './epprProtocol/userAuth/BackwardValidation';
+import { ChallengeActions } from './epprProtocol/userAuth/types/ChallengeActions';
+import { SelectPosition } from './epprProtocol/userAuth/SelectPosition';
+import { Deposit } from './epprProtocol/clientOperations/Deposit';
+import { DecisionInform } from './epprProtocol/game/DecisionInform';
 
 @Injectable({
   providedIn: 'root'

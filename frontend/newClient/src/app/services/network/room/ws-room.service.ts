@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { WebSocketService } from 'src/app/utils/web-socket.service';
-import { StompService } from 'src/app/utils/stomp.service';
+import { WebSocketService } from '../utils/web-socket.service';
+import { StompService } from '../utils/stomp.service';
 
 @Injectable({
   providedIn: 'root'

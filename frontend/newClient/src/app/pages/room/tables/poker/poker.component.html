@@ -167,17 +167,13 @@
               </div>
               <div class="cardsZone">
                 <div class="cards">
-                  <app-card [upsidedown]="false" [palo]="1" [valor]="14"></app-card>
-                  <app-card [upsidedown]="false" [palo]="2" [valor]="11"></app-card>
-                  <app-card [upsidedown]="false" [palo]="3" [valor]="3"></app-card>
-                  <app-card [upsidedown]="true" [palo]="3" [valor]="3"></app-card>
-                  <app-card [upsidedown]="true" [palo]="3" [valor]="3"></app-card>
+                  <app-card *ngFor="let card of tableCards" [upsidedown]="card !== null" [palo]="card.palo" [valor]="card.valor"></app-card>
                 </div>
-                <label class="pot">Pot: 3800</label>
-                <div class="potChips">
-                  <app-stacker valor="3800"></app-stacker>
+                <label class="pot" *ngIf="pot > 0">Pot: {{pot}}</label>
+                <div class="potChips" *ngIf="pot > 0">
+                  <app-stacker valor="pot"></app-stacker>
                 </div>
-                <div class="deck">
+                <div class="deck" *ngIf="dealed">
                   <app-deck></app-deck>
                 </div>
               </div>

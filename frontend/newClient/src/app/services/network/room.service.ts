@@ -11,6 +11,7 @@ import { SelectPosition } from './epprProtocol/userAuth/SelectPosition';
 import { Deposit } from './epprProtocol/clientOperations/Deposit';
 import { DecisionInform } from './epprProtocol/game/DecisionInform';
 
+// last global connection event: 14
 @Injectable({
   providedIn: 'root'
 })
@@ -266,12 +267,15 @@ export class RoomService {
     console.log('DR AutValidated', dataResponse);
     if (dataResponse.schema == 'validated') {
       this.terminal.in('Validated :) Schema', this.serviceName);
+      this.globalConnectionEvents.emit(12);
     }
     if (dataResponse.schem == 'badRequest') {
       this.terminal.in('Bad request schema', this.serviceName);
+      this.globalConnectionEvents.emit(13);
     }
     if (dataResponse.schem == 'fullRejected') {
       this.terminal.in('Full rejected (Banned) Schema', this.serviceName);
+      this.globalConnectionEvents.emit(14);
     }
   }
 

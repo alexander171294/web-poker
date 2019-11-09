@@ -19,6 +19,7 @@ export class RoomComponent implements OnInit {
 
   public roomID: number;
   public roomData: RoomResponse;
+  public connecting: string;
 
   constructor(private route: ActivatedRoute,
               private ws: WsRoomService,
@@ -47,11 +48,14 @@ export class RoomComponent implements OnInit {
     this.roomData = JSON.parse(sessionStorage.getItem('room-' + this.roomID));
     this.room.globalConnectionEvents.subscribe(data => {
       if(data == 2) { // connected
+        this.connecting = 'Authorization request.';
         this.authorization(parseInt(localStorage.getItem('userID'),10));
       }
       if(data == 11) { // requesting claim token
+        this.connecting = 'Challenge initialized.';
         this.lobby.challenge(this.room.roomID, this.room.authClaim).subscribe(resp => {
           if(resp.operationSuccess) {
+            this.connecting = 'Last validation.';
             console.log('Backward validation for challenge: ', resp.challengeID);
             this.backwardValidation(resp.challengeID, false);
           } else {
@@ -61,7 +65,17 @@ export class RoomComponent implements OnInit {
           // TODO: trigger error popup.
         });
       }
+      if(data == 12) { // Autenticado
+        this.connecting = undefined;
+      }
+      if(data == 13) {
+        this.connecting = 'An error occurred, please re-login.'
+      }
+      if(data == 14) {
+        this.connecting = 'You are banned in this room :(.'
+      }
     });
+    this.connecting = 'Server connection.';
     this.room.connect(this.roomData.server_ip);
   }
 

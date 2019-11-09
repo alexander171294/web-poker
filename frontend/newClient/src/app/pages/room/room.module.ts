@@ -12,6 +12,8 @@ import { StackerComponent } from './chips/stacker/stacker.component';
 import { RouterModule, Routes } from '@angular/router';
 import { RoomComponent } from './room.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { ConnectingComponent } from './connecting/connecting.component';
 
 const routes: Routes = [
   { path: '',  component: RoomComponent },
@@ -29,7 +31,9 @@ const routes: Routes = [
     CardComponent,
     ChipsComponent,
     StackerComponent,
-    NavBarComponent
+    NavBarComponent,
+    DepositComponent,
+    ConnectingComponent
   ],
   imports: [
     CommonModule,

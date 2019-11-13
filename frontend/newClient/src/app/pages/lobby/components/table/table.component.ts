@@ -31,7 +31,7 @@ export class TableComponent implements OnInit {
   }
 
   
-
+//Game tabs selector
   tab : number = 1;
     onClick(check){
     //console.log(check);       

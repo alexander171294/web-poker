@@ -32,32 +32,10 @@ export class TableComponent implements OnInit {
 
   
 
-  tab : any = 'tab1';
-  Clicked : boolean;
-
+  tab : number = 1;
     onClick(check){
-    //    console.log(check);
-        if(check==1){
-          this.tab = 'tab1';
-        }else if(check==2){
-          this.tab = 'tab2';
-        }else{
-          this.tab = 'tab3';
-        }    
-      
+    //console.log(check);       
+     this.tab = check;     
     }
-
-   onSwitch(check){
- 
-     switch (check) {
-      case 1:
-        return 'tab1';
-      case 2:
-        return 'tab2';
-      case 3:
-        return 'tab3';
-    }
-  }
-
 
 }

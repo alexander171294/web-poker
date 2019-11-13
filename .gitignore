@@ -78,6 +78,3 @@ local.properties
 .scala_dependencies
 .worksheet
 
-#Classpath
-backend/persistence/.classpath 
-backend/room-int/.classpath

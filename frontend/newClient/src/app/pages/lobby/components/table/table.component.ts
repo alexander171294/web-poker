@@ -30,4 +30,12 @@ export class TableComponent implements OnInit {
     this.router.navigate(['/room', room.id_room]);
   }
 
+  
+
+  tab : number = 1;
+    onClick(check){
+    //console.log(check);       
+     this.tab = check;     
+    }
+
 }

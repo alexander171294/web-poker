@@ -30,4 +30,34 @@ export class TableComponent implements OnInit {
     this.router.navigate(['/room', room.id_room]);
   }
 
+  
+
+  tab : any = 'tab1';
+  Clicked : boolean;
+
+    onClick(check){
+    //    console.log(check);
+        if(check==1){
+          this.tab = 'tab1';
+        }else if(check==2){
+          this.tab = 'tab2';
+        }else{
+          this.tab = 'tab3';
+        }    
+      
+    }
+
+   onSwitch(check){
+ 
+     switch (check) {
+      case 1:
+        return 'tab1';
+      case 2:
+        return 'tab2';
+      case 3:
+        return 'tab3';
+    }
+  }
+
+
 }

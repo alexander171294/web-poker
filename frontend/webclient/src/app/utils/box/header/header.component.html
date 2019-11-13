@@ -1,9 +1,0 @@
-<header>
-  WEB POKER <span class="version">{{version}}</span>
-  <div class="rightArea">
-    <i class="fas fa-bell disabled" *ngIf="isLogged"></i>
-    <i class="fas fa-address-card disabled" *ngIf="isLogged"></i>
-    <i class="fas fa-question-circle" (click)="info.emit()"></i>
-    <button (click)="logout()" *ngIf="isLogged">Logout</button>
-  </div>
-</header>

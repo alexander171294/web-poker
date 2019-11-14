@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   public signupForm: boolean = false;
   public logining: boolean = false;
   public signing: boolean = false;
+  public errorLogin: boolean = false;
+  public errorRegister: boolean = false;
 
   public nick: string;
   public password: string;
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(e) {
+    this.errorLogin = false;
     this.logining = true;
     const data = new LoginRequest();
     data.umail = this.nick;
@@ -56,14 +59,17 @@ export class LoginComponent implements OnInit {
       this.logining = false;
       
     }, err => {
-      alert('ocurrió un error');
+      //alert('ocurrió un error');
       console.log(err);
       this.logining = false;
+      this.errorLogin = true;
+
     });
     e.preventDefault();
   }
 
   doSignup(e) {
+    this.errorRegister = false;
     this.signing = true;
     const data = new SignupRequest();
     data.nick_name = this.nick;
@@ -80,7 +86,8 @@ export class LoginComponent implements OnInit {
       }
       this.signing = false;
     }, err => {
-      alert('ocurrió un error');
+      //alert('ocurrió un error');
+      this.errorRegister = true;
       console.log(err);
       this.signing = false;
     });

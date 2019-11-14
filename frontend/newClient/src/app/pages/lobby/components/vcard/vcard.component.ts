@@ -6,7 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./vcard.component.scss']
 })
 export class VcardComponent implements OnInit {
-
   @Input() status: string = '';
   @Input() spectateButton: boolean;
   @Input() statusColor;
@@ -16,6 +15,7 @@ export class VcardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

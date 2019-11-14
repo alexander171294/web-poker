@@ -16,8 +16,13 @@
                 </div>
                 <div class="lastPart">
                     <a href="#">Forgot your password?</a>
+
+                   
+
                     <button (click)="doLogin($event)" [class.spinner]="logining">Login</button>
+                    
                 </div>
+                <p *ngIf="errorLogin" >Invalid Username/Password</p>
             </form>
             
         </div>
@@ -39,6 +44,7 @@
                 <div class="lastPart">
                     <button (click)="doSignup($event)" [class.spinner]="signing">Signup</button>
                 </div>
+                <p *ngIf="errorRegister">Nickname/Mail in use,or weak Password/p>
             </form>
         </div>
         <div class="cut"></div>

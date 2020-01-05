@@ -45,4 +45,20 @@ export class ActionBoxComponent implements OnInit {
     this.isMyTurn = false;
   }
 
+  call(quantity: number) {
+    this.room.bridge('call');
+  }
+
+  check() {
+    this.room.bridge('check');
+  }
+
+  fold() {
+    this.room.bridge('fold');
+  }
+
+  raise(quantity: number) {
+    this.room.bridge('raise', quantity);
+  }
+
 }

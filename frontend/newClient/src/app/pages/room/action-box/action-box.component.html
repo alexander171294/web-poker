@@ -9,9 +9,9 @@
     </div>
   </div>
   <div class="buttonBox">
-    <button>Call {{toCall}}</button>
-    <button class="blue">Rise {{actualRaise}}</button>
-    <button class="info" *ngIf="canCheck">Check</button>
-    <button class="warning">Fold</button>
+    <button (click)="call(toCall)">Call {{toCall}}</button>
+    <button class="blue" (click)="raise(actualRaise)">Rise {{actualRaise}}</button>
+    <button class="info" (click)="check()" *ngIf="canCheck">Check</button>
+    <button class="warning" (click)="fold()">Fold</button>
   </div>
 </div>

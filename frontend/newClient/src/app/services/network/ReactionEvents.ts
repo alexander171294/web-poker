@@ -15,6 +15,7 @@ export enum RxEType {
   ROUND_START,
   BLINDS,
   CARD_DIST,
-  ME_CARD_DIST
+  ME_CARD_DIST,
+  WAITING_FOR
 }
 

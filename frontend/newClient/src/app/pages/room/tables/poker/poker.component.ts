@@ -16,9 +16,9 @@ export class PokerComponent implements OnInit {
 
   public players: PlayerSnapshot[];
 
-  private tableCards: Card[];
-  private pot: number;
-  private dealed: boolean;
+  public tableCards: Card[];
+  public pot: number;
+  public dealed: boolean;
 
   public info: string;
 
@@ -43,16 +43,32 @@ export class PokerComponent implements OnInit {
         this.info = 'Game start in ' + evt.data + (evt.data !== 1 ? ' seconds' : ' second');
       }
       if (evt.type === RxEType.ROUND_START) {
-
+        this.info = undefined; // removing info box
       }
       if (evt.type === RxEType.BLINDS) {
-
+        this.pot = evt.data.sbChips + evt.data.bbChips;
+        this.players[evt.data.sbPosition].playerDetails.chips -= evt.data.sbChips;
+        this.players[evt.data.bbPosition].playerDetails.chips -= evt.data.bbChips;
+        this.players[evt.data.sbPosition].actualBet = evt.data.sbChips;
+        this.players[evt.data.bbPosition].actualBet = evt.data.bbChips;
+        this.dealed = true;
       }
       if (evt.type === RxEType.CARD_DIST) {
-
+        if (evt.data.position !== 1) {
+          this.players[evt.data.position].upsidedown = true;
+          this.players[evt.data.position].cards = evt.data.cards;
+        }
       }
       if (evt.type === RxEType.ME_CARD_DIST) {
-
+        this.players[evt.data.position].upsidedown = false;
+        this.players[evt.data.position].cards = evt.data.cards;
+      }
+      if (evt.type === RxEType.WAITING_FOR) {
+        // data.position+' for: '+data.remainingTime
+        if (this.tableCards.length === 0) {
+          this.tableCards = [null, null, null, null, null];
+        }
+        this.players[evt.data.position].timeRest = evt.data.remainingTime;
       }
     });
   }

@@ -57,6 +57,11 @@ export class ChatBoxComponent implements OnInit {
       // if (evt.type === RxEType.ME_CARD_DIST) {
 
       // }
+      // TODO: improve this ugly code:
+      setTimeout(() => {
+        const cbl = document.getElementById('chatBoxList');
+        cbl.scrollTop = cbl.scrollHeight;
+      }, 100);
     });
   }
 

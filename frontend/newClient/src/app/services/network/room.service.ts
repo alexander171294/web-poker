@@ -240,6 +240,7 @@ export class RoomService {
 
   onActionFor(data) {
     this.terminal.log('Waiting '+data.position+' for: '+data.remainingTime+' seconds');
+    this.reactionEvent.emit(new ReactionEvents(RxEType.WAITING_FOR, data));
   }
 
   onBetDecision(data) {

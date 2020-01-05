@@ -5,6 +5,7 @@ export class PlayerSnapshot {
     public actualBet: number;
     public cards: Card[];
     public upsidedown: boolean;
+    public timeRest?: number;
 
     public constructor() {
         this.playerDetails = new PlayerDetails();
@@ -17,5 +18,5 @@ export class PlayerSnapshot {
 export class PlayerDetails {
     public image: string;
     public name: string;
-    public chips: string;
+    public chips: number;
 }

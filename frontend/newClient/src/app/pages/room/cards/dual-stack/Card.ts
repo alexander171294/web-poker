@@ -1,4 +1,4 @@
 export class Card {
-  public palo: number;
-  public valor: number;
+  public suit: number;
+  public value: number;
 }

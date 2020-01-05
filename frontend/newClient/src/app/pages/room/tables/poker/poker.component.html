@@ -7,6 +7,8 @@
       [image]="players[0].playerDetails.image"
       [name]="players[0].playerDetails.name"
       [chips]="players[0].playerDetails.chips"
+      [timeRest]="players[0].timeRest"
+      (click)="trySeat(0)"
     ></app-room-vcard>
     <div class="zone a value" *ngIf="players[0].actualBet > 0">
       {{players[0].actualBet}}
@@ -23,6 +25,7 @@
       [image]="players[1].playerDetails.image"
       [name]="players[1].playerDetails.name"
       [chips]="players[1].playerDetails.chips"
+      [timeRest]="players[1].timeRest"
       (click)="trySeat(1)"
     ></app-room-vcard>
     <div class="zone b value" *ngIf="players[1].actualBet > 0">
@@ -39,6 +42,7 @@
       [image]="players[2].playerDetails.image"
       [name]="players[2].playerDetails.name"
       [chips]="players[2].playerDetails.chips"
+      [timeRest]="players[2].timeRest"
       (click)="trySeat(2)"
     ></app-room-vcard>
     <div class="zone c value" *ngIf="players[2].actualBet > 0">
@@ -55,6 +59,7 @@
       [image]="players[3].playerDetails.image"
       [name]="players[3].playerDetails.name"
       [chips]="players[3].playerDetails.chips"
+      [timeRest]="players[3].timeRest"
       (click)="trySeat(3)"
     ></app-room-vcard>
     <div class="zone d value" *ngIf="players[3].actualBet > 0">
@@ -71,6 +76,7 @@
       [image]="players[4].playerDetails.image"
       [name]="players[4].playerDetails.name"
       [chips]="players[4].playerDetails.chips"
+      [timeRest]="players[4].timeRest"
       (click)="trySeat(4)"
     ></app-room-vcard>
     <div class="zone e value" *ngIf="players[4].actualBet > 0">
@@ -87,6 +93,7 @@
       [image]="players[5].playerDetails.image"
       [name]="players[5].playerDetails.name"
       [chips]="players[5].playerDetails.chips"
+      [timeRest]="players[5].timeRest"
       (click)="trySeat(5)"
     ></app-room-vcard>
     <div class="zone f value" *ngIf="players[5].actualBet > 0">
@@ -103,6 +110,7 @@
       [image]="players[6].playerDetails.image"
       [name]="players[6].playerDetails.name"
       [chips]="players[6].playerDetails.chips"
+      [timeRest]="players[6].timeRest"
       (click)="trySeat(6)"
     ></app-room-vcard>
     <div class="zone g value" *ngIf="players[6].actualBet > 0">
@@ -119,6 +127,7 @@
       [image]="players[7].playerDetails.image"
       [name]="players[7].playerDetails.name"
       [chips]="players[7].playerDetails.chips"
+      [timeRest]="players[7].timeRest"
       (click)="trySeat(7)"
     ></app-room-vcard>
     <div class="zone h value" *ngIf="players[7].actualBet > 0">
@@ -135,6 +144,7 @@
       [image]="players[8].playerDetails.image"
       [name]="players[8].playerDetails.name"
       [chips]="players[8].playerDetails.chips"
+      [timeRest]="players[8].timeRest"
       (click)="trySeat(8)"
     ></app-room-vcard>
     <div class="zone i value" *ngIf="players[8].actualBet > 0">
@@ -151,6 +161,7 @@
       [image]="players[9].playerDetails.image"
       [name]="players[9].playerDetails.name"
       [chips]="players[9].playerDetails.chips"
+      [timeRest]="players[9].timeRest"
       (click)="trySeat(9)"
     ></app-room-vcard>
     <div class="zone j value" *ngIf="players[9].actualBet > 0">
@@ -179,7 +190,7 @@
               </div>
               <div class="cardsZone">
                 <div class="cards">
-                  <app-card *ngFor="let card of tableCards" [upsidedown]="card !== null" [palo]="card.palo" [valor]="card.valor"></app-card>
+                  <app-card *ngFor="let card of tableCards" [upsidedown]="card === null" [palo]="card ? card.suit : 0" [valor]="card ? card.value : 0"></app-card>
                 </div>
                 <label class="pot" *ngIf="pot > 0">Pot: {{pot}}</label>
                 <div class="potChips" *ngIf="pot > 0">

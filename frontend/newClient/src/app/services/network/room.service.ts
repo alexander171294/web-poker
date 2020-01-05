@@ -247,6 +247,7 @@ export class RoomService {
   onBetDecision(data) {
     this.terminal.info('BetDecision: To Call: '+data.toCall+' can check? ' + (data.canCheck ? '[Yes]' : '{No}') + ' Raise >' + data.minRaise + ' and <' + data.maxRaise);
     this.actionButtonEvent.emit(data.toCall);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.BET_DECISION, data));
   }
 
   onRejectFullyfied(data) {

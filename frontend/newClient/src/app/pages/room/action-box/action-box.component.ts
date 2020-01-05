@@ -12,6 +12,12 @@ export class ActionBoxComponent implements OnInit {
   isMyTurn: boolean;
   private myPosition = 0;
 
+  public actualRaise: number;
+  public minRaise: number;
+  public maxRaise: number;
+  public toCall: number;
+  public canCheck: boolean;
+
   constructor(private room: RoomService) { }
 
   ngOnInit() {
@@ -26,6 +32,14 @@ export class ActionBoxComponent implements OnInit {
         } else {
           this.isMyTurn = false;
         }
+      }
+      if (evt.type === RxEType.BET_DECISION) {
+        // data.toCall+' can check? ' + (data.canCheck ? '[Yes]' : '{No}') + ' Raise >' + data.minRaise + ' and <' + data.maxRaise
+        this.minRaise = evt.data.minRaise;
+        this.maxRaise = evt.data.maxRaise;
+        this.actualRaise = evt.data.minRaise;
+        this.canCheck = evt.data.canCheck;
+        this.toCall = evt.data.toCall;
       }
     });
     this.isMyTurn = false;

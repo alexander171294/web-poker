@@ -1,6 +1,6 @@
-<div class="actionBox" [class.active]="isMyTurn">
+<div class="actionBox" *ngIf="isMyTurn">
   <div class="barBox">
-    <input type="text" class="potInput" value="200"/>
+    <input type="text" class="potInput" [(ngModel)]="actualRaise"/>
     <div class="path">
       <div class="startBubble"></div>
       <div class="coloredPath"></div>
@@ -9,9 +9,9 @@
     </div>
   </div>
   <div class="buttonBox">
-    <button>Call 200</button>
-    <button class="blue">Rise 600</button>
-    <button class="info">Check</button>
+    <button>Call {{toCall}}</button>
+    <button class="blue">Rise {{actualRaise}}</button>
+    <button class="info" *ngIf="canCheck">Check</button>
     <button class="warning">Fold</button>
   </div>
 </div>

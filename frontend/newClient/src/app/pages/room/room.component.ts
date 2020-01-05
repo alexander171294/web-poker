@@ -9,6 +9,7 @@ import { MessageDefinition } from 'src/app/services/network/utils/MessageDefinit
 import { LobbyService } from 'src/app/services/lobby.service';
 import { BackwardValidation } from 'src/app/services/network/epprProtocol/userAuth/BackwardValidation';
 import { ChallengeActions } from 'src/app/services/network/epprProtocol/userAuth/types/ChallengeActions';
+import { Deposit } from 'src/app/services/network/epprProtocol/clientOperations/Deposit';
 
 @Component({
   selector: 'app-room',
@@ -22,6 +23,8 @@ export class RoomComponent implements OnInit {
   public connecting: string;
   public popupDepositOpened: boolean;
   public serverName: string;
+  public isDeposit = false;
+  public depositQuantity: number;
 
   constructor(private route: ActivatedRoute,
               private ws: WsRoomService,
@@ -29,19 +32,19 @@ export class RoomComponent implements OnInit {
               private terminal: TerminalService,
               private lobby: LobbyService) {
     terminal.event.subscribe(data => {
-      console.log('[]> '+data);
+      console.log('[]> ' + data);
     });
     terminal.errorEvent.subscribe(data => {
-      console.error('[]> '+data);
+      console.error('[]> ' + data);
     });
     terminal.infoEvent.subscribe(data => {
-      console.warn('[]> '+data);
+      console.warn('[]> ' + data);
     });
     terminal.noteEvent.subscribe(data => {
-      console.log('!!! '+data);
+      console.log('!!! ' + data);
     });
     terminal.debugEvents.subscribe(data => {
-      console.log('------------------> '+data);
+      console.log('------------------> ' + data);
     });
   }
 
@@ -49,34 +52,42 @@ export class RoomComponent implements OnInit {
     this.roomID = this.route.params['value'].id; // this.route.snapshot.queryParamMap.get('id');
     this.roomData = JSON.parse(sessionStorage.getItem('room-' + this.roomID));
     this.room.globalConnectionEvents.subscribe(data => {
-      if(data == 2) { // connected
+      if (data === 2) { // connected
         this.connecting = 'Authorization request.';
         this.authorization(parseInt(localStorage.getItem('userID'),10));
       }
-      if(data == 11) { // requesting claim token
+      if (data === 11) { // requesting claim token
         this.connecting = 'Challenge initialized.';
-        this.lobby.challenge(this.room.roomID, this.room.authClaim).subscribe(resp => {
-          if(resp.operationSuccess) {
+        let obsrv = null;
+        if (this.isDeposit) {
+          obsrv = this.lobby.challengeD(this.room.roomID, this.room.authClaim, this.depositQuantity);
+        } else {
+          obsrv = this.lobby.challenge(this.room.roomID, this.room.authClaim);
+        }
+        obsrv.subscribe(resp => {
+          if (resp.operationSuccess) {
             this.connecting = 'Last validation.';
             console.log('Backward validation for challenge: ', resp.challengeID);
-            this.backwardValidation(resp.challengeID, false);
+            this.backwardValidation(resp.challengeID, this.isDeposit);
           } else {
             // TODO: trigger error popup.
+            this.connecting = 'An error occurred, please re-login.';
           }
         }, err => {
           // TODO: trigger error popup.
+          this.connecting = 'An error occurred, please re-login.';
         });
       }
-      if(data == 12) { // Autenticado
+      if (data === 12) { // Autenticado
         this.connecting = undefined;
       }
-      if(data == 13) {
-        this.connecting = 'An error occurred, please re-login.'
+      if (data === 13) {
+        this.connecting = 'An error occurred, please re-login.';
       }
-      if(data == 14) {
-        this.connecting = 'You are banned in this room :(.'
+      if (data === 14) {
+        this.connecting = 'You are banned in this room :(.';
       }
-      if(data == 15) {
+      if (data === 15) {
         this.popupDepositOpened = true;
       }
     });
@@ -85,7 +96,7 @@ export class RoomComponent implements OnInit {
   }
 
   private authorization(userID: number) {
-    console.log('AUTHORIZING USER ', userID);
+    console.warn('AUTHORIZING USER ', userID);
     const auth = new Authorization();
     auth.userID = userID;
     const dBlock = new MessageDefinition();
@@ -96,7 +107,7 @@ export class RoomComponent implements OnInit {
   }
 
   private backwardValidation(challengeID: number, deposit: boolean) {
-    console.log('BACKWARD VALIDATION');
+    console.warn('BACKWARD VALIDATION');
     const bV = new BackwardValidation();
     bV.action = deposit ? ChallengeActions.DEPOSIT : ChallengeActions.LOGIN;
     bV.idChallenge = challengeID;
@@ -108,9 +119,22 @@ export class RoomComponent implements OnInit {
   }
 
   doActionNav(event: string) {
-    if(event == 'deposit') {
+    if (event === 'deposit') {
       this.popupDepositOpened = true;
     }
+  }
+
+  doDeposit(quantity: number) {
+    console.warn('Depositing...');
+    this.isDeposit = true;
+    this.depositQuantity = quantity;
+    const deposit = new Deposit();
+    deposit.chips = quantity;
+    const dBlock = new MessageDefinition();
+    dBlock.data = deposit;
+    dBlock.endpoint = '/user/deposit';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
   }
 
 }

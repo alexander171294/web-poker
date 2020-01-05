@@ -10,6 +10,7 @@ import { ChallengeActions } from './epprProtocol/userAuth/types/ChallengeActions
 import { SelectPosition } from './epprProtocol/userAuth/SelectPosition';
 import { Deposit } from './epprProtocol/clientOperations/Deposit';
 import { DecisionInform } from './epprProtocol/game/DecisionInform';
+import { ReactionEvents, RxEType } from './ReactionEvents';
 
 // last global connection event: 15
 @Injectable({
@@ -17,9 +18,10 @@ import { DecisionInform } from './epprProtocol/game/DecisionInform';
 })
 export class RoomService {
 
-  readonly serviceName = 'RoomServer'; 
+  readonly serviceName = 'RoomServer';
   public actionButtonEvent: EventEmitter<number> = new EventEmitter<number>();
   public globalConnectionEvents: EventEmitter<number> = new EventEmitter<number>();
+  public reactionEvent: EventEmitter<ReactionEvents> = new EventEmitter<ReactionEvents>();
   public authClaim: string;
   public roomID: number;
 
@@ -85,7 +87,7 @@ export class RoomService {
       this.ws.connect(res[1], res[2]);
     } else {
       this.terminal.err('Room server ip doesn\'t match with the regex: /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]+)/');
-    } 
+    }
   }
 
   authorization(userID: number) {
@@ -110,7 +112,7 @@ export class RoomService {
   ingress(user: string, photo: string) {
     this.terminal.info('Ingress ['+user+']');
     //const dBlock = new MessageDefinition();
-    
+
   }
 
   deposit(chips: number) {
@@ -248,6 +250,7 @@ export class RoomService {
 
   onSuccessDeposit(data) {
     this.terminal.info('Success deposit: ' + data.chips);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.DEPOSIT_SUCCESS, {}));
   }
 
   onInvalidDeposit(data) {

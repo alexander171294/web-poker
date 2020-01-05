@@ -1,0 +1,1 @@
+- En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.

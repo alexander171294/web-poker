@@ -9,6 +9,12 @@ export class ReactionEvents {
 }
 
 export enum RxEType {
-  DEPOSIT_SUCCESS
+  DEPOSIT_SUCCESS,
+  START_IN,
+  ANNOUNCEMENT,
+  ROUND_START,
+  BLINDS,
+  CARD_DIST,
+  ME_CARD_DIST
 }
 

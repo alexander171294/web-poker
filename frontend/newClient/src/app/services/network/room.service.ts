@@ -11,6 +11,7 @@ import { SelectPosition } from './epprProtocol/userAuth/SelectPosition';
 import { Deposit } from './epprProtocol/clientOperations/Deposit';
 import { DecisionInform } from './epprProtocol/game/DecisionInform';
 import { ReactionEvents, RxEType } from './ReactionEvents';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // last global connection event: 15
 @Injectable({
@@ -208,27 +209,33 @@ export class RoomService {
 
   onAnnouncement(data) {
     this.terminal.in('Announcement: Pos['+data.position+'] user['+data.user+'] chips['+data.chips+'] avatar['+data.avatar+']', this.serviceName);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.ANNOUNCEMENT, data));
   }
 
   onStartGame(data) {
     this.terminal.info('Start game in: ' + data.startIn + ' secs');
+    this.reactionEvent.emit(new ReactionEvents(RxEType.START_IN, data.startIn));
   }
 
   onRoundStart(data) {
     this.terminal.info('Starting round, Dealer: ' + data.dealerPosition + ' Round number: ' + data.roundNumber);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.ROUND_START, data));
   }
 
   onBlind(data) {
     this.terminal.info('Small blind: {pos:' + data.sbPosition + ' $'+ data.sbChips + '} Big blind: {pos: ' + data.bbPosition + ' $'+data.bbChips+'}');
+    this.reactionEvent.emit(new ReactionEvents(RxEType.BLINDS, data));
   }
 
   onCardsDist(data) {
     const cards = data.cards[1] ? '[][]' : '[]';
-    this.terminal.log('Cards for ' + data.position + ' - ' + cards)
+    this.terminal.log('Cards for ' + data.position + ' - ' + cards);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.CARD_DIST, data));
   }
 
   onICardsDist(data) {
     this.terminal.info('Cards for you ' + JSON.stringify(data.cards));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.ME_CARD_DIST, data));
   }
 
   onActionFor(data) {

@@ -23,6 +23,7 @@
       [image]="players[1].playerDetails.image"
       [name]="players[1].playerDetails.name"
       [chips]="players[1].playerDetails.chips"
+      (click)="trySeat(1)"
     ></app-room-vcard>
     <div class="zone b value" *ngIf="players[1].actualBet > 0">
       {{players[1].actualBet}}
@@ -38,6 +39,7 @@
       [image]="players[2].playerDetails.image"
       [name]="players[2].playerDetails.name"
       [chips]="players[2].playerDetails.chips"
+      (click)="trySeat(2)"
     ></app-room-vcard>
     <div class="zone c value" *ngIf="players[2].actualBet > 0">
       {{players[2].actualBet}}
@@ -53,6 +55,7 @@
       [image]="players[3].playerDetails.image"
       [name]="players[3].playerDetails.name"
       [chips]="players[3].playerDetails.chips"
+      (click)="trySeat(3)"
     ></app-room-vcard>
     <div class="zone d value" *ngIf="players[3].actualBet > 0">
       {{players[3].actualBet}}
@@ -68,6 +71,7 @@
       [image]="players[4].playerDetails.image"
       [name]="players[4].playerDetails.name"
       [chips]="players[4].playerDetails.chips"
+      (click)="trySeat(4)"
     ></app-room-vcard>
     <div class="zone e value" *ngIf="players[4].actualBet > 0">
       {{players[4].actualBet}}
@@ -83,6 +87,7 @@
       [image]="players[5].playerDetails.image"
       [name]="players[5].playerDetails.name"
       [chips]="players[5].playerDetails.chips"
+      (click)="trySeat(5)"
     ></app-room-vcard>
     <div class="zone f value" *ngIf="players[5].actualBet > 0">
       {{players[5].actualBet}}
@@ -98,6 +103,7 @@
       [image]="players[6].playerDetails.image"
       [name]="players[6].playerDetails.name"
       [chips]="players[6].playerDetails.chips"
+      (click)="trySeat(6)"
     ></app-room-vcard>
     <div class="zone g value" *ngIf="players[6].actualBet > 0">
       {{players[6].actualBet}}
@@ -113,6 +119,7 @@
       [image]="players[7].playerDetails.image"
       [name]="players[7].playerDetails.name"
       [chips]="players[7].playerDetails.chips"
+      (click)="trySeat(7)"
     ></app-room-vcard>
     <div class="zone h value" *ngIf="players[7].actualBet > 0">
       {{players[7].actualBet}}
@@ -128,6 +135,7 @@
       [image]="players[8].playerDetails.image"
       [name]="players[8].playerDetails.name"
       [chips]="players[8].playerDetails.chips"
+      (click)="trySeat(8)"
     ></app-room-vcard>
     <div class="zone i value" *ngIf="players[8].actualBet > 0">
       {{players[8].actualBet}}
@@ -143,6 +151,7 @@
       [image]="players[9].playerDetails.image"
       [name]="players[9].playerDetails.name"
       [chips]="players[9].playerDetails.chips"
+      (click)="trySeat(9)"
     ></app-room-vcard>
     <div class="zone j value" *ngIf="players[9].actualBet > 0">
       {{players[9].actualBet}}
@@ -164,6 +173,9 @@
             <div class="bigLine">
               <div class="waterMark">
                 WebPoker
+              </div>
+              <div class="warning" *ngIf="info">
+                {{info}}
               </div>
               <div class="cardsZone">
                 <div class="cards">

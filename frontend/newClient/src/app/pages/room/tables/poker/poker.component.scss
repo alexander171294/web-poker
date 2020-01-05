@@ -282,3 +282,18 @@
         }
     }
 }
+.warning {
+  position: absolute;
+  top: -11px;
+  left: 25%;
+  width: 50%;
+  background: #ffdea1;
+  border-radius: 2px;
+  border: 1px solid orange;
+  padding: 5px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  // z-index: 99;
+}

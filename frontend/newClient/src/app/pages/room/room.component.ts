@@ -10,6 +10,7 @@ import { LobbyService } from 'src/app/services/lobby.service';
 import { BackwardValidation } from 'src/app/services/network/epprProtocol/userAuth/BackwardValidation';
 import { ChallengeActions } from 'src/app/services/network/epprProtocol/userAuth/types/ChallengeActions';
 import { Deposit } from 'src/app/services/network/epprProtocol/clientOperations/Deposit';
+import { RxEType } from 'src/app/services/network/ReactionEvents';
 
 @Component({
   selector: 'app-room',
@@ -46,6 +47,11 @@ export class RoomComponent implements OnInit {
     terminal.debugEvents.subscribe(data => {
       console.log('------------------> ' + data);
     });
+    this.room.reactionEvent.subscribe(evt => {
+      if (evt.type === RxEType.DEPOSIT_SUCCESS) {
+        this.popupDepositOpened = false;
+      }
+    });
   }
 
   ngOnInit() {
@@ -57,16 +63,18 @@ export class RoomComponent implements OnInit {
         this.authorization(parseInt(localStorage.getItem('userID'),10));
       }
       if (data === 11) { // requesting claim token
-        this.connecting = 'Challenge initialized.';
         let obsrv = null;
         if (this.isDeposit) {
           obsrv = this.lobby.challengeD(this.room.roomID, this.room.authClaim, this.depositQuantity);
         } else {
+          this.connecting = 'Challenge initialized.';
           obsrv = this.lobby.challenge(this.room.roomID, this.room.authClaim);
         }
         obsrv.subscribe(resp => {
           if (resp.operationSuccess) {
-            this.connecting = 'Last validation.';
+            if (!this.isDeposit) {
+              this.connecting = 'Last validation.';
+            }
             console.log('Backward validation for challenge: ', resp.challengeID);
             this.backwardValidation(resp.challengeID, this.isDeposit);
           } else {
@@ -79,6 +87,7 @@ export class RoomComponent implements OnInit {
         });
       }
       if (data === 12) { // Autenticado
+        console.error('SETTED OFF');
         this.connecting = undefined;
       }
       if (data === 13) {

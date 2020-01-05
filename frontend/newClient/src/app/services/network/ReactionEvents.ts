@@ -16,6 +16,7 @@ export enum RxEType {
   BLINDS,
   CARD_DIST,
   ME_CARD_DIST,
-  WAITING_FOR
+  WAITING_FOR,
+  INGRESS
 }
 

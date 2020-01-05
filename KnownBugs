@@ -1,3 +1,4 @@
 - En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.
 - No se registra a la gente conectada a un server en la tabla correspondiente.
-        
+- si no se sigue los pasos en orden no se dispara el evento Ingress.
+- El room debería devolver correctamente cuando el JWT está expirado para volver a iniciar sesión. (Revisar la imple de JWT)

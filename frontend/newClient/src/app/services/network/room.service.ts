@@ -205,6 +205,7 @@ export class RoomService {
 
   onIngress(data) {
     this.terminal.info('Ingress Chips: '+data.chips+' - position: '+data.position);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.INGRESS, data));
   }
 
   onAnnouncement(data) {

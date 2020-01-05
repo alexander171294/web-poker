@@ -4,6 +4,10 @@
   bottom: 0px;
   right: 0px;
   z-index: 2;
+  opacity: 0.3;
+  &.active {
+    opacity: 1;
+  }
   .barBox {
     background: #0d2011;
     border: 1px dashed rgba(255, 180, 45, 0.5);
@@ -122,7 +126,7 @@
         border: 1px solid #454429;
         border-right: 1px solid #3a3c22;
         border-left: 1px solid #3c3b22;
-      }      
+      }
       &.warning {
         background: linear-gradient(#321e1e, #201010);
         border: 1px solid #452929;

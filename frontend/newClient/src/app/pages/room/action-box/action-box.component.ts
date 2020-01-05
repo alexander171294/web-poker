@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/services/network/room.service';
-import { RxEType } from 'src/app/services/network/ReactionEvents';
+import { RxEType, ReactionEvents } from 'src/app/services/network/ReactionEvents';
 
 @Component({
   selector: 'app-action-box',

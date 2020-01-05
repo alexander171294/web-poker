@@ -152,6 +152,7 @@ export class RoomService {
 
   bridge(action: string, raise?: number){
     this.terminal.out('Action ['+action+'] - ' + raise, this.serviceName);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.DONE_ACTION, undefined));
     const dI = new DecisionInform();
     dI.action = action;
     dI.ammount = raise;

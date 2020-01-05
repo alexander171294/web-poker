@@ -18,6 +18,7 @@ export enum RxEType {
   ME_CARD_DIST,
   WAITING_FOR,
   INGRESS,
-  BET_DECISION
+  BET_DECISION,
+  DONE_ACTION
 }
 

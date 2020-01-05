@@ -19,6 +19,7 @@ export class PokerComponent implements OnInit {
   public tableCards: Card[];
   public pot: number;
   public dealed: boolean;
+  public myPosition: number;
 
   public info: string;
 
@@ -69,6 +70,12 @@ export class PokerComponent implements OnInit {
           this.tableCards = [null, null, null, null, null];
         }
         this.players[evt.data.position].timeRest = evt.data.remainingTime;
+      }
+      if (evt.type === RxEType.DONE_ACTION) {
+        this.players[this.myPosition].timeRest = undefined;
+      }
+      if (evt.type === RxEType.INGRESS) {
+        this.myPosition = evt.data.position;
       }
     });
   }

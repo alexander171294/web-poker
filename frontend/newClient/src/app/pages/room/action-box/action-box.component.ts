@@ -41,6 +41,9 @@ export class ActionBoxComponent implements OnInit {
         this.canCheck = evt.data.canCheck;
         this.toCall = evt.data.toCall;
       }
+      if (evt.type === RxEType.DONE_ACTION) {
+        this.isMyTurn = false;
+      }
     });
     this.isMyTurn = false;
   }

@@ -19,6 +19,9 @@ export enum RxEType {
   WAITING_FOR,
   INGRESS,
   BET_DECISION,
-  DONE_ACTION
+  DONE_ACTION,
+  FLOP,
+  RIVER,
+  TURN
 }
 

@@ -194,14 +194,17 @@ export class RoomService {
 
   onFlop(data) {
     this.terminal.note('FLOP: ' + JSON.stringify(data.cards));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.FLOP, data.cards));
   }
 
   onRiver(data) {
     this.terminal.note('River: ' + JSON.stringify(data.card));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.RIVER, data.card));
   }
 
   onTurn(data) {
     this.terminal.note('Turn: ' + JSON.stringify(data.card));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.TURN, data.card));
   }
 
   onIngress(data) {

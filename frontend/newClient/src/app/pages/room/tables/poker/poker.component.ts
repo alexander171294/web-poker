@@ -77,6 +77,17 @@ export class PokerComponent implements OnInit {
       if (evt.type === RxEType.INGRESS) {
         this.myPosition = evt.data.position;
       }
+      if (evt.type === RxEType.FLOP) {
+        this.tableCards[0] = evt.data[0];
+        this.tableCards[1] = evt.data[1];
+        this.tableCards[2] = evt.data[2];
+      }
+      if (evt.type === RxEType.TURN) {
+        this.tableCards[3] = evt.data;
+      }
+      if (evt.type === RxEType.RIVER) {
+        this.tableCards[4] = evt.data;
+      }
     });
   }
 

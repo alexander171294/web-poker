@@ -2,3 +2,4 @@
 - No se registra a la gente conectada a un server en la tabla correspondiente.
 - si no se sigue los pasos en orden no se dispara el evento Ingress.
 - El room debería devolver correctamente cuando el JWT está expirado para volver a iniciar sesión. (Revisar la imple de JWT)
+- Falta el snapshot de la mesa.

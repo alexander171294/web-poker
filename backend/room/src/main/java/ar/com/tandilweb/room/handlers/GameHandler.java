@@ -51,7 +51,7 @@ public class GameHandler {
 	 }
 	
 	public void ingressFlow(UserData userData) {
-		gameController.dumpSnapshot();
+		gameController.dumpSnapshot(userData.sessID);
 		logger.debug("Ingressed user", userData);
 		// check old position 
 		List<Integer> freeSpaces = new ArrayList<Integer>();

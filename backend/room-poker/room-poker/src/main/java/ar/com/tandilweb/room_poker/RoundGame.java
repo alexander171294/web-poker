@@ -56,6 +56,7 @@ public class RoundGame {
 	private int lastActionedPosition; // for cut actions.
 	private int bigBlind;
 	private long lastRise;
+	private long pot;
 	
 	private Deck deck;
 	
@@ -135,7 +136,7 @@ public class RoundGame {
 				ICardDist icd = new ICardDist();
 				icd.position = position;
 				lastPosition = position;
-				SchemaCard stCard = new SchemaCard(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
+				SchemaCard stCard = Utils.getSchemaFromCard(playerFirstCards[position]);
 				icd.cards = new SchemaCard[] {stCard, null};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
@@ -151,8 +152,8 @@ public class RoundGame {
 				ICardDist icd = new ICardDist();
 				icd.position = position;
 				lastPosition = position;
-				SchemaCard stCard = new SchemaCard(playerFirstCards[position].suit.ordinal(), playerFirstCards[position].value.getNumericValue());
-				SchemaCard ndCard = new SchemaCard(playerSecondCards[position].suit.ordinal(), playerSecondCards[position].value.getNumericValue());
+				SchemaCard stCard = Utils.getSchemaFromCard(playerFirstCards[position]);
+				SchemaCard ndCard = Utils.getSchemaFromCard(playerSecondCards[position]);
 				icd.cards = new SchemaCard[] {stCard, ndCard};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
@@ -233,6 +234,11 @@ public class RoundGame {
 		bigBlind = -1;
 		int nextPj = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
 		lastActionedPosition = nextPj;
+		// update pot:
+		for(int i = 0; i<bets.length; i++) {
+			pot += bets[i];
+			bets[i] = 0;
+		}
 		if(roundStep == 1) {
 			// flop:
 			roundStep = 2;
@@ -261,8 +267,8 @@ public class RoundGame {
 			if(usersInGame[i] != null) {
 				soff.setCards(
 						i,
-						new SchemaCard(playerFirstCards[i].suit.ordinal(), playerFirstCards[i].value.getNumericValue()),
-						new SchemaCard(playerSecondCards[i].suit.ordinal(), playerSecondCards[i].value.getNumericValue())
+						Utils.getSchemaFromCard(playerFirstCards[i]),
+						Utils.getSchemaFromCard(playerSecondCards[i])
 				);
 			}
 		}
@@ -281,7 +287,7 @@ public class RoundGame {
 		flop = new Card[3];
 		for(int i = 0; i<3; i++) {
 			flop[i] = deck.getNextCard();
-			schemaCards[i] = new SchemaCard(flop[i].suit.ordinal(), flop[i].value.getNumericValue());
+			schemaCards[i] = Utils.getSchemaFromCard(flop[i]);
 		}
 		fb.cards = schemaCards;
 		// flop begins:
@@ -292,7 +298,7 @@ public class RoundGame {
 		deck.getNextCard(); // burn a card 
 		turn = deck.getNextCard();
 		TurnBegins tb = new TurnBegins();
-		tb.card = new SchemaCard(turn.suit.ordinal(), turn.value.getNumericValue());
+		tb.card = Utils.getSchemaFromCard(turn);
 		// turn begins:
 		sessionHandler.sendToAll("/GameController/turn", tb);
 	}
@@ -301,7 +307,7 @@ public class RoundGame {
 		deck.getNextCard(); // burn a card 
 		river = deck.getNextCard();
 		RiverBegins rb = new RiverBegins();
-		rb.card = new SchemaCard(river.suit.ordinal(), river.value.getNumericValue());
+		rb.card = Utils.getSchemaFromCard(river);
 		// river begins:
 		sessionHandler.sendToAll("/GameController/river", rb);
 	}
@@ -375,6 +381,31 @@ public class RoundGame {
 	public static void increaseBlind() {
 		SMALL_BLIND *= BLIND_MULTIPLIER;
 		BIG_BLIND *= BLIND_MULTIPLIER;
+	}
+	
+	public int getDealerPosition() {
+		return dealerPosition;
+	}
+	
+	public long getPot() {
+		return pot;
+	}
+	
+	public long getBetOf(int position) {
+		return bets[position];
+	}
+	
+	public Card[] getCommunityCards() {
+		if(roundStep == 2) {
+			return flop;
+		}
+		if(roundStep == 3) {
+			return ArrayUtils.addAll(flop, turn);
+		}
+		if(roundStep == 4) {
+			return ArrayUtils.addAll(flop, turn, river);
+		}
+		return new Card[]{};
 	}
 
 }

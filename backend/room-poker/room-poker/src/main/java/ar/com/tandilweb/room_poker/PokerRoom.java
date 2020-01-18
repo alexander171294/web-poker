@@ -1,5 +1,6 @@
 package ar.com.tandilweb.room_poker;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,12 +12,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.gameProtocol.SchemaGameProto;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Snapshot;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SnapshotPlayer;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
 import ar.com.tandilweb.room_int.GameCtrlInt;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
+import ar.com.tandilweb.room_poker.deck.cards.Card;
 
 public class PokerRoom implements GameCtrlInt {
 	
@@ -84,9 +89,37 @@ public class PokerRoom implements GameCtrlInt {
 		actualRound.start();
 	}
 
-	public void dumpSnapshot() {
+	public void dumpSnapshot(String sessID) {
 		// TODO Auto-generated method stub
 		log.debug("Dump Snapshot");
+		Snapshot snap = new Snapshot();
+		snap.players = new ArrayList<SnapshotPlayer>();
+		for(int i = 0; i<this.tableSize; i++) {
+			if(usersInTable[i] != null) {
+				SnapshotPlayer player = new SnapshotPlayer();
+				player.chips = usersInTable[i].chips;
+				player.nick = usersInTable[i].dataBlock.getNick_name();
+				player.photo = usersInTable[i].dataBlock.getPhoto();
+				player.actualBet = actualRound.getBetOf(i);
+				// TODO: cards of player
+				//player.haveCards?
+				//player.showingCards?
+				//player.cards = getCardsForUser with player.showingCards?
+				snap.players.add(player);
+			} else {
+				snap.players.add(null);
+			}
+		}
+		snap.isDealing = false;
+		snap.isInRest = false;
+		snap.dealerPosition = actualRound.getDealerPosition();
+		snap.pot = actualRound.getPot(); // get actual pot
+		Card[] cards = actualRound.getCommunityCards();
+		snap.communityCards = new ArrayList<SchemaCard>();
+		for(int i = 0; i<cards.length; i++) {
+			snap.communityCards.add(Utils.getSchemaFromCard(cards[i]));
+		}
+		sessionHandler.sendToSessID("GameController/snapshot", sessID, snap);
 	}
 	
 	public void receivedMessage(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID) {

@@ -82,5 +82,9 @@ public class Utils {
 		}
 		return -1; // TODO: throw user not found.-
 	}
+	
+	public static SchemaCard getSchemaFromCard(Card card) {
+		return new SchemaCard(card.suit.ordinal(), card.value.getNumericValue());
+	}
 
 }

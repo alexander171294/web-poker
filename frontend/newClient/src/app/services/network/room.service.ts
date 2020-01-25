@@ -35,55 +35,55 @@ export class RoomService {
     if(res.length > 2) {
       this.terminal.log('Connecting to ip: ['+res[1]+'] at port {'+res[2]+'}');
       // if(environment.debugMode) {
-        this.ws.wsEventSubscriptor.subscribe((data: EventWS) => {
-          let prefix = '{';
-          if(data.eventType == EventTypeWS.CONFIGURING) {
-            prefix += 'Configuring';
-            this.globalConnectionEvents.emit(1);
-          }
-          if(data.eventType == EventTypeWS.CONNECTED) {
-            prefix += 'Connected';
-            this.subscriptions();
-            this.globalConnectionEvents.emit(2);
-          }
-          if(data.eventType == EventTypeWS.CONNECTING) {
-            prefix += 'Connecting';
-            this.globalConnectionEvents.emit(3);
-          }
-          if(data.eventType == EventTypeWS.DISCONNECT) {
-            prefix += 'Disconnect';
-            this.globalConnectionEvents.emit(4);
-          }
-          if(data.eventType == EventTypeWS.DISCONNECTED) {
-            prefix += 'Disconnected';
-            this.globalConnectionEvents.emit(5);
-          }
-          if(data.eventType == EventTypeWS.ERROR) {
-            prefix += 'Error';
-            this.globalConnectionEvents.emit(6);
-          }
-          if(data.eventType == EventTypeWS.FIRST_CONNECTION) {
-            prefix += 'First Connection';
-            this.globalConnectionEvents.emit(7);
-          }
-          if(data.eventType == EventTypeWS.FULL_CONNECTION) {
-            prefix += 'Full Connection';
-            this.globalConnectionEvents.emit(8);
-          }
-          if(data.eventType == EventTypeWS.MESSAGE) {
-            prefix += 'Receiving';
-            this.globalConnectionEvents.emit(9);
-          }
-          if(data.eventType == EventTypeWS.SENDING) {
-            prefix += 'Sending';
-            this.globalConnectionEvents.emit(10);
-          }
-          if(data.eventType == EventTypeWS.SUSCRIPTION) {
-            prefix += 'Suscription';
-          }
-          prefix += '}';
-          this.terminal.dlog(prefix + ' ' + JSON.stringify(data.data));
-        });
+      this.ws.wsEventSubscriptor.subscribe((data: EventWS) => {
+        let prefix = '{';
+        if(data.eventType == EventTypeWS.CONFIGURING) {
+          prefix += 'Configuring';
+          this.globalConnectionEvents.emit(1);
+        }
+        if(data.eventType == EventTypeWS.CONNECTED) {
+          prefix += 'Connected';
+          this.subscriptions();
+          this.globalConnectionEvents.emit(2);
+        }
+        if(data.eventType == EventTypeWS.CONNECTING) {
+          prefix += 'Connecting';
+          this.globalConnectionEvents.emit(3);
+        }
+        if(data.eventType == EventTypeWS.DISCONNECT) {
+          prefix += 'Disconnect';
+          this.globalConnectionEvents.emit(4);
+        }
+        if(data.eventType == EventTypeWS.DISCONNECTED) {
+          prefix += 'Disconnected';
+          this.globalConnectionEvents.emit(5);
+        }
+        if(data.eventType == EventTypeWS.ERROR) {
+          prefix += 'Error';
+          this.globalConnectionEvents.emit(6);
+        }
+        if(data.eventType == EventTypeWS.FIRST_CONNECTION) {
+          prefix += 'First Connection';
+          this.globalConnectionEvents.emit(7);
+        }
+        if(data.eventType == EventTypeWS.FULL_CONNECTION) {
+          prefix += 'Full Connection';
+          this.globalConnectionEvents.emit(8);
+        }
+        if(data.eventType == EventTypeWS.MESSAGE) {
+          prefix += 'Receiving';
+          this.globalConnectionEvents.emit(9);
+        }
+        if(data.eventType == EventTypeWS.SENDING) {
+          prefix += 'Sending';
+          this.globalConnectionEvents.emit(10);
+        }
+        if(data.eventType == EventTypeWS.SUSCRIPTION) {
+          prefix += 'Suscription';
+        }
+        prefix += '}';
+        this.terminal.dlog(prefix + ' ' + JSON.stringify(data.data));
+      });
       // }
       this.ws.connect(res[1], res[2]);
     } else {
@@ -190,6 +190,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/flop', (data) => this.onFlop(data)); // global message
     this.ws.suscribe('/GameController/river', (data) => this.onRiver(data)); // global message
     this.ws.suscribe('/GameController/turn', (data) => this.onTurn(data)); // global message
+    this.ws.suscribe('/userInterceptor/GameController/snapshot', (data) => this.onSnapshot(data));
   }
 
   onFlop(data) {
@@ -208,8 +209,13 @@ export class RoomService {
   }
 
   onIngress(data) {
-    this.terminal.info('Ingress Chips: '+data.chips+' - position: '+data.position);
+    this.terminal.info('Ingress Chips: ' + data.chips + ' - position: ' + data.position);
     this.reactionEvent.emit(new ReactionEvents(RxEType.INGRESS, data));
+  }
+
+  onSnapshot(data) {
+    this.terminal.info('Snapshot: ' + JSON.stringify(data));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.SNAPSHOT, data));
   }
 
   onAnnouncement(data) {
@@ -244,7 +250,7 @@ export class RoomService {
   }
 
   onActionFor(data) {
-    this.terminal.log('Waiting '+data.position+' for: '+data.remainingTime+' seconds');
+    this.terminal.log('Waiting ' + data.position + ' for: ' + data.remainingTime + ' seconds');
     this.reactionEvent.emit(new ReactionEvents(RxEType.WAITING_FOR, data));
   }
 
@@ -259,7 +265,8 @@ export class RoomService {
   }
 
   onDefinePosition(data) {
-    this.terminal.in('Define Position, free positions: '+JSON.stringify(data.positions), this.serviceName);
+    this.terminal.in('Define Position, free positions: ' + JSON.stringify(data.positions), this.serviceName);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.DEFINE_POSITION, data.positions));
   }
 
   onSuccessDeposit(data) {

@@ -50,6 +50,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			String sessionID = sessionHandler.getSessionByTransactionID(dataResponse.transactionID);
 			UserData userData = sessionHandler.getUserDataBySession(sessionID);
 			UserAuthSchema out;
+			// FIXME: null pointer si se cae el servicio y se reconectan, envían un deposit y explota todo, 
 			if(userData.userID == dataResponse.idUser) {
 				if(dataResponse.claimToken.equals(userData.lastChallenge.claimToken)) {
 					if(userData.challengeAction == ChallengeActions.DEPOSIT) { // DEPOSIT:

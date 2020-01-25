@@ -17,6 +17,7 @@ export class PokerComponent implements OnInit {
   public players: PlayerSnapshot[];
 
   public tableCards: Card[];
+  public availablePositions: boolean[] = [];
   public pot: number;
   public dealed: boolean;
   public myPosition: number;
@@ -30,6 +31,7 @@ export class PokerComponent implements OnInit {
     this.tableCards = [];
     for (let i = 0; i < PokerComponent.MAX_PLAYERS; i++) {
       this.players.push(new PlayerSnapshot());
+      this.availablePositions.push(false);
     }
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.ANNOUNCEMENT) {
@@ -39,6 +41,7 @@ export class PokerComponent implements OnInit {
         nPlayer.playerDetails.image = evt.data.avatar;
         nPlayer.playerDetails.name = evt.data.user;
         this.players[evt.data.position] = nPlayer;
+        this.availablePositions[evt.data.position] = false;
       }
       if (evt.type === RxEType.START_IN) {
         this.info = 'Game start in ' + evt.data + (evt.data !== 1 ? ' seconds' : ' second');
@@ -76,6 +79,9 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.INGRESS) {
         this.myPosition = evt.data.position;
+        for (let i = 0; i < PokerComponent.MAX_PLAYERS; i++) {
+          this.availablePositions[i] = false;
+        }
       }
       if (evt.type === RxEType.FLOP) {
         this.tableCards[0] = evt.data[0];
@@ -88,16 +94,37 @@ export class PokerComponent implements OnInit {
       if (evt.type === RxEType.RIVER) {
         this.tableCards[4] = evt.data;
       }
+      if (evt.type === RxEType.SNAPSHOT) {
+        console.log('SNAPSHOT', evt.data);
+        evt.data.players.forEach((player, idx) => {
+          console.log(idx, player);
+          if (player != null) {
+            const nPlayer = new PlayerSnapshot();
+            nPlayer.playerDetails.chips = player.chips;
+            nPlayer.playerDetails.image = player.photo;
+            nPlayer.playerDetails.name = player.nick;
+            this.players[idx] = nPlayer;
+          }
+        });
+      }
+      if (evt.type === RxEType.DEFINE_POSITION) {
+        evt.data.forEach(freePositions => {
+          this.availablePositions[freePositions] = true;
+        });
+      }
+
     });
   }
 
   trySeat(position: number) {
-    if (this.players[position].playerDetails.name) {
-      // TODO: improve this alert:
-      alert('This position is in use.');
-    } else {
-      console.warn('Sitting...');
-      this.room.selectPosition(position);
+    if (this.availablePositions[position]) {
+      if (this.players[position].playerDetails.name) {
+        // TODO: improve this alert:
+        alert('This position is in use.');
+      } else {
+        console.warn('Sitting...');
+        this.room.selectPosition(position);
+      }
     }
   }
 

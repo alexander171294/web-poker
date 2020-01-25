@@ -22,6 +22,8 @@ export enum RxEType {
   DONE_ACTION,
   FLOP,
   RIVER,
-  TURN
+  TURN,
+  SNAPSHOT,
+  DEFINE_POSITION
 }
 

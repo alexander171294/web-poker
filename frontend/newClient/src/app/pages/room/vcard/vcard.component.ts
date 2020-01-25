@@ -11,6 +11,7 @@ export class VcardComponent implements OnInit {
   @Input() name: string;
   @Input() timeRest: number;
   @Input() chips: string;
+  @Input() void: boolean;
 
   constructor() { }
 

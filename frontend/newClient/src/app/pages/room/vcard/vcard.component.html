@@ -3,7 +3,7 @@
       <div class="internalRadius"></div>
     </div>
     <div class="head" [class.available]="!image">
-      <span *ngIf="!image">Seat</span>
+      <span *ngIf="void">Seat</span>
       <img [src]="image" *ngIf="image" />
       <div class="name" *ngIf="name">{{name}}</div>
       <div class="chips" *ngIf="chips">

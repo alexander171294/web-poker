@@ -51,7 +51,6 @@ public class RoundGame {
 	
 	private int roundStep;
 	private int dealerPosition;
-	private int tableSize;
 	private int waitingActionFromPlayer; // id of player are waiting.
 	private int lastActionedPosition; // for cut actions.
 	private int bigBlind;

@@ -118,6 +118,8 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.DECISION_INFORM) {
         console.info('Decision Inform', evt.data);
+        this.players[evt.data.position].playerDetails.chips -= evt.data.ammount;
+        this.players[evt.data.position].actualBet += evt.data.ammount;
       }
     });
   }

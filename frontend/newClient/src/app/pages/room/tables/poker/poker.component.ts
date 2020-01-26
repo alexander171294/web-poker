@@ -91,12 +91,18 @@ export class PokerComponent implements OnInit {
         this.tableCards[0] = evt.data[0];
         this.tableCards[1] = evt.data[1];
         this.tableCards[2] = evt.data[2];
+        // clear chips
+        this.clearTableChips();
       }
       if (evt.type === RxEType.TURN) {
         this.tableCards[3] = evt.data;
+        // clear chips
+        this.clearTableChips();
       }
       if (evt.type === RxEType.RIVER) {
         this.tableCards[4] = evt.data;
+        // clear chips
+        this.clearTableChips();
       }
       if (evt.type === RxEType.SNAPSHOT) {
         console.log('SNAPSHOT', evt.data);
@@ -120,6 +126,7 @@ export class PokerComponent implements OnInit {
         console.info('Decision Inform', evt.data);
         this.players[evt.data.position].playerDetails.chips -= evt.data.ammount;
         this.players[evt.data.position].actualBet += evt.data.ammount;
+        this.pot += evt.data.ammount;
       }
     });
   }
@@ -134,6 +141,14 @@ export class PokerComponent implements OnInit {
         this.room.selectPosition(position);
       }
     }
+  }
+
+  private clearTableChips() {
+    this.players.forEach(player => {
+      if (player) {
+        player.actualBet = 0;
+      }
+    });
   }
 
 }

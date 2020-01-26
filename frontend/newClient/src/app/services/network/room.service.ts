@@ -191,6 +191,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/river', (data) => this.onRiver(data)); // global message
     this.ws.suscribe('/GameController/turn', (data) => this.onTurn(data)); // global message
     this.ws.suscribe('/userInterceptor/GameController/snapshot', (data) => this.onSnapshot(data));
+    this.ws.suscribe('/GameController/decisionInform', (data) => this.onDecisionInform(data));
   }
 
   onFlop(data) {
@@ -221,6 +222,11 @@ export class RoomService {
   onAnnouncement(data) {
     this.terminal.in('Announcement: Pos['+data.position+'] user['+data.user+'] chips['+data.chips+'] avatar['+data.avatar+']', this.serviceName);
     this.reactionEvent.emit(new ReactionEvents(RxEType.ANNOUNCEMENT, data));
+  }
+
+  onDecisionInform(data) {
+    this.terminal.in('Decision Inform: ', JSON.stringify(data));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.DECISION_INFORM, data));
   }
 
   onStartGame(data) {

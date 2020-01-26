@@ -116,7 +116,9 @@ export class PokerComponent implements OnInit {
           this.availablePositions[freePositions] = true;
         });
       }
-
+      if (evt.type === RxEType.DECISION_INFORM) {
+        console.info('Decision Inform', evt.data);
+      }
     });
   }
 

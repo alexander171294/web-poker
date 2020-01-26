@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.generic.Winner;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ActionFor;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.BetDecision;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Blind;
@@ -15,6 +16,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ResultSet;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RiverBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
@@ -159,13 +161,13 @@ public class RoundGame {
 				threadWait(500); // TODO: parameterize
 			}
 		} catch(NullPointerException npe) {
-			
 			log.debug("npe: " + lastPosition, npe);
 		}
 		
 	}
 	
-	public void processDecision(DecisionInform dI, UserData uD) {
+	// Return if the round is finished
+	public boolean processDecision(DecisionInform dI, UserData uD) {
 		dI.position = Utils.getPlyerPosition(usersInGame, uD);
 		if(dI.position.intValue() == waitingActionFromPlayer) {
 			boolean actionDoed = false;
@@ -227,15 +229,16 @@ public class RoundGame {
 				}
 				sessionHandler.sendToAll("/GameController/decisionInform", dI);
 				if(finishedBets) {
-					finishBets();
+					return finishBets();
 				}
 			} else {
 				// TODO: error message?
 			}
 		}
+		return false;
 	}
 	
-	private void finishBets() {
+	private boolean finishBets() {
 		bigBlind = -1;
 		int nextPj = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
 		lastActionedPosition = nextPj;
@@ -270,8 +273,11 @@ public class RoundGame {
 		} else if(roundStep == 4) {
 			log.debug("-- SHOWDOWN --");
 			showOff();
-			checkHands();			
+			checkHands();
+			threadWait(500);
+			return true;
 		}
+		return false;
 	}
 	
 	private void showOff() {
@@ -377,6 +383,28 @@ public class RoundGame {
 				}
 			}
 		}
+		Double winPot = (double) (pot / (1 + aditionalWinners.size()));
+		ResultSet rs = new ResultSet();
+		rs.winners = new ArrayList<Winner>();
+		Winner winnerData = new Winner();
+		winnerData.points = winnerPoints;
+		winnerData.position = winner;
+		winnerData.pot = winPot.longValue();
+		winnerData.reason = hands[winner].handName;
+		usersInGame[winner].chips += winPot.longValue();
+		rs.winners.add(winnerData);
+		if(aditionalWinners.size() > 0) {
+			for(int wPos: aditionalWinners) {
+				Winner secondaryWinner = new Winner();
+				secondaryWinner.points = winnerData.points;
+				secondaryWinner.position = wPos;
+				secondaryWinner.pot = winPot.longValue();
+				usersInGame[wPos].chips += winPot.longValue();
+				secondaryWinner.reason = hands[wPos].handName;
+				rs.winners.add(secondaryWinner);
+			}
+		}
+		sessionHandler.sendToAll("/GameController/resultSet", rs);
 	}
 
 	public static SessionHandlerInt getSessionHandler() {

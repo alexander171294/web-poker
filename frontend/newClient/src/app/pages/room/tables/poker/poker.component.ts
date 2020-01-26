@@ -21,6 +21,7 @@ export class PokerComponent implements OnInit {
   public pot: number;
   public dealed: boolean;
   public myPosition: number;
+  public resultMode: boolean;
 
   public info: string;
 
@@ -48,6 +49,9 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.ROUND_START) {
         this.info = undefined; // removing info box
+        // reseting final statuses:
+        this.resultMode = false;
+        this.pot = 0;
       }
       if (evt.type === RxEType.BLINDS) {
         this.pot = evt.data.sbChips + evt.data.bbChips;
@@ -140,6 +144,20 @@ export class PokerComponent implements OnInit {
           }
         });
         this.clearTableChips();
+      }
+      if (evt.type === RxEType.RESULT_SET) {
+        // result set
+        console.info('RESULT SET', evt.data);
+        this.players.forEach(player => {
+          if (player) {
+            player.winner = false;
+          }
+        });
+        evt.data.winners.forEach(winner => {
+          this.resultMode = true;
+          this.players[winner.position].winner = true;
+          this.players[winner.position].playerDetails.chips += winner.pot;
+        });
       }
     });
   }

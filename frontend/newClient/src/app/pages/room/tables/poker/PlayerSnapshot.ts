@@ -5,7 +5,10 @@ export class PlayerSnapshot {
     public actualBet: number;
     public cards: Card[];
     public upsidedown: boolean;
+
+    // frontend status variables:
     public timeRest?: number;
+    public winner?: boolean;
 
     public constructor() {
         this.playerDetails = new PlayerDetails();

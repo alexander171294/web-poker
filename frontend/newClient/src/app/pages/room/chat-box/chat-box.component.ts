@@ -57,6 +57,17 @@ export class ChatBoxComponent implements OnInit {
       // if (evt.type === RxEType.ME_CARD_DIST) {
 
       // }
+      if (evt.type === RxEType.RESULT_SET) {
+        evt.data.winners.forEach(winner => {
+          this.chatMessages.push(
+            new ChatMessageData(
+              false,
+              'I\'m win ' + winner.pot + ', because I have ' + winner.reason,
+              this.playersInPositions[winner.position]
+            )
+          );
+        });
+      }
       // TODO: improve this ugly code:
       setTimeout(() => {
         const cbl = document.getElementById('chatBoxList');

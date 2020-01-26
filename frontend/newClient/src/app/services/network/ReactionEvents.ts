@@ -26,6 +26,7 @@ export enum RxEType {
   SNAPSHOT,
   DEFINE_POSITION,
   DECISION_INFORM,
-  SHOW_OFF
+  SHOW_OFF,
+  RESULT_SET
 }
 

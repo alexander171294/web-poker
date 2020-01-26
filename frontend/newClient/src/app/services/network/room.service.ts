@@ -193,6 +193,7 @@ export class RoomService {
     this.ws.suscribe('/userInterceptor/GameController/snapshot', (data) => this.onSnapshot(data));
     this.ws.suscribe('/GameController/decisionInform', (data) => this.onDecisionInform(data));
     this.ws.suscribe('/GameController/showOff', (data) => this.onShowOff(data));
+    this.ws.suscribe('/GameController/resultSet', (data) => this.onResultSet(data));
   }
 
   onFlop(data) {
@@ -319,5 +320,9 @@ export class RoomService {
   onShowOff(data) {
     this.terminal.in('Show Off', data);
     this.reactionEvent.emit(new ReactionEvents(RxEType.SHOW_OFF, data));
+  }
+
+  onResultSet(data) {
+    this.reactionEvent.emit(new ReactionEvents(RxEType.RESULT_SET, data));
   }
 }

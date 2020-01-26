@@ -123,10 +123,23 @@ export class PokerComponent implements OnInit {
         });
       }
       if (evt.type === RxEType.DECISION_INFORM) {
-        console.info('Decision Inform', evt.data);
         this.players[evt.data.position].playerDetails.chips -= evt.data.ammount;
         this.players[evt.data.position].actualBet += evt.data.ammount;
         this.pot += evt.data.ammount;
+      }
+      if (evt.type === RxEType.SHOW_OFF) {
+        this.players.forEach((player, idx) => {
+          if (player) {
+            this.players[idx].timeRest = undefined;
+          }
+        });
+        evt.data.positionCards.forEach((cards, idx) => {
+          if (cards) {
+            this.players[idx].cards = [cards.first, cards.second];
+            this.players[idx].upsidedown = false;
+          }
+        });
+        this.clearTableChips();
       }
     });
   }

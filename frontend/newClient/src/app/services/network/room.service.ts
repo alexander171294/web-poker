@@ -192,6 +192,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/turn', (data) => this.onTurn(data)); // global message
     this.ws.suscribe('/userInterceptor/GameController/snapshot', (data) => this.onSnapshot(data));
     this.ws.suscribe('/GameController/decisionInform', (data) => this.onDecisionInform(data));
+    this.ws.suscribe('/GameController/showOff', (data) => this.onShowOff(data));
   }
 
   onFlop(data) {
@@ -313,5 +314,10 @@ export class RoomService {
   onKick(dataResponse) {
     console.log('DR Kick', dataResponse);
     this.terminal.info('You are kicked from this server');
+  }
+
+  onShowOff(data) {
+    this.terminal.in('Show Off', data);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.SHOW_OFF, data));
   }
 }

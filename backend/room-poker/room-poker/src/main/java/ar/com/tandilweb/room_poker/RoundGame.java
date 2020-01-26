@@ -141,7 +141,6 @@ public class RoundGame {
 				icd.cards = new SchemaCard[] {stCard, null};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
-				threadWait(500); // TODO: parameterize
 			}
 			// second iteration:
 			for(int position: players) {
@@ -158,7 +157,6 @@ public class RoundGame {
 				icd.cards = new SchemaCard[] {stCard, ndCard};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
-				threadWait(500); // TODO: parameterize
 			}
 		} catch(NullPointerException npe) {
 			log.debug("npe: " + lastPosition, npe);
@@ -274,7 +272,7 @@ public class RoundGame {
 			log.debug("-- SHOWDOWN --");
 			showOff();
 			checkHands();
-			threadWait(500);
+			threadWait(1000);
 			return true;
 		}
 		return false;

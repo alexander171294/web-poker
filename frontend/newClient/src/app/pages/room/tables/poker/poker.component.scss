@@ -298,12 +298,56 @@
   // z-index: 99;
 }
 .borderOut {
-  .resultMode {
+  .winSelection {
     .cardStack {
       opacity: 0.3;
       &.winner {
         opacity: 1;
       }
     }
+  }
+}
+
+
+app-room-vcard {
+  &.a {
+    top: -50px;
+    left: 150px;
+  }
+  &.b {
+    top: -51px;
+    left: 360px;
+  }
+  &.c {
+    top: -48px;
+    left: 570px;
+  }
+  &.d {
+    top: 80px;
+    left: 740px;
+  }
+  &.e {
+    top: 284px;
+    left: 740px;
+  }
+  &.f {
+    top: 413px;
+    left: 570px;
+  }
+  &.g {
+    top: 416px;
+    left: 360px;
+  }
+  &.h {
+    top: 413px;
+    left: 150px;
+  }
+  &.i {
+    top: 284px;
+    left: -25px;
+  }
+  &.j {
+    top: 80px;
+    left: -24px;
   }
 }

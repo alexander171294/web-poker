@@ -15,6 +15,7 @@ export class PokerComponent implements OnInit {
   private static MAX_PLAYERS = 10;
 
   public players: PlayerSnapshot[];
+  public zones = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
   public tableCards: Card[];
   public availablePositions: boolean[] = [];

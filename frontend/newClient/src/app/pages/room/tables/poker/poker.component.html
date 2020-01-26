@@ -4,7 +4,7 @@
   <div class="restFrame" [class.winSelection]="resultMode">
 
     <div class="iterator" *ngFor="let player of players; let idx = index">
-      <app-room-vcard style="top: -50px;left: 150px;"
+      <app-room-vcard class="{{zones[idx]}}"
         [image]="player.playerDetails.image"
         [name]="player.playerDetails.name"
         [chips]="player.playerDetails.chips"
@@ -12,13 +12,13 @@
         [void]="availablePositions[idx]"
         (click)="trySeat(idx)"
       ></app-room-vcard>
-      <div class="zone a value" *ngIf="player.actualBet > 0">
+      <div class="zone {{zones[idx]}} value" *ngIf="player.actualBet > 0">
         {{player.actualBet}}
       </div>
-      <div class="zone a" *ngIf="player.actualBet > 0">
+      <div class="zone {{zones[idx]}}" *ngIf="player.actualBet > 0">
         <app-stacker [valor]="player.actualBet"></app-stacker>
       </div>
-      <div class="cardStack a" *ngIf="player.cards.length > 0" [class.winner]="player.winner">
+      <div class="cardStack {{zones[idx]}}" *ngIf="player.cards.length > 0" [class.winner]="player.winner">
         <app-dual-stack [upsidedown]="player.upsidedown" [cards]="player.cards"></app-dual-stack>
       </div>
     </div>

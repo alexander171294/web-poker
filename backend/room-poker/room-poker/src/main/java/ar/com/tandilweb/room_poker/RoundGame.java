@@ -239,6 +239,8 @@ public class RoundGame {
 		bigBlind = -1;
 		int nextPj = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
 		lastActionedPosition = nextPj;
+		// resetting rises:
+		lastRise = 0;
 		// update pot:
 		for(int i = 0; i<bets.length; i++) {
 			pot += bets[i];

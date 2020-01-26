@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
@@ -14,9 +15,13 @@ export class NavBarComponent implements OnInit {
 
   public version = environment.version;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  backToLobby() {
+    this.router.navigate(['lobby']);
   }
 
 }

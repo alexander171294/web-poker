@@ -139,7 +139,7 @@ public class RoundGame {
 				icd.cards = new SchemaCard[] {stCard, null};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
-				Thread.sleep(500); // TODO: parameterize
+				threadWait(500); // TODO: parameterize
 			}
 			// second iteration:
 			for(int position: players) {
@@ -156,7 +156,7 @@ public class RoundGame {
 				icd.cards = new SchemaCard[] {stCard, ndCard};
 				sessionHandler.sendToSessID("GameController/cardsDist", usersInGame[position].sessID, icd); // to the player
 				// wait a moment?
-				Thread.sleep(500); // TODO: parameterize
+				threadWait(500); // TODO: parameterize
 			}
 		} catch(NullPointerException npe) {
 			
@@ -169,6 +169,7 @@ public class RoundGame {
 		dI.position = Utils.getPlyerPosition(usersInGame, uD);
 		if(dI.position.intValue() == waitingActionFromPlayer) {
 			boolean actionDoed = false;
+			boolean finishedBets = false;
 			// check if zero:
 			if("raise".equalsIgnoreCase(dI.action) && dI.ammount <= 0) {
 				dI.action = "call";	
@@ -218,13 +219,16 @@ public class RoundGame {
 						nextPlayer(nextPosition);
 					} else {
 						if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
-							finishBets();
+							finishedBets = true;
 						} else {
 							nextPlayer(nextPosition);
 						}
 					}
 				}
 				sessionHandler.sendToAll("/GameController/decisionInform", dI);
+				if(finishedBets) {
+					finishBets();
+				}
 			} else {
 				// TODO: error message?
 			}
@@ -243,15 +247,21 @@ public class RoundGame {
 		if(roundStep == 1) {
 			// flop:
 			roundStep = 2;
+			// wait a moment?
+			threadWait(500); // TODO: parameterize
 			dealFlop();
 			nextPlayer(nextPj);
 		} else if(roundStep == 2) {
 			// turn:
+			// wait a moment?
+			threadWait(500); // TODO: parameterize
 			roundStep = 3;
 			dealTurn();
 			nextPlayer(nextPj);
 		} else if(roundStep == 3) {
 			// turn:
+			// wait a moment?
+			threadWait(500); // TODO: parameterize
 			roundStep = 4;
 			dealRiver();
 			nextPlayer(nextPj);
@@ -407,6 +417,15 @@ public class RoundGame {
 			return ArrayUtils.addAll(flop, turn, river);
 		}
 		return new Card[]{};
+	}
+	
+	public void threadWait(long time) {
+		// FIXME: fix this:
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+
+		}
 	}
 
 }

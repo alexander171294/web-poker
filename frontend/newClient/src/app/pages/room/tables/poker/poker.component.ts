@@ -72,7 +72,11 @@ export class PokerComponent implements OnInit {
         if (this.tableCards.length === 0) {
           this.tableCards = [null, null, null, null, null];
         }
-        this.players[evt.data.position].timeRest = evt.data.remainingTime;
+        this.players.forEach((player, idx) => {
+          if (player) {
+            this.players[idx].timeRest = idx === evt.data.position ? evt.data.remainingTime : undefined;
+          }
+        });
       }
       if (evt.type === RxEType.DONE_ACTION) {
         this.players[this.myPosition].timeRest = undefined;

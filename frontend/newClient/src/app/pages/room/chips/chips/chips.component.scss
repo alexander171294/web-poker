@@ -1,13 +1,17 @@
 
 .chip {
-    width: 150px;
-    height: 150px;
-    background: #070513;
-    border-radius: 50%;
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    box-shadow: 1px 1px 7px 1px black;
+  width: 150px;
+  height: 150px;
+  background: #070513;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  box-shadow: 1px 1px 7px 1px black;
+  &.sizeFixed {
+    transform: scale(0.2);
+    transform-origin: 0 0;
+  }
 }
 .chip .whiteBand {
     position: absolute;
@@ -166,7 +170,7 @@
     height: calc(50% - 1px);
     background: #141415;
     border-top: 1px solid #333333;
-    
+
 }
 
 .internalBand .internalCircle .subCircle .finalCircle .topIcons {

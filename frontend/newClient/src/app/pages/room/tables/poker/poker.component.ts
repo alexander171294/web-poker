@@ -21,6 +21,7 @@ export class PokerComponent implements OnInit {
   public availablePositions: boolean[] = [];
   public pot: number;
   public dealed: boolean;
+  public dealerPosition: number;
   public myPosition: number;
   public resultMode: boolean;
 
@@ -51,6 +52,14 @@ export class PokerComponent implements OnInit {
       if (evt.type === RxEType.ROUND_START) {
         this.info = undefined; // removing info box
         // reseting final statuses:
+        // TODO: reset the table status.
+        this.dealerPosition = evt.data.dealerPosition;
+        this.dealed = false;
+        this.players.forEach(player => {
+          player.cards = [];
+          player.upsidedown = false;
+        });
+        this.tableCards = [null, null, null, null, null];
         this.resultMode = false;
         this.pot = 0;
       }
@@ -74,9 +83,6 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.WAITING_FOR) {
         // data.position+' for: '+data.remainingTime
-        if (this.tableCards.length === 0) {
-          this.tableCards = [null, null, null, null, null];
-        }
         this.players.forEach((player, idx) => {
           if (player) {
             this.players[idx].timeRest = idx === evt.data.position ? evt.data.remainingTime : undefined;
@@ -111,6 +117,7 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.SNAPSHOT) {
         console.log('SNAPSHOT', evt.data);
+        this.dealerPosition = evt.data.dealerPosition;
         evt.data.players.forEach((player, idx) => {
           console.log(idx, player);
           if (player != null) {

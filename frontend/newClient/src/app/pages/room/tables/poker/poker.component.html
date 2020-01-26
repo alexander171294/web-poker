@@ -4,6 +4,7 @@
   <div class="restFrame" [class.winSelection]="resultMode">
 
     <div class="iterator" *ngFor="let player of players; let idx = index">
+      <app-chips class="{{zones[idx]}}" valor="D" [fixedSize]="true" *ngIf="dealerPosition == idx"></app-chips>
       <app-room-vcard class="{{zones[idx]}}"
         [image]="player.playerDetails.image"
         [name]="player.playerDetails.name"

@@ -308,8 +308,14 @@
   }
 }
 
+app-chips {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+}
 
-app-room-vcard {
+app-room-vcard, app-chips {
   &.a {
     top: -50px;
     left: 150px;

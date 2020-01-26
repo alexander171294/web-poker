@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ChipsComponent implements OnInit {
 
   @Input() valor: string;
+  @Input() fixedSize: boolean;
 
   constructor() { }
 

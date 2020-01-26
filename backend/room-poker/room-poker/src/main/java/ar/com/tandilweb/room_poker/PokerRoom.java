@@ -133,7 +133,10 @@ public class PokerRoom implements GameCtrlInt {
 			if(schemaGameProto.schema.equals("decisionInform")) {
 				DecisionInform dI = om.readValue(serializedMessage, DecisionInform.class);
 				UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
-				actualRound.processDecision(dI, uD);
+				boolean finishedRound = actualRound.processDecision(dI, uD);
+				if (finishedRound) {
+					startRound();
+				}
 			}
 			log.debug("Receive message from " + socketSessionID);
 		} catch (JsonMappingException e) {

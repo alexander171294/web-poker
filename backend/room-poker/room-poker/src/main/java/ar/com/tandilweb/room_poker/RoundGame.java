@@ -272,7 +272,7 @@ public class RoundGame {
 			log.debug("-- SHOWDOWN --");
 			showOff();
 			checkHands();
-			threadWait(1000);
+			threadWait(2500);
 			return true;
 		}
 		return false;

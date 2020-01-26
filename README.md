@@ -48,27 +48,39 @@ Scaled here: https://i.imgur.com/GLlGMiN.png
 
 ### Gameplay:
 
-* Connect Room to protocol
-* Finish details of design
-* Polish the signup/login Lobby
+* ~Connect Room to protocol~
+* ~Finish details of design~
+* Fix a very long list of bugs.
+* Polish the signup/login Lobby.
 
-### Fine details
+Pre-Alpha Release
+
+### Fine details (RC-1)
 
 * Reconnections.
 * Splitted pots.
-* Finish 0/70 TODOS/FIXMES in Backend
+* Finish 0/70 TODOS/FIXMES in Backend.
 
-First release?
+Release Candidate 1
+
+### RC2 or Alpha?
+
+ * Fix the list of bugs.
+ * Improve source code.
+ * General Review.
+
+Release Candidate 2 / Alpha version 0.1
 
 ## Medium term
 
 ### Turnaments
 
-* Turnaments.
-* User statistics.
-* Full account and follow list. 
-* Chat in the game.
-* live broadcast
+* Turnaments. [v 0.2]
+* User statistics. [v 0.3]
+* Full account and follow list. [v 0.4] 
+* Chat in the game. [Beta 1]
+* Reviews and bugfixes [Beta 2]
+* live broadcast [First Version 1.0-LTS] 
 
 ## Long term
 

@@ -1,26 +1,28 @@
 <!-- </!-->
 
 <div class="borderOut">
-  <div class="restFrame">
+  <div class="restFrame" [class.winSelection]="resultMode">
 
-    <app-room-vcard style="top: -50px;left: 150px;"
-      [image]="players[0].playerDetails.image"
-      [name]="players[0].playerDetails.name"
-      [chips]="players[0].playerDetails.chips"
-      [timeRest]="players[0].timeRest"
-      [void]="availablePositions[0]"
-      (click)="trySeat(0)"
-    ></app-room-vcard>
-    <div class="zone a value" *ngIf="players[0].actualBet > 0">
-      {{players[0].actualBet}}
+    <div class="iterator" *ngFor="let player of players; let idx = index">
+      <app-room-vcard style="top: -50px;left: 150px;"
+        [image]="player.playerDetails.image"
+        [name]="player.playerDetails.name"
+        [chips]="player.playerDetails.chips"
+        [timeRest]="player.timeRest"
+        [void]="availablePositions[idx]"
+        (click)="trySeat(idx)"
+      ></app-room-vcard>
+      <div class="zone a value" *ngIf="player.actualBet > 0">
+        {{player.actualBet}}
+      </div>
+      <div class="zone a" *ngIf="player.actualBet > 0">
+        <app-stacker [valor]="player.actualBet"></app-stacker>
+      </div>
+      <div class="cardStack a" *ngIf="player.cards.length > 0" [class.winner]="player.winner">
+        <app-dual-stack [upsidedown]="player.upsidedown" [cards]="player.cards"></app-dual-stack>
+      </div>
     </div>
-    <div class="zone a" *ngIf="players[0].actualBet > 0">
-      <app-stacker [valor]="players[0].actualBet"></app-stacker>
-    </div>
-    <div class="cardStack a" *ngIf="players[0].cards.length > 0">
-      <app-dual-stack [upsidedown]="players[0].upsidedown" [cards]="players[0].cards"></app-dual-stack>
-    </div>
-
+<!--
 
     <app-room-vcard style="top: -51px;left: 360px;"
       [image]="players[1].playerDetails.image"
@@ -182,7 +184,7 @@
     </div>
     <div class="cardStack j" *ngIf="players[9].cards.length > 0">
       <app-dual-stack [upsidedown]="players[9].upsidedown" [cards]="players[9].cards"></app-dual-stack>
-    </div>
+    </div> -->
 
     <!-- <app-room-vcard style="top: -50px;left: 150px;"></app-room-vcard>
     <app-room-vcard style="top: -50px;left: 150px;"></app-room-vcard> -->

@@ -166,63 +166,65 @@ public class RoundGame {
 	}
 	
 	public void processDecision(DecisionInform dI, UserData uD) {
-		int position = Utils.getPlyerPosition(usersInGame, uD);
-		if(position == waitingActionFromPlayer) {
+		dI.position = Utils.getPlyerPosition(usersInGame, uD);
+		if(dI.position.intValue() == waitingActionFromPlayer) {
 			boolean actionDoed = false;
 			// check if zero:
 			if("raise".equalsIgnoreCase(dI.action) && dI.ammount <= 0) {
 				dI.action = "call";	
 			}
 			if("fold".equalsIgnoreCase(dI.action)) {
-				usersInGame[position] = null; // fold user.
+				usersInGame[dI.position.intValue()] = null; // fold user.
 				// TODO: check if is finished?.
 				actionDoed = true;
 			}
 			if("call".equalsIgnoreCase(dI.action)) {
-				long realBet = lastRise - bets[position];
+				long realBet = lastRise - bets[dI.position.intValue()];
 				// TODO: splitted POT
-				if(usersInGame[position].chips >= realBet) {
-					usersInGame[position].chips -= realBet;
+				if(usersInGame[dI.position.intValue()].chips >= realBet) {
+					usersInGame[dI.position.intValue()].chips -= realBet;
 					actionDoed = true;
-					bets[position] = lastRise;
+					dI.ammount = realBet; // change the ammount to real count for frontend
+					bets[dI.position.intValue()] = lastRise;
 				}
 			}
 			if("check".equalsIgnoreCase(dI.action)) {
-				if(lastRise == bets[position]) {
+				if(lastRise == bets[dI.position.intValue()]) {
 					actionDoed = true;
 				}
 			}
 			if("raise".equalsIgnoreCase(dI.action)) {
 				// TODO: check maximums and minimums.
 				long ammount = dI.ammount;
-				long initialBet = lastRise - bets[position];
-				lastActionedPosition = position;
+				long initialBet = lastRise - bets[dI.position.intValue()];
+				lastActionedPosition = dI.position.intValue();
 				long totalAmmount = initialBet+ammount;
-				if(usersInGame[position].chips >= totalAmmount) {
-					usersInGame[position].chips -= totalAmmount;
+				if(usersInGame[dI.position.intValue()].chips >= totalAmmount) {
+					usersInGame[dI.position.intValue()].chips -= totalAmmount;
+					dI.ammount = totalAmmount; // change the ammount to real count for frontend
 					actionDoed = true;
-					bets[position] +=  totalAmmount;
-					lastRise = bets[position];
+					bets[dI.position.intValue()] +=  totalAmmount;
+					lastRise = bets[dI.position.intValue()];
 					bigBlind = -1;
 				}
 			}
 			
 			if(actionDoed) {
-				int nextPosition = Utils.getNextPositionOfPlayers(usersInGame, position);
+				int nextPosition = Utils.getNextPositionOfPlayers(usersInGame, dI.position.intValue());
 				if("raise".equalsIgnoreCase(dI.action)) {
 					nextPlayer(nextPosition);
 				} else {
 					if(nextPosition == bigBlind) {
 						nextPlayer(nextPosition);
 					} else {
-						if(lastActionedPosition == nextPosition || position == bigBlind) { // if next is last or actual is last (in bigBlind case)
+						if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
 							finishBets();
 						} else {
 							nextPlayer(nextPosition);
 						}
 					}
 				}
-				sessionHandler.sendToAll("/GameController/DecisionInform", dI);
+				sessionHandler.sendToAll("/GameController/decisionInform", dI);
 			} else {
 				// TODO: error message?
 			}

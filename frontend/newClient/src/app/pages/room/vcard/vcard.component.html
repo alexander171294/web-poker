@@ -5,7 +5,7 @@
     <div class="head" [class.available]="!image">
       <span *ngIf="void">Seat</span>
       <img [src]="image" *ngIf="image && image !== '#'" />
-      <img src="assets/avatar.png" *ngIf="image && image === '#'" />
+      <img src="assets/unknown.gif" *ngIf="image && image === '#'" />
       <div class="name" *ngIf="name">{{name}}</div>
       <div class="chips" *ngIf="chips">
         <div class="boxy">{{chips}}</div>

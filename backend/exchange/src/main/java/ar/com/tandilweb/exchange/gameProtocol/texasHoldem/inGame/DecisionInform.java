@@ -6,6 +6,7 @@ public class DecisionInform extends InGameSchema {
 	
 	public String action;
 	public long ammount;
+	public Integer position;
 	
 	public DecisionInform() {
 		super("decisionInform");

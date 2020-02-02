@@ -1,6 +1,6 @@
 <div class="vCard" [class.active]="timeRest">
     <div class="timeA">
-      <div class="internalRadius"></div>
+      <div class="internalRadius" [style.transform]="'rotate(' + partGradesA + 'deg)'"></div>
     </div>
     <div class="head" [class.available]="!image">
       <span *ngIf="void">Seat</span>
@@ -12,6 +12,6 @@
       </div>
     </div>
     <div class="timeB">
-        <div class="internalRadius" [style.transform]="timeRest ? 'rotate(60deg)' : 'rotate(180deg)'"></div>
+        <div class="internalRadius" [style.transform]="'rotate(' + partGradesB + 'deg)'"></div>
     </div>
   </div>

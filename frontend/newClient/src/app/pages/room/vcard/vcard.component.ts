@@ -12,10 +12,46 @@ export class VcardComponent implements OnInit {
   @Input() timeRest: number;
   @Input() chips: string;
   @Input() void: boolean;
+  private actualTimeRest;
+  private partGradesA = 180;
+  public partGradesB = 180;
+  public timmerActions: NodeJS.Timer;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  startTimeRest(remainingTime: number) {
+    this.timeRest = this.timeRest ? this.timeRest : remainingTime;
+    this.actualTimeRest = this.timeRest * 10;
+    this.timmerActions = setInterval(() => {
+      this.actualTimeRest--;
+      if (this.actualTimeRest < 0) {
+        this.finishActions();
+      } else {
+        this.processPositions();
+      }
+    }, 100);
+    this.processPositions();
+  }
+
+  private processPositions() {
+    let grades = Math.floor(this.actualTimeRest * 360 / (this.timeRest * 10));
+    if (grades > 180) {
+      this.partGradesB = 0;
+      grades = grades - 180;
+      this.partGradesA = 180 - grades;
+    } else {
+      this.partGradesA = 180;
+      this.partGradesB = 180 - grades;
+    }
+  }
+
+  finishActions() {
+    clearInterval(this.timmerActions);
+    this.partGradesB = 180;
+    this.partGradesA = 180;
   }
 
 }

@@ -1,9 +1,10 @@
 import { RoomService } from 'src/app/services/network/room.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { PlayerSnapshot } from './PlayerSnapshot';
 import { Card } from '../../cards/dual-stack/Card';
 import { WsRoomService } from 'src/app/services/network/room/ws-room.service';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
+import { VcardComponent } from '../../vcard/vcard.component';
 
 @Component({
   selector: 'app-table-poker',
@@ -26,6 +27,8 @@ export class PokerComponent implements OnInit {
   public resultMode: boolean;
 
   public info: string;
+
+  @ViewChildren(VcardComponent) vcards: QueryList<VcardComponent>;
 
   constructor(private room: RoomService) { }
 
@@ -86,6 +89,11 @@ export class PokerComponent implements OnInit {
         this.players.forEach((player, idx) => {
           if (player) {
             this.players[idx].timeRest = idx === evt.data.position ? evt.data.remainingTime : undefined;
+            if (idx === evt.data.position) {
+              this.vcards.toArray()[idx].startTimeRest(evt.data.remainingTime);
+            } else {
+              this.vcards.toArray()[idx].finishActions();
+            }
           }
         });
       }
@@ -99,6 +107,9 @@ export class PokerComponent implements OnInit {
         }
       }
       if (evt.type === RxEType.FLOP) {
+        this.players.forEach((player, idx) => {
+          this.vcards.toArray()[idx].finishActions();
+        });
         this.tableCards[0] = evt.data[0];
         this.tableCards[1] = evt.data[1];
         this.tableCards[2] = evt.data[2];
@@ -106,11 +117,17 @@ export class PokerComponent implements OnInit {
         this.clearTableChips();
       }
       if (evt.type === RxEType.TURN) {
+        this.players.forEach((player, idx) => {
+          this.vcards.toArray()[idx].finishActions();
+        });
         this.tableCards[3] = evt.data;
         // clear chips
         this.clearTableChips();
       }
       if (evt.type === RxEType.RIVER) {
+        this.players.forEach((player, idx) => {
+          this.vcards.toArray()[idx].finishActions();
+        });
         this.tableCards[4] = evt.data;
         // clear chips
         this.clearTableChips();
@@ -168,7 +185,9 @@ export class PokerComponent implements OnInit {
         });
       }
       if (evt.type === RxEType.DEPOSIT_SUCCESS) {
-        this.players[this.myPosition].playerDetails.chips += evt.data.chips;
+        if (this.players[this.myPosition]) {
+          this.players[this.myPosition].playerDetails.chips += evt.data.chips;
+        }
       }
     });
   }

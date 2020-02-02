@@ -21,7 +21,7 @@ export class PokerComponent implements OnInit {
   public availablePositions: boolean[] = [];
   public pot: number;
   public dealed: boolean;
-  public dealerPosition: number;
+  public dealerPosition: number = -1;
   public myPosition: number;
   public resultMode: boolean;
 
@@ -166,6 +166,9 @@ export class PokerComponent implements OnInit {
           this.players[winner.position].winner = true;
           this.players[winner.position].playerDetails.chips += winner.pot;
         });
+      }
+      if (evt.type === RxEType.DEPOSIT_SUCCESS) {
+        this.players[this.myPosition].playerDetails.chips += evt.data.chips;
       }
     });
   }

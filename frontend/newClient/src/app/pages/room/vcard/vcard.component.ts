@@ -15,7 +15,7 @@ export class VcardComponent implements OnInit {
   private actualTimeRest;
   private partGradesA = 180;
   public partGradesB = 180;
-  public timmerActions: NodeJS.Timer;
+  public timmerActions: any;
 
   constructor() { }
 

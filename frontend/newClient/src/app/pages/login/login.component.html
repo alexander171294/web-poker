@@ -6,45 +6,40 @@
                 <h4>POKER</h4>
             </header>
             <form>
-                <div class="formControl">
-                    <label>Username</label>
-                    <input type="text" name="nick" [(ngModel)]="nick"/>
-                </div>
-                <div class="formControl">
-                    <label>Password</label>
-                    <input type="password" name="password" [(ngModel)]="password"/>
-                </div>
-                <div class="lastPart">
-                    <a href="#">Forgot your password?</a>
-
-                   
-
-                    <button (click)="doLogin($event)" [class.spinner]="logining">Login</button>
-                    
-                </div>
-                <p *ngIf="errorLogin" >Invalid Username/Password</p>
+              <span *ngIf="errorLogin" class="error">Invalid Username/Password</span>
+              <div class="formControl">
+                  <label>Username</label>
+                  <input type="text" name="nick" [(ngModel)]="nick" [class.error]="errorLogin"/>
+              </div>
+              <div class="formControl">
+                  <label>Password</label>
+                  <input type="password" name="password" [(ngModel)]="password" [class.error]="errorLogin"/>
+              </div>
+              <div class="lastPart">
+                  <a href="#">Forgot your password?</a>
+                  <button (click)="doLogin($event)" [class.spinner]="logining">Login</button>
+              </div>
             </form>
-            
         </div>
         <div class="signup" *ngIf="signupForm">
             <h5>Create account</h5>
             <form>
                 <div class="formControl">
                     <label>Username</label>
-                    <input type="text" name="nick" [(ngModel)]="nick"/>
+                    <input type="text" name="nick" [(ngModel)]="nick" [class.error]="errorRegister"/>
                 </div>
                 <div class="formControl">
                     <label>Email</label>
-                    <input type="email" name="email" [(ngModel)]="email"/>
+                    <input type="email" name="email" [(ngModel)]="email" [class.error]="errorRegister"/>
                 </div>
                 <div class="formControl">
                     <label>Password</label>
-                    <input type="password" name="password" [(ngModel)]="password"/>
+                    <input type="password" name="password" [(ngModel)]="password" [class.error]="errorRegister"/>
                 </div>
+                <span *ngIf="errorRegister" class="errorBottom">Nickname/Mail in use. Or weak Password</span>
                 <div class="lastPart">
                     <button (click)="doSignup($event)" [class.spinner]="signing">Signup</button>
                 </div>
-                <p *ngIf="errorRegister">Nickname/Mail in use,or weak Password/p>
             </form>
         </div>
         <div class="cut"></div>

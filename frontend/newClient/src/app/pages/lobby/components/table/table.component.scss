@@ -18,6 +18,13 @@ ul {
         top: 8px;
         cursor: pointer;
         outline: none;
+        height: 29px;
+        width: 29px;
+        line-height: 35px;
+        margin-top: -4px;
+        &.isLoading {
+          animation: rotator 1s linear infinite;
+        }
         svg {
             width: 17px;
         }
@@ -106,3 +113,11 @@ ul {
 }
 
 //#
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

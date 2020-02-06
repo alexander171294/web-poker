@@ -11,25 +11,25 @@ export class TableComponent implements OnInit {
 
   public tab = 1;
   @Input() rooms: RoomResponse[];
-  @Output() reload: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reload: EventEmitter<() => void> = new EventEmitter<() => void>();
+  public loading: boolean;
 
   constructor(private router: Router) { }
 
   ngOnInit() {
-    // for(let i = 1; i<=10; i++) {
-    //   this.rooms.push({
-    //     name: 'Room name #'+i,
-    //     description: 'Room description #'+i,
-    //     actualPlayers: 5+i,
-    //     maxPlayers: 11+i,
-    //     minChips: 500*i
-    //   });
-    // }
+
   }
 
   connect(room: RoomResponse) {
     sessionStorage.setItem('room-' + room.id_room, JSON.stringify(room));
     this.router.navigate(['/room', room.id_room]);
+  }
+
+  reloading() {
+    this.loading = true;
+    this.reload.emit(() => {
+      this.loading = false;
+    });
   }
 
 }

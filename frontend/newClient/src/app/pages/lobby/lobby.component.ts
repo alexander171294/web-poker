@@ -16,8 +16,15 @@ export class LobbyComponent implements OnInit {
   constructor(private lobbySrv: LobbyService) { }
 
   ngOnInit() {
+    this.updateRooms();
+  }
+
+  updateRooms(callback?) {
     this.lobbySrv.getRooms().subscribe(rooms => {
       this.rooms = rooms.rooms;
+      if (callback) {
+        callback();
+      }
     });
   }
 

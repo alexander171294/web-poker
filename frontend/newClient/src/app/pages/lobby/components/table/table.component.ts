@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class TableComponent implements OnInit {
 
+  public tab = 1;
   @Input() rooms: RoomResponse[];
 
   constructor(private router: Router) { }
@@ -26,16 +27,12 @@ export class TableComponent implements OnInit {
   }
 
   connect(room: RoomResponse) {
-    sessionStorage.setItem('room-'+room.id_room, JSON.stringify(room));
+    sessionStorage.setItem('room-' + room.id_room, JSON.stringify(room));
     this.router.navigate(['/room', room.id_room]);
   }
 
-  
-//Game tabs selector
-  tab : number = 1;
-    onClick(check){
-    //console.log(check);       
-     this.tab = check;     
-    }
+  reload() {
+
+  }
 
 }

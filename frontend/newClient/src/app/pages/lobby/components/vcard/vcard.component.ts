@@ -11,11 +11,12 @@ export class VcardComponent implements OnInit {
   @Input() statusColor;
   @Input() playedHours: number;
   @Input() nick: string;
+  @Input() chips: number;
 
   constructor() { }
 
   ngOnInit() {
-    
+
   }
 
 }

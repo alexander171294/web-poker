@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RoomResponse } from 'src/app/services/roomsResponse';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,7 @@ export class TableComponent implements OnInit {
 
   public tab = 1;
   @Input() rooms: RoomResponse[];
+  @Output() reload: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private router: Router) { }
 
@@ -29,10 +30,6 @@ export class TableComponent implements OnInit {
   connect(room: RoomResponse) {
     sessionStorage.setItem('room-' + room.id_room, JSON.stringify(room));
     this.router.navigate(['/room', room.id_room]);
-  }
-
-  reload() {
-
   }
 
 }

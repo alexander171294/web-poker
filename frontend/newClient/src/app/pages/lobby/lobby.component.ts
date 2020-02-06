@@ -12,6 +12,7 @@ export class LobbyComponent implements OnInit {
 
   public version = environment.version;
   private rooms: RoomResponse[];
+  public loadingProfileData = true;
 
   constructor(private lobbySrv: LobbyService) { }
 
@@ -26,6 +27,10 @@ export class LobbyComponent implements OnInit {
         callback();
       }
     });
+  }
+
+  getProfileData() {
+    this.loadingProfileData = true;
   }
 
 }

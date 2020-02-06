@@ -12,11 +12,14 @@ export class VcardComponent implements OnInit {
   @Input() playedHours: number;
   @Input() nick: string;
   @Input() chips: number;
+  @Input() loading: boolean;
 
   constructor() { }
 
   ngOnInit() {
 
   }
+
+
 
 }

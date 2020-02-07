@@ -76,14 +76,18 @@ public class LoginAdapter {
 		if (user == null) {
 			throw new ValidationException(3, "Not user found");
 		}
-		if (maxBadLogins > 0 && user.getBadLogins() == maxBadLogins) {
+		if (maxBadLogins > 0 && user.getBadLogins() >= maxBadLogins) {
 			throw new ValidationException(4, "You are blocked for max bad logins");
 		}
 		// TODO: crypt password field, and compare hashes in login:
 		if (!user.getPassword().equals(loginData.password)) {
 			user.setBadLogins((short) (user.getBadLogins() + 1));
+			userRepository.update(user);
 			throw new ValidationException(5, "Invalid password");
 		}
+		
+		user.setBadLogins((short)0);
+		userRepository.update(user);
 		// create session for new user:
 		Sessions session = new Sessions();
 		

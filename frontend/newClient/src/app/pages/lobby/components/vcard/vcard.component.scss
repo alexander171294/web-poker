@@ -20,8 +20,9 @@
     .textDetails {
         display: inline-block;
         vertical-align: middle;
-        span {
+        div.info {
             display: block;
+            margin: 3px;
             &.name{
                 color: #ffb229;
                 font-size: 14px;
@@ -36,24 +37,48 @@
                 width: 12px;
             }
         }
+        &.isLoading {
+          div.info {
+            background: rgba(103, 103, 103, 0.25);
+            min-height: 18px;
+            position: relative;
+            overflow: hidden;
+            &::after {
+              display: block;
+              content: "";
+              width: 20%;
+              height: 18px;
+              background: linear-gradient(90deg, transparent, #6565655c, transparent);
+              position: absolute;
+              animation: toRightMove 1.5s linear infinite;
+            }
+          }
+        }
     }
     .buttoner {
-        position: absolute;
-        top: 1vh;
-        right: 1vh;
-        button {
-            background: transparent;
-            border: none;
-            color: #0b1b0f;
-            transition: color .2s;
-            cursor: pointer;
-            svg {
-                width: 2vw;
-            }
-            &:hover {
-                color: #d7a965;
-            }
+      position: absolute;
+      top: 1vh;
+      right: 1vh;
+      button {
+        background: transparent;
+        border: none;
+        color: #0b1b0f;
+        transition: color .2s;
+        cursor: pointer;
+        svg {
+            width: 2vw;
         }
-
+        &:hover {
+            color: #d7a965;
+        }
+      }
     }
+}
+@keyframes toRightMove {
+  0% {
+    left: -20%;
+  }
+  100% {
+    left: 100%;
+  }
 }

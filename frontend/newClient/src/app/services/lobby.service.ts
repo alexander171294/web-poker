@@ -1,3 +1,4 @@
+import { Security } from './Security';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RoomsResponse } from './roomsResponse';
@@ -14,22 +15,16 @@ export class LobbyService {
 
   public getRooms(): Observable<RoomsResponse> {
     const url = environment.apiServer + 'lobby/rooms';
-    return this.httpClient.get<RoomsResponse>(url, {headers: this.getHttpOptionsJWT() });
-  }
-
-  private getHttpOptionsJWT(): HttpHeaders{
-    const identity = localStorage.getItem('sessID');
-    const jwt = localStorage.getItem('jwt');
-    return new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer<' + jwt + '>', 'Identity': identity});
+    return this.httpClient.get<RoomsResponse>(url, {headers: Security.getHttpOptionsJWT() });
   }
 
   challenge(roomID, claimToken): Observable<ChallengeResponse> {
     const url = environment.apiServer + 'lobby/rooms/' + roomID;
-    return this.httpClient.post<ChallengeResponse>(url, claimToken, {headers: this.getHttpOptionsJWT() });
+    return this.httpClient.post<ChallengeResponse>(url, claimToken, {headers: Security.getHttpOptionsJWT() });
   }
 
   challengeD(roomID, claimToken, chips): Observable<ChallengeResponse> {
     const url = environment.apiServer + 'lobby/rooms/' + roomID + '?deposit=' + chips;
-    return this.httpClient.post<ChallengeResponse>(url, claimToken, {headers: this.getHttpOptionsJWT() });
+    return this.httpClient.post<ChallengeResponse>(url, claimToken, {headers: Security.getHttpOptionsJWT() });
   }
 }

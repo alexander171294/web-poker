@@ -1,12 +1,6 @@
 <div class="actionBox" *ngIf="isMyTurn">
   <div class="barBox">
-    <input type="text" class="potInput" [(ngModel)]="actualRaise"/>
-    <div class="path">
-      <div class="startBubble"></div>
-      <div class="coloredPath"></div>
-      <div class="actualBubble"></div>
-      <div class="maxBubble"></div>
-    </div>
+    <app-bet-selector *ngIf="actualRaise >= 0" [userChips]="mySnapshot.playerDetails.chips" [initialRaise]="actualRaise" [maxRaise]="maxRaise" (raiseChanged)="actualRaise = $event"></app-bet-selector>
   </div>
   <div class="buttonBox">
     <button (click)="call(toCall)" *ngIf="!canCheck">Call {{toCall}}</button>

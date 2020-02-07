@@ -12,6 +12,7 @@ import { Deposit } from './epprProtocol/clientOperations/Deposit';
 import { DecisionInform } from './epprProtocol/game/DecisionInform';
 import { ReactionEvents, RxEType } from './ReactionEvents';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PlayerSnapshot } from 'src/app/pages/room/tables/poker/PlayerSnapshot';
 
 // last global connection event: 15
 @Injectable({
@@ -25,7 +26,7 @@ export class RoomService {
   public reactionEvent: EventEmitter<ReactionEvents> = new EventEmitter<ReactionEvents>();
   public authClaim: string;
   public roomID: number;
-
+  private meSnapshot: PlayerSnapshot;
 
   constructor(private ws: WsRoomService, private terminal: TerminalService) {}
 
@@ -324,5 +325,13 @@ export class RoomService {
 
   onResultSet(data) {
     this.reactionEvent.emit(new ReactionEvents(RxEType.RESULT_SET, data));
+  }
+
+  setMeSnapshot(snapshot: PlayerSnapshot) {
+    this.meSnapshot = snapshot;
+  }
+
+  getMeSnapshot(): PlayerSnapshot {
+    return this.meSnapshot;
   }
 }

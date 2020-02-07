@@ -1,8 +1,7 @@
 import { RoomService } from 'src/app/services/network/room.service';
-import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { PlayerSnapshot } from './PlayerSnapshot';
 import { Card } from '../../cards/dual-stack/Card';
-import { WsRoomService } from 'src/app/services/network/room/ws-room.service';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
 import { VcardComponent } from '../../vcard/vcard.component';
 
@@ -143,6 +142,9 @@ export class PokerComponent implements OnInit {
             nPlayer.playerDetails.image = player.photo;
             nPlayer.playerDetails.name = player.nick;
             this.players[idx] = nPlayer;
+            if (this.myPosition === idx) {
+              this.room.setMeSnapshot(nPlayer);
+            }
           }
         });
       }

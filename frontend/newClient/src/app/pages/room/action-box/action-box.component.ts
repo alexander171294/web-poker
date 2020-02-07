@@ -1,6 +1,7 @@
+import { PlayerSnapshot } from './../tables/poker/PlayerSnapshot';
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/services/network/room.service';
-import { RxEType, ReactionEvents } from 'src/app/services/network/ReactionEvents';
+import { RxEType } from 'src/app/services/network/ReactionEvents';
 
 @Component({
   selector: 'app-action-box',
@@ -12,15 +13,17 @@ export class ActionBoxComponent implements OnInit {
   isMyTurn: boolean;
   private myPosition = 0;
 
-  public actualRaise: number;
+  public actualRaise = -1;
   public minRaise: number;
   public maxRaise: number;
   public toCall: number;
   public canCheck: boolean;
+  public mySnapshot: PlayerSnapshot = new PlayerSnapshot();
 
   constructor(private room: RoomService) { }
 
   ngOnInit() {
+    //this.mySnapshot = this.room.getMeSnapshot();
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.INGRESS) {
         this.myPosition = evt.data.position;

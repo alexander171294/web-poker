@@ -1,0 +1,70 @@
+.potInput {
+  display: block;
+  margin: 5px auto;
+  background: #09100a;
+  border: 0px;
+  outline: none;
+  padding: 8px 3px;
+  width: 100px;
+  box-shadow: inset 0px 0px 5px #00000059;
+  border-radius: 3px;
+  color: #89b8b9d1;
+  text-align: center;
+  font-family: fantasy;
+}
+.path {
+  display: block;
+  width: 90%;
+  height: 7px;
+  background: #09100a;
+  margin: 5px auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.75);
+  .startBubble {
+    position: absolute;
+    left: -3px;
+    top: -1px;
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(#2ac400, #23a200);
+    z-index: 2;
+    box-shadow: -1px 1px 0px rgba(0, 0, 0, 0.15);
+  }
+  .coloredPath {
+    position: absolute;
+    top: 0px;
+    width: 50px;
+    height: 7px;
+    background: linear-gradient(#2ac400, #23a200);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+  }
+  .actualBubble {
+    position: absolute;
+    left: 46px;
+    top: -3px;
+    background: linear-gradient(#2ac400, #23a200);
+    width: 12px;
+    height: 12px;
+    cursor: grab;
+    border-radius: 5px;
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    &.clicked {
+      cursor: grabbing;
+    }
+  }
+  .maxBubble {
+    position: absolute;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+    background: #09100a;
+    top: -1px;
+    border-radius: 5px;
+    box-shadow: inset -1px 0px 0px rgba(0, 0, 0, 0.35);
+  }
+}

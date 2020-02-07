@@ -1,0 +1,7 @@
+<input type="text" class="potInput" [(ngModel)]="actualRaise" (input)="changeDector($event)"/>
+<div class="path">
+  <div class="startBubble"></div>
+  <div class="coloredPath" [style.width]="raisePercent"></div>
+  <div class="actualBubble" [style.left]="raisePercent"></div>
+  <div class="maxBubble"></div>
+</div>

@@ -46,6 +46,7 @@ export class PokerComponent implements OnInit {
         nPlayer.playerDetails.image = evt.data.avatar;
         nPlayer.playerDetails.name = evt.data.user;
         this.players[evt.data.position] = nPlayer;
+
         this.availablePositions[evt.data.position] = false;
       }
       if (evt.type === RxEType.START_IN) {
@@ -142,9 +143,6 @@ export class PokerComponent implements OnInit {
             nPlayer.playerDetails.image = player.photo;
             nPlayer.playerDetails.name = player.nick;
             this.players[idx] = nPlayer;
-            if (this.myPosition === idx) {
-              this.room.setMeSnapshot(nPlayer);
-            }
           }
         });
       }

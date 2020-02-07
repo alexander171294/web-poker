@@ -24,12 +24,11 @@ export class BetSelectorComponent implements OnInit {
   }
 
   changeDector(event: any) {
-    const maxR = this.maxRaise > 0 ? this.maxRaise : 500; // this.userChips;
+    const maxR = this.maxRaise > 0 ? this.maxRaise : this.userChips;
     if (this.actualRaise > maxR) {
       this.actualRaise = maxR;
     }
     const aR = this.actualRaise ? this.actualRaise : 0;
-    console.log(event, aR, maxR);
     this.raiseChanged.emit(aR);
     const percent = Math.ceil(aR * 100 / maxR);
     this.raisePercent = percent + '%';

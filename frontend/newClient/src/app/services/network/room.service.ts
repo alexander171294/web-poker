@@ -26,7 +26,6 @@ export class RoomService {
   public reactionEvent: EventEmitter<ReactionEvents> = new EventEmitter<ReactionEvents>();
   public authClaim: string;
   public roomID: number;
-  private meSnapshot: PlayerSnapshot;
 
   constructor(private ws: WsRoomService, private terminal: TerminalService) {}
 
@@ -327,11 +326,4 @@ export class RoomService {
     this.reactionEvent.emit(new ReactionEvents(RxEType.RESULT_SET, data));
   }
 
-  setMeSnapshot(snapshot: PlayerSnapshot) {
-    this.meSnapshot = snapshot;
-  }
-
-  getMeSnapshot(): PlayerSnapshot {
-    return this.meSnapshot;
-  }
 }

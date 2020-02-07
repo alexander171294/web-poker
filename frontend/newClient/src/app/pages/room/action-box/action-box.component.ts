@@ -23,7 +23,6 @@ export class ActionBoxComponent implements OnInit {
   constructor(private room: RoomService) { }
 
   ngOnInit() {
-    //this.mySnapshot = this.room.getMeSnapshot();
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.INGRESS) {
         this.myPosition = evt.data.position;

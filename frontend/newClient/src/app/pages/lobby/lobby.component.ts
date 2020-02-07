@@ -25,7 +25,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.updateRooms();
     this.loadingProfileData = true;
     this.getProfileData();
-    this.intUserData = setInterval(() => this.getProfileData(), 1500);
+    this.intUserData = setInterval(() => this.getProfileData(), environment.refreshProfileTime);
   }
 
   updateRooms(callback?) {

@@ -228,10 +228,9 @@ export class PokerComponent implements OnInit {
         nPlayer.playerDetails.image = player.photo;
         nPlayer.playerDetails.name = player.nick;
         if (this.dealed) {
-          nPlayer.cards = player.cards ? player.cards : [];
+          nPlayer.cards = player.cards ? player.cards : [true, true];
           nPlayer.upsidedown = evt.data.roundStep <= 5 && !player.showingCards;
         }
-        console.log('ADDDDDDING NEW PLAYER: ', nPlayer);
         this.players[idx] = nPlayer;
       }
     });

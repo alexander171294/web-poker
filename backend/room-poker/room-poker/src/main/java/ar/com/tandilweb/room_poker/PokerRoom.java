@@ -127,7 +127,16 @@ public class PokerRoom implements GameCtrlInt {
 				snap.communityCards.add(Utils.getSchemaFromCard(cards[i]));
 			}
 			snap.roundStep = actualRound.getStep();
+			// action?
+			if(actualRound.checkWaiting()) {
+				snap.waitingFor = actualRound.getWaitingActionFromPlayer();
+				// is me?
+				if(snap.myPosition == snap.waitingFor) {
+					snap.betDecision = actualRound.calcDecision();
+				}
+			}
 		}
+		
 		sessionHandler.sendToSessID("GameController/snapshot", sessID, snap);
 	}
 	

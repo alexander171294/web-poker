@@ -60,6 +60,7 @@ public class RoundGame {
 	private long pot;
 	
 	private Deck deck;
+	private boolean isWaiting = false;
 	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
@@ -107,19 +108,24 @@ public class RoundGame {
 	}
 	
 	private void sendWaitAction() {
+		isWaiting = true;
 		ActionFor aFor = new ActionFor();
 		aFor.position = waitingActionFromPlayer;
 		aFor.remainingTime = 30; // TODO: adjust according to configuration.
 		sessionHandler.sendToAll("/GameController/actionFor", aFor);
+		// send wait for bet decision:
+		sessionHandler.sendToSessID("GameController/betDecision", usersInGame[aFor.position].sessID, calcDecision());
+		// TODO: implement timer for wait stop.
+	}
+	
+	public BetDecision calcDecision() {
 		// action for:
 		BetDecision bd = new BetDecision();
 		bd.toCall = lastRise - bets[waitingActionFromPlayer];
 		bd.canCheck = bd.toCall == 0;
-		bd.minRaise = MIN_RAISE; 
-		bd.maxRaise = MAX_RAISE; 
-		// send wait for bet decision:
-		sessionHandler.sendToSessID("GameController/betDecision", usersInGame[aFor.position].sessID, bd);
-		// TODO: implement timer for wait stop.
+		bd.minRaise = MIN_RAISE;
+		bd.maxRaise = MAX_RAISE;
+		return bd;
 	}
 	
 	private void dealCards() throws InterruptedException {
@@ -167,6 +173,7 @@ public class RoundGame {
 	// Return if the round is finished
 	public boolean processDecision(DecisionInform dI, UserData uD) {
 		dI.position = Utils.getPlyerPosition(usersInGame, uD);
+		isWaiting = false;
 		if(dI.position.intValue() == waitingActionFromPlayer) {
 			boolean actionDoed = false;
 			boolean finishedBets = false;
@@ -436,6 +443,14 @@ public class RoundGame {
 	
 	public int getStep() {
 		return roundStep;
+	}
+	
+	public int getWaitingActionFromPlayer() {
+		return waitingActionFromPlayer;
+	}
+	
+	public boolean checkWaiting() {
+		return isWaiting;
 	}
 	
 	public Card[] getCommunityCards() {

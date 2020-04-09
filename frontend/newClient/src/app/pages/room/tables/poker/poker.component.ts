@@ -251,6 +251,9 @@ export class PokerComponent implements OnInit {
     if (evt.data.roundStep >= 4) {
       this.tableCards[4] = evt.data.communityCards[4];
     }
+    if (evt.data.waitingFor) {
+      this.players[evt.data.waitingFor].timeRest = 0; // FIXME: change this for rest of time from backend.
+    }
   }
 
 }

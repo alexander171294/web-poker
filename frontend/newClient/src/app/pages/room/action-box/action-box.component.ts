@@ -46,6 +46,16 @@ export class ActionBoxComponent implements OnInit {
       if (evt.type === RxEType.DONE_ACTION) {
         this.isMyTurn = false;
       }
+      if (evt.type === RxEType.SNAPSHOT) {
+        if (evt.data.waitingFor && evt.data.waitingFor === this.myPosition) {
+          this.isMyTurn = true;
+          this.minRaise = evt.data.betDecision.minRaise;
+          this.maxRaise = evt.data.betDecision.maxRaise;
+          this.actualRaise = evt.data.betDecision.minRaise;
+          this.canCheck = evt.data.betDecision.canCheck;
+          this.toCall = evt.data.betDecision.toCall;
+        }
+      }
     });
     this.isMyTurn = false;
   }

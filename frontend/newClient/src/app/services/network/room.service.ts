@@ -279,7 +279,7 @@ export class RoomService {
 
   onSuccessDeposit(data) {
     this.terminal.info('Success deposit: ' + data.chips);
-    this.reactionEvent.emit(new ReactionEvents(RxEType.DEPOSIT_SUCCESS, {}));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.DEPOSIT_SUCCESS, data));
   }
 
   onInvalidDeposit(data) {

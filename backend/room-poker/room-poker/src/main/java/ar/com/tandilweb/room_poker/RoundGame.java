@@ -62,6 +62,8 @@ public class RoundGame {
 	private Deck deck;
 	private boolean isWaiting = false;
 	
+	private int lastActivePositionDetected;
+	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
 		this.bets = ArrayUtils.toPrimitive(Collections.nCopies(usersInGame.length, 0L).toArray(new Long[0]));
@@ -183,8 +185,11 @@ public class RoundGame {
 			}
 			if("fold".equalsIgnoreCase(dI.action)) {
 				usersInGame[dI.position.intValue()] = null; // fold user.
-				// TODO: check if is finished?.
-				actionDoed = true;
+				if(checkPlayerActives() > 1) {
+					actionDoed = true;
+				} else {
+					return finishBetFullFold();
+				}
 			}
 			if("call".equalsIgnoreCase(dI.action)) {
 				long realBet = lastRise - bets[dI.position.intValue()];
@@ -241,6 +246,36 @@ public class RoundGame {
 			}
 		}
 		return false;
+	}
+	
+	private int checkPlayerActives() {
+		int count = 0;
+		for(int i = 0; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				count++;
+				lastActivePositionDetected = i;
+			}
+		}
+		return count;
+	}
+	
+	private boolean finishBetFullFold() {
+		// check round bets:
+		for(int i = 0; i < bets.length; i++) {
+			pot += bets[i];
+		}
+		ResultSet rs = new ResultSet();
+		rs.winners = new ArrayList<Winner>();
+		int winner = lastActivePositionDetected;
+		Winner winnerData = new Winner();
+		winnerData.points = 0;
+		winnerData.position = winner;
+		winnerData.pot = pot;
+		winnerData.reason = "All other players fold";
+		usersInGame[winner].chips += pot;
+		rs.winners.add(winnerData);
+		sessionHandler.sendToAll("/GameController/resultSet", rs);
+		return true;
 	}
 	
 	private boolean finishBets() {

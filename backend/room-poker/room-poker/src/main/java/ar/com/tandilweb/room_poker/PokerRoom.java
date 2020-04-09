@@ -101,11 +101,14 @@ public class PokerRoom implements GameCtrlInt {
 				player.photo = usersInTable[i].dataBlock.getPhoto();
 				if(actualRound != null) {
 					player.actualBet = actualRound.getBetOf(i);
-					// TODO: cards of player
-					//player.haveCards?
+					player.showingCards = false;
+					// Me?
+					if(i == (Integer) objectID) {
+						player.showingCards = true;
+						player.cards = actualRound.getCards(i);
+					}
 					//player.showingCards?
 					//player.cards = getCardsForUser with player.showingCards?
-					
 				}
 				snap.players.add(player);
 			} else {

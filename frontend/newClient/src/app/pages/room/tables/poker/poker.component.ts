@@ -41,12 +41,14 @@ export class PokerComponent implements OnInit {
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.ANNOUNCEMENT) {
         // this.announcement =
-        const nPlayer = new PlayerSnapshot();
-        nPlayer.playerDetails.chips = evt.data.chips;
-        nPlayer.playerDetails.image = evt.data.avatar;
-        nPlayer.playerDetails.name = evt.data.user;
-        this.players[evt.data.position] = nPlayer;
-
+        console.log('Original', this.players[evt.data.position]);
+        if (this.players[evt.data.position] == null || this.players[evt.data.position].playerDetails.name == null) {
+          const nPlayer = new PlayerSnapshot();
+          nPlayer.playerDetails.chips = evt.data.chips;
+          nPlayer.playerDetails.image = evt.data.avatar;
+          nPlayer.playerDetails.name = evt.data.user;
+          this.players[evt.data.position] = nPlayer;
+        }
         this.availablePositions[evt.data.position] = false;
       }
       if (evt.type === RxEType.START_IN) {
@@ -133,41 +135,7 @@ export class PokerComponent implements OnInit {
         this.clearTableChips();
       }
       if (evt.type === RxEType.SNAPSHOT) {
-        console.log('SNAPSHOT', evt.data);
-        this.dealerPosition = evt.data.dealerPosition;
-        evt.data.players.forEach((player, idx) => {
-          if (player != null) {
-            const nPlayer = new PlayerSnapshot();
-            nPlayer.playerDetails.chips = player.chips;
-            nPlayer.playerDetails.image = player.photo;
-            nPlayer.playerDetails.name = player.nick;
-            this.players[idx] = nPlayer;
-          }
-        });
-        if (evt.data.myPosition >= 0) {
-          this.myPosition = evt.data.myPosition;
-        }
-        // PRE-FLOP:
-        if (evt.data.roundStep >= 1) {
-          this.dealed = true;
-        }
-        // FLOP:
-        if (evt.data.roundStep >= 2) {
-          this.tableCards[0] = evt.data.communityCards[0];
-          this.tableCards[1] = evt.data.communityCards[1];
-          this.tableCards[2] = evt.data.communityCards[2];
-          this.tableCards[3] = null;
-          this.tableCards[4] = null;
-        }
-        // TURN:
-        if (evt.data.roundStep >= 3) {
-          this.tableCards[3] = evt.data.communityCards[3];
-          this.tableCards[4] = null;
-        }
-        // River:
-        if (evt.data.roundStep >= 4) {
-          this.tableCards[4] = evt.data.communityCards[4];
-        }
+        this.processSnapshot(evt);
       }
       if (evt.type === RxEType.DEFINE_POSITION) {
         evt.data.forEach(freePositions => {
@@ -233,6 +201,57 @@ export class PokerComponent implements OnInit {
         player.actualBet = 0;
       }
     });
+  }
+
+  private processSnapshot(evt) {
+    console.log('SNAPSHOT', evt.data);
+    this.dealerPosition = evt.data.dealerPosition;
+    if (evt.data.pot > 0) {
+      this.pot = evt.data.pot;
+    }
+    if (evt.data.myPosition >= 0) {
+      this.myPosition = evt.data.myPosition;
+    }
+    // PRE-FLOP:
+    if (evt.data.roundStep >= 1) {
+      this.dealed = true;
+      this.tableCards[0] = null;
+      this.tableCards[1] = null;
+      this.tableCards[2] = null;
+      this.tableCards[3] = null;
+      this.tableCards[4] = null;
+    }
+    evt.data.players.forEach((player, idx) => {
+      if (player != null) {
+        const nPlayer = new PlayerSnapshot();
+        nPlayer.playerDetails.chips = player.chips;
+        nPlayer.playerDetails.image = player.photo;
+        nPlayer.playerDetails.name = player.nick;
+        if (this.dealed) {
+          nPlayer.cards = player.cards ? player.cards : [];
+          nPlayer.upsidedown = evt.data.roundStep <= 5 && !player.showingCards;
+        }
+        console.log('ADDDDDDING NEW PLAYER: ', nPlayer);
+        this.players[idx] = nPlayer;
+      }
+    });
+    // FLOP:
+    if (evt.data.roundStep >= 2) {
+      this.tableCards[0] = evt.data.communityCards[0];
+      this.tableCards[1] = evt.data.communityCards[1];
+      this.tableCards[2] = evt.data.communityCards[2];
+      this.tableCards[3] = null;
+      this.tableCards[4] = null;
+    }
+    // TURN:
+    if (evt.data.roundStep >= 3) {
+      this.tableCards[3] = evt.data.communityCards[3];
+      this.tableCards[4] = null;
+    }
+    // River:
+    if (evt.data.roundStep >= 4) {
+      this.tableCards[4] = evt.data.communityCards[4];
+    }
   }
 
 }

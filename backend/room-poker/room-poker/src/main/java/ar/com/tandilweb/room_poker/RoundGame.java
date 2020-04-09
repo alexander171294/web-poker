@@ -459,5 +459,9 @@ public class RoundGame {
 
 		}
 	}
+	
+	public SchemaCard[] getCards(int pos) {
+		return new SchemaCard[] { Utils.getSchemaFromCard(playerFirstCards[pos]), Utils.getSchemaFromCard(playerSecondCards[pos]) };
+	}
 
 }

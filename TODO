@@ -6,7 +6,8 @@
 - Par de Aces con Aces
 - Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
 - Fichas desaparecen
-- Timmer se buguea en otro usuario y al finalizar la ronda
+- Si se raisea más de la cantidad de fichas que se tiene se rompe el juego.
+- Si uno se queda sin fichas se sigue jugando de forma bugueada.
 - Barra de apuestas no recibe limite basado en fichas del usuario.
 - Timmer fin de corte
 - Fold

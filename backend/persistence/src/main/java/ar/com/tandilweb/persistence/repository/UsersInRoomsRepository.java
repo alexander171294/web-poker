@@ -32,7 +32,7 @@ public class UsersInRoomsRepository extends BaseRepository<UsersInRooms, Long> {
 					return ps;
 				}
 			}, holder);
-			record.setId_room(holder.getKey().longValue());
+			//record.setId_room(holder.getKey().longValue());
 			return record;
 		} catch(DataAccessException e) {
 			// update last action ?
@@ -55,6 +55,11 @@ public class UsersInRoomsRepository extends BaseRepository<UsersInRooms, Long> {
 	public void removeAll(Long roomID) {
 		final String sql = "DELETE FROM users_in_rooms WHERE id_room = ?";
 		jdbcTemplate.update(sql, new Object[]{roomID});
+	}
+	
+	public long count(Long roomID) {
+		final String sql = "SELECT count(id_user) FROM users_in_rooms WHERE id_room = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { roomID }, Long.class);
 	}
 	
 }

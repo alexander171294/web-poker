@@ -12,6 +12,7 @@ import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.ChallengeResponse;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.lobby.RoomResponse;
 import ar.com.tandilweb.ApiServer.persistence.repository.ChallengesRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.RoomsRepository;
+import ar.com.tandilweb.ApiServer.persistence.repository.UsersInRoomsRepository;
 import ar.com.tandilweb.persistence.domain.Challenges;
 import ar.com.tandilweb.persistence.domain.Rooms;
 
@@ -20,6 +21,9 @@ public class LobbyAdapter {
 	
 	@Autowired
 	RoomsRepository roomsRepository;
+	
+	@Autowired
+	UsersInRoomsRepository uirRepo;
 	
 	@Autowired
 	ChallengesRepository challengesRepository;
@@ -38,6 +42,7 @@ public class LobbyAdapter {
 				item.minCoinForAccess = room.getMinCoinForAccess();
 				item.name = room.getName();
 				item.server_ip = room.getServer_ip();
+				item.players = uirRepo.count(room.getId_room());
 				out.add(item);
 			}
 		}

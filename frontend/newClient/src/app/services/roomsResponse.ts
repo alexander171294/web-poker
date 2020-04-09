@@ -14,5 +14,5 @@ export class RoomResponse extends GeneralResponse {
     public max_players: number;
     public minCoinForAccess: number;
     public isOfficial: boolean;
-
+    public players: number;
 }

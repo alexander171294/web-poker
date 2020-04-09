@@ -17,6 +17,7 @@ import ar.com.tandilweb.exchange.backwardValidation.DataChallenge;
 import ar.com.tandilweb.exchange.backwardValidation.Invalid;
 import ar.com.tandilweb.exchange.backwardValidation.Unknown;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
+import ar.com.tandilweb.orchestrator.adapters.UserControlService;
 import ar.com.tandilweb.orchestrator.persistence.repository.ChallengesRepository;
 import ar.com.tandilweb.orchestrator.persistence.repository.UsersRepository;
 import ar.com.tandilweb.persistence.domain.Challenges;
@@ -30,6 +31,9 @@ public class BackwardValidationProcessor {
 	
 	@Autowired
 	UsersRepository userRepository;
+	
+	@Autowired
+	UserControlService userService;
 	
 	protected static Logger logger = LoggerFactory.getLogger(BackwardValidationProcessor.class);
 	
@@ -60,6 +64,7 @@ public class BackwardValidationProcessor {
 		dch.userData = userRepository.findById(challenge.getId_user());
 		dch.userData.setPassword("*****");
 		dch.challengeID = challenge.getChallengeID();
+		userService.addUserInRoom(challenge.getId_user(), challenge.getId_room());
 		// send to room.
 		return dch;
 	}

@@ -35,7 +35,7 @@ public class UsersInRooms {
 		this.id_room = id_room;
 	}
 
-	public Date isRegistered() {
+	public Date getRegistered() {
 		return registered;
 	}
 

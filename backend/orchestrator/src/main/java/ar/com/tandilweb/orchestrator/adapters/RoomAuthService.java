@@ -31,6 +31,9 @@ public class RoomAuthService {
 	@Autowired
 	private EpprRoomAuth roomAuthProto;
 	
+	@Autowired
+	private UserControlService ucs;
+	
 	public LoginResponse handshakeValidate(Handshake handshake) {
 		LoginResponse out = new LoginResponse();
 		out.logged = false;
@@ -109,6 +112,7 @@ public class RoomAuthService {
 			room.setNowConnected(false);
 			roomsRepository.update(room);
 		}
+		ucs.removeUsersInRoom(serverID);
 	}
 
 }

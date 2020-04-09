@@ -12,7 +12,9 @@ public class Snapshot extends AccessSchema {
 	public List<SchemaCard> communityCards;
 	public boolean isInRest;
 	public boolean isDealing;
-	public int dealerPosition;
+	public int dealerPosition = -1;
+	public int roundStep;
+	public int myPosition = -1;
 
 	public Snapshot() {
 		super("snapshot");

@@ -136,7 +136,6 @@ export class PokerComponent implements OnInit {
         console.log('SNAPSHOT', evt.data);
         this.dealerPosition = evt.data.dealerPosition;
         evt.data.players.forEach((player, idx) => {
-          console.log(idx, player);
           if (player != null) {
             const nPlayer = new PlayerSnapshot();
             nPlayer.playerDetails.chips = player.chips;
@@ -145,6 +144,30 @@ export class PokerComponent implements OnInit {
             this.players[idx] = nPlayer;
           }
         });
+        if (evt.data.myPosition >= 0) {
+          this.myPosition = evt.data.myPosition;
+        }
+        // PRE-FLOP:
+        if (evt.data.roundStep >= 1) {
+          this.dealed = true;
+        }
+        // FLOP:
+        if (evt.data.roundStep >= 2) {
+          this.tableCards[0] = evt.data.communityCards[0];
+          this.tableCards[1] = evt.data.communityCards[1];
+          this.tableCards[2] = evt.data.communityCards[2];
+          this.tableCards[3] = null;
+          this.tableCards[4] = null;
+        }
+        // TURN:
+        if (evt.data.roundStep >= 3) {
+          this.tableCards[3] = evt.data.communityCards[3];
+          this.tableCards[4] = null;
+        }
+        // River:
+        if (evt.data.roundStep >= 4) {
+          this.tableCards[4] = evt.data.communityCards[4];
+        }
       }
       if (evt.type === RxEType.DEFINE_POSITION) {
         evt.data.forEach(freePositions => {

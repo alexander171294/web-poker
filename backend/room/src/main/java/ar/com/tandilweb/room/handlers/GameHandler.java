@@ -51,13 +51,15 @@ public class GameHandler {
 	 }
 	
 	public void ingressFlow(UserData userData) {
-		gameController.dumpSnapshot(userData.sessID);
 		logger.debug("Ingressed user", userData);
 		// check old position 
 		List<Integer> freeSpaces = new ArrayList<Integer>();
 		for(int i = 0; i<maxPlayers; i++) {
 			if (usersInTable[i] != null) {
 				if(usersInTable[i].userID == userData.userID) {
+					userData.chips = usersInTable[i].chips;
+					usersInTable[i].sessID = userData.sessID;
+					gameController.dumpSnapshot(userData.sessID, i);
 					this.ingressSchema(i, userData);
 					return;
 				}
@@ -65,6 +67,7 @@ public class GameHandler {
 				freeSpaces.add(i);
 			}
 		}
+		gameController.dumpSnapshot(userData.sessID, -1);
 		// DEFINEPOSITION SCHEMA.
 		if(freeSpaces.size() > 0) {
 			this.definePosition(userData.sessID, freeSpaces);

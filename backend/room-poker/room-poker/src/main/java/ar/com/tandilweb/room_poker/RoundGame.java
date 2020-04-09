@@ -434,6 +434,10 @@ public class RoundGame {
 		return bets[position];
 	}
 	
+	public int getStep() {
+		return roundStep;
+	}
+	
 	public Card[] getCommunityCards() {
 		if(roundStep == 2) {
 			return flop;

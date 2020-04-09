@@ -10,7 +10,7 @@ public interface GameCtrlInt {
 	
 	void checkStartGame();
 	
-	void dumpSnapshot(String sessID);
+	void dumpSnapshot(String sessID, Object objectID);
 	
 	void receivedMessage(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID);
 	

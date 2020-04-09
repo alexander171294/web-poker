@@ -89,11 +89,10 @@ public class PokerRoom implements GameCtrlInt {
 		actualRound.start();
 	}
 
-	public void dumpSnapshot(String sessID) {
-		// TODO Auto-generated method stub
-		log.debug("Dump Snapshot");
+	public void dumpSnapshot(String sessID, Object objectID) {
 		Snapshot snap = new Snapshot();
 		snap.players = new ArrayList<SnapshotPlayer>();
+		snap.myPosition = (Integer) objectID;
 		for(int i = 0; i<this.tableSize; i++) {
 			if(usersInTable[i] != null) {
 				SnapshotPlayer player = new SnapshotPlayer();
@@ -124,6 +123,7 @@ public class PokerRoom implements GameCtrlInt {
 			for(int i = 0; i<cards.length; i++) {
 				snap.communityCards.add(Utils.getSchemaFromCard(cards[i]));
 			}
+			snap.roundStep = actualRound.getStep();
 		}
 		sessionHandler.sendToSessID("GameController/snapshot", sessID, snap);
 	}

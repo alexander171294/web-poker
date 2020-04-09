@@ -48,28 +48,24 @@ Scaled here: https://i.imgur.com/GLlGMiN.png
 
 ### Gameplay:
 
-* ~Connect Room to protocol~
-* ~Finish details of design~
-* Fix a very long list of bugs.
-* Polish the signup/login Lobby.
+* ~Connect Room to protocol~ (Finished)
+* ~Finish details of design~ (Finished)
+* Fix 10 principal bugs (RC-1).
+* Fix 10 secondary bugs (RC-2)
+* Polish the signup/login and Lobby.
 
-Pre-Alpha Release
+### Fine details (RC-3)
 
-### Fine details (RC-1)
-
-* Reconnections.
+* ~Reconnections.~ (Finished)
 * Splitted pots.
-* Finish 0/70 TODOS/FIXMES in Backend.
+* Finish 0/71 TODOS/FIXMES in Backend.
 
-Release Candidate 1
 
-### RC2 or Alpha?
+### Alpha?
 
  * Fix the list of bugs.
  * Improve source code.
  * General Review.
-
-Release Candidate 2 / Alpha version 0.1
 
 ## Medium term
 
@@ -124,27 +120,25 @@ git pull --recurse-submodule
 
 ## Frontend
 
-~~The frontend is maked with Nativescript Schematics for Angular using shared code.
-In my first app i decided to use Apache Cordova for build a web-view based mobile application, but in the last months i tried to apply nativescript, and in the last days they added support to codeshare/schematics to make web and mobile project in the same workspace.
-Then i decide to start this proyect with nativescript (by telerik).~~
-
 For now I am centered on finish the web version only with Angular and Stomp.
 
 The frontend use websockets to connect with the backend (see below).-
 
 ### Build frontend:
 
-first clone the repo, then once time use the next command to download dependencies. (This require you download https://nodejs.org/es/) we use version 8.0.
+first clone the repo, then once time use the next command to download dependencies. (This require you download https://nodejs.org/es/) we use version last.
 
 You need Angular Cli (https://angular.io/guide/quickstart) and Nativescript with schematics, we resume the installations on this commands:
 
 ´npm install -g @angular/cli´
 
+´npm install´
+
+Comming soon?
+
 ´npm install -g nativescript´
 
 ´npm i -g @nativescript/schematics´
-
-´npm install´
 
 ´tns update´
 
@@ -152,20 +146,16 @@ For build/run see the wiki.
 
 ## Bakend
 
-The backend is splitted in ~~two~~ five proyects, the ApiServer for web operations, for see the room servers, or login with your user, and some specific parts of the room protocol as Auth Challenge (See the protocol RFC for more details). The Orchestrator, in charge of register and organize room servers, The room servers for do the game (All tables are a server). Additionally have two projects, one for RFC Protocol DTOs (exchange), and another for Domain/Repository of persistence.
+The backend is splitted in five proyects, the ApiServer for web operations, for see the room servers, or login with your user, and some specific parts of the room protocol as Auth Challenge (See the protocol RFC for more details). The Orchestrator, in charge of register and organize room servers, The room servers for do the game (All tables are a server). Additionally have two projects, one for RFC Protocol DTOs (exchange), and another for Domain/Repository of persistence.
 
-You need to start the Orchestrator, then ApiServer and RoomServer.
+You need to start the Orchestrator, ApiServer and RoomServer (in order).
 
 ### Build backend:
 
 You need jdk (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and eclipse (we use oxygen 3).
 
-~~For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions, including adding this to a apache/nginx server).-~~ Docker is all you need.
-
-I'm not sure if this is deployable in shared web hosting, but I'll start an investigation after writing this readme :O.
-
---Revision #2: about this last comment, I lied a little bit... ~~twenty days~~ a year later I didn't investigate nothing at all... :'(
+~~For run the backend instructions and build/deploy this in a vps/dedicated server you see the wiki (i write the instructions, including adding this to a apache/nginx server).-~~ Docker is all you need (when i release RC-1 add docker image to Dockerhub).
 
 # Finally
 
-Thanks for reading and I hope this project end in one moment of the universe history.
+Thanks for reading and I hope this project are finished in one moment of the universe history.

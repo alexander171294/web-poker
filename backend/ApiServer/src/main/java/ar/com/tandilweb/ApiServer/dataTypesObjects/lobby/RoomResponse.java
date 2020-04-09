@@ -11,6 +11,7 @@ public class RoomResponse extends GeneralResponse {
 	public String description;
 	public int max_players;
 	public int minCoinForAccess;
+	public long players;
 	public boolean isOfficial;
 
 }

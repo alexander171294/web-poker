@@ -101,7 +101,7 @@ public class LoginAdapter {
 		session = sessionsRepository.create(session);
 		SessionInformation out = new SessionInformation();
 		out.operationSuccess = true;
-		out.jwtToken = createJWT(""+session.getId_session(), ""+session.getId_user(), "WebApp", 20*60*1000L, sessionPassphrase);
+		out.jwtToken = createJWT(""+session.getId_session(), ""+session.getId_user(), "WebApp", 21600000L, sessionPassphrase); // 6 Hours.
 		out.sessionID = session.getId_session();
 		out.userID = session.getId_user();
 		return out;

@@ -47,7 +47,7 @@ export class ActionBoxComponent implements OnInit {
         this.isMyTurn = false;
       }
       if (evt.type === RxEType.SNAPSHOT) {
-        if (evt.data.waitingFor && evt.data.waitingFor === this.myPosition) {
+        if (evt.data.waitingFor && evt.data.waitingFor === evt.data.myPosition) {
           this.isMyTurn = true;
           this.minRaise = evt.data.betDecision.minRaise;
           this.maxRaise = evt.data.betDecision.maxRaise;

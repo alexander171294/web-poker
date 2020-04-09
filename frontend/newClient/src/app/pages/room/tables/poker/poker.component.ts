@@ -227,6 +227,7 @@ export class PokerComponent implements OnInit {
         nPlayer.playerDetails.chips = player.chips;
         nPlayer.playerDetails.image = player.photo;
         nPlayer.playerDetails.name = player.nick;
+        nPlayer.actualBet = player.actualBet;
         if (this.dealed) {
           nPlayer.cards = player.cards ? player.cards : [true, true];
           nPlayer.upsidedown = evt.data.roundStep <= 5 && !player.showingCards;
@@ -252,7 +253,8 @@ export class PokerComponent implements OnInit {
       this.tableCards[4] = evt.data.communityCards[4];
     }
     if (evt.data.waitingFor) {
-      this.players[evt.data.waitingFor].timeRest = 0; // FIXME: change this for rest of time from backend.
+      this.players[evt.data.waitingFor].timeRest = 30; // FIXME: change this for rest of time from backend.
+      // this.vcards.toArray()[evt.data.waitingFor].startTimeRest(30);
     }
   }
 

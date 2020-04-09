@@ -1,7 +1,5 @@
-- En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.
-- No se registra a la gente conectada a un server en la tabla correspondiente.
-- si no se sigue los pasos en orden no se dispara el evento Ingress.
-- El room debería devolver correctamente cuando el JWT está expirado para volver a iniciar sesión. (Revisar la imple de JWT)
+- Reconnections
+- cuando jwt está expirado mandar al login.
 - Falta el snapshot de la mesa (completo).
 - Par de Aces con Aces
 - Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
@@ -10,7 +8,6 @@
 - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
 - Barra de apuestas no recibe limite basado en fichas del usuario.
 - Timmer fin de corte.
-- Reconnections
 - Fold
 - News
 - Rules
@@ -20,3 +17,7 @@
 - Help
 - Back to lobby disconnection.
 - Follow and Following list.
+- si no se sigue los pasos en orden no se dispara el evento Ingress.
+
+¿arreglados?
+- En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.

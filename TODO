@@ -1,13 +1,13 @@
 Cruciales:
     - Barra de apuestas no recibe limite basado en fichas del usuario.
     - Par de Aces con Aces
-    - Fold
     - Si se raisea más de la cantidad de fichas que se tiene se rompe el juego. (All In?)
     - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
     - Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
     - Back to lobby disconnection subscriptions.
     - si no se sigue los pasos en orden no se dispara el evento Ingress.
     - invalid deposit no avisa. (Completar datos de disponible en deposito).
+    - Report bug button.
 
 Adicionales:
     - Fichas desaparecen

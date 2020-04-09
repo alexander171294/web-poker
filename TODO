@@ -1,23 +1,27 @@
-- Reconnections
-- cuando jwt está expirado mandar al login.
-- Falta el snapshot de la mesa (completo).
-- Par de Aces con Aces
-- Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
-- Fichas desaparecen
-- Si se raisea más de la cantidad de fichas que se tiene se rompe el juego. (All In?)
-- Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
-- Barra de apuestas no recibe limite basado en fichas del usuario.
-- Timmer fin de corte.
-- Fold
-- News
-- Rules
-- Shop
-- profile
-- Config
-- Help
-- Back to lobby disconnection.
-- Follow and Following list.
-- si no se sigue los pasos en orden no se dispara el evento Ingress.
+Cruciales:
+    - Barra de apuestas no recibe limite basado en fichas del usuario.
+    - Par de Aces con Aces
+    - Fold
+    - Si se raisea más de la cantidad de fichas que se tiene se rompe el juego. (All In?)
+    - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
+    - Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
+    - Back to lobby disconnection subscriptions.
+    - si no se sigue los pasos en orden no se dispara el evento Ingress.
+    - invalid deposit no avisa. (Completar datos de disponible en deposito).
+
+Adicionales:
+    - Fichas desaparecen
+    - Timmer fin de corte.
+    - News
+    - Rules
+    - Shop
+    - profile
+    - Config
+    - Help
+    - Follow and Following list.
+    - cuando jwt está expirado mandar al login.
 
 ¿arreglados?
-- En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.
+    - En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.
+    - Reconnections
+    - Falta el snapshot de la mesa (completo).

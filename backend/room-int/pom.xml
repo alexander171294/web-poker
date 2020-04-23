@@ -5,6 +5,11 @@
 	<groupId>ar.com.tandilweb</groupId>
 	<artifactId>room-int</artifactId>
 	<version>0.0.1</version>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>11</java.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -24,4 +29,18 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>10</source>
+					<target>10</target>
+					<compilerVersion>10</compilerVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

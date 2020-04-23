@@ -8,6 +8,7 @@ Cruciales:
     - si no se sigue los pasos en orden no se dispara el evento Ingress.
     - invalid deposit no avisa. (Completar datos de disponible en deposito).
     - Report bug button.
+    - Salirse de la mesa.
 
 Adicionales:
     - Fichas desaparecen

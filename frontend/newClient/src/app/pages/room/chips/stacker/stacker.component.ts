@@ -213,7 +213,7 @@ export class StackerComponent implements OnInit, OnChanges {
         chipsToStack.unshift('1');
       }
     }
-    console.log('Real stacked chips', chipsToStack);
+    // console.log('Real stacked chips', chipsToStack);
     this.chipsStacked = chipsToStack.slice(chipsToStack.length - 25, chipsToStack.length);
   }
 

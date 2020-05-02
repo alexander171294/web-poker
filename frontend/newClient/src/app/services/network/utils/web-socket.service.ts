@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { Injectable, EventEmitter } from '@angular/core';
 import { EventWS } from './EventWS';
 import { EventTypeWS } from './EventTypeWS';
@@ -29,7 +30,7 @@ export class WebSocketService {
     this.endpoint = endpoint;
     this.stomp.configure({
       host: 'http://' + server + ':' + port + endpoint, // "/external",
-      debug: true,
+      debug: environment.stompDebug,
       queue: { init: false }
     });
     this.wsEventSubscriptor.emit(new EventWS(EventTypeWS.CONFIGURING));

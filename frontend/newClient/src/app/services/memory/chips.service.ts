@@ -10,7 +10,7 @@ export class ChipsService {
   constructor() { }
 
   public substract(quantity: number) {
-    this.quantity += quantity;
+    this.quantity -= quantity;
   }
 
   public add(quantity: number) {

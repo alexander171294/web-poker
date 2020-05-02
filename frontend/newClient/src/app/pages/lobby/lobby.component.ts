@@ -41,7 +41,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.userSrv.getUser(Security.getJWTData().iss).subscribe(data => {
       this.loadingProfileData = false;
       this.userData = data;
-      console.log(data);
+      // console.log(data);
     });
   }
 

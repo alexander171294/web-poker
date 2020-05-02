@@ -1,7 +1,5 @@
 Cruciales:
-    - Barra de apuestas no recibe limite basado en fichas del usuario.
     - Par de Aces con Aces
-    - Si se raisea más de la cantidad de fichas que se tiene se rompe el juego. (All In?)
     - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
     - Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
     - Back to lobby disconnection subscriptions.

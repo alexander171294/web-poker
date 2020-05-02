@@ -57,10 +57,10 @@ export class LoginComponent implements OnInit {
         alert(data.errorDescription);
       }
       this.logining = false;
-      
+
     }, err => {
       //alert('ocurrió un error');
-      console.log(err);
+      // console.log(err);
       this.logining = false;
       this.errorLogin = true;
 
@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
     }, err => {
       //alert('ocurrió un error');
       this.errorRegister = true;
-      console.log(err);
+      // console.log(err);
       this.signing = false;
     });
     e.preventDefault();

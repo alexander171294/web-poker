@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   version: '0.0.2',
   apiServer: 'http://localhost:8083/',
-  refreshProfileTime: 2500
+  refreshProfileTime: 2500,
+  stompDebug: false
 };
 
 /*

@@ -18,13 +18,18 @@ export class BetSelectorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('Initial raise: ', this.initialRaise);
+    // console.log('Initial raise: ', this.initialRaise);
     this.actualRaise = this.initialRaise;
     this.raisePercent = '0%';
   }
 
   changeDector(event: any) {
-    const maxR = this.maxRaise > 0 ? this.maxRaise : this.userChips;
+    let maxR;
+    if (this.maxRaise > 0) {
+      maxR = this.maxRaise > this.userChips ? this.userChips : this.maxRaise;
+    } else {
+      maxR = this.userChips;
+    }
     if (this.actualRaise > maxR) {
       this.actualRaise = maxR;
     }

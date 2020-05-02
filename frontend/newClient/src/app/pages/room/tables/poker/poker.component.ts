@@ -51,6 +51,10 @@ export class PokerComponent implements OnInit {
           this.players[evt.data.position] = nPlayer;
         }
         this.availablePositions[evt.data.position] = false;
+        // si llega primero el ingress:
+        if (this.myPosition && evt.data.position === this.myPosition) {
+          this.chips.set(evt.data.chips);
+        }
       }
       if (evt.type === RxEType.START_IN) {
         this.info = 'Game start in ' + evt.data + (evt.data !== 1 ? ' seconds' : ' second');
@@ -75,6 +79,12 @@ export class PokerComponent implements OnInit {
         this.players[evt.data.bbPosition].playerDetails.chips -= evt.data.bbChips;
         this.players[evt.data.sbPosition].actualBet = evt.data.sbChips;
         this.players[evt.data.bbPosition].actualBet = evt.data.bbChips;
+        if (evt.data.bbPosition === this.myPosition) {
+          this.chips.substract(evt.data.bbChips);
+        }
+        if (evt.data.sbPosition === this.myPosition) {
+          this.chips.substract(evt.data.sbChips);
+        }
         this.dealed = true;
       }
       if (evt.type === RxEType.CARD_DIST) {
@@ -107,6 +117,10 @@ export class PokerComponent implements OnInit {
         this.myPosition = evt.data.position;
         for (let i = 0; i < PokerComponent.MAX_PLAYERS; i++) {
           this.availablePositions[i] = false;
+        }
+        // si llega primero el Announcement:
+        if (this.players[this.myPosition]) {
+          this.chips.set(this.players[this.myPosition].playerDetails.chips);
         }
       }
       if (evt.type === RxEType.FLOP) {

@@ -20,6 +20,7 @@ export class ActionBoxComponent implements OnInit {
   public toCall: number;
   public canCheck: boolean;
   public mySnapshot: PlayerSnapshot = new PlayerSnapshot();
+  public myChips = 0;
 
   constructor(private room: RoomService, private chips: ChipsService) { }
 
@@ -33,6 +34,7 @@ export class ActionBoxComponent implements OnInit {
         if (this.myPosition === evt.data.position) {
           this.isMyTurn = true;
           console.log('Mis fichas: ', this.chips.get());
+          this.myChips = this.chips.get();
         } else {
           this.isMyTurn = false;
         }
@@ -51,6 +53,8 @@ export class ActionBoxComponent implements OnInit {
       if (evt.type === RxEType.SNAPSHOT) {
         if (evt.data.waitingFor && evt.data.waitingFor === evt.data.myPosition) {
           this.isMyTurn = true;
+          console.log('Mis fichas: ', this.chips.get());
+          this.myChips = this.chips.get();
           this.minRaise = evt.data.betDecision.minRaise;
           this.maxRaise = evt.data.betDecision.maxRaise;
           this.actualRaise = evt.data.betDecision.minRaise;

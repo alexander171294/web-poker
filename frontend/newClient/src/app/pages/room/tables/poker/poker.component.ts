@@ -79,6 +79,8 @@ export class PokerComponent implements OnInit {
         this.players[evt.data.bbPosition].playerDetails.chips -= evt.data.bbChips;
         this.players[evt.data.sbPosition].actualBet = evt.data.sbChips;
         this.players[evt.data.bbPosition].actualBet = evt.data.bbChips;
+        this.chips.setBigBlind(evt.data.bbChips);
+        this.chips.setSmallBlind(evt.data.sbChips);
         if (evt.data.bbPosition === this.myPosition) {
           this.chips.substract(evt.data.bbChips);
         }

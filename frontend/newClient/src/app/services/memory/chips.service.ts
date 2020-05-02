@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class ChipsService {
 
   public quantity = 0;
+  public sb: number;
+  public bb: number;
 
   constructor() { }
 
@@ -23,5 +25,21 @@ export class ChipsService {
 
   public get(): number {
     return this.quantity;
+  }
+
+  public setSmallBlind(sb: number) {
+    this.sb = sb;
+  }
+
+  public getSmallBlind() {
+    return this.sb;
+  }
+
+  public setBigBlind(bb: number) {
+    this.bb = bb;
+  }
+
+  public getBigBlind() {
+    return this.bb;
   }
 }

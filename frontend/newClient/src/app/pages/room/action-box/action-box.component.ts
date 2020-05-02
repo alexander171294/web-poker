@@ -28,7 +28,6 @@ export class ActionBoxComponent implements OnInit {
   constructor(private room: RoomService, private chips: ChipsService) { }
 
   ngOnInit() {
-    this.actualBet = this.mySnapshot.actualBet ?  this.mySnapshot.actualBet : 0;
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.INGRESS) {
         this.myPosition = evt.data.position;
@@ -38,6 +37,8 @@ export class ActionBoxComponent implements OnInit {
         if (this.myPosition === evt.data.position) {
           this.isMyTurn = true;
           console.log('Mis fichas: ', this.chips.get());
+          this.actualBet = this.mySnapshot.actualBet ?  this.mySnapshot.actualBet : 0;
+          console.log('Actual Bet:', this.actualBet);
           this.myChips = this.chips.get();
         } else {
           this.isMyTurn = false;
@@ -59,6 +60,8 @@ export class ActionBoxComponent implements OnInit {
           this.isMyTurn = true;
           console.log('Mis fichas: ', this.chips.get());
           this.myChips = this.chips.get();
+          this.actualBet = this.mySnapshot.actualBet ?  this.mySnapshot.actualBet : 0;
+          console.log('Actual Bet:', this.actualBet);
           this.minRaise = evt.data.betDecision.minRaise;
           this.maxRaise = evt.data.betDecision.maxRaise;
           this.actualRaise = evt.data.betDecision.minRaise;
@@ -99,7 +102,7 @@ export class ActionBoxComponent implements OnInit {
   }
 
   allIn() {
-    this.actualRaise = this.chips.get();
+    this.actualRaise = this.chips.get() - this.toCall;
     this.betSelector.refreshBet(this.actualRaise);
   }
 

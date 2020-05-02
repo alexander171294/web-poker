@@ -10,6 +10,8 @@ export class BetSelectorComponent implements OnInit {
   @Input() maxRaise: number;
   @Input() initialRaise: number;
   @Input() userChips: number;
+  @Input() toCall: number;
+  @Input() actualBet: number = 0;
   @Output() raiseChanged: EventEmitter<number> = new EventEmitter<number>();
 
   raisePercent: string;
@@ -26,7 +28,7 @@ export class BetSelectorComponent implements OnInit {
   changeDector(event: any) {
     let maxR;
     if (this.maxRaise > 0) {
-      maxR = this.maxRaise > this.userChips ? this.userChips : this.maxRaise;
+      maxR = this.maxRaise + this.toCall > this.userChips ? this.userChips : this.maxRaise;
     } else {
       maxR = this.userChips;
     }

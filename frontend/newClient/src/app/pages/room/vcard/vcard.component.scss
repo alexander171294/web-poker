@@ -85,14 +85,24 @@
             width: 150px;
             left: -40px;
             .boxy {
-                text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.75);
-                color: white;
-                padding: 2px;
-                background: linear-gradient(#d34052, #b83847);
-                border-radius: 4px;
-                display: inline-block;
-                font-size: 11px;
-                box-shadow: 0px 0px 4px black, inset 0px 0px 0px 1px rgba(255, 255, 255, 0.25);
+              text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.75);
+              color: white;
+              padding: 2px;
+              background: linear-gradient(#d34052, #b83847);
+              border-radius: 4px;
+              display: inline-block;
+              font-size: 11px;
+              box-shadow: 0px 0px 4px black, inset 0px 0px 0px 1px rgba(255, 255, 255, 0.25);
+            }
+            .boxyAllIn {
+              text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.75);
+              color: #fbd200;
+              padding: 4px;
+              background: linear-gradient(#500710, #000000);
+              border-radius: 4px;
+              display: inline-block;
+              font-size: 11px;
+              box-shadow: 0px 0px 4px black, inset 0px 0px 0px 1px rgba(255, 255, 255, 0.25);
             }
         }
     }

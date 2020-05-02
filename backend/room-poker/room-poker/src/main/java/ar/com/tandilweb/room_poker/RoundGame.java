@@ -27,6 +27,7 @@ import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
 import ar.com.tandilweb.room_poker.deck.cards.Card;
 import ar.com.tandilweb.room_poker.deck.hands.HandValues;
+import ar.com.tandilweb.room_poker.roundGame.UserMetaData;
 
 public class RoundGame {
 	
@@ -43,6 +44,7 @@ public class RoundGame {
 	
 	// player datas:
 	private UserData[] usersInGame;
+	private UserMetaData[] usersInGameDescriptor; // this used for add info to userdata in this round.
 	private long[] bets;
 	private Card[] playerFirstCards;
 	private Card[] playerSecondCards;
@@ -61,11 +63,18 @@ public class RoundGame {
 	
 	private Deck deck;
 	private boolean isWaiting = false;
+	private boolean fullTableAllIn = false;
 	
 	private int lastActivePositionDetected;
 	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
+		this.usersInGameDescriptor = new UserMetaData[this.usersInGame.length];
+		for(int i = 0; i<this.usersInGame.length; i++) {
+			if(this.usersInGame[i] != null) {
+				this.usersInGameDescriptor[i] = new UserMetaData();
+			}
+		}
 		this.bets = ArrayUtils.toPrimitive(Collections.nCopies(usersInGame.length, 0L).toArray(new Long[0]));
 		this.playerFirstCards = new Card[usersInGame.length];
 		this.playerSecondCards = new Card[usersInGame.length];
@@ -193,12 +202,16 @@ public class RoundGame {
 			}
 			if("call".equalsIgnoreCase(dI.action)) {
 				long realBet = lastRise - bets[dI.position.intValue()];
-				// TODO: splitted POT
 				if(usersInGame[dI.position.intValue()].chips >= realBet) {
 					usersInGame[dI.position.intValue()].chips -= realBet;
+					if(usersInGame[dI.position.intValue()].chips == 0) {
+						this.usersInGameDescriptor[dI.position.intValue()].isAllIn = true;
+					}
 					actionDoed = true;
 					dI.ammount = realBet; // change the ammount to real count for frontend
 					bets[dI.position.intValue()] = lastRise;
+				} else {
+					// reject?
 				}
 			}
 			if("check".equalsIgnoreCase(dI.action)) {
@@ -214,6 +227,9 @@ public class RoundGame {
 				long totalAmmount = initialBet+ammount;
 				if(usersInGame[dI.position.intValue()].chips >= totalAmmount) {
 					usersInGame[dI.position.intValue()].chips -= totalAmmount;
+					if(usersInGame[dI.position.intValue()].chips == 0) {
+						this.usersInGameDescriptor[dI.position.intValue()].isAllIn = true;
+					}
 					dI.ammount = totalAmmount; // change the ammount to real count for frontend
 					actionDoed = true;
 					bets[dI.position.intValue()] +=  totalAmmount;
@@ -232,7 +248,9 @@ public class RoundGame {
 					if(nextPosition == bigBlind) {
 						nextPlayer(nextPosition);
 					} else {
-						if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
+						if(isAllinAllIn()) {
+							finishedBets = true;
+						} else if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
 							finishedBets = true;
 						} else {
 							nextPlayer(nextPosition);
@@ -297,21 +315,36 @@ public class RoundGame {
 			// wait a moment?
 			threadWait(500); // TODO: parameterize
 			dealFlop();
-			nextPlayer(nextPj);
+			if(isAllinAllIn()) {
+				threadWait(500); // TODO: parameterize
+				return finishBets();
+			} else {
+				nextPlayer(nextPj);				
+			}
 		} else if(roundStep == 2) {
 			// turn:
 			// wait a moment?
 			threadWait(500); // TODO: parameterize
 			roundStep = 3;
 			dealTurn();
-			nextPlayer(nextPj);
+			if(isAllinAllIn()) {
+				threadWait(500); // TODO: parameterize
+				return finishBets();
+			} else {
+				nextPlayer(nextPj);
+			}
 		} else if(roundStep == 3) {
 			// turn:
 			// wait a moment?
 			threadWait(500); // TODO: parameterize
 			roundStep = 4;
 			dealRiver();
-			nextPlayer(nextPj);
+			if(isAllinAllIn()) {
+				threadWait(500); // TODO: parameterize
+				return finishBets();
+			} else {
+				nextPlayer(nextPj);
+			}
 		} else if(roundStep == 4) {
 			log.debug("-- SHOWDOWN --");
 			showOff();
@@ -514,6 +547,16 @@ public class RoundGame {
 	
 	public SchemaCard[] getCards(int pos) {
 		return new SchemaCard[] { Utils.getSchemaFromCard(playerFirstCards[pos]), Utils.getSchemaFromCard(playerSecondCards[pos]) };
+	}
+	
+	public boolean isAllinAllIn() {
+		int usersInGameNotAllIn = 0;
+		for(int i = 0; i < this.usersInGame.length; i++) {
+			if(this.usersInGame[i] != null && !this.usersInGameDescriptor[i].isAllIn) {
+				usersInGameNotAllIn++;
+			}
+		}
+		return usersInGameNotAllIn <= 1;
 	}
 
 }

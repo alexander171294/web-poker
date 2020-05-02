@@ -1,16 +1,17 @@
 Cruciales:
-    - Par de Aces con Aces
-    - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
     - Back to lobby disconnection subscriptions.
     - si no se sigue los pasos en orden no se dispara el evento Ingress.
     - invalid deposit no avisa. (Completar datos de disponible en deposito). [REST DONA]
     - Report bug button.
     - Salirse de la mesa.
-    - splitted pot
     - espera ante la entrada de nuevo jugador (buscar reglas)
     - cuando jwt está expirado mandar al login.
     - Fichas desaparecen
+
     - Timmer fin de corte.
+
+    - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
+    - splitted pot
 
 
 Dona:

@@ -31,6 +31,18 @@ public class Deck {
 			for(int cardValue = 0; cardValue <= 13; cardValue++) {
 				if(cardValue == 1) continue; // the value one isn't exists, the Ace is equals to zero.
 				Card card = new Card(suit, cardValue);
+				if(cardValue == 6) {
+					card = new Card(1, 3);	
+				}
+				if(cardValue == 7) {
+					card = new Card(3, 10);	
+				}
+				if(cardValue == 8) {
+					card = new Card(1, 10);	
+				}
+				if(cardValue > 7) {
+					card = new Card(2, cardValue);
+				}
 				deck.add(card);
 			}
 		}
@@ -84,7 +96,7 @@ public class Deck {
 			cardsGrouped.add(card);
 			if(cardsGrouped.size() == 4) {
 				quads.add(card.value.getNumericValueBigACE());
-				trips.remove(pairs.indexOf(card.value.getNumericValueBigACE()));
+				trips.remove(trips.indexOf(card.value.getNumericValueBigACE()));
 			} else if(cardsGrouped.size() == 3) {
 				trips.add(card.value.getNumericValueBigACE());
 				pairs.remove(pairs.indexOf(card.value.getNumericValueBigACE()));
@@ -202,7 +214,7 @@ public class Deck {
 			int bigPair = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValueBigACE();
 			data.handPoints = 28 + bigPair;
 			// secondary value of low pair
-			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValueBigACE();
+			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-2)).get(0).value.getNumericValueBigACE();
 			// kicker
 			data.kickerPoint = this.getSecondaryCardValueOf(handCards, bigPair);
 			// discard if is the same

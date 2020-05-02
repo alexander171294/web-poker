@@ -70,7 +70,7 @@ public class RoundGame {
 		this.playerFirstCards = new Card[usersInGame.length];
 		this.playerSecondCards = new Card[usersInGame.length];
 		this.deck = deck;
-		deck.shuffle();
+		//deck.shuffle();
 		this.dealerPosition = dealerPosition;
 		rounds++;
 	}

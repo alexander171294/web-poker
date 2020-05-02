@@ -71,6 +71,7 @@ export class PokerComponent implements OnInit {
         this.dealerPosition = evt.data.dealerPosition;
         // reseting final statuses:
         this.clearInitialVariables();
+        this.tableCards = [null, null, null, null, null];
       }
       if (evt.type === RxEType.BLINDS) {
         this.pot = evt.data.sbChips + evt.data.bbChips;
@@ -298,7 +299,7 @@ export class PokerComponent implements OnInit {
       player.cards = [];
       player.upsidedown = false;
     });
-    this.tableCards = [null, null, null, null, null];
+    this.tableCards = [];
     this.resultMode = false;
     this.pot = 0;
   }

@@ -63,7 +63,6 @@ public class RoundGame {
 	
 	private Deck deck;
 	private boolean isWaiting = false;
-	private boolean fullTableAllIn = false;
 	
 	private int lastActivePositionDetected;
 	
@@ -79,7 +78,7 @@ public class RoundGame {
 		this.playerFirstCards = new Card[usersInGame.length];
 		this.playerSecondCards = new Card[usersInGame.length];
 		this.deck = deck;
-		//deck.shuffle();
+		deck.shuffle();
 		this.dealerPosition = dealerPosition;
 		rounds++;
 	}
@@ -295,6 +294,7 @@ public class RoundGame {
 		usersInGame[winner].chips += pot;
 		rs.winners.add(winnerData);
 		sessionHandler.sendToAll("/GameController/resultSet", rs);
+		threadWait(500); // TODO: parameterize
 		return true;
 	}
 	

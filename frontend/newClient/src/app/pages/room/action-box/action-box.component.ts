@@ -18,6 +18,7 @@ export class ActionBoxComponent implements OnInit {
   public actualRaise = -1;
   public minRaise: number;
   public maxRaise: number;
+  public actualBet: number;
   public toCall: number;
   public canCheck: boolean;
   public mySnapshot: PlayerSnapshot = new PlayerSnapshot();
@@ -27,6 +28,7 @@ export class ActionBoxComponent implements OnInit {
   constructor(private room: RoomService, private chips: ChipsService) { }
 
   ngOnInit() {
+    this.actualBet = this.mySnapshot.actualBet ?  this.mySnapshot.actualBet : 0;
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.INGRESS) {
         this.myPosition = evt.data.position;
@@ -87,6 +89,7 @@ export class ActionBoxComponent implements OnInit {
   multiply(multiplier: number) {
     const bet = this.chips.getBigBlind() * multiplier;
     const myChips = this.chips.get();
+    console.log(myChips);
     if (bet > myChips) {
       this.actualRaise = myChips;
     } else {

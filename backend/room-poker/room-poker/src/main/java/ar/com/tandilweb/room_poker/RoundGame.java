@@ -211,6 +211,8 @@ public class RoundGame {
 					bets[dI.position.intValue()] = lastRise;
 				} else {
 					// reject?
+					log.error("Rejecting bet -- " + realBet + "/" + usersInGame[dI.position.intValue()].chips);
+					return false;
 				}
 			}
 			if("check".equalsIgnoreCase(dI.action)) {
@@ -237,6 +239,7 @@ public class RoundGame {
 				} else {
 					// reject?
 					log.error("Rejecting bet -- " + totalAmmount + "/" + usersInGame[dI.position.intValue()].chips);
+					return false;
 				}
 			}
 			

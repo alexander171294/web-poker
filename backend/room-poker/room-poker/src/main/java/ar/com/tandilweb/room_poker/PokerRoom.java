@@ -138,7 +138,7 @@ public class PokerRoom implements GameCtrlInt {
 			}
 		}
 		
-		sessionHandler.sendToSessID("GameController/snapshot", sessID, snap);
+		sessionHandler.sendToSessID("/GameController/snapshot", sessID, snap);
 	}
 	
 	public void receivedMessage(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID) {
@@ -171,7 +171,7 @@ public class PokerRoom implements GameCtrlInt {
 		for(int i = 0; i < usersInTable.length; i++) {
 			if(usersInTable[i] != null && usersInTable[i].userID == player.userID) {
 				DepositAnnouncement da = new DepositAnnouncement(i, chipsDeposited);
-				sessionHandler.sendToAll("GameController/depositAnnouncement", da);				
+				sessionHandler.sendToAll("/GameController/depositAnnouncement", da);				
 			}
 		}
 	}

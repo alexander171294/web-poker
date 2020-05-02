@@ -206,6 +206,10 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.DEPOSIT_ANNOUNCEMENT) {
         console.log('Deposit Announcement', evt.data);
+        // si no somos nostors porque ya nos contamos
+        if (evt.data.position !== this.myPosition) {
+          this.players[evt.data.position].playerDetails.chips += evt.data.quantity;
+        }
       }
     });
   }

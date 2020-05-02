@@ -31,18 +31,6 @@ public class Deck {
 			for(int cardValue = 0; cardValue <= 13; cardValue++) {
 				if(cardValue == 1) continue; // the value one isn't exists, the Ace is equals to zero.
 				Card card = new Card(suit, cardValue);
-				if(cardValue == 6) {
-					card = new Card(1, 3);	
-				}
-				if(cardValue == 7) {
-					card = new Card(3, 10);	
-				}
-				if(cardValue == 8) {
-					card = new Card(1, 10);	
-				}
-				if(cardValue > 7) {
-					card = new Card(2, cardValue);
-				}
 				deck.add(card);
 			}
 		}

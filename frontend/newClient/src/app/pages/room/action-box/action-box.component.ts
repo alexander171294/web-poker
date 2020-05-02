@@ -82,4 +82,18 @@ export class ActionBoxComponent implements OnInit {
     this.room.bridge('raise', quantity);
   }
 
+  multiply(multiplier: number) {
+    const bet = this.chips.getBigBlind() * multiplier;
+    const myChips = this.chips.get();
+    if (bet > myChips) {
+      this.actualRaise = myChips;
+    } else {
+      this.actualRaise = bet;
+    }
+  }
+
+  allIn() {
+    this.actualRaise = this.chips.get();
+  }
+
 }

@@ -72,3 +72,29 @@
     }
   }
 }
+
+.floatingButtons {
+  position: absolute;
+  bottom: 70px;
+  text-align: center;
+  width: 305px;
+  button {
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 20px;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.35);
+    border-radius: 3px;
+    padding: 6px 15px;
+    color: #d7a965;
+    box-shadow: 0px 0px 6px 2px black;
+    font-family: Montserrat;
+    outline: none;
+    cursor: pointer;
+    margin: 5px auto;
+    background: linear-gradient(#32271e, #201e10);
+    border: 1px solid #772c2c;
+    border-right: 1px solid #772c2c;
+    border-left: 1px solid #772c2c;
+  }
+}

@@ -159,3 +159,7 @@ You need jdk (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downl
 # Finally
 
 Thanks for reading and I hope this project are finished in one moment of the universe history.
+
+# Docker Container 
+
+docker run -d -p 3307:3306 --name mysql-db -e MYSQL_ROOT_PASSWORD=321654987 -e MYSQL_DATABASE=poker mysql 

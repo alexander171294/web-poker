@@ -11,7 +11,7 @@
   </div>
   <div class="buttonBox">
     <button (click)="call(toCall)" *ngIf="!canCheck">Call {{toCall}}</button>
-    <button class="blue" (click)="raise(actualRaise)">Rise {{actualRaise}}</button>
+    <button class="blue" (click)="raise(actualRaise)">Rise to {{actualRaise + toCall}}</button>
     <button class="info" (click)="check()" *ngIf="canCheck">Check</button>
     <button class="warning" (click)="fold()">Fold</button>
   </div>

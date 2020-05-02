@@ -63,6 +63,16 @@ public class Utils {
 		return usersInGame;
 	}
 	
+	public static List<UserData> getPlayersWithoutChips(UserData[] usersInTable){
+		List<UserData> out = new ArrayList<UserData>();
+		for(UserData ud: usersInTable) {
+			if(ud != null && ud.chips <= 0) {
+				out.add(ud);
+			}
+		}
+		return out;
+	}
+	
 	public static List<Integer> getPlayers(UserData[] usersInTable) {
 		List<Integer> players = new ArrayList<Integer>();
 		for(int i = 0; i < usersInTable.length; i++) {

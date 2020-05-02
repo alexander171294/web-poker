@@ -22,7 +22,7 @@ export class ActionBoxComponent implements OnInit {
   public canCheck: boolean;
   public mySnapshot: PlayerSnapshot = new PlayerSnapshot();
   public myChips = 0;
-  @ViewChild('betSelector', {static: true}) betSelector: BetSelectorComponent;
+  @ViewChild('betSelector', {static: false}) betSelector: BetSelectorComponent;
 
   constructor(private room: RoomService, private chips: ChipsService) { }
 

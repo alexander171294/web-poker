@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.gameProtocol.SchemaGameProto;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RequestDeposit;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Snapshot;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SnapshotPlayer;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
@@ -94,6 +95,9 @@ public class PokerRoom implements GameCtrlInt {
 			final StartGame startGame = new StartGame();
 			startGame.startIn = -1; // initial time
 			sessionHandler.sendToAll("/GameController/startGame", startGame);
+			Utils.getPlayersWithoutChips(usersInTable).forEach(user -> {
+				sessionHandler.sendToSessID("GameController/deposit", user.sessID, new RequestDeposit());
+			});
 		}
 	}
 

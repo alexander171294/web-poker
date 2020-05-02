@@ -236,6 +236,7 @@ public class RoundGame {
 					bigBlind = -1;
 				} else {
 					// reject?
+					log.error("Rejecting bet -- " + totalAmmount + "/" + usersInGame[dI.position.intValue()].chips);
 				}
 			}
 			

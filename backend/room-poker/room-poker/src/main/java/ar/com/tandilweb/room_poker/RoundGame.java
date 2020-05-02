@@ -210,9 +210,11 @@ public class RoundGame {
 					dI.ammount = realBet; // change the ammount to real count for frontend
 					bets[dI.position.intValue()] = lastRise;
 				} else {
-					// reject?
-					log.error("Rejecting bet -- " + realBet + "/" + usersInGame[dI.position.intValue()].chips);
-					return false;
+					usersInGame[dI.position.intValue()].chips = 0;
+					this.usersInGameDescriptor[dI.position.intValue()].isAllIn = true;
+					actionDoed = true;
+					dI.ammount = usersInGame[dI.position.intValue()].chips;
+					bets[dI.position.intValue()] = lastRise;
 				}
 			}
 			if("check".equalsIgnoreCase(dI.action)) {

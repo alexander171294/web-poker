@@ -1,12 +1,12 @@
 Cruciales:
     - Par de Aces con Aces
     - Si uno se queda sin fichas se sigue jugando de forma bugueada. (All In?)
-    - Ante un deposito enviar la info del player a todos los demás para informar el nuevo estado de cuenta.
     - Back to lobby disconnection subscriptions.
     - si no se sigue los pasos en orden no se dispara el evento Ingress.
-    - invalid deposit no avisa. (Completar datos de disponible en deposito).
+    - invalid deposit no avisa. (Completar datos de disponible en deposito). [REST DONA]
     - Report bug button.
     - Salirse de la mesa.
+    - splitted pot
 
 Adicionales:
     - Fichas desaparecen
@@ -20,10 +20,5 @@ Adicionales:
     - Follow and Following list.
     - cuando jwt está expirado mandar al login.
     - desconexión en backend chequeando session de desconexión contra sessión actual
-
-¿arreglados?
-    - En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.
-    - Reconnections
-    - Falta el snapshot de la mesa (completo).
 
 - espera ante la entrada de nuevo jugador (buscar reglas)

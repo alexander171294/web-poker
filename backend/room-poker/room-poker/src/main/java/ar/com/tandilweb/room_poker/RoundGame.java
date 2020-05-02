@@ -558,5 +558,13 @@ public class RoundGame {
 		}
 		return usersInGameNotAllIn <= 1;
 	}
+	
+	public static int getBigBlind() {
+		return BIG_BLIND;
+	}
+	
+	public static int getSmallBlind() {
+		return SMALL_BLIND;
+	}
 
 }

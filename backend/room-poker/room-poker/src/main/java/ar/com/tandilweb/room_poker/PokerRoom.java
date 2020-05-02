@@ -101,6 +101,8 @@ public class PokerRoom implements GameCtrlInt {
 		Snapshot snap = new Snapshot();
 		snap.players = new ArrayList<SnapshotPlayer>();
 		snap.myPosition = (Integer) objectID;
+		snap.bigBlind = RoundGame.getBigBlind();
+		snap.smallBlind = RoundGame.getSmallBlind();
 		for(int i = 0; i<this.tableSize; i++) {
 			if(usersInTable[i] != null) {
 				SnapshotPlayer player = new SnapshotPlayer();

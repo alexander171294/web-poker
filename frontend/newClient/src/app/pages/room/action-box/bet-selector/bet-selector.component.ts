@@ -39,4 +39,8 @@ export class BetSelectorComponent implements OnInit {
     this.raisePercent = percent + '%';
   }
 
+  public refreshBet(bet: number) {
+    this.actualRaise = bet;
+  }
+
 }

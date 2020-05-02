@@ -17,6 +17,8 @@ public class Snapshot extends AccessSchema {
 	public int roundStep;
 	public int myPosition = -1;
 	public int waitingFor;
+	public int smallBlind;
+	public int bigBlind;
 	public BetDecision betDecision;
 
 	public Snapshot() {

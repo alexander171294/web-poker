@@ -237,6 +237,8 @@ export class PokerComponent implements OnInit {
   private processSnapshot(evt) {
     // console.log('SNAPSHOT', evt.data);
     this.dealerPosition = evt.data.dealerPosition;
+    this.chips.setBigBlind(evt.data.bigBlind);
+    this.chips.setSmallBlind(evt.data.smallBlind);
     if (evt.data.pot > 0) {
       this.pot = evt.data.pot;
     }

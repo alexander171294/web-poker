@@ -1,6 +1,7 @@
+import { BetSelectorComponent } from './bet-selector/bet-selector.component';
 import { ChipsService } from './../../../services/memory/chips.service';
 import { PlayerSnapshot } from './../tables/poker/PlayerSnapshot';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoomService } from 'src/app/services/network/room.service';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
 
@@ -21,6 +22,7 @@ export class ActionBoxComponent implements OnInit {
   public canCheck: boolean;
   public mySnapshot: PlayerSnapshot = new PlayerSnapshot();
   public myChips = 0;
+  @ViewChild('betSelector', {static: true}) betSelector: BetSelectorComponent;
 
   constructor(private room: RoomService, private chips: ChipsService) { }
 
@@ -90,10 +92,12 @@ export class ActionBoxComponent implements OnInit {
     } else {
       this.actualRaise = bet;
     }
+    this.betSelector.refreshBet(this.actualRaise);
   }
 
   allIn() {
     this.actualRaise = this.chips.get();
+    this.betSelector.refreshBet(this.actualRaise);
   }
 
 }

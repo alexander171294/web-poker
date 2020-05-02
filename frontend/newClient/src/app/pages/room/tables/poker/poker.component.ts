@@ -57,21 +57,20 @@ export class PokerComponent implements OnInit {
         }
       }
       if (evt.type === RxEType.START_IN) {
-        this.info = 'Game start in ' + evt.data + (evt.data !== 1 ? ' seconds' : ' second');
+        if (evt.data > 0) {
+          this.info = 'Game start in ' + evt.data + (evt.data !== 1 ? ' seconds' : ' second');
+        }
+        if (evt.data === -1) {
+          this.info = 'Game in pause';
+        }
+        // reseting final statuses:
+        this.clearInitialVariables();
       }
       if (evt.type === RxEType.ROUND_START) {
         this.info = undefined; // removing info box
-        // reseting final statuses:
-        // TODO: reset the table status.
         this.dealerPosition = evt.data.dealerPosition;
-        this.dealed = false;
-        this.players.forEach(player => {
-          player.cards = [];
-          player.upsidedown = false;
-        });
-        this.tableCards = [null, null, null, null, null];
-        this.resultMode = false;
-        this.pot = 0;
+        // reseting final statuses:
+        this.clearInitialVariables();
       }
       if (evt.type === RxEType.BLINDS) {
         this.pot = evt.data.sbChips + evt.data.bbChips;
@@ -293,4 +292,14 @@ export class PokerComponent implements OnInit {
     }
   }
 
+  public clearInitialVariables() {
+    this.dealed = false;
+    this.players.forEach(player => {
+      player.cards = [];
+      player.upsidedown = false;
+    });
+    this.tableCards = [null, null, null, null, null];
+    this.resultMode = false;
+    this.pot = 0;
+  }
 }

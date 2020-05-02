@@ -91,7 +91,9 @@ public class PokerRoom implements GameCtrlInt {
 			actualRound.start();
 		} else {
 			this.inGame = false;
-			sessionHandler.sendToAll("/GameController/startGame", -1);
+			final StartGame startGame = new StartGame();
+			startGame.startIn = -1; // initial time
+			sessionHandler.sendToAll("/GameController/startGame", startGame);
 		}
 	}
 

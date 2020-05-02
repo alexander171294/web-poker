@@ -45,6 +45,14 @@ export class BetSelectorComponent implements OnInit {
 
   public refreshBet(bet: number) {
     this.actualRaise = bet;
+    let maxR;
+    if (this.maxRaise > 0) {
+      maxR = this.maxRaise + this.toCall > this.userChips ? this.userChips : this.maxRaise;
+    } else {
+      maxR = this.userChips;
+    }
+    const percent = Math.ceil(bet * 100 / maxR);
+    this.raisePercent = percent + '%';
   }
 
 }

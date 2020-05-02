@@ -7,6 +7,7 @@ Cruciales:
     - Report bug button.
     - Salirse de la mesa.
     - splitted pot
+    - espera ante la entrada de nuevo jugador (buscar reglas)
 
 Adicionales:
     - Fichas desaparecen
@@ -21,4 +22,3 @@ Adicionales:
     - cuando jwt está expirado mandar al login.
     - desconexión en backend chequeando session de desconexión contra sessión actual
 
-- espera ante la entrada de nuevo jugador (buscar reglas)

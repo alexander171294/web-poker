@@ -81,9 +81,8 @@ public class RoomHandlerThread implements Runnable {
 		} catch (NullPointerException e) {
 			String name = this.name;
 			logger.info("Client " + name + " closed", e);
-		} finally {
-			closeConnection();
 		}
+		closeConnection();
 	}
 
 	public void sendToClient(String data) {

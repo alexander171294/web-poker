@@ -25,3 +25,5 @@ Adicionales:
     - En el orchestrator, la primera vez que ingresa un room y el mismo es insertado en db, no se persiste en memoria el ID del servidor haciendo que los challenges de los usuarios fallen todos hasta que se reconecte el server y lo traiga de la db.
     - Reconnections
     - Falta el snapshot de la mesa (completo).
+
+- espera ante la entrada de nuevo jugador (buscar reglas)

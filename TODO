@@ -8,17 +8,23 @@ Cruciales:
     - Salirse de la mesa.
     - splitted pot
     - espera ante la entrada de nuevo jugador (buscar reglas)
-
-Adicionales:
+    - cuando jwt está expirado mandar al login.
     - Fichas desaparecen
     - Timmer fin de corte.
+
+
+Dona:
+    - Rest para obtener la cantidad de fichas disponibles en mi cuenta.
+    - Rest para seguir jugador.
+    - Lista de jugadores seguidos
+    - Perfil, foto, etc.
+    - Validar registro 
+    - Enviar al mail un codigo para validar la cuenta.
+    - Enviar al mail un codigo para recuperar la constraseña.
     - News
     - Rules
+
+Adicionales:
     - Shop
-    - profile
     - Config
     - Help
-    - Follow and Following list.
-    - cuando jwt está expirado mandar al login.
-    - desconexión en backend chequeando session de desconexión contra sessión actual
-

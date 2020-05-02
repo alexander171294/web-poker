@@ -1,4 +1,4 @@
-<input type="text" class="potInput" [(ngModel)]="actualRaise" (input)="changeDector($event)"/>
+<input type="number" class="potInput" [value]="actualRaise" (input)="changeDector($event)"/>
 <div class="path">
   <div class="startBubble"></div>
   <div class="coloredPath" [style.width]="raisePercent"></div>

@@ -84,10 +84,15 @@ public class PokerRoom implements GameCtrlInt {
 	
 	private void startRound() {
 		// TODO: ignore players sitted but without deposit in usersInGame:
-		UserData[] usersInGame = Utils.getNewArrayOfUsers(usersInTable);
-		this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
-		actualRound = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
-		actualRound.start();
+		if(Utils.countUsersCanPlay(usersInTable) > 1) {			
+			UserData[] usersInGame = Utils.getNewArrayOfUsers(usersInTable);
+			this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
+			actualRound = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
+			actualRound.start();
+		} else {
+			this.inGame = false;
+			sessionHandler.sendToAll("/GameController/startGame", -1);
+		}
 	}
 
 	public void dumpSnapshot(String sessID, Object objectID) {

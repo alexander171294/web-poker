@@ -27,6 +27,7 @@ public class Utils {
 	}
 	
 	public static int getNextPositionOfPlayers(UserData[] usersInGame, int actualPosition) {
+		// TODO: ignore players in all in
 		for(int i = actualPosition+1; i < usersInGame.length; i++) {
 			if(usersInGame[i] != null) {
 				return i;
@@ -40,10 +41,24 @@ public class Utils {
 		return actualPosition; // wtf?, this only can be if the room has configured the minimum on 1 player.
 	}
 	
+	public static int countUsersCanPlay(UserData[] usersInTable) {
+		int quantity = 0;
+		for(int i = 0; i < usersInTable.length; i++) {
+			if(usersInTable[i] != null && usersInTable[i].chips > 0) {	
+				quantity++;
+			}
+		}
+		return quantity;
+	}
+	
 	public static UserData[] getNewArrayOfUsers(UserData[] usersInTable) {
 		UserData[] usersInGame = new UserData[usersInTable.length]; 
 		for(int i = 0; i < usersInTable.length; i++) {
-			usersInGame[i] = usersInTable[i];
+			if(usersInTable[i] != null && usersInTable[i].chips > 0) {				
+				usersInGame[i] = usersInTable[i];
+			} else {
+				usersInGame[i] = null;
+			}
 		}
 		return usersInGame;
 	}

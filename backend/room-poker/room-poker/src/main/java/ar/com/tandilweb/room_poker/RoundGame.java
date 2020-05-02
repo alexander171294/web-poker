@@ -319,7 +319,7 @@ public class RoundGame {
 				threadWait(500); // TODO: parameterize
 				return finishBets();
 			} else {
-				nextPlayer(nextPj);				
+				nextPlayer(nextPj);	
 			}
 		} else if(roundStep == 2) {
 			// turn:

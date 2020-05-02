@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { LobbyService } from 'src/app/services/lobby.service';
 import { RoomResponse } from 'src/app/services/roomsResponse';
 import { Security } from 'src/app/services/Security';
+import { FriendsService } from 'src/app/services/friends.service';
 
 @Component({
   selector: 'app-lobby',
@@ -18,14 +19,16 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public loadingProfileData = true;
   public userData: UserProfile = new UserProfile();
   public intUserData: any;
+  public friendList: UserProfile[] = [];
 
-  constructor(private lobbySrv: LobbyService, private userSrv: UsersService) { }
+  constructor(private lobbySrv: LobbyService, private userSrv: UsersService, private friendsService: FriendsService) { }
 
   ngOnInit() {
     this.updateRooms();
     this.loadingProfileData = true;
     this.getProfileData();
     this.intUserData = setInterval(() => this.getProfileData(), environment.refreshProfileTime);
+    this.gerFriendList();
   }
 
   updateRooms(callback?) {
@@ -42,6 +45,21 @@ export class LobbyComponent implements OnInit, OnDestroy {
       this.loadingProfileData = false;
       this.userData = data;
       // console.log(data);
+    });
+  }
+
+  gerFriendList() {
+    this.friendsService.getFriends(Security.getJWTData().iss).subscribe(data => {
+      data.friends.forEach(element => {
+        const aux: UserProfile = {
+          idUser: element.idUser,
+          nick: element.nick,
+          photo: element.photo,
+          chips: element.chips,
+        }
+      this.friendList.push(aux);
+      });
+      console.log(data);
     });
   }
 

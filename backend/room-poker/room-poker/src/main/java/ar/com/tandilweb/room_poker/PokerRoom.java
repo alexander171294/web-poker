@@ -15,6 +15,7 @@ import ar.com.tandilweb.exchange.gameProtocol.SchemaGameProto;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Snapshot;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SnapshotPlayer;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DepositAnnouncement;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
 import ar.com.tandilweb.room_int.GameCtrlInt;
@@ -73,7 +74,7 @@ public class PokerRoom implements GameCtrlInt {
 			sessionHandler.sendToAll("/GameController/startGame", startGame);
 		}
 	}
-	
+
 	public void realStartGame() {
 		log.debug("Starting game.");
 		// define the dealer
@@ -167,6 +168,12 @@ public class PokerRoom implements GameCtrlInt {
 	public void onDeposit(UserData player, long chipsDeposited) {
 		// TODO Auto-generated method stub
 		log.debug("New Deposit to: " + player.userID + " chips: " + chipsDeposited);
+		for(int i = 0; i < usersInTable.length; i++) {
+			if(usersInTable[i] != null && usersInTable[i].userID == player.userID) {
+				DepositAnnouncement da = new DepositAnnouncement(i, chipsDeposited);
+				sessionHandler.sendToAll("GameController/depositAnnouncement", da);				
+			}
+		}
 	}
 	
 }

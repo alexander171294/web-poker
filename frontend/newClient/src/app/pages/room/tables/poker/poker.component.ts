@@ -204,6 +204,9 @@ export class PokerComponent implements OnInit {
           this.chips.add(evt.data.ammount);
         }
       }
+      if (evt.type === RxEType.DEPOSIT_ANNOUNCEMENT) {
+        console.log('Deposit Announcement', evt.data);
+      }
     });
   }
 

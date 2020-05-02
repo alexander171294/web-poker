@@ -40,17 +40,8 @@
     </section>
     <section id="lateral">
         <h2>Following</h2>
-        <div class="cardFollowerItem">
-            <app-vcard status="In game" nick="Danni Oshean" spectateButton="true" statusColor="#29ff88"></app-vcard>
-        </div>
-        <div class="cardFollowerItem">
-            <app-vcard status="Lobby" nick="Danni Oshean"></app-vcard>
-        </div>
-        <div class="cardFollowerItem">
-            <app-vcard status="Lobby" nick="Danni Oshean"></app-vcard>
-        </div>
-        <div class="cardFollowerItem">
-            <app-vcard status="In game" nick="Danni Oshean elevens" spectateButton="true" statusColor="#29ff88"></app-vcard>
+        <div *ngFor="let friend of friendList" class="cardFollowerItem">
+            <app-vcard status="In game" nick="{{friend.nick}}" spectateButton="true" statusColor="#29ff88"></app-vcard>
         </div>
     </section>
 </main>

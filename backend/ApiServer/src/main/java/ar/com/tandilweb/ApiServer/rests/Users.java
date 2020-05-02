@@ -75,5 +75,20 @@ public class Users {
 			return new ResponseEntity<UserProfile>(out, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@RequestMapping(path="/profile/getChips/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Long> getChips(@PathVariable("id") long userID, @RequestAttribute("jwtSessionOrigin") Sessions session) {
+		try {
+			if(userID <= 0) {
+				throw new ValidationException(1, "Invalid user id");
+			}
+			UserProfile up = usersAdapter.getUserByID(userID);
+			return new ResponseEntity<Long>(up.chips, HttpStatus.OK);
+		} catch (ValidationException e) {
+			return new ResponseEntity<Long>((long) 0, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<Long>((long) 0, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }

@@ -21,11 +21,11 @@ public class Friends {
 	@Autowired
 	FriendsAdapter friendsAdapter;
 	
-	@RequestMapping(path="", method=RequestMethod.GET)
-	public ResponseEntity<FriendList> getFriends() {
+	@RequestMapping(path="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<FriendList> getFriends(@PathVariable("id") int me) {
 		FriendList out = new FriendList();
 		try {
-			out.friends = friendsAdapter.getFriends(0); // from ME
+			out.friends = friendsAdapter.getFriends(me); // from ME
 			out.operationSuccess = true;
 			return new ResponseEntity<FriendList>(out, HttpStatus.OK);
 		} catch (ValidationException e) {

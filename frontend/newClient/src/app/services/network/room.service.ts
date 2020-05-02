@@ -194,6 +194,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/decisionInform', (data) => this.onDecisionInform(data));
     this.ws.suscribe('/GameController/showOff', (data) => this.onShowOff(data));
     this.ws.suscribe('/GameController/resultSet', (data) => this.onResultSet(data));
+    this.ws.suscribe('/GameController/depositAnnouncement', (data) => this.onDepositAnnouncement(data)); // global message
   }
 
   onFlop(data) {
@@ -260,6 +261,11 @@ export class RoomService {
   onActionFor(data) {
     this.terminal.log('Waiting ' + data.position + ' for: ' + data.remainingTime + ' seconds');
     this.reactionEvent.emit(new ReactionEvents(RxEType.WAITING_FOR, data));
+  }
+
+  onDepositAnnouncement(data) {
+    this.terminal.log('Deposit ' + data);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.DEPOSIT_ANNOUNCEMENT, data));
   }
 
   onBetDecision(data) {

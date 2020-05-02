@@ -33,7 +33,7 @@ export class RoomComponent implements OnInit {
               private terminal: TerminalService,
               private lobby: LobbyService) {
     terminal.event.subscribe(data => {
-      console.log('[]> ' + data);
+      // console.log('[]> ' + data);
     });
     terminal.errorEvent.subscribe(data => {
       console.error('[]> ' + data);
@@ -42,10 +42,10 @@ export class RoomComponent implements OnInit {
       console.warn('[]> ' + data);
     });
     terminal.noteEvent.subscribe(data => {
-      console.log('!!! ' + data);
+      // console.log('!!! ' + data);
     });
     terminal.debugEvents.subscribe(data => {
-      console.log('------------------> ' + data);
+      // console.log('------------------> ' + data);
     });
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.DEPOSIT_SUCCESS) {
@@ -75,7 +75,7 @@ export class RoomComponent implements OnInit {
             if (!this.isDeposit) {
               this.connecting = 'Last validation.';
             }
-            console.log('Backward validation for challenge: ', resp.challengeID);
+            // console.log('Backward validation for challenge: ', resp.challengeID);
             this.backwardValidation(resp.challengeID, this.isDeposit);
           } else {
             // TODO: trigger error popup.

@@ -103,7 +103,7 @@ export class RoomService {
   }
 
   onAuthorizationResponse(data: any) {
-    console.log(data);
+    // console.log(data);
     this.authClaim = data.claimToken;
     this.roomID = data.roomID;
     this.terminal.in('Challenge Claim [' + data.claimToken + '] roomID: [' + data.roomID + ']', this.serviceName);
@@ -297,7 +297,7 @@ export class RoomService {
   }
 
   onAuthResponse(dataResponse) {
-    console.log('DR AutValidated', dataResponse);
+    // console.log('DR AutValidated', dataResponse);
     if (dataResponse.schema == 'validated') {
       this.terminal.in('Validated :) Schema', this.serviceName);
       this.globalConnectionEvents.emit(12);
@@ -313,7 +313,7 @@ export class RoomService {
   }
 
   onKick(dataResponse) {
-    console.log('DR Kick', dataResponse);
+    // console.log('DR Kick', dataResponse);
     this.terminal.info('You are kicked from this server');
   }
 

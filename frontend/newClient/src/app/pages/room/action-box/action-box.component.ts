@@ -1,3 +1,4 @@
+import { ChipsService } from './../../../services/memory/chips.service';
 import { PlayerSnapshot } from './../tables/poker/PlayerSnapshot';
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/services/network/room.service';
@@ -20,7 +21,7 @@ export class ActionBoxComponent implements OnInit {
   public canCheck: boolean;
   public mySnapshot: PlayerSnapshot = new PlayerSnapshot();
 
-  constructor(private room: RoomService) { }
+  constructor(private room: RoomService, private chips: ChipsService) { }
 
   ngOnInit() {
     this.room.reactionEvent.subscribe(evt => {
@@ -31,6 +32,7 @@ export class ActionBoxComponent implements OnInit {
         // data.position+' for: '+data.remainingTime
         if (this.myPosition === evt.data.position) {
           this.isMyTurn = true;
+          console.log('Mis fichas: ', this.chips.get());
         } else {
           this.isMyTurn = false;
         }

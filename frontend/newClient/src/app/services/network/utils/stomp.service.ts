@@ -159,14 +159,14 @@ export class StompService {
   public after(name: string): Promise<{}> {
     this.nameCheck(name);
     if (this.config.debug) {
-      console.log('checking ' + name + ' queue ...');
+      // console.log('checking ' + name + ' queue ...');
     }
     const checkQueue = setInterval(() => {
       if (this.config.queue[name]) {
         clearInterval(checkQueue);
         this.queuePromises[name]();
         if (this.config.debug) {
-          console.log('queue ' + name + ' <<< has been complated');
+          // console.log('queue ' + name + ' <<< has been complated');
         }
         return false;
       }
@@ -197,7 +197,7 @@ export class StompService {
     this.nameCheck(name);
     this.config.queue[name] = false;
     if (this.config.debug) {
-      console.log('queue ' + name + ' <<<<<<  turned on pending mode');
+      // console.log('queue ' + name + ' <<<<<<  turned on pending mode');
     }
   }
 

@@ -4,6 +4,7 @@ import { PlayerSnapshot } from './PlayerSnapshot';
 import { Card } from '../../cards/dual-stack/Card';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
 import { VcardComponent } from '../../vcard/vcard.component';
+import { ChipsService } from 'src/app/services/memory/chips.service';
 
 @Component({
   selector: 'app-table-poker',
@@ -29,7 +30,7 @@ export class PokerComponent implements OnInit {
 
   @ViewChildren(VcardComponent) vcards: QueryList<VcardComponent>;
 
-  constructor(private room: RoomService) { }
+  constructor(private room: RoomService, private chips: ChipsService) { }
 
   ngOnInit() {
     this.players = [];
@@ -145,6 +146,9 @@ export class PokerComponent implements OnInit {
       if (evt.type === RxEType.DECISION_INFORM) {
         this.players[evt.data.position].playerDetails.chips -= evt.data.ammount;
         this.players[evt.data.position].actualBet += evt.data.ammount;
+        if (evt.data.position === this.myPosition) {
+          this.chips.substract(evt.data.ammount);
+        }
         this.pot += evt.data.ammount;
       }
       if (evt.type === RxEType.SHOW_OFF) {
@@ -173,11 +177,15 @@ export class PokerComponent implements OnInit {
           this.resultMode = true;
           this.players[winner.position].winner = true;
           this.players[winner.position].playerDetails.chips += winner.pot;
+          if (winner.position === this.myPosition) {
+            this.chips.add(winner.pot);
+          }
         });
       }
       if (evt.type === RxEType.DEPOSIT_SUCCESS) {
         if (this.players[this.myPosition]) {
           this.players[this.myPosition].playerDetails.chips += evt.data.chips;
+          this.chips.add(evt.data.ammount);
         }
       }
     });
@@ -204,7 +212,7 @@ export class PokerComponent implements OnInit {
   }
 
   private processSnapshot(evt) {
-    console.log('SNAPSHOT', evt.data);
+    // console.log('SNAPSHOT', evt.data);
     this.dealerPosition = evt.data.dealerPosition;
     if (evt.data.pot > 0) {
       this.pot = evt.data.pot;
@@ -225,6 +233,10 @@ export class PokerComponent implements OnInit {
       if (player != null) {
         const nPlayer = new PlayerSnapshot();
         nPlayer.playerDetails.chips = player.chips;
+        if (this.myPosition === idx) {
+          console.log('Settings chips by snapshot:');
+          this.chips.set(player.chips);
+        }
         nPlayer.playerDetails.image = player.photo;
         nPlayer.playerDetails.name = player.nick;
         nPlayer.actualBet = player.actualBet;

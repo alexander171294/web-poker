@@ -219,6 +219,8 @@ public class RoundGame {
 					bets[dI.position.intValue()] +=  totalAmmount;
 					lastRise = bets[dI.position.intValue()];
 					bigBlind = -1;
+				} else {
+					// reject?
 				}
 			}
 			

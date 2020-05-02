@@ -62,7 +62,7 @@ export class ChatBoxComponent implements OnInit {
           this.chatMessages.push(
             new ChatMessageData(
               false,
-              'I\'m win ' + winner.pot + ', because I have ' + winner.reason,
+              'I won $' + winner.pot + ', because I have ' + winner.reason,
               this.playersInPositions[winner.position]
             )
           );

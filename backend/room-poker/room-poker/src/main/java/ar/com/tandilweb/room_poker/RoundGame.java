@@ -112,8 +112,8 @@ public class RoundGame {
 		blindObject.bbChips = bigBlindSize;
 		usersInGame[smallBlind].chips -= smallBlindSize;
 		usersInGame[bigBlind].chips -= bigBlindSize;
-		bets[smallBlind] = smallBlindSize;
-		bets[bigBlind] = bigBlindSize;
+//		bets[smallBlind] = smallBlindSize;
+//		bets[bigBlind] = bigBlindSize;
 		var pot = new Pot();
 		pot.pot += smallBlindSize;
 		pot.pot += bigBlindSize;
@@ -522,39 +522,41 @@ public class RoundGame {
 		// TODO: chequear y remover los folds primero
 		
 		// separamos los pozos:
-		List<Integer> activeUsers = Utils.getPlayersOrderedByBets(bets);
-		List<Integer> activeUsersWithoutBigBet = Utils.getPlayersOrderedByBets(bets);
-		activeUsersWithoutBigBet.remove(activeUsersWithoutBigBet.size()-1);
 		List<Pot> pozos = new ArrayList<Pot>();
-		for(int i = 0; i<=activeUsersWithoutBigBet.size()-1; i++) {
-			// restamos el bet de esta posicion a las siguientes:
-			final var index = activeUsersWithoutBigBet.get(i);
-			if(bets[index] <= 0) continue;
-			Pot pozo = new Pot();
-			pozo.pot = 0;
-			long bet = bets[index];
-			for(int z = i; z<=activeUsers.size()- 1; z++) {
-				final var zindex = activeUsers.get(z);
-				bets[zindex] -= bet;
-				pozo.pot += bet;
-				pozo.playersForPot.add(zindex);
-			}
-			pozos.add(pozo);
-			boolean morePots = false;
-			for(int z = 0; z<=activeUsersWithoutBigBet.size()-1; z++) {
-				final var zindex = activeUsers.get(z);
-				if(bets[zindex]>0) {
-					morePots = true;
+		List<Integer> activeUsers = Utils.getPlayersOrderedByBets(bets);
+		if(activeUsers.size() > 1) {
+			List<Integer> activeUsersWithoutBigBet = Utils.getPlayersOrderedByBets(bets);
+			activeUsersWithoutBigBet.remove(activeUsersWithoutBigBet.size()-1);
+			for(int i = 0; i<=activeUsersWithoutBigBet.size()-1; i++) {
+				// restamos el bet de esta posicion a las siguientes:
+				final var index = activeUsersWithoutBigBet.get(i);
+				if(bets[index] <= 0) continue;
+				Pot pozo = new Pot();
+				pozo.pot = 0;
+				long bet = bets[index];
+				for(int z = i; z<=activeUsers.size()- 1; z++) {
+					final var zindex = activeUsers.get(z);
+					bets[zindex] -= bet;
+					pozo.pot += bet;
+					pozo.playersForPot.add(zindex);
+				}
+				pozos.add(pozo);
+				boolean morePots = false;
+				for(int z = 0; z<=activeUsersWithoutBigBet.size()-1; z++) {
+					final var zindex = activeUsers.get(z);
+					if(bets[zindex]>0) {
+						morePots = true;
+					}
+				}
+				if(!morePots) {
+					break;
 				}
 			}
-			if(!morePots) {
-				break;
-			}
+			// devolver excedente del mas grande:
+			var maxBexPosition = activeUsers.get(activeUsers.size()-1);
+			var excedent = bets[maxBexPosition];
+			usersInGame[maxBexPosition].chips += excedent;
 		}
-		// devolver excedente del mas grande:
-		var maxBexPosition = activeUsers.get(activeUsers.size()-1);
-		var excedent = bets[maxBexPosition];
-		usersInGame[maxBexPosition].chips += excedent;
 		return pozos;
 	}
 

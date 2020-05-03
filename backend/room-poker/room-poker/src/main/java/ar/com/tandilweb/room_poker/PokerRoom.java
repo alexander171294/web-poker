@@ -91,7 +91,7 @@ public class PokerRoom implements GameCtrlInt {
 			this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
 			actualRound = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
 			if(actualRound.start()) {
-				log.info("RESTART ROUND.");
+				startRound();
 			}
 		} else {
 			this.inGame = false;

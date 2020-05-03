@@ -1,20 +1,19 @@
 Cruciales:
-    - Back to lobby disconnection subscriptions.
     - si no se sigue los pasos en orden no se dispara el evento Ingress.
     - invalid deposit no avisa. (Completar datos de disponible en deposito). [REST DONA]
     - Report bug button.
-    - Salirse de la mesa.
     - espera ante la entrada de nuevo jugador (buscar reglas)
-    - cuando jwt está expirado mandar al login.
-    - Fichas desaparecen
+    - Fichas desaparecen [CANT-REPRODUCE]
 
     - Timmer fin de corte.
     - all in en ciega?
-    - cuando haces all in contra uno mas grande le roba fichas.
     - splitted pot
-    - si pones all in, y el siguiente aumenta a "all in" te vuelve a preguntar que queres hacer.
-    - todos en all in mostrar cartas.
-
+    - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
+    - chat
+    - Salirse de la mesa. (recuperar fichas)
+    - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
+    - cuando jwt está expirado mandar al login.
+    - all entrar al room abrir nueva pestaña
 
 Dona:
     - Rest para obtener la cantidad de fichas disponibles en mi cuenta.

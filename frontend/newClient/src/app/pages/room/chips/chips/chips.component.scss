@@ -774,6 +774,137 @@
 }
 /** END M5 **/
 
+/** CHIP M10 **/
+@keyframes M10Shadow {
+  0% {
+      box-shadow: inset 0px 0px 5px black, 0px 0px 5px #00fff5;
+  }
+  20% {
+      box-shadow: inset 0px 0px 5px black, 0px 0px 5px  #ff0000;
+  }
+  40% {
+      box-shadow: inset 0px 0px 5px black, 0px 0px 5px #fb00ff;
+  }
+  60% {
+      box-shadow: inset 0px 0px 5px black, 0px 0px 5px #00ff08;
+  }
+  80% {
+      box-shadow: inset 0px 0px 5px black, 0px 0px 5px #fff700;
+  }
+  100% {
+      box-shadow: inset 0px 0px 5px black, 0px 0px 5px #00fff5;
+  }
+}
+.chip.M10 .internalBand {
+  color: #00fff5;
+  left: 7.4%;
+  top: 7.3%;
+  animation: M10Shadow 10s linear infinite;
+}
+@keyframes M10Text {
+  0% {
+      color: #00fff5;
+      text-shadow: 0px 0px 5px white;
+  }
+  50% {
+      color: #5d5d5d;
+      text-shadow: 0px 0px 0px white;
+  }
+  100% {
+      color: #00fff5;
+      text-shadow: 0px 0px 5px white;
+  }
+}
+@keyframes M10BandColorSwitch1 {
+  0% {
+      background: #00ffea;
+  }
+  50% {
+      background: #c300ff;
+  }
+  100% {
+      background: #00ffea;
+  }
+}
+@keyframes M10BandColorSwitch2 {
+  0% {
+      background: #54ff00;
+  }
+  50% {
+      background: #ff0000;
+  }
+  100% {
+      background: #54ff00;
+  }
+}
+@keyframes M10BandColorSwitch3 {
+  0% {
+      background: #ff7800;
+  }
+  50% {
+      background: #0063ff;
+  }
+  100% {
+      background: #ff7800;
+  }
+}
+.chip.M10 .internalBand .topText, .chip.M10 .internalBand .botText {
+  color: #00fff5;
+  animation: M10Text 10s infinite;
+}
+.chip.M10 .internalBand .internalCircle {
+  background: black;
+}
+.chip.M10 .internalBand .internalCircle .subCircle {
+  border: 2px dashed #00fffaa1;
+}
+.chip.M10 .internalBand .internalCircle .subCircle .finalCircle:before {
+  border-bottom: 0px;
+  background: #000000;
+}
+.chip.M10 .internalBand .internalCircle .subCircle .finalCircle:after {
+  border-top: 0px;
+}
+.chip.M10 .internalBand .internalCircle .subCircle .finalCircle .topIcons {
+  color: #00423f;
+}
+.chip.M10 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
+  color: #00423f;
+}
+.chip.M10 .internalBand .internalCircle .subCircle .finalCircle .value {
+  text-shadow: none;
+  color: #000000;
+  font-weight: bolder;
+  background: radial-gradient(#56f9f7, #15535d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-position-y: -7px;
+  -webkit-text-fill-color: transparent;
+}
+.chip.M10 .whiteBand {
+  background: #00ffea;
+  animation: M10BandColorSwitch1 10s linear infinite;
+  box-shadow: inset 0px 0px 10px black;
+}
+.chip.M10 .whiteBand.b{
+  background: #54ff00;
+  animation: M10BandColorSwitch2 10s linear infinite;
+}
+.chip.M10 .whiteBand.c{
+  background: #ff7800;
+  animation: M10BandColorSwitch3 10s linear infinite;
+}
+.chip.M10 .whiteBand:after {
+  display: none;
+}
+.chip.M10 .whiteBand:before {
+  display: none;
+}
+.chip.M10 {
+  background: linear-gradient(45deg, black, #002c33);
+}
+/** END M10 **/
+
 /** dealer **/
 .chip.dealer {
     background: #1f1f1f;

@@ -37,7 +37,7 @@
               </div>
           </div>
       </div>
-      <div class="curved botText" *ngIf="valor!='1M' && valor!='5M'">
+      <div class="curved botText" *ngIf="valor!='1M' && valor!='5M' && valor!='10M'">
           <span>W</span><span>E</span><span>B</span><span>P</span><span>O</span><span>K</span><span>E</span><span>R</span>
       </div>
       <div class="dedicatedNiko" *ngIf="valor=='1M'">
@@ -55,5 +55,8 @@
       <div class="dedicated" *ngIf="valor=='5M'">
         Mr.D
       </div>
+      <div class="curved botText" *ngIf="valor=='10M'">
+        <span>W</span><span>A</span><span>R</span><span>D</span><span>R</span><span>O</span><span>N</span><span>E</span>
+    </div>
   </div>
 </div>

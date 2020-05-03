@@ -44,6 +44,16 @@ export class StackerComponent implements OnInit, OnChanges {
        5M
     */
     let fichas = this.valor;
+
+    const M10 = fichas / 10000000;
+    if (M10 >= 1) {
+      const cant = Math.floor(M10);
+      for (let i = 0; i < cant; i++) {
+        chipsToStack.unshift('10M');
+      }
+      fichas = fichas % 10000000;
+    }
+
     const M5 = fichas / 5000000;
     if (M5 >= 1) {
       const cant = Math.floor(M5);

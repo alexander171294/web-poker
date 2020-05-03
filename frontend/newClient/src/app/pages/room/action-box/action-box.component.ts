@@ -98,12 +98,17 @@ export class ActionBoxComponent implements OnInit {
     } else {
       this.actualRaise = bet;
     }
-    this.betSelector.refreshBet(this.actualRaise);
+    if (this.betSelector) {
+      this.betSelector.refreshBet(this.actualRaise);
+    }
   }
 
   allIn() {
-    this.actualRaise = this.chips.get() - this.toCall;
-    this.betSelector.refreshBet(this.actualRaise);
+    console.log(this.chips.get(), this.toCall);
+    this.actualRaise = this.toCall > this.chips.get() ? 0 : this.chips.get() - this.toCall;
+    if (this.betSelector) {
+      this.betSelector.refreshBet(this.actualRaise);
+    }
   }
 
 }

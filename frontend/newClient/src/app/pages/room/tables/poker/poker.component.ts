@@ -206,7 +206,7 @@ export class PokerComponent implements OnInit {
       if (evt.type === RxEType.DEPOSIT_SUCCESS) {
         if (this.players[this.myPosition]) {
           this.players[this.myPosition].playerDetails.chips += evt.data.chips;
-          this.chips.add(evt.data.ammount);
+          this.chips.add(evt.data.chips);
         }
       }
       if (evt.type === RxEType.DEPOSIT_ANNOUNCEMENT) {

@@ -10,8 +10,9 @@
     <app-bet-selector #betSelector *ngIf="actualRaise >= 0" [toCall]="toCall" [actualBet]="actualBet" [userChips]="myChips" [initialRaise]="actualRaise" [maxRaise]="maxRaise" (raiseChanged)="actualRaise = $event"></app-bet-selector>
   </div>
   <div class="buttonBox">
-    <button (click)="call(toCall)" *ngIf="!canCheck">Call {{toCall}}</button>
-    <button class="blue" (click)="raise(actualRaise)">Rise to {{actualRaise + toCall+ actualBet}}</button>
+    <button class="blue" (click)="raise(actualRaise)" *ngIf="canCheck || toCall < myChips">Rise {{actualRaise}} <span style="font-size: 9px;">({{actualRaise + toCall}})</span></button>
+    <button (click)="call(toCall)" *ngIf="!canCheck && toCall < myChips">Call {{toCall}}</button>
+    <button (click)="call(toCall)" *ngIf="!canCheck && toCall >= myChips">All-In</button>
     <button class="info" (click)="check()" *ngIf="canCheck">Check</button>
     <button class="warning" (click)="fold()">Fold</button>
   </div>

@@ -44,7 +44,7 @@ export class PokerComponent implements OnInit {
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.ANNOUNCEMENT) {
         // this.announcement =
-        console.log('Original', this.players[evt.data.position]);
+        // console.log('Original', this.players[evt.data.position]);
         if (this.players[evt.data.position] == null || this.players[evt.data.position].playerDetails.name == null) {
           const nPlayer = new PlayerSnapshot();
           nPlayer.playerDetails.chips = evt.data.chips;
@@ -210,7 +210,6 @@ export class PokerComponent implements OnInit {
         }
       }
       if (evt.type === RxEType.DEPOSIT_ANNOUNCEMENT) {
-        console.log('Deposit Announcement', evt.data);
         // si no somos nostors porque ya nos contamos
         if (evt.data.position !== this.myPosition) {
           this.players[evt.data.position].playerDetails.chips += evt.data.quantity;
@@ -264,7 +263,7 @@ export class PokerComponent implements OnInit {
         const nPlayer = new PlayerSnapshot();
         nPlayer.playerDetails.chips = player.chips;
         if (this.myPosition === idx) {
-          console.log('Settings chips by snapshot:');
+          // console.log('Settings chips by snapshot:');
           this.chips.set(player.chips);
         }
         nPlayer.playerDetails.image = player.photo;

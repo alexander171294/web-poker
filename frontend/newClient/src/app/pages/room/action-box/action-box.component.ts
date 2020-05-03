@@ -36,9 +36,9 @@ export class ActionBoxComponent implements OnInit {
         // data.position+' for: '+data.remainingTime
         if (this.myPosition === evt.data.position) {
           this.isMyTurn = true;
-          console.log('Mis fichas: ', this.chips.get());
+          // console.log('Mis fichas: ', this.chips.get());
           this.actualBet = this.mySnapshot.actualBet ?  this.mySnapshot.actualBet : 0;
-          console.log('Actual Bet:', this.actualBet);
+          // console.log('Actual Bet:', this.actualBet);
           this.myChips = this.chips.get();
         } else {
           this.isMyTurn = false;
@@ -58,10 +58,10 @@ export class ActionBoxComponent implements OnInit {
       if (evt.type === RxEType.SNAPSHOT) {
         if (evt.data.waitingFor && evt.data.waitingFor === evt.data.myPosition) {
           this.isMyTurn = true;
-          console.log('Mis fichas: ', this.chips.get());
+          // console.log('Mis fichas: ', this.chips.get());
           this.myChips = this.chips.get();
           this.actualBet = this.mySnapshot.actualBet ?  this.mySnapshot.actualBet : 0;
-          console.log('Actual Bet:', this.actualBet);
+          // console.log('Actual Bet:', this.actualBet);
           this.minRaise = evt.data.betDecision.minRaise;
           this.maxRaise = evt.data.betDecision.maxRaise;
           this.actualRaise = evt.data.betDecision.minRaise;
@@ -92,7 +92,7 @@ export class ActionBoxComponent implements OnInit {
   multiply(multiplier: number) {
     const bet = this.chips.getBigBlind() * multiplier;
     const myChips = this.chips.get();
-    console.log(myChips);
+    // console.log(myChips);
     if (bet > myChips) {
       this.actualRaise = myChips;
     } else {
@@ -104,7 +104,7 @@ export class ActionBoxComponent implements OnInit {
   }
 
   allIn() {
-    console.log(this.chips.get(), this.toCall);
+    // console.log(this.chips.get(), this.toCall);
     this.actualRaise = this.toCall > this.chips.get() ? 0 : this.chips.get() - this.toCall;
     if (this.betSelector) {
       this.betSelector.refreshBet(this.actualRaise);

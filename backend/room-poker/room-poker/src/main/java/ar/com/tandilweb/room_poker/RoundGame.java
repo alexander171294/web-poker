@@ -112,12 +112,12 @@ public class RoundGame {
 		blindObject.bbChips = bigBlindSize;
 		usersInGame[smallBlind].chips -= smallBlindSize;
 		usersInGame[bigBlind].chips -= bigBlindSize;
-//		bets[smallBlind] = smallBlindSize;
-//		bets[bigBlind] = bigBlindSize;
-		var pot = new Pot();
-		pot.pot += smallBlindSize;
-		pot.pot += bigBlindSize;
-		pots.add(pot);
+		bets[smallBlind] = smallBlindSize;
+		bets[bigBlind] = bigBlindSize;
+//		var pot = new Pot();
+////		pot.pot += smallBlindSize;
+////		pot.pot += bigBlindSize;
+//		pots.add(pot);
 		sessionHandler.sendToAll("/GameController/blind", blindObject);
 		waitingActionFromPlayer = Utils.getNextPositionOfPlayers(usersInGame, bigBlind);
 		lastActionedPosition = bigBlind;
@@ -329,9 +329,13 @@ public class RoundGame {
 		// merge de pots:
 		List<Pot> newPots = SplitAndNormalizedPots();
 		if(newPots.size() > 0) {
-			this.pots.get(this.pots.size()-1).pot += newPots.get(0).pot;
-			newPots.remove(0);
-			this.pots.addAll(newPots);
+			if(this.pots.size() > 0) {
+				this.pots.get(this.pots.size()-1).pot += newPots.get(0).pot;
+				newPots.remove(0);
+				this.pots.addAll(newPots);
+			} else {
+				this.pots.addAll(newPots);
+			}
 		}
 		// mandamos al front la lista de pots:
 		Pots schemaPots = new Pots();

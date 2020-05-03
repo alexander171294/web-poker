@@ -443,6 +443,10 @@ body {
 .chip.K10 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
     color:#9a5610;
 }
+.chip.K10 .internalBand .internalCircle .subCircle .finalCircle .value {
+    color: #2d0b21;
+    text-shadow: 0px 0px 10px white;
+}
 /** END K10 **/
 
 /** K25 **/
@@ -619,7 +623,7 @@ body {
     border-bottom: 1px solid #333333;
 }
 .chip.K500 .internalBand .internalCircle .subCircle .finalCircle:after {
-    background: #141415;
+    background: #400103;
     transform: rotate(45deg);
     transform-origin: top;
     border-top: 1px solid #01334a;
@@ -627,6 +631,12 @@ body {
 .chip.K500 .internalBand .internalCircle .subCircle .finalCircle .botIcons {
     color: #272727;
     bottom: 45px;
+}
+.chip.K500 .internalBand .topText, .chip.K500 .internalBand .botText {
+    color: #ff00009c;
+}
+.chip.K500 .internalBand .internalCircle .subCircle .finalCircle .value {
+    color: #ffc4c4b5;
 }
 /** END K500 **/
 
@@ -813,10 +823,10 @@ body {
     color: #ff000066;
     text-shadow: 0px 0px 5px #070513;
     position: absolute;
-    bottom: -10px;
+    bottom: -3px;
     width: 100%;
     transform: rotate(-26deg);
-    left: 22px;
+    left: 20px;
     font-size: 32px;
 }
 
@@ -825,11 +835,12 @@ body {
     text-align: center;
     color: #ffffff42;
     position: absolute;
-    width: 100%;
+    width: 150px;
+    height: 150px;
     transform: rotate(-26deg);
-    left: 22px;
+    left: 14px;
     font-size: 41px;
-    bottom: -38px;
+    bottom: -60px;
 }
 .dedicatedNiko svg{
     width: 80%;

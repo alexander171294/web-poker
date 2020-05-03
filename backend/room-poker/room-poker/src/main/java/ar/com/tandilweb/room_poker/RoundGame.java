@@ -247,7 +247,7 @@ public class RoundGame {
 					bigBlind = -1;
 				} else {
 					// TODO: Review this.
-					bets[dI.position.intValue()] += initialBet+usersInGame[dI.position.intValue()].chips;
+					bets[dI.position.intValue()] += usersInGame[dI.position.intValue()].chips;
 					dI.ammount = initialBet+usersInGame[dI.position.intValue()].chips;
 					usersInGame[dI.position.intValue()].chips = 0;
 					this.usersInGameDescriptor[dI.position.intValue()].isAllIn = true;

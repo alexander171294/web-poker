@@ -5,16 +5,18 @@ Cruciales:
     - espera ante la entrada de nuevo jugador (buscar reglas)
     - Fichas desaparecen [CANT-REPRODUCE]
 
-    - Timmer fin de corte.
+    Demo:
     - all in en ciega?
     - splitted pot
     - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
-    - chat
     - Salirse de la mesa. (recuperar fichas)
-    - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
     - cuando jwt está expirado mandar al login.
-    - all entrar al room abrir nueva pestaña
+    - chat
     - guardar ultima mano.
+    
+    - all entrar al room abrir nueva pestaña
+    - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
+    - Timmer fin de corte.
 
 Dona:
     - Rest para obtener la cantidad de fichas disponibles en mi cuenta.

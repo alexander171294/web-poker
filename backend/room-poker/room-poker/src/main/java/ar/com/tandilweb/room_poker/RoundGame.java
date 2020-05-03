@@ -85,7 +85,7 @@ public class RoundGame {
 		rounds++;
 	}
 	
-	public void start() {
+	public boolean start() {
 		RoundStart roundStartSchema = new RoundStart();
 		roundStartSchema.dealerPosition = this.dealerPosition;
 		roundStartSchema.roundNumber = rounds;
@@ -96,15 +96,17 @@ public class RoundGame {
 			roundStep = 1; // pre-flop
 			if(!AllInCornerCase) {				
 				sendWaitAction();
+				return false;
 			} else {
 				showOff();
 				threadWait(500);
-				finishBets();
+				return finishBets();
 			}
 		} catch (InterruptedException e) {
 			log.warn("Interrupted Exception ", e);
 			// FIXME: if this explode, then the cards are never ends to dealing.
 		}
+		return false;
 	}
 	
 	private boolean requestBlind(int smallBlindSize, int bigBlindSize) {
@@ -154,7 +156,10 @@ public class RoundGame {
 			// todos en allIn?
 			return true;
 		}
-		if(waitingActionFromPlayer == bigBlind && isAllinAllIn()) {
+		if(((waitingActionFromPlayer == bigBlind) || (
+			waitingActionFromPlayer == smallBlind &&
+			blindObject.bbChips == smallBlindSize)) && 
+				isAllinAllIn()) {
 			// automaticamente cerrar el juego como si todos fueran all in
 			return true;
 		}
@@ -694,7 +699,7 @@ public class RoundGame {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
-
+			log.error("INTERRUPTED EXCEPTION", e);
 		}
 	}
 	

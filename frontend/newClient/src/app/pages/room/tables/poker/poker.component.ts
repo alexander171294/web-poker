@@ -5,6 +5,7 @@ import { Card } from '../../cards/dual-stack/Card';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
 import { VcardComponent } from '../../vcard/vcard.component';
 import { ChipsService } from 'src/app/services/memory/chips.service';
+import { Pots } from 'src/app/services/network/epprProtocol/game/Pots';
 
 @Component({
   selector: 'app-table-poker',
@@ -21,6 +22,7 @@ export class PokerComponent implements OnInit {
   public tableCards: Card[];
   public availablePositions: boolean[] = [];
   public pot: number;
+  public splittedPots: number[];
   public dealed: boolean;
   public dealerPosition: number = -1;
   public myPosition: number;
@@ -181,6 +183,9 @@ export class PokerComponent implements OnInit {
         });
         this.clearTableChips();
       }
+      if (evt.type === RxEType.POTS) {
+        this.splittedPots = evt.data;
+      }
       if (evt.type === RxEType.RESULT_SET) {
         // result set
         console.info('RESULT SET', evt.data);
@@ -239,8 +244,8 @@ export class PokerComponent implements OnInit {
     this.dealerPosition = evt.data.dealerPosition;
     this.chips.setBigBlind(evt.data.bigBlind);
     this.chips.setSmallBlind(evt.data.smallBlind);
-    if (evt.data.pot > 0) {
-      this.pot = evt.data.pot;
+    if (evt.data.pots) {
+      this.splittedPots = evt.data.pots;
     }
     if (evt.data.myPosition >= 0) {
       this.myPosition = evt.data.myPosition;
@@ -304,5 +309,6 @@ export class PokerComponent implements OnInit {
     this.tableCards = [];
     this.resultMode = false;
     this.pot = 0;
+    this.splittedPots = undefined;
   }
 }

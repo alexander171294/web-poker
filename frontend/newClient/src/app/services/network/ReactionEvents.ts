@@ -28,6 +28,7 @@ export enum RxEType {
   DEFINE_POSITION,
   DECISION_INFORM,
   SHOW_OFF,
-  RESULT_SET
+  RESULT_SET,
+  POTS
 }
 

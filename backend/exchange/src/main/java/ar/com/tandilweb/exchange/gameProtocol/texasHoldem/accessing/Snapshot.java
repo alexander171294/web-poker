@@ -9,7 +9,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 public class Snapshot extends AccessSchema {
 	
 	public List<SnapshotPlayer> players;
-	public double pot;
+	public List<Long> pots;
 	public List<SchemaCard> communityCards;
 	public boolean isInRest;
 	public boolean isDealing;

@@ -1,6 +1,7 @@
 package ar.com.tandilweb.room_poker;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -134,7 +135,11 @@ public class PokerRoom implements GameCtrlInt {
 		if (actualRound != null) {
 			snap.isInRest = true;
 			snap.dealerPosition = actualRound.getDealerPosition();
-			snap.pot = actualRound.getPot(); // get actual pot
+			List<Long> pots = new ArrayList<Long>();
+			actualRound.getPot().forEach(pot->{
+				pots.add(pot.pot);
+			});
+			snap.pots = pots; // get actual pot
 			Card[] cards = actualRound.getCommunityCards();
 			snap.communityCards = new ArrayList<SchemaCard>();
 			for(int i = 0; i<cards.length; i++) {

@@ -39,7 +39,12 @@
                 <div class="cards">
                   <app-card *ngFor="let card of tableCards" [upsidedown]="card === null" [palo]="card ? card.suit : 0" [valor]="card ? card.value : 0"></app-card>
                 </div>
-                <label class="pot" *ngIf="pot > 0">Pot: {{pot}}</label>
+                <label class="pot" *ngIf="pot > 0  && !splittedPots">Pot: {{pot}}</label>
+                <label class="pot" *ngIf="splittedPots">
+                  <span *ngFor="let subPot of splittedPots">
+                    Pot: {{subPot}}
+                  </span>
+                </label>
                 <div class="potChips" *ngIf="pot > 0">
                   <app-stacker valor="pot"></app-stacker>
                 </div>

@@ -16,6 +16,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Pots;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ResultSet;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RiverBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RoundStart;
@@ -61,6 +62,7 @@ public class RoundGame {
 	private int bigBlind;
 	private long lastRise;
 	private long pot;
+	private List<Pot> pots = new ArrayList<Pot>();
 	
 	private Deck deck;
 	private boolean isWaiting = false;
@@ -113,6 +115,10 @@ public class RoundGame {
 		usersInGame[bigBlind].chips -= bigBlindSize;
 		bets[smallBlind] = smallBlindSize;
 		bets[bigBlind] = bigBlindSize;
+		var pot = new Pot();
+		pot.pot += smallBlindSize;
+		pot.pot += bigBlindSize;
+		pots.add(pot);
 		sessionHandler.sendToAll("/GameController/blind", blindObject);
 		waitingActionFromPlayer = Utils.getNextPositionOfPlayers(usersInGame, bigBlind);
 		lastActionedPosition = bigBlind;
@@ -319,10 +325,15 @@ public class RoundGame {
 		lastRise = 0;
 		// update pot:
 		List<Pot> pots = SplitAndNormalizedPots();
-		for(int i = 0; i<bets.length; i++) {
-			pot += bets[i];
-			bets[i] = 0;
+		// TODO: splitted pots
+		if(pots.size() > 0) {			
+			pot += pots.get(0).pot;
 		}
+		this.pots = pots;
+		// mandamos al front la lista de pots:
+		Pots schemaPots = new Pots();
+		schemaPots.pots.add(pot);
+		sessionHandler.sendToAll("/GameController/pots", schemaPots);
 		if(roundStep == 1) {
 			// flop:
 			roundStep = 2;
@@ -530,8 +541,9 @@ public class RoundGame {
 			}
 		}
 		// devolver excedente del mas grande:
-		var matBexPosition = activeUsers.get(activeUsers.size()-1);
-		var excedent = bets[matBexPosition];
+		var maxBexPosition = activeUsers.get(activeUsers.size()-1);
+		var excedent = bets[maxBexPosition];
+		usersInGame[maxBexPosition].chips += excedent;
 		return pozos;
 	}
 
@@ -556,8 +568,8 @@ public class RoundGame {
 		return dealerPosition;
 	}
 	
-	public long getPot() {
-		return pot;
+	public List<Pot> getPot() {
+		return this.pots;
 	}
 	
 	public long getBetOf(int position) {

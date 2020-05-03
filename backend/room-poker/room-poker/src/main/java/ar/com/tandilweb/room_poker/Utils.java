@@ -7,6 +7,7 @@ import java.util.Random;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.cards.Card;
+import ar.com.tandilweb.room_poker.roundGame.Pot;
 
 public class Utils {
 	
@@ -130,6 +131,14 @@ public class Utils {
 	
 	public static SchemaCard getSchemaFromCard(Card card) {
 		return new SchemaCard(card.suit.ordinal(), card.value.getNumericValue());
+	}
+	
+	public static List<Long> getPotValues(List<Pot> pots) {
+		List<Long> vPots = new ArrayList<Long>();
+		pots.forEach(pot -> {
+			vPots.add(pot.pot);
+		});
+		return vPots;
 	}
 
 }

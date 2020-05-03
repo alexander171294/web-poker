@@ -135,10 +135,7 @@ public class PokerRoom implements GameCtrlInt {
 		if (actualRound != null) {
 			snap.isInRest = true;
 			snap.dealerPosition = actualRound.getDealerPosition();
-			List<Long> pots = new ArrayList<Long>();
-			actualRound.getPot().forEach(pot->{
-				pots.add(pot.pot);
-			});
+			List<Long> pots = Utils.getPotValues(actualRound.getPot());
 			snap.pots = pots; // get actual pot
 			Card[] cards = actualRound.getCommunityCards();
 			snap.communityCards = new ArrayList<SchemaCard>();

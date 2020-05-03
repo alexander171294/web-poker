@@ -61,7 +61,6 @@ public class RoundGame {
 	private int lastActionedPosition; // for cut actions.
 	private int bigBlind;
 	private long lastRise;
-	private long pot;
 	private List<Pot> pots = new ArrayList<Pot>();
 	
 	private Deck deck;
@@ -299,8 +298,12 @@ public class RoundGame {
 	
 	private boolean finishBetFullFold() {
 		// check round bets:
+		long pot = 0;
 		for(int i = 0; i < bets.length; i++) {
 			pot += bets[i];
+		}
+		for(Pot potObj: pots) {
+			pot += potObj.pot;
 		}
 		ResultSet rs = new ResultSet();
 		rs.winners = new ArrayList<Winner>();
@@ -323,16 +326,16 @@ public class RoundGame {
 		lastActionedPosition = nextPj;
 		// resetting rises:
 		lastRise = 0;
-		// update pot:
-		List<Pot> pots = SplitAndNormalizedPots();
-		// TODO: splitted pots
-		if(pots.size() > 0) {			
-			pot += pots.get(0).pot;
+		// merge de pots:
+		List<Pot> newPots = SplitAndNormalizedPots();
+		if(newPots.size() > 0) {
+			this.pots.get(this.pots.size()-1).pot += newPots.get(0).pot;
+			newPots.remove(0);
+			this.pots.addAll(newPots);
 		}
-		this.pots = pots;
 		// mandamos al front la lista de pots:
 		Pots schemaPots = new Pots();
-		schemaPots.pots.add(pot);
+		schemaPots.pots = Utils.getPotValues(pots);
 		sessionHandler.sendToAll("/GameController/pots", schemaPots);
 		if(roundStep == 1) {
 			// flop:
@@ -373,7 +376,15 @@ public class RoundGame {
 		} else if(roundStep == 4) {
 			log.debug("-- SHOWDOWN --");
 			showOff();
-			checkHands();
+			
+			// TODO: cambiar esto por multi-pots:
+			long fullPot = 0;
+			for(long pot: schemaPots.pots) {
+				fullPot += pot;
+			}
+			checkHands(fullPot);
+			// fin del todo
+			
 			threadWait(2500);
 			return true;
 		}
@@ -431,7 +442,7 @@ public class RoundGame {
 		sessionHandler.sendToAll("/GameController/river", rb);
 	}
 	
-	private void checkHands() {
+	private void checkHands(long pot) {
 		hands = new HandValues[usersInGame.length];
 		List<Card> tableCards = new ArrayList<Card>();
 		for(int i = 0; i < 3; i++) {

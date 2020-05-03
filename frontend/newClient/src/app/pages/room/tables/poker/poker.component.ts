@@ -184,7 +184,7 @@ export class PokerComponent implements OnInit {
         this.clearTableChips();
       }
       if (evt.type === RxEType.POTS) {
-        this.splittedPots = evt.data;
+        this.splittedPots = evt.data.pots;
       }
       if (evt.type === RxEType.RESULT_SET) {
         // result set

@@ -846,7 +846,7 @@ body {
         background: #00ffea;
     }
     50% {
-        background: #c300ff;
+        background: #ff0096;
     }
     100% {
         background: #00ffea;
@@ -854,24 +854,24 @@ body {
 }
 @Keyframes M10BandColorSwitch2 {
     0% {
-        background: #54ff00;
+        background: #00ffea;
     }
     50% {
-        background: #ff0000;
+        background: #54ff00;
     }
     100% {
-        background: #54ff00;
+        background: #00ffea;
     }
 }
 @Keyframes M10BandColorSwitch3 {
     0% {
-        background: #ff7800;
+        background: #00ffea;
     }
     50% {
-        background: #0063ff;
+        background: #ff7800;
     }
     100% {
-        background: #ff7800;
+        background: #00ffea;
     }
 }
 .chip.M10 .whiteBand {

@@ -14,6 +14,7 @@ Cruciales:
     - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
     - cuando jwt está expirado mandar al login.
     - all entrar al room abrir nueva pestaña
+    - guardar ultima mano.
 
 Dona:
     - Rest para obtener la cantidad de fichas disponibles en mi cuenta.

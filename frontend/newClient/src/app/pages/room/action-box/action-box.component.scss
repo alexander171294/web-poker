@@ -96,5 +96,9 @@
     border: 1px solid #772c2c;
     border-right: 1px solid #772c2c;
     border-left: 1px solid #772c2c;
+    margin: 0px 2px;
+    &:hover {
+      box-shadow: inset 0px 0px 15px rgba(255, 255, 255, 0.1);
+    }
   }
 }

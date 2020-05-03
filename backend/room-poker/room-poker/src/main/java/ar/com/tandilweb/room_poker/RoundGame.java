@@ -27,6 +27,7 @@ import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
 import ar.com.tandilweb.room_poker.deck.cards.Card;
 import ar.com.tandilweb.room_poker.deck.hands.HandValues;
+import ar.com.tandilweb.room_poker.roundGame.Pot;
 import ar.com.tandilweb.room_poker.roundGame.UserMetaData;
 
 public class RoundGame {
@@ -212,10 +213,10 @@ public class RoundGame {
 				} else {
 					// TODO: review this.
 					dI.ammount = usersInGame[dI.position.intValue()].chips;
-					usersInGame[dI.position.intValue()].chips = 0;
 					this.usersInGameDescriptor[dI.position.intValue()].isAllIn = true;
 					actionDoed = true;
-					bets[dI.position.intValue()] = lastRise;
+					bets[dI.position.intValue()] += usersInGame[dI.position.intValue()].chips;
+					usersInGame[dI.position.intValue()].chips = 0;
 				}
 			}
 			if("check".equalsIgnoreCase(dI.action)) {
@@ -317,6 +318,7 @@ public class RoundGame {
 		// resetting rises:
 		lastRise = 0;
 		// update pot:
+		List<Pot> pots = SplitAndNormalizedPots();
 		for(int i = 0; i<bets.length; i++) {
 			pot += bets[i];
 			bets[i] = 0;
@@ -492,6 +494,45 @@ public class RoundGame {
 			}
 		}
 		sessionHandler.sendToAll("/GameController/resultSet", rs);
+	}
+	
+	public List<Pot> SplitAndNormalizedPots() {
+		// TODO: chequear y remover los folds primero
+		
+		// separamos los pozos:
+		List<Integer> activeUsers = Utils.getPlayersOrderedByBets(bets);
+		List<Integer> activeUsersWithoutBigBet = Utils.getPlayersOrderedByBets(bets);
+		activeUsersWithoutBigBet.remove(activeUsersWithoutBigBet.size()-1);
+		List<Pot> pozos = new ArrayList<Pot>();
+		for(int i = 0; i<=activeUsersWithoutBigBet.size()-1; i++) {
+			// restamos el bet de esta posicion a las siguientes:
+			final var index = activeUsersWithoutBigBet.get(i);
+			if(bets[index] <= 0) continue;
+			Pot pozo = new Pot();
+			pozo.pot = 0;
+			long bet = bets[index];
+			for(int z = i; z<=activeUsers.size()- 1; z++) {
+				final var zindex = activeUsers.get(z);
+				bets[zindex] -= bet;
+				pozo.pot += bet;
+				pozo.playersForPot.add(zindex);
+			}
+			pozos.add(pozo);
+			boolean morePots = false;
+			for(int z = 0; z<=activeUsersWithoutBigBet.size()-1; z++) {
+				final var zindex = activeUsers.get(z);
+				if(bets[zindex]>0) {
+					morePots = true;
+				}
+			}
+			if(!morePots) {
+				break;
+			}
+		}
+		// devolver excedente del mas grande:
+		var matBexPosition = activeUsers.get(activeUsers.size()-1);
+		var excedent = bets[matBexPosition];
+		return pozos;
 	}
 
 	public static SessionHandlerInt getSessionHandler() {

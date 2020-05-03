@@ -83,6 +83,26 @@ public class Utils {
 		return players;
 	}
 	
+	public static List<Integer> getPlayersOrderedByBets(long[] bets) {
+		ArrayList<Integer> out = new ArrayList<Integer>();
+		for(var bet: bets) {
+			int maxPos = -1;
+			long maxBet = 0;
+			for(int i = 0; i<bets.length; i++) {
+				if(bets[i] > 0) {
+					if(bets[i] > maxBet && !out.contains(i)) {
+						maxPos = i;
+						maxBet = bets[i];
+					}
+				}
+			}
+			if(maxPos >= 0) {
+				out.add(0, maxPos);
+			}
+		}
+		return out;
+	}
+	
 	public static List<Integer> getPlayersFromPosition(UserData[] usersInTable, int startPosition) {
 		List<Integer> players = new ArrayList<Integer>();
 		for(int i = startPosition + 1; i < usersInTable.length; i++) {

@@ -52,6 +52,16 @@ public class Utils {
 		return quantity;
 	}
 	
+	public static int countUsersInGame(UserData[] usersInGame) {
+		int quantity = 0;
+		for(int i = 0; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				quantity++;
+			}
+		}
+		return quantity;
+	}
+	
 	public static UserData[] getNewArrayOfUsers(UserData[] usersInTable) {
 		UserData[] usersInGame = new UserData[usersInTable.length]; 
 		for(int i = 0; i < usersInTable.length; i++) {

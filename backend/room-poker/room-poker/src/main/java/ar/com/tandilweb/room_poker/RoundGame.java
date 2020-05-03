@@ -90,18 +90,24 @@ public class RoundGame {
 		roundStartSchema.dealerPosition = this.dealerPosition;
 		roundStartSchema.roundNumber = rounds;
 		sessionHandler.sendToAll("/GameController/roundStart", roundStartSchema);
-		requestBlind(SMALL_BLIND, BIG_BLIND); // FXIME: adjust according to configuration.
+		boolean AllInCornerCase = requestBlind(SMALL_BLIND, BIG_BLIND); // FXIME: adjust according to configuration.
 		try {
 			dealCards();
 			roundStep = 1; // pre-flop
-			sendWaitAction();
+			if(!AllInCornerCase) {				
+				sendWaitAction();
+			} else {
+				showOff();
+				threadWait(500);
+				finishBets();
+			}
 		} catch (InterruptedException e) {
 			log.warn("Interrupted Exception ", e);
 			// FIXME: if this explode, then the cards are never ends to dealing.
 		}
 	}
 	
-	private void requestBlind(int smallBlindSize, int bigBlindSize) {
+	private boolean requestBlind(int smallBlindSize, int bigBlindSize) {
 		int smallBlind = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
 		bigBlind = Utils.getNextPositionOfPlayers(usersInGame, smallBlind);
 		lastRise = bigBlindSize;
@@ -110,17 +116,51 @@ public class RoundGame {
 		blindObject.sbChips = smallBlindSize;
 		blindObject.bbPosition = bigBlind;
 		blindObject.bbChips = bigBlindSize;
-		usersInGame[smallBlind].chips -= smallBlindSize;
-		usersInGame[bigBlind].chips -= bigBlindSize;
-		bets[smallBlind] = smallBlindSize;
-		bets[bigBlind] = bigBlindSize;
-//		var pot = new Pot();
-////		pot.pot += smallBlindSize;
-////		pot.pot += bigBlindSize;
-//		pots.add(pot);
+		
+		if(usersInGame[smallBlind].chips > smallBlindSize) {
+			usersInGame[smallBlind].chips -= smallBlindSize;
+			bets[smallBlind] = smallBlindSize;
+		} else {
+			// ALL IN
+			bets[smallBlind] = usersInGame[smallBlind].chips;
+			blindObject.sbChips = bets[smallBlind];
+			usersInGameDescriptor[smallBlind].isAllIn = true;
+			usersInGame[smallBlind].chips = 0;
+		}
+		
+		if(usersInGame[bigBlind].chips > bigBlindSize) {
+			usersInGame[bigBlind].chips -= bigBlindSize;
+			bets[bigBlind] = bigBlindSize;
+		} else {
+			// ALL IN
+			bets[bigBlind] = usersInGame[bigBlind].chips;
+			blindObject.bbChips = bets[bigBlind];
+			usersInGameDescriptor[bigBlind].isAllIn = true;
+			usersInGame[bigBlind].chips = 0;
+		}
+
 		sessionHandler.sendToAll("/GameController/blind", blindObject);
+		
+		
+		int firstWAFP = -1;
 		waitingActionFromPlayer = Utils.getNextPositionOfPlayers(usersInGame, bigBlind);
+		while(usersInGameDescriptor[waitingActionFromPlayer].isAllIn && waitingActionFromPlayer != firstWAFP) {
+			if(firstWAFP == -1) {
+				firstWAFP = waitingActionFromPlayer;
+			}
+			waitingActionFromPlayer = Utils.getNextPositionOfPlayers(usersInGame, bigBlind);
+		}
+		if(usersInGameDescriptor[waitingActionFromPlayer].isAllIn) {
+			// todos en allIn?
+			return true;
+		}
+		if(waitingActionFromPlayer == bigBlind && isAllinAllIn()) {
+			// automaticamente cerrar el juego como si todos fueran all in
+			return true;
+		}
+		
 		lastActionedPosition = bigBlind;
+		return false;
 	}
 	
 	private void sendWaitAction() {
@@ -227,6 +267,7 @@ public class RoundGame {
 			if("check".equalsIgnoreCase(dI.action)) {
 				if(lastRise == bets[dI.position.intValue()]) {
 					actionDoed = true;
+					//lastActionedPosition = dI.position.intValue();
 				}
 			}
 			if("raise".equalsIgnoreCase(dI.action)) {
@@ -262,19 +303,34 @@ public class RoundGame {
 				if("raise".equalsIgnoreCase(dI.action)) {
 					finishedBets = nextPlayer(nextPosition);
 				} else {
-					if(nextPosition == bigBlind) {
-						finishedBets = nextPlayer(nextPosition);
+					if(isAllinAllIn()) {
+						finishedBets = true;
+						showOff();
+						threadWait(500); // TODO: parametize this
 					} else {
-						if(isAllinAllIn()) {
-							finishedBets = true;
-							showOff();
-							threadWait(500); // TODO: parametize this
+						if(nextPosition == bigBlind) {
+							finishedBets = nextPlayer(nextPosition);
 						} else if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
 							finishedBets = true;
 						} else {
 							finishedBets = nextPlayer(nextPosition);
 						}
 					}
+					
+//					if(nextPosition == bigBlind) {
+//						finishedBets = nextPlayer(nextPosition);
+//					} else {
+//						if(isAllinAllIn()) {
+//							finishedBets = true;
+//							showOff();
+//							threadWait(500); // TODO: parametize this
+//						} else if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
+//							finishedBets = true;
+//						} else {
+//							finishedBets = nextPlayer(nextPosition);
+//						}
+//					}
+					
 				}
 				sessionHandler.sendToAll("/GameController/decisionInform", dI);
 				if(finishedBets) {

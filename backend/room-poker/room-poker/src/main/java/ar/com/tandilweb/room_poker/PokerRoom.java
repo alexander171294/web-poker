@@ -95,6 +95,7 @@ public class PokerRoom implements GameCtrlInt {
 			this.inGame = false;
 			final StartGame startGame = new StartGame();
 			startGame.startIn = -1; // initial time
+			actualRound = null;
 			sessionHandler.sendToAll("/GameController/startGame", startGame);
 			Utils.getPlayersWithoutChips(usersInTable).forEach(user -> {
 				sessionHandler.sendToSessID("GameController/deposit", user.sessID, new RequestDeposit());

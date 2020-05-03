@@ -260,17 +260,19 @@ public class RoundGame {
 			if(actionDoed) {
 				int nextPosition = Utils.getNextPositionOfPlayers(usersInGame, dI.position.intValue());
 				if("raise".equalsIgnoreCase(dI.action)) {
-					nextPlayer(nextPosition);
+					finishedBets = nextPlayer(nextPosition);
 				} else {
 					if(nextPosition == bigBlind) {
-						nextPlayer(nextPosition);
+						finishedBets = nextPlayer(nextPosition);
 					} else {
 						if(isAllinAllIn()) {
 							finishedBets = true;
+							showOff();
+							threadWait(500); // TODO: parametize this
 						} else if(lastActionedPosition == nextPosition || dI.position.intValue() == bigBlind) { // if next is last or actual is last (in bigBlind case)
 							finishedBets = true;
 						} else {
-							nextPlayer(nextPosition);
+							finishedBets = nextPlayer(nextPosition);
 						}
 					}
 				}
@@ -409,9 +411,22 @@ public class RoundGame {
 		sessionHandler.sendToAll("/GameController/showOff", soff);
 	}
 	
-	private void nextPlayer(int nextPosition) {
-		waitingActionFromPlayer = nextPosition;
-		sendWaitAction();
+	private boolean nextPlayer(int nextPosition) {
+		if(usersInGameDescriptor[nextPosition].isAllIn) {
+			do {
+				nextPosition = Utils.getNextPositionOfPlayers(usersInGame, nextPosition);
+			} while(usersInGameDescriptor[nextPosition].isAllIn && nextPosition != lastActionedPosition);
+			if(nextPosition == lastActionedPosition) {
+				return true; // fin de la mano
+			} else {
+				waitingActionFromPlayer = nextPosition;
+				sendWaitAction();
+			}
+		} else {			
+			waitingActionFromPlayer = nextPosition;
+			sendWaitAction();
+		}
+		return false;
 	}
 	
 	private void dealFlop() {

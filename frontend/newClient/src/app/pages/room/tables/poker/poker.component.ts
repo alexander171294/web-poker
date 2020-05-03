@@ -305,6 +305,7 @@ export class PokerComponent implements OnInit {
     this.players.forEach(player => {
       player.cards = [];
       player.upsidedown = false;
+      player.actualBet = 0;
     });
     this.tableCards = [];
     this.resultMode = false;

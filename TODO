@@ -19,13 +19,15 @@ Cruciales:
     - Timmer fin de corte.
 
 Dona:
-    - Rest para obtener la cantidad de fichas disponibles en mi cuenta.
-    - Rest para seguir jugador.
-    - Lista de jugadores seguidos
+    - Rest para obtener la cantidad de fichas disponibles en mi cuenta.--DONE
+    - Rest para seguir jugador.--DONE
+    - Lista de jugadores seguidos--DONE
+    - Obtener Ingame
+    - Activar Vistas (simples y multiples)
     - Perfil, foto, etc.
-    - Validar registro 
-    - Enviar al mail un codigo para validar la cuenta.
-    - Enviar al mail un codigo para recuperar la constraseña.
+    - Validar registro --DONE
+    - Enviar al mail un codigo para validar la cuenta.--DONE
+    - Enviar al mail un codigo para recuperar la constraseña. --DONE
     - News
     - Rules
 

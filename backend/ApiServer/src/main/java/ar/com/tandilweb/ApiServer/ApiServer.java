@@ -21,7 +21,7 @@ import ar.com.tandilweb.ApiServer.persistence.JDBConfiguration;
 
 @SpringBootApplication
 @EntityScan("ar.com.tandilweb.ApiServer.dataBase.domain")
-@ComponentScan({"ar.com.tandilweb.ApiServer.rests", "ar.com.tandilweb.ApiServer.transport"})
+@ComponentScan({"ar.com.tandilweb.ApiServer.rests", "ar.com.tandilweb.ApiServer.transport", "ar.com.tandilweb.ApiServer.utils"})
 @PropertySources(value = {
 		@PropertySource("classpath:database.properties"),
 		@PropertySource("classpath:apiServer.properties"),

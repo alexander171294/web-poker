@@ -16,8 +16,10 @@ import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.LoginRequest;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.SessionInformation;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.SignupRequest;
+import ar.com.tandilweb.ApiServer.dataTypesObjects.login.ValidateRequest;
 import ar.com.tandilweb.ApiServer.persistence.repository.SessionsRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.UsersRepository;
+import ar.com.tandilweb.ApiServer.utils.EmailUtil;
 import ar.com.tandilweb.persistence.domain.Sessions;
 import ar.com.tandilweb.persistence.domain.Users;
 import io.jsonwebtoken.JwtBuilder;
@@ -32,6 +34,9 @@ public class LoginAdapter {
 
 	@Autowired
 	private SessionsRepository sessionsRepository;
+	
+	@Autowired
+	private EmailUtil emailUtil;
 
 	@Value("${ar.com.tandilweb.ApiServer.users.initialChips}")
 	private long initialChips;
@@ -44,6 +49,7 @@ public class LoginAdapter {
 			throw new ValidationException(4, "Email o nick are in use");
 		}
 		Users user = new Users();
+		
 		user.setBadLogins((short) 0);
 		user.setChips(initialChips);
 		user.setEmail(signupData.email);
@@ -51,6 +57,8 @@ public class LoginAdapter {
 		// TODO: crypt password field, and compare hashes in login:
 		user.setPassword(signupData.password);
 		user.setPhoto(signupData.photo != null ? signupData.photo : "#");
+		user.setValidationCode(generateValidationCode(signupData.email));
+		user.setValidated(false);
 		user = userRepository.create(user);
 		// create session for new user:
 		Sessions session = new Sessions();
@@ -79,6 +87,10 @@ public class LoginAdapter {
 		if (maxBadLogins > 0 && user.getBadLogins() >= maxBadLogins) {
 			throw new ValidationException(4, "You are blocked for max bad logins");
 		}
+		if(!user.getValidated()) {
+			throw new ValidationException(6, "User not validated");
+		}
+		
 		// TODO: crypt password field, and compare hashes in login:
 		if (!user.getPassword().equals(loginData.password)) {
 			user.setBadLogins((short) (user.getBadLogins() + 1));
@@ -105,6 +117,41 @@ public class LoginAdapter {
 		out.sessionID = session.getId_session();
 		out.userID = session.getId_user();
 		return out;
+	}
+	
+	public SessionInformation validate(ValidateRequest validateData) throws ValidationException {
+		Users user = userRepository.findByEmailOrUser(validateData.umail);
+		if (user == null) {
+			throw new ValidationException(3, "Not user found");
+		}
+		if (user.getValidationCode().equals(validateData.validationCode)) {
+			user.setValidated(true);
+			userRepository.validate(user);
+		} else {
+			throw new ValidationException(7, "Invalid validation code");
+		}
+		LoginRequest login = new LoginRequest();
+		login.umail = validateData.umail;
+		login.password = validateData.password;
+		return login(login);
+	}
+	
+	public void RecoverPassword(String email, String validationCode, String newPass, String newPassConfirm) throws ValidationException{ 
+		Users user = userRepository.findByEmailOrUser(email);
+		if (!newPass.equals(newPassConfirm)) {
+			throw new ValidationException(8, "Passwords dont match");
+		}
+		if (!user.getValidationCode().equals(validationCode)) {
+			throw new ValidationException(7, "Invalid validation code");
+		}
+		user.setPassword(newPass);
+		userRepository.update(user);
+	}
+	
+	public String generateValidationCode(String email) {
+		var validationCode = UUID.randomUUID().toString().substring(0, 6);
+		emailUtil.sendMail(email, "Validation Code", validationCode);
+		return validationCode;
 	}
 	
 	public static String createJWT(String id, String issuer, String subject, long ttlMillis, String cryptPhrase) {

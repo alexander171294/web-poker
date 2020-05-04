@@ -26,8 +26,8 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	public Users create(final Users record) {
 		try {
 			final String sql = "INSERT INTO users "
-					+ "(nick_name, email, password, chips, photo, badLogins) "
-					+ "VALUES(?,?,?,?,?,?)";
+					+ "(nick_name, email, password, chips, photo, badLogins, validation_code, validated) "
+					+ "VALUES(?,?,?,?,?,?,?,?)";
 			KeyHolder holder = new GeneratedKeyHolder();
 			jdbcTemplate.update(new PreparedStatementCreator() {
 				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -38,6 +38,8 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 					ps.setLong(4, record.getChips());
 					ps.setString(5, record.getPhoto());
 					ps.setInt(6, record.getBadLogins());
+					ps.setString(7, record.getValidationCode());
+					ps.setBoolean(8, record.getValidated());
 					return ps;
 				}
 			}, holder);
@@ -60,6 +62,23 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 					record.getPhoto(),
 					record.getBadLogins(),
 					record.getId_user()
+			});
+		} catch(DataAccessException e) {
+			logger.error("UsersRepository::update", e);
+		}
+	}
+	
+	public void validate(Users record) {
+		try {
+			final String sql = "UPDATE users SET email = ?, password = ?, chips = ?, photo = ?, badLogins = ?, validated = ? WHERE id_user = ?";
+			jdbcTemplate.update(sql, new Object[] {
+					record.getEmail(),
+					record.getPassword(),
+					record.getChips(),
+					record.getPhoto(),
+					record.getBadLogins(),
+					record.getValidated(),
+					record.getId_user(),
 			});
 		} catch(DataAccessException e) {
 			logger.error("UsersRepository::update", e);
@@ -137,7 +156,9 @@ public class UsersRepository extends BaseRepository<Users, Long> {
 	        		rs.getString("password"),
 	        		rs.getLong("chips"),
 	        		rs.getString("photo"),
-	        		rs.getShort("badLogins")
+	        		rs.getShort("badLogins"),
+	        		rs.getString("validation_code"),
+	        		rs.getBoolean("validated")
 	        		);
 	    }
 	}

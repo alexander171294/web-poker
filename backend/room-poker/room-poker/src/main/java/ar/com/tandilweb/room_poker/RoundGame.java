@@ -774,6 +774,10 @@ public class RoundGame {
 		return new SchemaCard[] { Utils.getSchemaFromCard(playerFirstCards[pos]), Utils.getSchemaFromCard(playerSecondCards[pos]) };
 	}
 	
+	public boolean haveCards(int pos) {
+		return playerFirstCards[pos] != null;
+	}
+	
 	public boolean isAllinAllIn() {
 		int usersInGameNotAllIn = 0;
 		int userPending = 0;

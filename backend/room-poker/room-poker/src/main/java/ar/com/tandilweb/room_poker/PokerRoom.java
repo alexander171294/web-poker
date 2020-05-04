@@ -30,6 +30,7 @@ public class PokerRoom implements GameCtrlInt {
 	
 	private static final Logger log = LoggerFactory.getLogger(PokerRoom.class);
 	private UserData[] usersInTable;
+	private UserData[] usersInGame;
 	private int tableSize;
 	private SessionHandlerInt sessionHandler;
 	private int dealerPosition;
@@ -87,7 +88,7 @@ public class PokerRoom implements GameCtrlInt {
 	private void startRound() {
 		// TODO: ignore players sitted but without deposit in usersInGame:
 		if(Utils.countUsersCanPlay(usersInTable) > 1) {			
-			UserData[] usersInGame = Utils.getNewArrayOfUsers(usersInTable);
+			usersInGame = Utils.getNewArrayOfUsers(usersInTable);
 			this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
 			actualRound = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
 			if(actualRound.start()) {
@@ -120,6 +121,7 @@ public class PokerRoom implements GameCtrlInt {
 				if(actualRound != null) {
 					player.actualBet = actualRound.getBetOf(i);
 					player.showingCards = false;
+					player.haveCards = actualRound.haveCards(i);
 					// Me?
 					if(i == (Integer) objectID) {
 						player.showingCards = true;

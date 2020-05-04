@@ -9,6 +9,7 @@ public class SnapshotPlayer {
 	public long chips;
 	public long actualBet;
 	public boolean showingCards;
+	public boolean haveCards;
 	public SchemaCard[] cards;
 
 }

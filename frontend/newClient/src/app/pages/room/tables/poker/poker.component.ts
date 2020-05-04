@@ -270,7 +270,10 @@ export class PokerComponent implements OnInit {
         nPlayer.playerDetails.name = player.nick;
         nPlayer.actualBet = player.actualBet;
         if (this.dealed) {
-          nPlayer.cards = player.cards ? player.cards : [true, true];
+          console.log('CARDS', player.haveCards);
+          if (player.haveCards) {
+            nPlayer.cards = player.cards ? player.cards : [true, true];
+          }
           nPlayer.upsidedown = evt.data.roundStep <= 5 && !player.showingCards;
         }
         this.players[idx] = nPlayer;

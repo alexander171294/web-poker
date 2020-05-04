@@ -444,13 +444,7 @@ public class RoundGame {
 			log.debug("-- SHOWDOWN --");
 			showOff();
 			
-			// TODO: cambiar esto por multi-pots:
-			long fullPot = 0;
-			for(long pot: schemaPots.pots) {
-				fullPot += pot;
-			}
-			checkHands(fullPot);
-			// fin del todo
+			checkHands(pots);
 			
 			threadWait(2500);
 			return true;
@@ -522,6 +516,7 @@ public class RoundGame {
 		sessionHandler.sendToAll("/GameController/river", rb);
 	}
 	
+	@Deprecated
 	private void checkHands(long pot) {
 		hands = new HandValues[usersInGame.length];
 		List<Card> tableCards = new ArrayList<Card>();
@@ -598,9 +593,33 @@ public class RoundGame {
 		sessionHandler.sendToAll("/GameController/resultSet", rs);
 	}
 	
+	private void checkHands(List<Pot> pot) {
+		hands = new HandValues[usersInGame.length];
+		List<Card> tableCards = new ArrayList<Card>();
+		for(int i = 0; i < 3; i++) {
+			tableCards.add(flop[i]);
+		}
+		tableCards.add(turn);
+		tableCards.add(river);
+		for(int i = 0; i<usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				List<Card> hand = new ArrayList<Card>();
+				hand.add(playerFirstCards[i]);
+				hand.add(playerSecondCards[i]);
+				hands[i] = deck.getHandData(hand, tableCards);
+			}
+		}
+		log.debug("Hands: ", hands);
+	}
+	
 	public List<Pot> SplitAndNormalizedPots() {
-		// TODO: chequear y remover los folds primero
-		
+		// chequeamos y removemos los folds primero
+		long[] betsWithoutFolds = new long[usersInGame.length];
+		for(int i = 0; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				betsWithoutFolds[i] = bets[i];
+			}
+		}
 		// separamos los pozos:
 		List<Pot> pozos = new ArrayList<Pot>();
 		List<Integer> activeUsers = Utils.getPlayersOrderedByBets(bets);

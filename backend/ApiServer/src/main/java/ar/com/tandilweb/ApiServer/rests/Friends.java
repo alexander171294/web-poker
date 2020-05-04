@@ -135,13 +135,13 @@ public class Friends {
 		}
 	}
 	
-	@RequestMapping(path="/requests/{id}", method=RequestMethod.POST)
-	public ResponseEntity<GeneralResponse> sendFriendsRequest(@PathVariable("id") int userID) {
+	@RequestMapping(path="/requests/{friendId}{id}", method=RequestMethod.POST)
+	public ResponseEntity<GeneralResponse> sendFriendsRequest(@PathVariable("friendId") int friendId, @PathVariable("id") int me) {
 		try {
-			if(userID <= 0) {
+			if(friendId <= 0) {
 				throw new ValidationException(1, "Invalid user id");
 			}
-			friendsAdapter.sendRequest(0, userID);
+			friendsAdapter.sendRequest(friendId, me);
 			GeneralResponse out = new GeneralResponse();
 			out.operationSuccess = true;
 			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);

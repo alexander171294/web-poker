@@ -9,6 +9,17 @@ public class Users {
 	private long chips;
 	private String photo;
 	private short badLogins;
+	private String validation_code;
+	private Boolean validated;
+
+	public Boolean getValidated() {
+		return validated;
+	}
+
+	public void setValidated(Boolean validated) {
+		this.validated = validated;
+	}
+
 
 	public Users() { }
 
@@ -21,6 +32,20 @@ public class Users {
 		this.chips = chips;
 		this.photo = photo;
 		this.badLogins = badLogins;
+	}
+
+	public Users(long id_user, String nick_name, String email, String password, long chips, String photo,
+			short badLogins, String validation_code, Boolean validated) {
+		super();
+		this.id_user = id_user;
+		this.nick_name = nick_name;
+		this.email = email;
+		this.password = password;
+		this.chips = chips;
+		this.photo = photo;
+		this.badLogins = badLogins;
+		this.validation_code = validation_code;
+		this.validated = validated;
 	}
 
 	public long getId_user() {
@@ -77,5 +102,13 @@ public class Users {
 
 	public void setBadLogins(short badLogins) {
 		this.badLogins = badLogins;
+	}
+	
+	public void setValidationCode(String validationCode) {
+		this.validation_code = validationCode;
+	}
+	
+	public String getValidationCode() {
+		return this.validation_code;
 	}
 }

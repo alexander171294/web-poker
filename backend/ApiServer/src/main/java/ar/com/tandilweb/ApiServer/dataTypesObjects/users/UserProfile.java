@@ -8,5 +8,6 @@ public class UserProfile extends GeneralResponse {
 	public String nick;
 	public String photo;
 	public long chips;
+	public String validation_code;
 	
 }

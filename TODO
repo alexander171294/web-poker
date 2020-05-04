@@ -6,7 +6,7 @@ Cruciales:
     - Fichas desaparecen [CANT-REPRODUCE]
 
     Demo:
-    - splitted pot
+    - Ace como 1 en escalera
     - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
     - Salirse de la mesa. (recuperar fichas)
     - cuando jwt está expirado mandar al login.

@@ -558,6 +558,9 @@ public class RoundGame {
 		HandType handWinner = null;
 		// traemos los ganadores por jerarquía
 		for(int player: pot.playersForPot) {
+			if(hands[player] == null) {
+				continue;
+			}
 			if(hands[player].handPoints > maxPoints) {
 				Winner winData = new Winner();
 				winnersPositions = new ArrayList<Winner>();
@@ -649,6 +652,7 @@ public class RoundGame {
 		final int countWinners = cleanWinnersPositions.size();
 		cleanWinnersPositions.forEach(winner -> {
 			winner.pot = winner.fullPot / countWinners;
+			usersInGame[winner.position].chips += winner.pot;
 		});
 		return cleanWinnersPositions;
 	}
@@ -764,17 +768,35 @@ public class RoundGame {
 	}
 	
 	public SchemaCard[] getCards(int pos) {
+		if(playerFirstCards[pos] == null) {
+			return null;
+		}
 		return new SchemaCard[] { Utils.getSchemaFromCard(playerFirstCards[pos]), Utils.getSchemaFromCard(playerSecondCards[pos]) };
 	}
 	
 	public boolean isAllinAllIn() {
 		int usersInGameNotAllIn = 0;
+		int userPending = 0;
+		long maxBet = 0;
+		int maxBeter = 0;
 		for(int i = 0; i < this.usersInGame.length; i++) {
 			if(this.usersInGame[i] != null && !this.usersInGameDescriptor[i].isAllIn) {
 				usersInGameNotAllIn++;
+				userPending = i;
+			} else if(this.usersInGame[i] != null){
+				if(bets[i] > maxBet) {
+					maxBet = bets[i];
+					maxBeter = i;
+				}
 			}
 		}
-		return usersInGameNotAllIn <= 1;
+		if(usersInGameNotAllIn == 0) {
+			return true;
+		}
+		if(usersInGameNotAllIn == 1) {
+			return bets[userPending] >= bets[maxBeter];
+		}
+		return false;
 	}
 	
 	public static int getBigBlind() {

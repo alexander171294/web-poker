@@ -57,6 +57,10 @@ public class Deck {
 		handCards.sort(new CardComparator());
 		// sorter cards:
 		allCardsInGame.sort(new CardComparator());
+		final ArrayList<Card> unUsedCards = new ArrayList<Card>();
+		allCardsInGame.forEach(card -> {
+			unUsedCards.add(0, card);
+		});
 		
 		Map<Integer, List<Card>> groupedCards = new HashMap<Integer, List<Card>>();
 		List<Integer> pairs = new ArrayList<Integer>();
@@ -85,11 +89,15 @@ public class Deck {
 			if(cardsGrouped.size() == 4) {
 				quads.add(card.value.getNumericValueBigACE());
 				trips.remove(trips.indexOf(card.value.getNumericValueBigACE()));
+				unUsedCards.remove(card);
 			} else if(cardsGrouped.size() == 3) {
 				trips.add(card.value.getNumericValueBigACE());
 				pairs.remove(pairs.indexOf(card.value.getNumericValueBigACE()));
+				unUsedCards.remove(card);
 			} else if(cardsGrouped.size() == 2) {
 				pairs.add(card.value.getNumericValueBigACE());
+				unUsedCards.remove(cardsGrouped.get(1));
+				unUsedCards.remove(cardsGrouped.get(0));
 			}
 			// Flush?
 			if(card.suit.equals(Suit.CLUB)) {
@@ -157,16 +165,17 @@ public class Deck {
 		if(haveStraightFlush) {
 			// 112 + value of big card in straight
 			data.handPoints = 112 + bigStraight;
-			data.kickerPoint = 0;
+			data.kickerPoint = null;
 			data.handName = "Straight Flush To " + getNameOf(bigStraight) + " ("+data.handPoints+"/126)";
 			data.type = HandType.STRAIGHT_FLUSH;
 		} else if(haveQuads) {
 			// 98 + value of Quad
 			int bigQuad = groupedCards.get(quads.get(0)).get(0).value.getNumericValueBigACE();
 			data.handPoints = 98 + bigQuad;
-			data.kickerPoint = this.getSecondaryCardValueOf(handCards, bigQuad);
+			// FIXME: Set kicker based on full table cards
+			data.kickerPoint = this.getKickers(HandType.FOUR_QUADS, tableCards, handCards, unUsedCards);
 			data.handName = "Quads of " + getNameOf(bigQuad) + "s ("+data.handPoints+"/126)";
-			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
+//			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.FOUR_QUADS;
 		} else if(haveFullHouse) {
 			// 84 + value of trip.
@@ -174,28 +183,28 @@ public class Deck {
 			data.handPoints = 84 + bigFull;
 			// secondary value of pair
 			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValueBigACE();
-			data.kickerPoint = 0;
+			data.kickerPoint = null;
 			data.handName = "Full House of " + getNameOf(bigFull) + "s with " + getNameOf(data.secondaryHandPoint) + "s ("+data.handPoints+"/126)";
 			data.type = HandType.FULL_HOUSE;
 		} else if(haveFlush) {
 			// 70 + value of big card in flush
 			data.handPoints = 70 + bigFlush;
-			data.kickerPoint = 0;
+			data.kickerPoint = null;
 			data.handName = "Flush with big card " + getNameOf(bigFlush) + " ("+data.handPoints+"/126)";
 			data.type = HandType.FLUSH;
 		} else if(haveStraight) {
 			// 56 + value of straight
 			data.handPoints = 56 + bigStraight;
-			data.kickerPoint = 0;
+			data.kickerPoint = null;
 			data.handName = "Straight to " + getNameOf(bigStraight) + " ("+data.handPoints+"/126)";
 			data.type = HandType.STRAIGHT;
 		} else if(haveTrips) {
 			// 42 + value of trip
 			int bigTrip = groupedCards.get(trips.get(trips.size()-1)).get(0).value.getNumericValueBigACE();
 			data.handPoints = 42 + bigTrip;
-			data.kickerPoint = this.getSecondaryCardValueOf(handCards, bigTrip);
+			data.kickerPoint = this.getKickers(HandType.TRIPS, tableCards, handCards, unUsedCards);
 			data.handName = "Trips of " + getNameOf(bigTrip) + " ("+data.handPoints+"/126)";
-			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
+//			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.TRIPS;
 		} else if(haveTwoPairs) {
 			// 28 + value of big pair
@@ -204,35 +213,31 @@ public class Deck {
 			// secondary value of low pair
 			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-2)).get(0).value.getNumericValueBigACE();
 			// kicker
-			data.kickerPoint = this.getSecondaryCardValueOf(handCards, bigPair);
-			// discard if is the same
-			if(data.kickerPoint == data.secondaryHandPoint) {
-				data.kickerPoint = this.getSecondaryCardValueOf(handCards, data.secondaryHandPoint);
-			}
-			// discard if is the same:
-			data.kickerPoint = data.kickerPoint == bigPair || data.kickerPoint == data.secondaryHandPoint ? 0 : data.kickerPoint;
+			data.kickerPoint = this.getKickers(HandType.TWO_PAIRS, tableCards, handCards, unUsedCards);
 			data.handName = "Two Pair of " + getNameOf(bigPair) + " and " + getNameOf(data.secondaryHandPoint) + " ("+data.handPoints+"/126)";
-			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
+//			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.TWO_PAIRS;
 		} else if(havePairs) {
 			// 14 + value of pairs
 			int bigCard = groupedCards.get(pairs.get(0)).get(0).value.getNumericValueBigACE();
 			data.handPoints = 14 + bigCard;
-			data.kickerPoint = this.getSecondaryCardValueOf(handCards, bigCard);
+			data.kickerPoint = this.getKickers(HandType.PAIRS, tableCards, handCards, unUsedCards);
 			data.handName = "Pair of " + getNameOf(bigCard) + " ("+data.handPoints+"/126)";
-			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
+//			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.PAIRS;
 		} else {
 			// 2-14
 			data.handPoints = handCards.get(1).value.getNumericValueBigACE();
-			data.kickerPoint = handCards.get(0).value.getNumericValueBigACE(); 
-			data.handName = "Pair of " + getNameOf(data.handPoints) + " ("+data.handPoints+"/126)";
-			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
+			unUsedCards.remove(handCards.get(1));
+			data.kickerPoint = this.getKickers(HandType.BIG_CARD, tableCards, handCards, unUsedCards); 
+			data.handName = "Big card " + getNameOf(data.handPoints) + " ("+data.handPoints+"/126)";
+//			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.BIG_CARD;
 		}
 		return data;
 	}
 	
+	@Deprecated
 	private int getSecondaryCardValueOf(List<Card> handCards, int bigCard) {
 		if(handCards.get(0).value.getNumericValueBigACE() == bigCard) {
 			return handCards.get(1).value.getNumericValueBigACE();
@@ -243,7 +248,37 @@ public class Deck {
 		}
 	}
 	
-	private String getNameOf(int number) {
+	public List<Integer> getKickers(HandType type, List<Card> tableCards, List<Card> handCards, List<Card> unusedCards) {
+		final int[] excedent = {0, 0};
+		// traerse los kickers recortados por type
+		if(type == HandType.FOUR_QUADS) {
+			excedent[0] = 1;
+		} else if(type == HandType.TRIPS) {
+			excedent[0] = 2;
+		} else if(type == HandType.TWO_PAIRS) {
+			excedent[0] = 1;
+		} else if(type == HandType.PAIRS) {
+			excedent[0] = 3;
+		} else if(type == HandType.BIG_CARD) {
+			excedent[0] = 4;
+		}
+		final List<Integer> kickers = new ArrayList<Integer>();
+		// remover de esa lista la tableCards
+		unusedCards.forEach(card -> {
+			// cortamos cuando superamos 
+			if(excedent[0] == excedent[1]) {
+				return;
+			}
+			// si no es comunitaria
+			if(!tableCards.contains(card)) {
+				kickers.add(card.value.getNumericValueBigACE());
+			}
+			excedent[1]++;
+		});
+		return kickers;
+	}
+	
+	public static String getNameOf(int number) {
 		if(number < 11) {
 			return ""+number;
 		} else if(number == 11) {

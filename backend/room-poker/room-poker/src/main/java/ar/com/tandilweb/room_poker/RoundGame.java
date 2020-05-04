@@ -27,6 +27,7 @@ import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
 import ar.com.tandilweb.room_poker.deck.cards.Card;
+import ar.com.tandilweb.room_poker.deck.hands.HandType;
 import ar.com.tandilweb.room_poker.deck.hands.HandValues;
 import ar.com.tandilweb.room_poker.roundGame.Pot;
 import ar.com.tandilweb.room_poker.roundGame.UserMetaData;
@@ -243,6 +244,7 @@ public class RoundGame {
 				dI.action = "call";	
 			}
 			if("fold".equalsIgnoreCase(dI.action)) {
+				// TODO: remove me from all pots winners.
 				usersInGame[dI.position.intValue()] = null; // fold user.
 				if(checkPlayerActives() > 1) {
 					actionDoed = true;
@@ -444,13 +446,7 @@ public class RoundGame {
 			log.debug("-- SHOWDOWN --");
 			showOff();
 			
-			// TODO: cambiar esto por multi-pots:
-			long fullPot = 0;
-			for(long pot: schemaPots.pots) {
-				fullPot += pot;
-			}
-			checkHands(fullPot);
-			// fin del todo
+			checkHands(pots);
 			
 			threadWait(2500);
 			return true;
@@ -522,7 +518,7 @@ public class RoundGame {
 		sessionHandler.sendToAll("/GameController/river", rb);
 	}
 	
-	private void checkHands(long pot) {
+	private void checkHands(List<Pot> pots) {
 		hands = new HandValues[usersInGame.length];
 		List<Card> tableCards = new ArrayList<Card>();
 		for(int i = 0; i < 3; i++) {
@@ -530,77 +526,141 @@ public class RoundGame {
 		}
 		tableCards.add(turn);
 		tableCards.add(river);
-		int winner = 0;
-		int winnerPoints = 0;
-		int winnerSecondaryPoints = 0;
-		int winnerKickerPoints = 0;
-		boolean dualWinner = false;
-		List<Integer> aditionalWinners = new ArrayList<Integer>();
 		for(int i = 0; i<usersInGame.length; i++) {
 			if(usersInGame[i] != null) {
 				List<Card> hand = new ArrayList<Card>();
 				hand.add(playerFirstCards[i]);
 				hand.add(playerSecondCards[i]);
 				hands[i] = deck.getHandData(hand, tableCards);
-				// FIXME: improve this ifs.
-				if(winnerPoints < hands[i].handPoints) {
-					winner = i;
-					winnerSecondaryPoints = hands[i].secondaryHandPoint;
-					winnerKickerPoints = hands[i].kickerPoint;
-					winnerPoints = hands[i].handPoints;
-					dualWinner = false;
-					aditionalWinners = new ArrayList<Integer>();
-				} else if(winner == hands[i].handPoints) {
-					if(winnerSecondaryPoints < hands[i].secondaryHandPoint) {
-						winner = i;
-						winnerSecondaryPoints = hands[i].secondaryHandPoint;
-						winnerKickerPoints = hands[i].kickerPoint;
-						winnerPoints = hands[i].handPoints;
-						dualWinner = false;
-						aditionalWinners = new ArrayList<Integer>();
-					} else if(winnerSecondaryPoints == hands[i].secondaryHandPoint) {
-						if(winnerKickerPoints < hands[i].kickerPoint) {
-							winner = i;
-							winnerSecondaryPoints = hands[i].secondaryHandPoint;
-							winnerKickerPoints = hands[i].kickerPoint;
-							winnerPoints = hands[i].handPoints;
-							dualWinner = false;
-							aditionalWinners = new ArrayList<Integer>();
-						} else {
-							dualWinner = true;
-							aditionalWinners.add(i);
+			}
+		}
+//		log.debug("Hands: ", hands);
+		List<Winner> winners = new ArrayList<Winner>();
+		List<Winner> prevWinner = null;
+		int iteration = 0;
+		for(var pot: pots) {
+			prevWinner = getWinnerOf(pot, prevWinner, iteration);
+			iteration++;
+			winners.addAll(prevWinner);
+		}
+		ResultSet rs = new ResultSet();
+		rs.winners = winners;
+		sessionHandler.sendToAll("/GameController/resultSet", rs);
+	}
+	
+	public List<Winner> getWinnerOf(Pot pot, List<Winner> prevWinner, int iteration) {
+		List<Winner> winnersPositions = new ArrayList<Winner>();
+		// prev winner for this pot:
+		// TODO: prevenir recalcular revisando si los ganadores previos también son ganadores de este
+		//
+		int maxPoints = 0;
+		int secondaryMaxPoints = 0;
+		HandType handWinner = null;
+		// traemos los ganadores por jerarquía
+		for(int player: pot.playersForPot) {
+			if(hands[player].handPoints > maxPoints) {
+				Winner winData = new Winner();
+				winnersPositions = new ArrayList<Winner>();
+				winData.fullPot = pot.pot;
+				winData.points = hands[player].handPoints;
+				winData.position = player;
+				winData.reason = hands[player].handName;
+				winData.secondaryPoints = hands[player].secondaryHandPoint;
+				winData.potNumber = iteration;
+				maxPoints = hands[player].handPoints;
+				secondaryMaxPoints = hands[player].secondaryHandPoint;
+				handWinner = hands[player].type;
+				winnersPositions.add(winData);
+			} else if(hands[player].handPoints == maxPoints) {
+				Winner winData = new Winner();
+				winData.fullPot = pot.pot;
+				winData.points = hands[player].handPoints;
+				winData.secondaryPoints = hands[player].secondaryHandPoint;
+				winData.position = player;
+				winData.potNumber = iteration;
+				winData.reason = hands[player].handName;
+				// juegos con doble handPoint como full o par doble que tienen puntos secundarios:
+				if(handWinner == HandType.FULL_HOUSE || handWinner == HandType.TWO_PAIRS) {
+					// validamos que el secondary points sea iguales también
+					if(hands[player].secondaryHandPoint > secondaryMaxPoints) {
+						winnersPositions = new ArrayList<Winner>();
+						winnersPositions.add(winData);
+						secondaryMaxPoints = hands[player].secondaryHandPoint;
+					} else if(hands[player].secondaryHandPoint == secondaryMaxPoints) {
+						winnersPositions.add(winData);
+					}
+				} else {					
+					winnersPositions.add(winData);
+				}
+			}
+		}
+		// check kickers:
+		// juegos que tienen menos de 5 cartas para contar kicker:
+		int bigKicker = 0;
+		int smallKicker = 0;
+		List<Winner> cleanWinnersPositions = new ArrayList<Winner>();
+		if(winnersPositions.size() > 1 && handWinner != HandType.FULL_HOUSE && handWinner != HandType.FLUSH && handWinner != HandType.STRAIGHT && handWinner != HandType.STRAIGHT_FLUSH) {			
+			for(var winner: winnersPositions) {
+				// no tengo kicker:
+				if(hands[winner.position].kickerPoint.size() == 0) {
+					// el kicker no existe
+					if(bigKicker == 0) {						
+						bigKicker = 0;
+						smallKicker = 0;
+						cleanWinnersPositions.add(winner);
+					}
+				} else {
+					// tengo kicker
+					// mi kicker es mejor que el del otro
+					if(hands[winner.position].kickerPoint.get(0) > bigKicker) {
+						cleanWinnersPositions = new ArrayList<Winner>();
+						bigKicker = hands[winner.position].kickerPoint.get(0);
+						smallKicker = hands[winner.position].kickerPoint.size() > 1 ? hands[winner.position].kickerPoint.get(1) : 0;
+						cleanWinnersPositions.add(winner);
+					// mi kicker es igual al del otro
+					} else if(hands[winner.position].kickerPoint.get(0) == bigKicker) { 
+						// no tengo segundo kicker:
+						if(hands[winner.position].kickerPoint.size() < 2) {
+							// el otro tampoco tiene segundo kicker:
+							if(smallKicker == 0) {								
+								bigKicker = 0;
+								smallKicker = 0;
+								cleanWinnersPositions.add(winner);
+							}
+						} else { // tengo segundo kicker
+							// mi segundo kicker es más grande que el del otro:
+							if(hands[winner.position].kickerPoint.get(1) > smallKicker) {
+								cleanWinnersPositions = new ArrayList<Winner>();
+								bigKicker = hands[winner.position].kickerPoint.get(0);
+								smallKicker = hands[winner.position].kickerPoint.get(1);
+								cleanWinnersPositions.add(winner);
+							} else if(hands[winner.position].kickerPoint.get(1) == smallKicker) { // mi segundo kicker es igual al del otro
+								cleanWinnersPositions.add(winner);
+							}
 						}
 					}
 				}
 			}
+		} else {
+			cleanWinnersPositions = winnersPositions;
 		}
-		Double winPot = (double) (pot / (1 + aditionalWinners.size()));
-		ResultSet rs = new ResultSet();
-		rs.winners = new ArrayList<Winner>();
-		Winner winnerData = new Winner();
-		winnerData.points = winnerPoints;
-		winnerData.position = winner;
-		winnerData.pot = winPot.longValue();
-		winnerData.reason = hands[winner].handName;
-		usersInGame[winner].chips += winPot.longValue();
-		rs.winners.add(winnerData);
-		if(aditionalWinners.size() > 0) {
-			for(int wPos: aditionalWinners) {
-				Winner secondaryWinner = new Winner();
-				secondaryWinner.points = winnerData.points;
-				secondaryWinner.position = wPos;
-				secondaryWinner.pot = winPot.longValue();
-				usersInGame[wPos].chips += winPot.longValue();
-				secondaryWinner.reason = hands[wPos].handName;
-				rs.winners.add(secondaryWinner);
-			}
-		}
-		sessionHandler.sendToAll("/GameController/resultSet", rs);
+		
+		// calcular pots
+		final int countWinners = cleanWinnersPositions.size();
+		cleanWinnersPositions.forEach(winner -> {
+			winner.pot = winner.fullPot / countWinners;
+		});
+		return cleanWinnersPositions;
 	}
 	
 	public List<Pot> SplitAndNormalizedPots() {
-		// TODO: chequear y remover los folds primero
-		
+		// chequeamos y removemos los folds primero
+		long[] betsWithoutFolds = new long[usersInGame.length];
+		for(int i = 0; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				betsWithoutFolds[i] = bets[i];
+			}
+		}
 		// separamos los pozos:
 		List<Pot> pozos = new ArrayList<Pot>();
 		List<Integer> activeUsers = Utils.getPlayersOrderedByBets(bets);

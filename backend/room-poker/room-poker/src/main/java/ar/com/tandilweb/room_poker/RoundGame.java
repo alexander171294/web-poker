@@ -400,8 +400,11 @@ public class RoundGame {
 		List<Pot> newPots = SplitAndNormalizedPots();
 		if(newPots.size() > 0) {
 			if(this.pots.size() > 0) {
-				this.pots.get(this.pots.size()-1).pot += newPots.get(0).pot;
-				newPots.remove(0);
+				if(this.pots.get(this.pots.size()-1).playersForPot.size() == newPots.get(0).playersForPot.size()) {
+					// si son los mismos jugadores unimos los pozos.
+					this.pots.get(this.pots.size()-1).pot += newPots.get(0).pot;
+					newPots.remove(0);
+				}
 				this.pots.addAll(newPots);
 			} else {
 				this.pots.addAll(newPots);

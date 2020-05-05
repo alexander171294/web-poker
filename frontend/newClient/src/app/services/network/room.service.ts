@@ -196,6 +196,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/resultSet', (data) => this.onResultSet(data));
     this.ws.suscribe('/GameController/depositAnnouncement', (data) => this.onDepositAnnouncement(data)); // global message
     this.ws.suscribe('/GameController/pots', (data) => this.onPots(data)); // global message
+    this.ws.suscribe('/GameController/fold', (data) => this.onFold(data)); // global message
   }
 
   onFlop(data) {
@@ -272,6 +273,11 @@ export class RoomService {
   onPots(data) {
     this.terminal.log('Pots ' + data);
     this.reactionEvent.emit(new ReactionEvents(RxEType.POTS, data));
+  }
+
+  onFold(data) {
+    this.terminal.log('Fold ' + data.position);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.FOLD, data));
   }
 
   onBetDecision(data) {

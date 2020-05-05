@@ -15,6 +15,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Blind;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FoldDecision;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Pots;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ResultSet;
@@ -246,6 +247,9 @@ public class RoundGame {
 			if("fold".equalsIgnoreCase(dI.action)) {
 				// TODO: remove me from all pots winners.
 				usersInGame[dI.position.intValue()] = null; // fold user.
+				FoldDecision fd = new FoldDecision();
+				fd.position = dI.position.intValue();
+				sessionHandler.sendToAll("/GameController/fold", fd);
 				if(checkPlayerActives() > 1) {
 					actionDoed = true;
 				} else {

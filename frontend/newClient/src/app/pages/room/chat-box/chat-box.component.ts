@@ -51,12 +51,33 @@ export class ChatBoxComponent implements OnInit {
           )
         );
       }
-      // if (evt.type === RxEType.CARD_DIST) {
-
-      // }
-      // if (evt.type === RxEType.ME_CARD_DIST) {
-
-      // }
+      if (evt.type === RxEType.FOLD) {
+        this.chatMessages.push(
+          new ChatMessageData(
+            false,
+            'Fold.',
+            this.playersInPositions[evt.data.position]
+          )
+        );
+      }
+      if (evt.type === RxEType.DECISION_INFORM) {
+        this.chatMessages.push(
+          new ChatMessageData(
+            false,
+            'I go with $' + evt.data.ammount,
+            this.playersInPositions[evt.data.position]
+          )
+        );
+      }
+      if (evt.type === RxEType.DEPOSIT_ANNOUNCEMENT) {
+        this.chatMessages.push(
+          new ChatMessageData(
+            false,
+            'I do a deposit of $' + evt.data.quantity,
+            this.playersInPositions[evt.data.position]
+          )
+        );
+      }
       if (evt.type === RxEType.RESULT_SET) {
         evt.data.winners.forEach(winner => {
           this.chatMessages.push(

@@ -186,6 +186,11 @@ export class PokerComponent implements OnInit {
       if (evt.type === RxEType.POTS) {
         this.splittedPots = evt.data.pots;
       }
+      if (evt.type === RxEType.FOLD) {
+        if (evt.data.position !== this.myPosition) {
+          this.players[evt.data.position].cards = undefined;
+        }
+      }
       if (evt.type === RxEType.RESULT_SET) {
         // result set
         console.info('RESULT SET', evt.data);

@@ -29,6 +29,7 @@ export enum RxEType {
   DECISION_INFORM,
   SHOW_OFF,
   RESULT_SET,
-  POTS
+  POTS,
+  FOLD
 }
 

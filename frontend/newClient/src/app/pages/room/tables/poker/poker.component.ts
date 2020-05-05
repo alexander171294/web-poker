@@ -112,7 +112,7 @@ export class PokerComponent implements OnInit {
       }
       if (evt.type === RxEType.CARD_DIST) {
         this.players[evt.data.position].inGame = true;
-        if (evt.data.position !== 1) {
+        if (evt.data.position !== this.myPosition) {
           this.players[evt.data.position].upsidedown = true;
           this.players[evt.data.position].cards = evt.data.cards;
         }

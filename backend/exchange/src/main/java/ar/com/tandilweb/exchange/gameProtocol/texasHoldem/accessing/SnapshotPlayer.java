@@ -10,6 +10,7 @@ public class SnapshotPlayer {
 	public long actualBet;
 	public boolean showingCards;
 	public boolean haveCards;
+	public boolean inGame;
 	public SchemaCard[] cards;
 
 }

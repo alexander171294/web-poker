@@ -9,6 +9,7 @@ export class PlayerSnapshot {
     // frontend status variables:
     public timeRest?: number;
     public winner?: boolean;
+    public inGame: boolean;
 
     public constructor() {
         this.playerDetails = new PlayerDetails();

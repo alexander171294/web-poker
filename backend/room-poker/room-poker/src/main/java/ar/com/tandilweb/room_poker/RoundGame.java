@@ -782,6 +782,10 @@ public class RoundGame {
 		return playerFirstCards[pos] != null;
 	}
 	
+	public boolean isInGame(int pos) {
+		return usersInGame[pos] != null;
+	}
+	
 	public boolean isAllinAllIn() {
 		int usersInGameNotAllIn = 0;
 		int userPending = 0;

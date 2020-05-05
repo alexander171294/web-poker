@@ -50,6 +50,7 @@ export class PokerComponent implements OnInit {
           nPlayer.playerDetails.chips = evt.data.chips;
           nPlayer.playerDetails.image = evt.data.avatar;
           nPlayer.playerDetails.name = evt.data.user;
+          nPlayer.inGame = false;
           this.players[evt.data.position] = nPlayer;
         }
         this.availablePositions[evt.data.position] = false;
@@ -92,6 +93,7 @@ export class PokerComponent implements OnInit {
         this.dealed = true;
       }
       if (evt.type === RxEType.CARD_DIST) {
+        this.players[evt.data.position].inGame = true;
         if (evt.data.position !== 1) {
           this.players[evt.data.position].upsidedown = true;
           this.players[evt.data.position].cards = evt.data.cards;
@@ -190,6 +192,7 @@ export class PokerComponent implements OnInit {
         if (evt.data.position !== this.myPosition) {
           this.players[evt.data.position].cards = undefined;
         }
+        this.players[evt.data.position].inGame = true;
       }
       if (evt.type === RxEType.RESULT_SET) {
         // result set
@@ -274,6 +277,7 @@ export class PokerComponent implements OnInit {
         nPlayer.playerDetails.image = player.photo;
         nPlayer.playerDetails.name = player.nick;
         nPlayer.actualBet = player.actualBet;
+        nPlayer.inGame = player.inGame;
         if (this.dealed) {
           console.log('CARDS', player.haveCards);
           if (player.haveCards) {

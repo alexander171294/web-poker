@@ -118,10 +118,12 @@ public class PokerRoom implements GameCtrlInt {
 				player.chips = usersInTable[i].chips;
 				player.nick = usersInTable[i].dataBlock.getNick_name();
 				player.photo = usersInTable[i].dataBlock.getPhoto();
+				player.inGame = false;
 				if(actualRound != null) {
 					player.actualBet = actualRound.getBetOf(i);
 					player.showingCards = false;
 					player.haveCards = actualRound.haveCards(i);
+					player.inGame = actualRound.isInGame(i);
 					// Me?
 					if(i == (Integer) objectID) {
 						player.showingCards = true;

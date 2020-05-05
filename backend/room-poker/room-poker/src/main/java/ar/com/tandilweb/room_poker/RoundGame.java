@@ -247,6 +247,13 @@ public class RoundGame {
 			}
 			if("fold".equalsIgnoreCase(dI.action)) {
 				// TODO: remove me from all pots winners.
+				pots.forEach(pot -> {
+					for(int i = 0; i < pot.playersForPot.size(); i++) {
+						if(pot.playersForPot.get(i) == dI.position) {
+							pot.playersForPot.remove(i);
+						}
+					}
+				});
 				usersInGame[dI.position.intValue()] = null; // fold user.
 				FoldDecision fd = new FoldDecision();
 				fd.position = dI.position.intValue();
@@ -559,7 +566,7 @@ public class RoundGame {
 	public List<Winner> getWinnerOf(Pot pot, List<Winner> prevWinner, int iteration) {
 		List<Winner> winnersPositions = new ArrayList<Winner>();
 		// prev winner for this pot:
-		// TODO: prevenir recalcular revisando si los ganadores previos también son ganadores de este
+		// TODO: IMPROVE prevenir recalcular revisando si los ganadores previos también son ganadores de este
 		//
 		int maxPoints = 0;
 		int secondaryMaxPoints = 0;
@@ -666,13 +673,6 @@ public class RoundGame {
 	}
 	
 	public List<Pot> SplitAndNormalizedPots() {
-		// chequeamos y removemos los folds primero
-		long[] betsWithoutFolds = new long[usersInGame.length];
-		for(int i = 0; i < usersInGame.length; i++) {
-			if(usersInGame[i] != null) {
-				betsWithoutFolds[i] = bets[i];
-			}
-		}
 		// separamos los pozos:
 		List<Pot> pozos = new ArrayList<Pot>();
 		List<Integer> activeUsers = Utils.getPlayersOrderedByBets(bets);
@@ -690,7 +690,10 @@ public class RoundGame {
 					final var zindex = activeUsers.get(z);
 					bets[zindex] -= bet;
 					pozo.pot += bet;
-					pozo.playersForPot.add(zindex);
+					// si foldeo no lo agregamos como jugador
+					if(usersInGame[zindex] != null) {						
+						pozo.playersForPot.add(zindex);
+					}
 				}
 				pozos.add(pozo);
 				boolean morePots = false;
@@ -709,6 +712,21 @@ public class RoundGame {
 			var excedent = bets[maxBexPosition];
 			usersInGame[maxBexPosition].chips += excedent;
 		}
+		// unimos pozos fantasmass
+		final List<Pot> ghostPots = new ArrayList<Pot>();
+		pozos.forEach(pozo -> {
+			if(ghostPots.size() > 0) {
+				var lastPozo = ghostPots.get(ghostPots.size() - 1);
+				if(lastPozo.playersForPot.size() == pozo.playersForPot.size()) {
+					lastPozo.pot += pozo.pot;
+				} else {
+					ghostPots.add(pozo);
+				}
+			} else {
+				ghostPots.add(pozo);
+			}
+		});
+		
 		return pozos;
 	}
 

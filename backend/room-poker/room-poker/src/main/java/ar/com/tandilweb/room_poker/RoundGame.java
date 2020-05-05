@@ -820,8 +820,8 @@ public class RoundGame {
 		return SMALL_BLIND;
 	}
 	
-	public void resendWinners() {
-		sessionHandler.sendToAll("/GameController/resultSet", winnersResultSet);
+	public void resendWinners(String sessID) {
+		sessionHandler.sendToSessID("/GameController/resultSet", sessID, winnersResultSet);
 	}
 
 }

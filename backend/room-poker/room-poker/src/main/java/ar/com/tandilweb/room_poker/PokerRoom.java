@@ -185,7 +185,7 @@ public class PokerRoom implements GameCtrlInt {
 				SnapshotRequest sr = om.readValue(serializedMessage, SnapshotRequest.class);
 				if(rounds.size() > sr.round) {					
 					sessionHandler.sendToSessID("/GameController/snapshot", uD.sessID, getSnapshot(rounds.get(sr.round), -1));
-					rounds.get(sr.round).resendWinners();
+					rounds.get(sr.round).resendWinners(uD.sessID);
 				}
 			}
 			log.debug("Receive message from " + socketSessionID);

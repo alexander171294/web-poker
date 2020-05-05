@@ -200,6 +200,7 @@ export class PokerComponent implements OnInit {
         this.players.forEach(player => {
           if (player) {
             player.winner = false;
+            player.inGame = false;
           }
         });
         evt.data.winners.forEach(winner => {

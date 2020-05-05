@@ -11,6 +11,7 @@
         [chips]="player.playerDetails.chips"
         [timeRest]="player.timeRest"
         [void]="availablePositions[idx]"
+        [inGame]="player.inGame"
         (click)="trySeat(idx)"
       ></app-room-vcard>
       <div class="zone {{zones[idx]}} value" *ngIf="player.actualBet > 0">

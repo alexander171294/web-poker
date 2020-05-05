@@ -192,6 +192,7 @@ export class PokerComponent implements OnInit {
         if (evt.data.position !== this.myPosition) {
           this.players[evt.data.position].cards = undefined;
         }
+        this.players[evt.data.position].timeRest = undefined;
         this.players[evt.data.position].inGame = true;
       }
       if (evt.type === RxEType.RESULT_SET) {

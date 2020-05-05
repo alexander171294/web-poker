@@ -20,7 +20,7 @@
       <div class="zone {{zones[idx]}}" *ngIf="player.actualBet > 0">
         <app-stacker [valor]="player.actualBet"></app-stacker>
       </div>
-      <div class="cardStack {{zones[idx]}}" *ngIf="player.cards.length > 0" [class.winner]="player.winner">
+      <div class="cardStack {{zones[idx]}}" *ngIf="player.cards?.length > 0" [class.winner]="player.winner">
         <app-dual-stack [upsidedown]="player.upsidedown" [cards]="player.cards"></app-dual-stack>
       </div>
     </div>

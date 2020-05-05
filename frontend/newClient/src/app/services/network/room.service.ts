@@ -205,6 +205,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/decisionInform', (data) => this.onDecisionInform(data));
     this.ws.suscribe('/GameController/showOff', (data) => this.onShowOff(data));
     this.ws.suscribe('/GameController/resultSet', (data) => this.onResultSet(data));
+    this.ws.suscribe('/userInterceptor/GameController/resultSet', (data) => this.onResultSet(data));
     this.ws.suscribe('/GameController/depositAnnouncement', (data) => this.onDepositAnnouncement(data)); // global message
     this.ws.suscribe('/GameController/pots', (data) => this.onPots(data)); // global message
     this.ws.suscribe('/GameController/fold', (data) => this.onFold(data)); // global message

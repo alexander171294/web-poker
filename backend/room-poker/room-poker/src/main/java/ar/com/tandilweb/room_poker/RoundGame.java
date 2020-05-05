@@ -727,7 +727,7 @@ public class RoundGame {
 			}
 		});
 		
-		return pozos;
+		return ghostPots;
 	}
 
 	public static SessionHandlerInt getSessionHandler() {

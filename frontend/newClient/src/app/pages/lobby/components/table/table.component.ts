@@ -21,7 +21,7 @@ export class TableComponent implements OnInit {
   }
 
   connect(room: RoomResponse) {
-    sessionStorage.setItem('room-' + room.id_room, JSON.stringify(room));
+    localStorage.setItem('room-' + room.id_room, JSON.stringify(room));
     this.router.navigate(['/room', room.id_room]);
   }
 

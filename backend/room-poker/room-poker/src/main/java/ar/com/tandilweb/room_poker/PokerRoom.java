@@ -19,6 +19,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SnapshotPlay
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DepositAnnouncement;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SnapshotRequest;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
 import ar.com.tandilweb.room_int.GameCtrlInt;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
@@ -31,6 +32,7 @@ public class PokerRoom implements GameCtrlInt {
 	private static final Logger log = LoggerFactory.getLogger(PokerRoom.class);
 	private UserData[] usersInTable;
 	private UserData[] usersInGame;
+	private List<RoundGame> rounds = new ArrayList<RoundGame>();
 	private int tableSize;
 	private SessionHandlerInt sessionHandler;
 	private int dealerPosition;
@@ -90,6 +92,7 @@ public class PokerRoom implements GameCtrlInt {
 		if(Utils.countUsersCanPlay(usersInTable) > 1) {			
 			usersInGame = Utils.getNewArrayOfUsers(usersInTable);
 			this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);
+			rounds.add(0, actualRound);
 			actualRound = new RoundGame(new Deck(), usersInGame, this.dealerPosition);
 			if(actualRound.start()) {
 				startRound();
@@ -107,6 +110,10 @@ public class PokerRoom implements GameCtrlInt {
 	}
 
 	public void dumpSnapshot(String sessID, Object objectID) {
+		sessionHandler.sendToSessID("/GameController/snapshot", sessID, getSnapshot(actualRound, objectID));
+	}
+	
+	private Snapshot getSnapshot(RoundGame round, Object objectID) {
 		Snapshot snap = new Snapshot();
 		snap.players = new ArrayList<SnapshotPlayer>();
 		snap.myPosition = (Integer) objectID;
@@ -119,15 +126,15 @@ public class PokerRoom implements GameCtrlInt {
 				player.nick = usersInTable[i].dataBlock.getNick_name();
 				player.photo = usersInTable[i].dataBlock.getPhoto();
 				player.inGame = false;
-				if(actualRound != null) {
-					player.actualBet = actualRound.getBetOf(i);
+				if(round != null) {
+					player.actualBet = round.getBetOf(i);
 					player.showingCards = false;
-					player.haveCards = actualRound.haveCards(i);
-					player.inGame = actualRound.isInGame(i);
+					player.haveCards = round.haveCards(i);
+					player.inGame = round.isInGame(i);
 					// Me?
-					if(i == (Integer) objectID) {
+					if(i == snap.myPosition || snap.myPosition < 0) {
 						player.showingCards = true;
-						player.cards = actualRound.getCards(i);
+						player.cards = round.getCards(i);
 					}
 					//player.showingCards?
 					//player.cards = getCardsForUser with player.showingCards?
@@ -139,28 +146,27 @@ public class PokerRoom implements GameCtrlInt {
 		}
 		snap.isDealing = false;
 		snap.isInRest = false;
-		if (actualRound != null) {
+		if (round != null) {
 			snap.isInRest = true;
-			snap.dealerPosition = actualRound.getDealerPosition();
-			List<Long> pots = Utils.getPotValues(actualRound.getPot());
+			snap.dealerPosition = round.getDealerPosition();
+			List<Long> pots = Utils.getPotValues(round.getPot());
 			snap.pots = pots; // get actual pot
-			Card[] cards = actualRound.getCommunityCards();
+			Card[] cards = round.getCommunityCards();
 			snap.communityCards = new ArrayList<SchemaCard>();
 			for(int i = 0; i<cards.length; i++) {
 				snap.communityCards.add(Utils.getSchemaFromCard(cards[i]));
 			}
-			snap.roundStep = actualRound.getStep();
+			snap.roundStep = round.getStep();
 			// action?
-			if(actualRound.checkWaiting()) {
-				snap.waitingFor = actualRound.getWaitingActionFromPlayer();
+			if(round.checkWaiting()) {
+				snap.waitingFor = round.getWaitingActionFromPlayer();
 				// is me?
 				if(snap.myPosition == snap.waitingFor) {
-					snap.betDecision = actualRound.calcDecision();
+					snap.betDecision = round.calcDecision();
 				}
 			}
 		}
-		
-		sessionHandler.sendToSessID("/GameController/snapshot", sessID, snap);
+		return snap;
 	}
 	
 	public void receivedMessage(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID) {
@@ -172,6 +178,14 @@ public class PokerRoom implements GameCtrlInt {
 				boolean finishedRound = actualRound.processDecision(dI, uD);
 				if (finishedRound) {
 					startRound();
+				}
+			}
+			if(schemaGameProto.schema.equals("SnapshotRequest")) {
+				UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
+				SnapshotRequest sr = om.readValue(serializedMessage, SnapshotRequest.class);
+				if(rounds.size() > sr.round) {					
+					sessionHandler.sendToSessID("/GameController/snapshot", uD.sessID, getSnapshot(rounds.get(sr.round), -1));
+					rounds.get(sr.round).resendWinners();
 				}
 			}
 			log.debug("Receive message from " + socketSessionID);

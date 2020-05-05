@@ -6,6 +6,7 @@ import { RxEType } from 'src/app/services/network/ReactionEvents';
 import { VcardComponent } from '../../vcard/vcard.component';
 import { ChipsService } from 'src/app/services/memory/chips.service';
 import { Pots } from 'src/app/services/network/epprProtocol/game/Pots';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-table-poker',
@@ -32,7 +33,7 @@ export class PokerComponent implements OnInit {
 
   @ViewChildren(VcardComponent) vcards: QueryList<VcardComponent>;
 
-  constructor(private room: RoomService, private chips: ChipsService) { }
+  constructor(private room: RoomService, private chips: ChipsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.players = [];
@@ -41,6 +42,23 @@ export class PokerComponent implements OnInit {
       this.players.push(new PlayerSnapshot());
       this.availablePositions.push(false);
     }
+    // SNAPSHOT HISTORY:
+    const round = this.route.params['value'].round;
+    if (round) {
+      let firstSnap = true;
+      this.room.reactionEvent.subscribe(evt => {
+        if (evt.type === RxEType.SNAPSHOT) {
+          if (firstSnap) {
+            firstSnap = false;
+            this.room.getSnapshot(round);
+          } else {
+            this.processSnapshot(evt);
+          }
+        }
+      });
+      return;
+    }
+    //
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.ANNOUNCEMENT) {
         // this.announcement =

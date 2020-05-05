@@ -69,6 +69,7 @@ public class RoundGame {
 	private boolean isWaiting = false;
 	
 	private int lastActivePositionDetected;
+	private ResultSet winnersResultSet;
 	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
@@ -452,7 +453,7 @@ public class RoundGame {
 			
 			checkHands(pots);
 			
-			threadWait(2500);
+			threadWait(5500); // TODO: parametize this.
 			return true;
 		}
 		return false;
@@ -547,9 +548,9 @@ public class RoundGame {
 			iteration++;
 			winners.addAll(prevWinner);
 		}
-		ResultSet rs = new ResultSet();
-		rs.winners = winners;
-		sessionHandler.sendToAll("/GameController/resultSet", rs);
+		winnersResultSet = new ResultSet();
+		winnersResultSet.winners = winners;
+		sessionHandler.sendToAll("/GameController/resultSet", winnersResultSet);
 	}
 	
 	public List<Winner> getWinnerOf(Pot pot, List<Winner> prevWinner, int iteration) {
@@ -817,6 +818,10 @@ public class RoundGame {
 	
 	public static int getSmallBlind() {
 		return SMALL_BLIND;
+	}
+	
+	public void resendWinners() {
+		sessionHandler.sendToAll("/GameController/resultSet", winnersResultSet);
 	}
 
 }

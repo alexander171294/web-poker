@@ -1,3 +1,4 @@
+import { SnapshotRequest } from './epprProtocol/game/SnapshotRequest';
 import { Injectable, EventEmitter } from '@angular/core';
 import { WsRoomService } from './room/ws-room.service';
 import { TerminalService } from './terminal.service';
@@ -158,6 +159,16 @@ export class RoomService {
     dI.ammount = raise;
     const dBlock = new MessageDefinition();
     dBlock.data = dI;
+    dBlock.endpoint = '/game/bridge';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
+  }
+
+  getSnapshot(round: number) {
+    const sr = new SnapshotRequest();
+    sr.round = round;
+    const dBlock = new MessageDefinition();
+    dBlock.data = sr;
     dBlock.endpoint = '/game/bridge';
     dBlock.prefix = '/stompApi';
     this.ws.sendMessage(dBlock);

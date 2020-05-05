@@ -56,7 +56,8 @@ export class RoomComponent implements OnInit {
 
   ngOnInit() {
     this.roomID = this.route.params['value'].id; // this.route.snapshot.queryParamMap.get('id');
-    this.roomData = JSON.parse(sessionStorage.getItem('room-' + this.roomID));
+    console.log('ROOMID:', this.roomID);
+    this.roomData = JSON.parse(localStorage.getItem('room-' + this.roomID));
     this.room.globalConnectionEvents.subscribe(data => {
       if (data === 2) { // connected
         this.connecting = 'Authorization request.';
@@ -130,6 +131,13 @@ export class RoomComponent implements OnInit {
   doActionNav(event: string) {
     if (event === 'deposit') {
       this.popupDepositOpened = true;
+    }
+    if (event === 'history') {
+      let back = 0;
+      if (this.route.params['value'].round) {
+        back = parseInt(this.route.params['value'].round) + 1;
+      }
+      window.open('/room/' + this.roomID + '/' + back, '__blank');
     }
   }
 

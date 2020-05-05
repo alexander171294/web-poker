@@ -14,9 +14,8 @@ Cruciales:
     - Salirse de la mesa. (recuperar fichas)
     - cuando jwt está expirado mandar al login.
     - chat
-    - guardar ultima mano.
     
-    - all entrar al room abrir nueva pestaña
+    - al entrar al room abrir nueva pestaña
     - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
     - Timmer fin de corte.
 
@@ -41,4 +40,5 @@ Adicionales:
 
 Para testear:
     - Avisar fold
-    
+    - All in bugueado out of game
+    - guardar ultima mano.

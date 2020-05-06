@@ -19,7 +19,7 @@ export class ChatBoxComponent implements OnInit {
   constructor(private room: RoomService) { }
 
   ngOnInit() {
-    this.opened = false;
+    this.opened = true;
     this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.ANNOUNCEMENT) {
         this.playersInPositions[evt.data.position] = evt.data.user;

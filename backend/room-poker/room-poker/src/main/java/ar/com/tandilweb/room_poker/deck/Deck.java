@@ -79,7 +79,37 @@ public class Deck {
 		boolean straightFlush = true;
 		int suitStraight = -1;
 		
+		// Ace as One //
+		List<Card> cardsToAdd = new ArrayList<Card>();
+		for(var card: allCardsInGame) {
+			// Is an ace
+			if(card.value.getNumericValueBigACE() == 14) {
+				cardsToAdd.add(new Card(1, card.suit.ordinal()));
+			}
+		}
+		
 		for (Card card: allCardsInGame) {
+			
+			// straight 
+			if(lastValue == card.value.getNumericValueBigACE() - 1 && countConsecutives < 5)  { //  when count is over 4
+				if(suitStraight == -1) {
+					suitStraight = card.suit.ordinal();
+				}
+				countConsecutives++;
+				bigStraight = card.value.getNumericValueBigACE();
+				if(suitStraight != card.suit.ordinal()) {
+					straightFlush = false;
+				}
+			} else if(countConsecutives < 5 && lastValue == card.value.getNumericValueBigACE()) { // ignore equals or when count is over 4
+				countConsecutives = 0;
+				suitStraight = -1;
+				straightFlush = true;
+			}
+			lastValue = card.value.getNumericValueBigACE();
+			
+			// para todo lo demás ignoramos el small ace.
+			if(card.value.getNumericValueBigACE() == 1) continue;
+			
 			// group cards:
 			if(!groupedCards.containsKey(card.value.getNumericValueBigACE())) {
 				groupedCards.put(card.value.getNumericValueBigACE(), new ArrayList<Card>());
@@ -124,25 +154,6 @@ public class Deck {
 					bigFlush = card.value.getNumericValueBigACE();
 				}
 			}
-			
-			// straight 
-			// TODO: consider ACE as One.
-			if(lastValue == card.value.getNumericValueBigACE() - 1 && countConsecutives < 5)  { //  when count is over 4
-				if(suitStraight == -1) {
-					suitStraight = card.suit.ordinal();
-				}
-				countConsecutives++;
-				bigStraight = card.value.getNumericValueBigACE();
-				if(suitStraight != card.suit.ordinal()) {
-					straightFlush = false;
-				}
-			} else if(countConsecutives < 5 && lastValue == card.value.getNumericValueBigACE()) { // ignore equals or when count is over 4
-				countConsecutives = 0;
-				suitStraight = -1;
-				straightFlush = true;
-			}
-			lastValue = card.value.getNumericValueBigACE();
-			
 		}
 		
 		// search for pairs:

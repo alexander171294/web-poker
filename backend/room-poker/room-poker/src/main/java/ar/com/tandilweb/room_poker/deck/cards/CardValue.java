@@ -3,6 +3,7 @@ package ar.com.tandilweb.room_poker.deck.cards;
 public enum CardValue {
 
 	ACE(0),
+	SMALL_ACE(1),
 	TWO(2),
 	THREE(3),
 	FOUR(4),

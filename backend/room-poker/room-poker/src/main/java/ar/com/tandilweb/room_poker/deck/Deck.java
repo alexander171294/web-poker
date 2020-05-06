@@ -28,8 +28,7 @@ public class Deck {
 	
 	private void add1Deck() {
 		for(int suit = 0; suit < 4; suit++) {
-			for(int cardValue = 0; cardValue <= 13; cardValue++) {
-				if(cardValue == 1) continue; // the value one isn't exists, the Ace is equals to zero.
+			for(int cardValue = 2; cardValue <= 14; cardValue++) {
 				Card card = new Card(suit, cardValue);
 				deck.add(card);
 			}
@@ -79,23 +78,54 @@ public class Deck {
 		boolean straightFlush = true;
 		int suitStraight = -1;
 		
-		for (Card card: allCardsInGame) {
-			// group cards:
-			if(!groupedCards.containsKey(card.value.getNumericValueBigACE())) {
-				groupedCards.put(card.value.getNumericValueBigACE(), new ArrayList<Card>());
+		// Ace as One //
+		List<Card> cardsToAdd = new ArrayList<Card>();
+		for(var card: allCardsInGame) {
+			// Is an ace
+			if(card.value.getNumericValue() == 14 || false) {
+				cardsToAdd.add(new Card(card.suit.ordinal(), 1));
 			}
-			List<Card> cardsGrouped = groupedCards.get(card.value.getNumericValueBigACE());
+		}
+		allCardsInGame.addAll(0, cardsToAdd);
+		
+		for (Card card: allCardsInGame) {
+			
+			// straight 
+			if(lastValue == card.value.getNumericValue() - 1 && countConsecutives < 5)  { //  when count is over 4
+				if(suitStraight == -1) {
+					suitStraight = card.suit.ordinal();
+				}
+				countConsecutives++;
+				bigStraight = card.value.getNumericValue();
+				if(suitStraight != card.suit.ordinal()) {
+					straightFlush = false;
+				}
+			} else if(countConsecutives < 5 && lastValue == card.value.getNumericValue()) { // ignore equals or when count is over 4
+				countConsecutives = 0;
+				suitStraight = -1;
+				straightFlush = true;
+			}
+			lastValue = card.value.getNumericValue();
+			
+			// para todo lo demás ignoramos el small ace.
+			if(card.value.getNumericValue() == 1) continue;
+			
+			// group cards:
+			if(!groupedCards.containsKey(card.value.getNumericValue())) {
+				groupedCards.put(card.value.getNumericValue(), new ArrayList<Card>());
+			}
+			List<Card> cardsGrouped = groupedCards.get(card.value.getNumericValue());
 			cardsGrouped.add(card);
 			if(cardsGrouped.size() == 4) {
-				quads.add(card.value.getNumericValueBigACE());
-				trips.remove(trips.indexOf(card.value.getNumericValueBigACE()));
+				quads.add(card.value.getNumericValue());
+				trips.remove(trips.indexOf(card.value.getNumericValue()));
 				unUsedCards.remove(card);
 			} else if(cardsGrouped.size() == 3) {
-				trips.add(card.value.getNumericValueBigACE());
-				pairs.remove(pairs.indexOf(card.value.getNumericValueBigACE()));
+				trips.add(card.value.getNumericValue());
+				pairs.remove(pairs.indexOf(card.value.getNumericValue()));
 				unUsedCards.remove(card);
 			} else if(cardsGrouped.size() == 2) {
-				pairs.add(card.value.getNumericValueBigACE());
+				pairs.add(card.value.getNumericValue());
 				unUsedCards.remove(cardsGrouped.get(1));
 				unUsedCards.remove(cardsGrouped.get(0));
 			}
@@ -103,46 +133,27 @@ public class Deck {
 			if(card.suit.equals(Suit.CLUB)) {
 				cardOfClub++;
 				if(cardOfClub > 4) {
-					bigFlush = card.value.getNumericValueBigACE();
+					bigFlush = card.value.getNumericValue();
 				}
 			}
 			if(card.suit.equals(Suit.DIAMOND)) {
 				cardOfDiamond++;
 				if(cardOfDiamond > 4) {
-					bigFlush = card.value.getNumericValueBigACE();
+					bigFlush = card.value.getNumericValue();
 				}
 			}
 			if(card.suit.equals(Suit.HEARTH)) {
 				cardOfHearth++;
 				if(cardOfHearth > 4) {
-					bigFlush = card.value.getNumericValueBigACE();
+					bigFlush = card.value.getNumericValue();
 				}
 			}
 			if(card.suit.equals(Suit.SPADE)) {
 				cardOfSpades++;
 				if(cardOfSpades > 4) {
-					bigFlush = card.value.getNumericValueBigACE();
+					bigFlush = card.value.getNumericValue();
 				}
 			}
-			
-			// straight 
-			// TODO: consider ACE as One.
-			if(lastValue == card.value.getNumericValueBigACE() - 1 && countConsecutives < 5)  { //  when count is over 4
-				if(suitStraight == -1) {
-					suitStraight = card.suit.ordinal();
-				}
-				countConsecutives++;
-				bigStraight = card.value.getNumericValueBigACE();
-				if(suitStraight != card.suit.ordinal()) {
-					straightFlush = false;
-				}
-			} else if(countConsecutives < 5 && lastValue == card.value.getNumericValueBigACE()) { // ignore equals or when count is over 4
-				countConsecutives = 0;
-				suitStraight = -1;
-				straightFlush = true;
-			}
-			lastValue = card.value.getNumericValueBigACE();
-			
 		}
 		
 		// search for pairs:
@@ -170,7 +181,7 @@ public class Deck {
 			data.type = HandType.STRAIGHT_FLUSH;
 		} else if(haveQuads) {
 			// 98 + value of Quad
-			int bigQuad = groupedCards.get(quads.get(0)).get(0).value.getNumericValueBigACE();
+			int bigQuad = groupedCards.get(quads.get(0)).get(0).value.getNumericValue();
 			data.handPoints = 98 + bigQuad;
 			// FIXME: Set kicker based on full table cards
 			data.kickerPoint = this.getKickers(HandType.FOUR_QUADS, tableCards, handCards, unUsedCards);
@@ -179,10 +190,10 @@ public class Deck {
 			data.type = HandType.FOUR_QUADS;
 		} else if(haveFullHouse) {
 			// 84 + value of trip.
-			int bigFull = groupedCards.get(trips.get(trips.size()-1)).get(0).value.getNumericValueBigACE();
+			int bigFull = groupedCards.get(trips.get(trips.size()-1)).get(0).value.getNumericValue();
 			data.handPoints = 84 + bigFull;
 			// secondary value of pair
-			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValueBigACE();
+			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValue();
 			data.kickerPoint = null;
 			data.handName = "Full House of " + getNameOf(bigFull) + "s with " + getNameOf(data.secondaryHandPoint) + "s ("+data.handPoints+"/126)";
 			data.type = HandType.FULL_HOUSE;
@@ -200,7 +211,7 @@ public class Deck {
 			data.type = HandType.STRAIGHT;
 		} else if(haveTrips) {
 			// 42 + value of trip
-			int bigTrip = groupedCards.get(trips.get(trips.size()-1)).get(0).value.getNumericValueBigACE();
+			int bigTrip = groupedCards.get(trips.get(trips.size()-1)).get(0).value.getNumericValue();
 			data.handPoints = 42 + bigTrip;
 			data.kickerPoint = this.getKickers(HandType.TRIPS, tableCards, handCards, unUsedCards);
 			data.handName = "Trips of " + getNameOf(bigTrip) + " ("+data.handPoints+"/126)";
@@ -208,10 +219,10 @@ public class Deck {
 			data.type = HandType.TRIPS;
 		} else if(haveTwoPairs) {
 			// 28 + value of big pair
-			int bigPair = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValueBigACE();
+			int bigPair = groupedCards.get(pairs.get(pairs.size()-1)).get(0).value.getNumericValue();
 			data.handPoints = 28 + bigPair;
 			// secondary value of low pair
-			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-2)).get(0).value.getNumericValueBigACE();
+			data.secondaryHandPoint = groupedCards.get(pairs.get(pairs.size()-2)).get(0).value.getNumericValue();
 			// kicker
 			data.kickerPoint = this.getKickers(HandType.TWO_PAIRS, tableCards, handCards, unUsedCards);
 			data.handName = "Two Pair of " + getNameOf(bigPair) + " and " + getNameOf(data.secondaryHandPoint) + " ("+data.handPoints+"/126)";
@@ -219,7 +230,7 @@ public class Deck {
 			data.type = HandType.TWO_PAIRS;
 		} else if(havePairs) {
 			// 14 + value of pairs
-			int bigCard = groupedCards.get(pairs.get(0)).get(0).value.getNumericValueBigACE();
+			int bigCard = groupedCards.get(pairs.get(0)).get(0).value.getNumericValue();
 			data.handPoints = 14 + bigCard;
 			data.kickerPoint = this.getKickers(HandType.PAIRS, tableCards, handCards, unUsedCards);
 			data.handName = "Pair of " + getNameOf(bigCard) + " ("+data.handPoints+"/126)";
@@ -227,7 +238,7 @@ public class Deck {
 			data.type = HandType.PAIRS;
 		} else {
 			// 2-14
-			data.handPoints = handCards.get(1).value.getNumericValueBigACE();
+			data.handPoints = handCards.get(1).value.getNumericValue();
 			unUsedCards.remove(handCards.get(1));
 			data.kickerPoint = this.getKickers(HandType.BIG_CARD, tableCards, handCards, unUsedCards); 
 			data.handName = "Big card " + getNameOf(data.handPoints) + " ("+data.handPoints+"/126)";
@@ -239,12 +250,12 @@ public class Deck {
 	
 	@Deprecated
 	private int getSecondaryCardValueOf(List<Card> handCards, int bigCard) {
-		if(handCards.get(0).value.getNumericValueBigACE() == bigCard) {
-			return handCards.get(1).value.getNumericValueBigACE();
-		} else if(handCards.get(1).value.getNumericValueBigACE() == bigCard) {
-			return handCards.get(0).value.getNumericValueBigACE();
+		if(handCards.get(0).value.getNumericValue() == bigCard) {
+			return handCards.get(1).value.getNumericValue();
+		} else if(handCards.get(1).value.getNumericValue() == bigCard) {
+			return handCards.get(0).value.getNumericValue();
 		} else {
-			return handCards.get(1).value.getNumericValueBigACE() > bigCard ? handCards.get(1).value.getNumericValueBigACE() : handCards.get(0).value.getNumericValueBigACE();
+			return handCards.get(1).value.getNumericValue() > bigCard ? handCards.get(1).value.getNumericValue() : handCards.get(0).value.getNumericValue();
 		}
 	}
 	
@@ -271,7 +282,7 @@ public class Deck {
 			}
 			// si no es comunitaria
 			if(!tableCards.contains(card)) {
-				kickers.add(card.value.getNumericValueBigACE());
+				kickers.add(card.value.getNumericValue());
 			}
 			excedent[1]++;
 		});

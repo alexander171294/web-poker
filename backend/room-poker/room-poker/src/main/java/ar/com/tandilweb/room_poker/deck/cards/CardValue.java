@@ -2,7 +2,7 @@ package ar.com.tandilweb.room_poker.deck.cards;
 
 public enum CardValue {
 
-	ACE(0),
+	SMALL_ACE(1),
 	TWO(2),
 	THREE(3),
 	FOUR(4),
@@ -14,7 +14,8 @@ public enum CardValue {
 	TEEN(10),
 	JACK(11),
 	QUEEN(12),
-	KING(13);
+	KING(13),
+	ACE(14);
 	
 	private int value;
 	
@@ -26,8 +27,8 @@ public enum CardValue {
 		return this.value;
 	}
 	
-	public int getNumericValueBigACE() {
-		return this.value == 0 ? 14 : this.value; 
-	}
+//	public int getNumericValueBigACE() {
+//		return this.value == 0 ? 14 : this.value; 
+//	}
 	
 }

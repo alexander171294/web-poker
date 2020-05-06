@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublicService } from 'src/app/services/public.service';
 import { LoginRequest } from 'src/app/services/LoginRequest';
 import { SignupRequest } from 'src/app/services/SignupRequest';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,9 +22,15 @@ export class LoginComponent implements OnInit {
   public password: string;
   public email: string;
 
-  constructor(private publicSrv: PublicService, private router: Router) { }
+  constructor(private publicSrv: PublicService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    const ec = this.route.snapshot.paramMap.get('err');
+    if (ec === '401' || ec === '403') {
+      this.errorLogin = true;
+      // sessión expirada por favor reloguee.
+    }
+
   }
 
   signup() {

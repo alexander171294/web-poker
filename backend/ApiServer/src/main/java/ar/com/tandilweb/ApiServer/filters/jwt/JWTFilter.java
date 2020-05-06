@@ -33,6 +33,7 @@ public class JWTFilter implements Filter {
 
 	public SessionsRepository sessionsRepository;
 
+	@Override
 	public void destroy() {
 
 	}
@@ -43,6 +44,7 @@ public class JWTFilter implements Filter {
 
 	}
 
+	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
@@ -91,9 +93,10 @@ public class JWTFilter implements Filter {
 		}
 	}
 
+	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		log.debug("Filter JWT Initialized");
-		sessionsRepository = (SessionsRepository)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).
+		sessionsRepository = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).
 			    getBean(SessionsRepository.class);
 	}
 

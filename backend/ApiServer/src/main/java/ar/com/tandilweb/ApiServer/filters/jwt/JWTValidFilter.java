@@ -21,6 +21,7 @@ public class JWTValidFilter implements Filter {
 	private static final Logger log = LoggerFactory.getLogger(JWTValidFilter.class);
 
 
+	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		
 	}
@@ -34,6 +35,7 @@ public class JWTValidFilter implements Filter {
 
 	}
 
+	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
@@ -58,6 +60,7 @@ public class JWTValidFilter implements Filter {
 		}
 	}
 
+	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
 		

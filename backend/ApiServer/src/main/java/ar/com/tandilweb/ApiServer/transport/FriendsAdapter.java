@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
+import ar.com.tandilweb.ApiServer.dataTypesObjects.users.FriendProfile;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.users.UserProfile;
 import ar.com.tandilweb.ApiServer.persistence.repository.FriendshipsRepository;
+import ar.com.tandilweb.ApiServer.persistence.repository.UsersInRoomsRepository;
 import ar.com.tandilweb.ApiServer.persistence.repository.UsersRepository;
 import ar.com.tandilweb.persistence.domain.Friendships;
 import ar.com.tandilweb.persistence.domain.Users;
+import ar.com.tandilweb.persistence.domain.UsersInRooms;
 
 @Service
 public class FriendsAdapter {
@@ -22,19 +25,31 @@ public class FriendsAdapter {
 
 	@Autowired
 	UsersRepository usersRepository;
+	
+	@Autowired
+	UsersInRoomsRepository usersInRoomsRepository;
 
-	public List<UserProfile> getFriends(long me) throws ValidationException {
+	public List<FriendProfile> getFriends(long me) throws ValidationException {
 		// List<Friendships> fs = friendshipsRepository.getAllFor(me);
 		List<Users> users = usersRepository.getFromFriendshipsFor(me);
-		List<UserProfile> out = new ArrayList<UserProfile>();
+		List<FriendProfile> out = new ArrayList<FriendProfile>();
 		for (Users user : users) {
-			UserProfile uP = new UserProfile();
+			FriendProfile uP = new FriendProfile();
 			uP.idUser = user.getId_user();
 			uP.nick = user.getNick_name();
 			uP.photo = user.getPhoto();
+			uP.rooms = getRooms(user.getId_user());
+			uP.inGame = uP.rooms != null ? true : false;
 			out.add(uP);
 		}
 		return out;
+	}
+	
+	private List<UsersInRooms> getRooms(long id) {
+		var roomlist = usersInRoomsRepository.findPlayerRooms(id);
+		if (roomlist != null) {
+			return roomlist;
+		} else return null;
 	}
 
 	public boolean deleteFriend(long me, long friendID) throws ValidationException {

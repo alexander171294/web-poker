@@ -24,4 +24,8 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['lobby']);
   }
 
+  leave() {
+    // proceso de recuperación de fichas.
+  }
+
 }

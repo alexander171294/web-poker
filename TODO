@@ -3,14 +3,13 @@ Cruciales:
     - invalid deposit no avisa. (Completar datos de disponible en deposito). [REST DONA]
     - Report bug button.
     - espera ante la entrada de nuevo jugador (buscar reglas)
-    - Fichas desaparecen [CANT-REPRODUCE]
 
     Demo:
 
     - Auto reconect rom->orchestrator.
     - Salirse de la mesa. (recuperar fichas)
     - cuando jwt está expirado mandar al login.
-    - al entrar al room abrir nueva pestaña
+    - bug ciega chica all in saltea ciega grande.
 
     - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
     - Timmer fin de corte.
@@ -37,3 +36,4 @@ Para testear:
     - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
     - ciega all in bug.
     - Ace como 1 en escalera
+    - al entrar al room abrir nueva pestaña

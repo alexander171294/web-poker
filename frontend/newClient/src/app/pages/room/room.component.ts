@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RoomResponse } from 'src/app/services/roomsResponse';
 import { RoomService } from 'src/app/services/network/room.service';
 import { TerminalService } from 'src/app/services/network/terminal.service';
@@ -31,7 +31,8 @@ export class RoomComponent implements OnInit {
               private ws: WsRoomService,
               private room: RoomService,
               private terminal: TerminalService,
-              private lobby: LobbyService) {
+              private lobby: LobbyService,
+              private router: Router) {
     terminal.event.subscribe(data => {
       // console.log('[]> ' + data);
     });
@@ -144,7 +145,7 @@ export class RoomComponent implements OnInit {
       if (this.route.params['value'].round) {
         back = parseInt(this.route.params['value'].round) + 1;
       }
-      window.open('/room/' + this.roomID + '/' + back, '_blank');
+      this.router.navigateByUrl('/room/' + this.roomID + '/' + back);
     }
   }
 

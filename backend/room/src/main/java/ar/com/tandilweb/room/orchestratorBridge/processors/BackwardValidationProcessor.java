@@ -49,9 +49,11 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			DataChallenge<Users> dataResponse = objectMapper.readValue(schemaBody, new TypeReference<DataChallenge<Users>>(){});
 			String sessionID = sessionHandler.getSessionByTransactionID(dataResponse.transactionID);
 			UserData userData = sessionHandler.getUserDataBySession(sessionID);
-			UserAuthSchema out;
-			// FIXME: null pointer si se cae el servicio y se reconectan, envían un deposit y explota todo, 
-			if(userData.userID == dataResponse.idUser) {
+			UserAuthSchema out = null;
+			if(userData == null || dataResponse == null) {
+				// FIXME: null pointer si se cae el servicio y se reconectan, envían un deposit y explota todo,
+				logger.debug("Null en respuesta de orquestador", userData, dataResponse);
+			} else if(userData.userID == dataResponse.idUser) {
 				if(dataResponse.claimToken.equals(userData.lastChallenge.claimToken)) {
 					if(userData.challengeAction == ChallengeActions.DEPOSIT) { // DEPOSIT:
 						Deposit deposit = new Deposit();

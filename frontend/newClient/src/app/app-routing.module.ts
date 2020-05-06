@@ -6,6 +6,7 @@ import { LobbyComponent } from './pages/lobby/lobby.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'login/:err', component: LoginComponent},
   {path: 'lobby', component: LobbyComponent},
   {path: 'room/:id', loadChildren: () => import('./pages/room/room.module').then(mod => mod.RoomModule) },
   {path: 'room/:id/:round', loadChildren: () => import('./pages/room/room.module').then(mod => mod.RoomModule) },

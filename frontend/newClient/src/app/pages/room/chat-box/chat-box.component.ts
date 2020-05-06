@@ -62,6 +62,9 @@ export class ChatBoxComponent implements OnInit {
         );
       }
       if (evt.type === RxEType.DECISION_INFORM) {
+        if (evt.data.ammount === 0) {
+          return;
+        }
         this.chatMessages.push(
           new ChatMessageData(
             false,

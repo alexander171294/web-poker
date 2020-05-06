@@ -13,10 +13,12 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ActionFor;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.BetDecision;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Blind;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.CardDist;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ChipStatus;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FlopBegins;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.FoldDecision;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ICardDist;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.IndividualChipStatus;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.Pots;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ResultSet;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.RiverBegins;
@@ -420,6 +422,8 @@ public class RoundGame {
 		// mandamos al front la lista de pots:
 		Pots schemaPots = new Pots();
 		schemaPots.pots = Utils.getPotValues(pots);
+		// mandamos al front el nuevo estado de fichas
+		updateChips();
 		sessionHandler.sendToAll("/GameController/pots", schemaPots);
 		if(roundStep == 1) {
 			// flop:
@@ -462,6 +466,8 @@ public class RoundGame {
 			showOff();
 			
 			checkHands(pots);
+			
+			updateChips();
 			
 			threadWait(5500); // TODO: parametize this.
 			return true;
@@ -843,6 +849,20 @@ public class RoundGame {
 	
 	public void resendWinners(String sessID) {
 		sessionHandler.sendToSessID("/GameController/resultSet", sessID, winnersResultSet);
+	}
+	
+	public void updateChips() {
+		ChipStatus cs = new ChipStatus();
+		cs.status = new ArrayList<IndividualChipStatus>();
+		for(int i = 0; i < usersInGame.length; i++) {
+			if(usersInGame[i] != null) {
+				IndividualChipStatus ics = new IndividualChipStatus();
+				ics.chips = usersInGame[i].chips;
+				ics.position = i;
+				cs.status.add(ics);
+			}
+		}
+		sessionHandler.sendToAll("/GameController/chipStatus", cs);
 	}
 
 }

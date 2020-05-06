@@ -30,6 +30,7 @@ export enum RxEType {
   SHOW_OFF,
   RESULT_SET,
   POTS,
-  FOLD
+  FOLD,
+  CHIP_STATUS
 }
 

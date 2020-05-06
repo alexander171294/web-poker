@@ -1,3 +1,4 @@
+import { IndividualChipStatus } from './../../../../services/network/epprProtocol/game/ChipStatus';
 import { RoomService } from 'src/app/services/network/room.service';
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { PlayerSnapshot } from './PlayerSnapshot';
@@ -242,6 +243,11 @@ export class PokerComponent implements OnInit {
         if (evt.data.position !== this.myPosition) {
           this.players[evt.data.position].playerDetails.chips += evt.data.quantity;
         }
+      }
+      if (evt.type === RxEType.CHIP_STATUS) {
+        evt.data.status.forEach((ics: IndividualChipStatus) => {
+          this.players[ics.position].playerDetails.chips = ics.chips;
+        });
       }
     });
   }

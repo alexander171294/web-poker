@@ -1,3 +1,4 @@
+import { ChipStatus } from './epprProtocol/game/ChipStatus';
 import { SnapshotRequest } from './epprProtocol/game/SnapshotRequest';
 import { Injectable, EventEmitter } from '@angular/core';
 import { WsRoomService } from './room/ws-room.service';
@@ -209,6 +210,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/depositAnnouncement', (data) => this.onDepositAnnouncement(data)); // global message
     this.ws.suscribe('/GameController/pots', (data) => this.onPots(data)); // global message
     this.ws.suscribe('/GameController/fold', (data) => this.onFold(data)); // global message
+    this.ws.suscribe('/GameController/chipStatus', (data) => this.onChipStatus(data)); // global message
   }
 
   onFlop(data) {
@@ -290,6 +292,11 @@ export class RoomService {
   onFold(data) {
     this.terminal.log('Fold ' + data.position);
     this.reactionEvent.emit(new ReactionEvents(RxEType.FOLD, data));
+  }
+
+  onChipStatus(data: ChipStatus) {
+    this.terminal.log('ChipStatus ' + JSON.stringify(data.status));
+    this.reactionEvent.emit(new ReactionEvents(RxEType.CHIP_STATUS, data));
   }
 
   onBetDecision(data) {

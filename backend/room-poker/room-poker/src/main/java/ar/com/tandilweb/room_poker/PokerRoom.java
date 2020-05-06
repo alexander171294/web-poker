@@ -176,14 +176,10 @@ public class PokerRoom implements GameCtrlInt {
 			if(schemaGameProto.schema.equals("decisionInform")) {
 				DecisionInform dI = om.readValue(serializedMessage, DecisionInform.class);
 				// si es el jugador de la posición correcta:
-				if(usersInTable[dI.position].sessID.equals(socketSessionID)) {
-					UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
-					boolean finishedRound = actualRound.processDecision(dI, uD);
-					if (finishedRound) {
-						startRound();
-					}
-				} else {
-					// habría que rejectear.
+				UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
+				boolean finishedRound = actualRound.processDecision(dI, uD);
+				if (finishedRound) {
+					startRound();
 				}
 			}
 			if(schemaGameProto.schema.equals("SnapshotRequest")) {
@@ -202,7 +198,7 @@ public class PokerRoom implements GameCtrlInt {
 					boolean inRoom = false;
 					// verificamos que esté entre los jugadores
 					for(var user: usersInTable) {
-						if(user.sessID.equals(socketSessionID)) {
+						if(user != null && user.sessID.equals(socketSessionID)) {
 							inRoom = true;
 						}
 					}

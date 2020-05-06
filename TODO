@@ -10,8 +10,8 @@ Cruciales:
     - Auto reconect rom->orchestrator.
     - Salirse de la mesa. (recuperar fichas)
     - cuando jwt está expirado mandar al login.
-
     - al entrar al room abrir nueva pestaña
+
     - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
     - Timmer fin de corte.
 

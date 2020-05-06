@@ -100,6 +100,13 @@ export class RoomComponent implements OnInit {
       if (data === 15) {
         this.popupDepositOpened = true;
       }
+
+      if (data === 4 || data === 5 || data === 6) {
+        this.connecting = 'An error occurred, disconnected from server, the page reload in 5 seconds.';
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
+      }
     });
     this.connecting = 'Server connection.';
     this.room.connect(this.roomData.server_ip);

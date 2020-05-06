@@ -73,6 +73,8 @@ public class RoundGame {
 	private int lastActivePositionDetected;
 	private ResultSet winnersResultSet;
 	
+//	private boolean ignoreLastActionedPositionOnce = false;
+	
 	public RoundGame(Deck deck, UserData[] usersInGame, int dealerPosition) {
 		this.usersInGame = usersInGame;
 		this.usersInGameDescriptor = new UserMetaData[this.usersInGame.length];
@@ -133,6 +135,7 @@ public class RoundGame {
 			blindObject.sbChips = bets[smallBlind];
 			usersInGameDescriptor[smallBlind].isAllIn = true;
 			usersInGame[smallBlind].chips = 0;
+			
 		}
 		
 		if(usersInGame[bigBlind].chips > bigBlindSize) {
@@ -144,6 +147,7 @@ public class RoundGame {
 			blindObject.bbChips = bets[bigBlind];
 			usersInGameDescriptor[bigBlind].isAllIn = true;
 			usersInGame[bigBlind].chips = 0;
+			
 		}
 
 		sessionHandler.sendToAll("/GameController/blind", blindObject);
@@ -169,7 +173,13 @@ public class RoundGame {
 			return true;
 		}
 		
-		lastActionedPosition = bigBlind;
+		// en caso de la ciega estar en All-In
+		if(usersInGameDescriptor[bigBlind].isAllIn) {
+			lastActionedPosition = waitingActionFromPlayer;
+//			ignoreLastActionedPositionOnce = true;
+		} else {			
+			lastActionedPosition = bigBlind;
+		}
 		return false;
 	}
 	

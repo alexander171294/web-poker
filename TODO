@@ -7,8 +7,7 @@ Cruciales:
 
     Demo:
     - Ace como 1 en escalera
-    - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
-    - ciega all in bug.
+    
     - Auto reconect rom->orchestrator.
 
     - Salirse de la mesa. (recuperar fichas)
@@ -39,3 +38,5 @@ Adicionales:
 
 Para testear:
     - guardar ultima mano.
+    - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
+    - ciega all in bug.

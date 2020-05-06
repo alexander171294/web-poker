@@ -144,7 +144,7 @@ export class RoomComponent implements OnInit {
       if (this.route.params['value'].round) {
         back = parseInt(this.route.params['value'].round) + 1;
       }
-      window.open('/room/' + this.roomID + '/' + back, '__blank');
+      window.open('/room/' + this.roomID + '/' + back, '_blank');
     }
   }
 

@@ -31,6 +31,7 @@ export enum RxEType {
   RESULT_SET,
   POTS,
   FOLD,
-  CHIP_STATUS
+  CHIP_STATUS,
+  CHAT
 }
 

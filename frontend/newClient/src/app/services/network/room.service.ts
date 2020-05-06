@@ -15,6 +15,8 @@ import { DecisionInform } from './epprProtocol/game/DecisionInform';
 import { ReactionEvents, RxEType } from './ReactionEvents';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PlayerSnapshot } from 'src/app/pages/room/tables/poker/PlayerSnapshot';
+import { ChatMessage } from './epprProtocol/game/ChatMessage';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 // last global connection event: 15
 @Injectable({
@@ -175,6 +177,16 @@ export class RoomService {
     this.ws.sendMessage(dBlock);
   }
 
+  chatMessage(message: string) {
+    const cm = new ChatMessage();
+    cm.message = message;
+    const dBlock = new MessageDefinition();
+    dBlock.data = cm;
+    dBlock.endpoint = '/game/bridge';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
+  }
+
   subscriptions() {
     this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
       this.onAuthorizationResponse(data);
@@ -211,6 +223,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/pots', (data) => this.onPots(data)); // global message
     this.ws.suscribe('/GameController/fold', (data) => this.onFold(data)); // global message
     this.ws.suscribe('/GameController/chipStatus', (data) => this.onChipStatus(data)); // global message
+    this.ws.suscribe('/GameController/chat', (data) => this.onChat(data)); // global message
   }
 
   onFlop(data) {
@@ -297,6 +310,11 @@ export class RoomService {
   onChipStatus(data: ChipStatus) {
     this.terminal.log('ChipStatus ' + JSON.stringify(data.status));
     this.reactionEvent.emit(new ReactionEvents(RxEType.CHIP_STATUS, data));
+  }
+
+  onChat(data) {
+    this.terminal.log('Chat: ' + data.message);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.CHAT, data));
   }
 
   onBetDecision(data) {

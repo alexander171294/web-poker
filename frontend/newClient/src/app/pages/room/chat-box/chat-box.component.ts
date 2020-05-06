@@ -12,6 +12,7 @@ export class ChatBoxComponent implements OnInit {
 
   opened: boolean;
   public chatMessages: ChatMessageData[] = [];
+  public message: string;
 
   public playersInPositions: string[] = [];
 
@@ -89,12 +90,26 @@ export class ChatBoxComponent implements OnInit {
           );
         });
       }
+      if (evt.type === RxEType.CHAT) {
+        this.chatMessages.push(
+          new ChatMessageData(
+            false,
+            evt.data.message,
+            evt.data.author
+          )
+        );
+      }
       // TODO: improve this ugly code:
       setTimeout(() => {
         const cbl = document.getElementById('chatBoxList');
         cbl.scrollTop = cbl.scrollHeight;
       }, 100);
     });
+  }
+
+  sendMessage() {
+    this.room.chatMessage(this.message);
+    this.message = '';
   }
 
 }

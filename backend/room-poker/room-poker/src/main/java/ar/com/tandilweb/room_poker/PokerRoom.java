@@ -16,6 +16,7 @@ import ar.com.tandilweb.exchange.gameProtocol.SchemaGameProto;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.RequestDeposit;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.Snapshot;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SnapshotPlayer;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ChatMessage;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DepositAnnouncement;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
@@ -174,10 +175,15 @@ public class PokerRoom implements GameCtrlInt {
 			ObjectMapper om = new ObjectMapper();
 			if(schemaGameProto.schema.equals("decisionInform")) {
 				DecisionInform dI = om.readValue(serializedMessage, DecisionInform.class);
-				UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
-				boolean finishedRound = actualRound.processDecision(dI, uD);
-				if (finishedRound) {
-					startRound();
+				// si es el jugador de la posición correcta:
+				if(usersInTable[dI.position].sessID.equals(socketSessionID)) {
+					UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
+					boolean finishedRound = actualRound.processDecision(dI, uD);
+					if (finishedRound) {
+						startRound();
+					}
+				} else {
+					// habría que rejectear.
 				}
 			}
 			if(schemaGameProto.schema.equals("SnapshotRequest")) {
@@ -186,6 +192,27 @@ public class PokerRoom implements GameCtrlInt {
 				if(rounds.size() > sr.round) {					
 					sessionHandler.sendToSessID("/GameController/snapshot", uD.sessID, getSnapshot(rounds.get(sr.round), -1));
 					rounds.get(sr.round).resendWinners(uD.sessID);
+				}
+			}
+			if(schemaGameProto.schema.equals("ChatMessage")) {
+				UserData uD = sessionHandler.getUserDataBySession(socketSessionID);
+				ChatMessage cm = om.readValue(serializedMessage, ChatMessage.class);
+				// si el juego ya empezó
+				if(actualRound != null) {
+					boolean inRoom = false;
+					// verificamos que esté entre los jugadores
+					for(var user: usersInTable) {
+						if(user.sessID.equals(socketSessionID)) {
+							inRoom = true;
+						}
+					}
+					if(inRoom) {
+						cm.author = uD.dataBlock.getNick_name();
+						sessionHandler.sendToAll("/GameController/chat", cm);
+					}
+				} else { // si el juego no empezó todos pueden hablar
+					cm.author = uD.dataBlock.getNick_name();
+					sessionHandler.sendToAll("/GameController/chat", cm);
 				}
 			}
 			log.debug("Receive message from " + socketSessionID);

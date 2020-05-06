@@ -7,12 +7,10 @@ Cruciales:
 
     Demo:
     - Ace como 1 en escalera
-    
     - Auto reconect rom->orchestrator.
-
     - Salirse de la mesa. (recuperar fichas)
     - cuando jwt está expirado mandar al login.
-    - chat
+    
     
     - al entrar al room abrir nueva pestaña
     - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
@@ -40,3 +38,4 @@ Para testear:
     - guardar ultima mano.
     - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)
     - ciega all in bug.
+    - chat

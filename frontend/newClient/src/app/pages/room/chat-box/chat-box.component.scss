@@ -12,8 +12,39 @@
   background: #0b1b0f;
   color: #d7a965;
   z-index: 1;
+  input {
+    bottom: -30px;
+    position: absolute;
+    width: calc(100% - 33px);
+    padding: 5px;
+    transition: bottom 1s;
+    background: #010803;
+    border: none;
+    color: #d7a965;
+    outline: none;
+  }
+  button.sendMessage{
+    position: absolute;
+    bottom: -30px;
+    right: 0px;
+    color: #d7a965;
+    width: 25px;
+    background: #0b1b0f;
+    height: 24px;
+    padding: 5px 6px;
+    border: none;
+    cursor: pointer;
+    transition: bottom 1s;
+    outline: none;
+  }
   &.open {
     height: 250px;
+    input {
+      bottom: 0px;
+    }
+    button.sendMessage{
+      bottom: 0px;
+    }
   }
   .bar {
     text-align: left;

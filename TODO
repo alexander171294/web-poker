@@ -8,7 +8,6 @@ Cruciales:
 
     - Auto reconect rom->orchestrator.
     - Salirse de la mesa. (recuperar fichas)
-    - cuando jwt está expirado mandar al login.
     - bug ciega chica all in saltea ciega grande.
 
     - Autoidle (cuando estas desconectado y pasas 3 veces salirse de la mesa)
@@ -37,3 +36,4 @@ Para testear:
     - ciega all in bug.
     - Ace como 1 en escalera
     - al entrar al room abrir nueva pestaña
+    - cuando jwt está expirado mandar al login.

@@ -1,6 +1,7 @@
 FROM openjdk:11-slim
 RUN groupadd apiServer && useradd -m -g apiServer apiServer
 USER apiServer:apiServer
+RUN mkdir /home/apiServer/logs
 COPY target/*.jar /home/apiServer/apiServer.jar
 
 ENV SIGNUP_CHIPS=2500

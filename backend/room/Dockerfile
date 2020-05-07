@@ -2,6 +2,7 @@ FROM openjdk:11-slim
 RUN groupadd roompoker && useradd -m -g roompoker roompoker
 USER roompoker:roompoker
 RUN mkdir /home/roompoker/dataSave
+RUN mkdir /home/roompoker/logs
 COPY target/*.jar /home/roompoker/room.jar
 
 ENV SERVER_PORT="8081"

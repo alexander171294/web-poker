@@ -1,6 +1,7 @@
 FROM openjdk:11-slim
 RUN groupadd orchestrator && useradd -m -g orchestrator orchestrator
 USER orchestrator:orchestrator
+RUN mkdir /home/orchestrator/logs
 COPY target/*.jar /home/orchestrator/orchestrator.jar
 
 ENV SERVER_PORT="8082"

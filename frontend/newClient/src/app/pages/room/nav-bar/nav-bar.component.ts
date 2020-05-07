@@ -28,7 +28,6 @@ export class NavBarComponent implements OnInit {
   leave() {
     // proceso de recuperación de fichas.
     this.room.leave();
-    window.close();
   }
 
 }

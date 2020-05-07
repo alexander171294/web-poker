@@ -257,6 +257,9 @@ export class PokerComponent implements OnInit, OnDestroy {
         if (evt.data.position === this.dealerPosition) {
           this.dealerPosition = undefined;
         }
+        if (evt.data.position === this.myPosition) {
+          window.close();
+        }
         // this.availablePositions[evt.data.position] = true;
       }
     });

@@ -50,20 +50,20 @@ Scaled here: https://i.imgur.com/GLlGMiN.png
 
 * ~Connect Room to protocol~ (Finished)
 * ~Finish details of design~ (Finished)
-* Fix 10 principal bugs (RC-1).
+* ~Fix 10 principal bugs (RC-1).~ (Finished)
 * Fix 10 secondary bugs (RC-2)
 * Polish the signup/login and Lobby.
 
 ### Fine details (RC-3)
 
 * ~Reconnections.~ (Finished)
-* Splitted pots.
+* ~Splitted pots.~ (Finished)
 * Finish 0/71 TODOS/FIXMES in Backend.
 
 
 ### Alpha?
 
- * Fix the list of bugs.
+ * ~Fix the list of bugs.~ (Finished)
  * Improve source code.
  * General Review.
 

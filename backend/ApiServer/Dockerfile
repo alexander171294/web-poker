@@ -1,5 +1,5 @@
 FROM openjdk:11-slim
-RUN addgroup -S apiServer && adduser -S apiServer -G apiServer
+RUN groupadd apiServer && useradd -m -g apiServer apiServer
 USER apiServer:apiServer
 COPY target/*.jar /home/apiServer/apiServer.jar
 
@@ -18,15 +18,16 @@ ENV DB_USERNAME="root"
 ENV DB_PASSWORD="321654987"
 
 
-ENTRYPOINT ["java","-jar","/home/apiServer/apiServer.jar",
-            "-Dar.com.tandilweb.ApiServer.users.initialChips=${SIGNUP_CHIPS}",
-            "-Dar.com.tandilweb.ApiServer.users.maxBadLogins=${MAX_BAD_LOGINS}",
-            "-Dspring.flyway.enabled=${FLYWAY}",
-            "-Dserver.port=${SERVER_PORT}",
-            "-Dlogging.level.ar.com.tandilweb=${LOGGING_LEVEL}",
-            "-Dmail.smtpserver=${SMTP}",
-            "-Dmail.email=${EMAIL}",
-            "-Dmail.password=${EMAIL_PASSWORD}",
-            "-Dspring.datasource.url=${DB_URL}",
-            "-Dspring.datasource.username=${DB_USERNAME}",
-            "-Dspring.datasource.password=${DB_PASSWORD}"]
+ENTRYPOINT ["java","-jar",\
+            "-Dar.com.tandilweb.ApiServer.users.initialChips=${SIGNUP_CHIPS}",\
+            "-Dar.com.tandilweb.ApiServer.users.maxBadLogins=${MAX_BAD_LOGINS}",\
+            "-Dspring.flyway.enabled=${FLYWAY}",\
+            "-Dserver.port=${SERVER_PORT}",\
+            "-Dlogging.level.ar.com.tandilweb=${LOGGING_LEVEL}",\
+            "-Dmail.smtpserver=${SMTP}",\
+            "-Dmail.email=${EMAIL}",\
+            "-Dmail.password=${EMAIL_PASSWORD}",\
+            "-Dspring.datasource.url=${DB_URL}",\
+            "-Dspring.datasource.username=${DB_USERNAME}",\
+            "-Dspring.datasource.password=${DB_PASSWORD}",\
+            "/home/apiServer/apiServer.jar"]

@@ -1,0 +1,1 @@
+org.springframework.boot.env.EnvironmentPostProcessor=ar.com.tandilweb.ApiServer.utils.DockerSecretProcessor

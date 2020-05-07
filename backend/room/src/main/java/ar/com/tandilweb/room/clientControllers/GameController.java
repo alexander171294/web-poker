@@ -38,5 +38,15 @@ public class GameController {
 		SchemaGameProto sgp = om.readValue(message, SchemaGameProto.class);
 		gameController.receivedMessage(sgp, message, sessID);
 	}
+	
+	@MessageMapping("/leave")
+	public void leave(String message, SimpMessageHeaderAccessor headerAccessor) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper om = new ObjectMapper();
+		String sessID = headerAccessor.getSessionId();
+		om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		SchemaGameProto sgp = om.readValue(message, SchemaGameProto.class);
+		// TODO: remove from session handler? IDK
+		gameController.onUserLeave(sgp, message, sessID);
+	}
 
 }

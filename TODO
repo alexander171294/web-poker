@@ -30,6 +30,7 @@ Adicionales:
     - Shop
     - Config
     - Help
+    - Muck (evitar mostrar cartas al final).
 
 Para testear:
     - enviar nuevo estado de fichas en cuenta cuando se recupera de un pot por ejemplo. (yo lo haría en las fases de cartas)

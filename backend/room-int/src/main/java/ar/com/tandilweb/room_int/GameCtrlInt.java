@@ -18,8 +18,9 @@ public interface GameCtrlInt {
 	
 	void onDeposit(UserData player, long chipsDeposited);
 	
-	// TODO: add onLeave
-	//void onUserLeave(UserData player);
+	void onUserLeave(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID);
+	
+	void onNewOrchestratorPipe(OrchestratorPipe orchestratorPipe);
 	
 	// TODO: add unexpected disconnect
 	//void onUserUnexpectedDisconnect(UserData player);

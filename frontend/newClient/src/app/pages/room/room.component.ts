@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RoomResponse } from 'src/app/services/roomsResponse';
 import { RoomService } from 'src/app/services/network/room.service';
@@ -11,13 +11,14 @@ import { BackwardValidation } from 'src/app/services/network/epprProtocol/userAu
 import { ChallengeActions } from 'src/app/services/network/epprProtocol/userAuth/types/ChallengeActions';
 import { Deposit } from 'src/app/services/network/epprProtocol/clientOperations/Deposit';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, OnDestroy {
 
   public roomID: number;
   public roomData: RoomResponse;
@@ -26,6 +27,9 @@ export class RoomComponent implements OnInit {
   public serverName: string;
   public isDeposit = false;
   public depositQuantity: number;
+
+  public gceSubscription: Subscription;
+  public rxESubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
               private ws: WsRoomService,
@@ -48,7 +52,7 @@ export class RoomComponent implements OnInit {
     terminal.debugEvents.subscribe(data => {
       // console.log('------------------> ' + data);
     });
-    this.room.reactionEvent.subscribe(evt => {
+    this.rxESubscription = this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.DEPOSIT_SUCCESS) {
         this.popupDepositOpened = false;
       }
@@ -59,7 +63,7 @@ export class RoomComponent implements OnInit {
     this.roomID = this.route.params['value'].id; // this.route.snapshot.queryParamMap.get('id');
     console.log('ROOMID:', this.roomID);
     this.roomData = JSON.parse(localStorage.getItem('room-' + this.roomID));
-    this.room.globalConnectionEvents.subscribe(data => {
+    this.gceSubscription = this.room.globalConnectionEvents.subscribe(data => {
       if (data === 2) { // connected
         this.connecting = 'Authorization request.';
         this.authorization(parseInt(localStorage.getItem('userID'),10));
@@ -160,6 +164,11 @@ export class RoomComponent implements OnInit {
     dBlock.endpoint = '/user/deposit';
     dBlock.prefix = '/stompApi';
     this.ws.sendMessage(dBlock);
+  }
+
+  ngOnDestroy(): void {
+    this.gceSubscription.unsubscribe();
+    this.rxESubscription.unsubscribe();
   }
 
 }

@@ -19,10 +19,12 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.accessing.SnapshotPlay
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.ChatMessage;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DecisionInform;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.DepositAnnouncement;
+import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.LeaveNotify;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SnapshotRequest;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
 import ar.com.tandilweb.room_int.GameCtrlInt;
+import ar.com.tandilweb.room_int.OrchestratorPipe;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
 import ar.com.tandilweb.room_int.handlers.dto.UserData;
 import ar.com.tandilweb.room_poker.deck.Deck;
@@ -34,13 +36,14 @@ public class PokerRoom implements GameCtrlInt {
 	private UserData[] usersInTable;
 	private UserData[] usersInGame;
 	private List<RoundGame> rounds = new ArrayList<RoundGame>();
+	private List<UserData> leaveRequests = new ArrayList<UserData>();
 	private int tableSize;
 	private SessionHandlerInt sessionHandler;
 	private int dealerPosition;
 	private RoundGame actualRound;
+	private OrchestratorPipe orchestratorPipe;
 	
 	public boolean inGame;
-	
 
 	public void setUsersInTableRef(UserData[] usersInTable, SessionHandlerInt sessionHandler) {
 		log.debug("Set Users In Table Ref");
@@ -53,6 +56,7 @@ public class PokerRoom implements GameCtrlInt {
 
 	public void checkStartGame() {
 		log.debug("Check Start Game");
+		this.processLeaveRequests();
 		if(!inGame && Utils.checkPlayers(usersInTable) >= 2) { // FIXME: change this, get from configuration, is in two only for test/dev purposes.
 			// START GAME
 			log.debug("START GAME");
@@ -233,6 +237,29 @@ public class PokerRoom implements GameCtrlInt {
 				sessionHandler.sendToAll("/GameController/depositAnnouncement", da);				
 			}
 		}
+	}
+	
+	private void processLeaveRequests() {
+		this.leaveRequests.forEach(lr -> {
+			int ppos = Utils.getPlyerPosition(usersInGame, lr);
+			usersInGame[ppos] = null;
+			var ln = new LeaveNotify();
+			ln.position = ppos;
+			sessionHandler.sendToAll("/GameController/leaveNotify", ln);
+			// enviar fichas al orchestrator.
+		});
+	}
+
+	@Override
+	public void onUserLeave(SchemaGameProto schemaGameProto, String serializedMessage, String socketSessionID) {
+		if(schemaGameProto.schema.equals("leaveReq")) {
+			this.leaveRequests.add(sessionHandler.getUserDataBySession(socketSessionID));
+		}
+	}
+
+	@Override
+	public void onNewOrchestratorPipe(OrchestratorPipe orchestratorPipe) {
+		this.orchestratorPipe = orchestratorPipe;
 	}
 	
 }

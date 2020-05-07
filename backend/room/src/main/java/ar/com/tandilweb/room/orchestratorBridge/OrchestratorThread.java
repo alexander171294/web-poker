@@ -24,12 +24,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ar.com.tandilweb.exchange.Schema;
 import ar.com.tandilweb.exchange.roomAuth.Handshake;
-import ar.com.tandilweb.room.handlers.GameHandler;
 import ar.com.tandilweb.room.handlers.RoomHandler;
 import ar.com.tandilweb.room.orchestratorBridge.processors.BackwardValidationProcessor;
 import ar.com.tandilweb.room.orchestratorBridge.processors.RoomAuthProcessor;
 import ar.com.tandilweb.room.orchestratorBridge.processors.ServerRecordingProcessor;
 import ar.com.tandilweb.room.protocols.EpprRoomAuth;
+import ar.com.tandilweb.room_int.GameCtrlInt;
 
 @Component
 public class OrchestratorThread implements Runnable, ApplicationListener<ContextRefreshedEvent> {
@@ -63,6 +63,9 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 	
 	@Autowired
 	private ServerRecordingProcessor serverRecordingProcessor;
+	
+	@Autowired
+	private GameCtrlInt gameController;
 
 	@Value("${act.room.cfgFileSave}")
 	private String cfgFileSave;
@@ -84,6 +87,8 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 			logger.error("Connection IO Exception, "+remoteAddr+":"+remoteListenerPort, e);
 		}
 		try {
+			var opi = new OrchestratorPipeImpl(socketBufferOutput);
+			gameController.onNewOrchestratorPipe(opi);
 			main();
 		} catch (Exception e) {
 			logger.error("Socket read Error", e);
@@ -111,6 +116,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 			} else {
 				hs = roomAuthProto.getHandshakeSchema();
 			}
+			
 			ObjectMapper om = new ObjectMapper();
 			sendDataToServer(om.writeValueAsString(hs));
 			String message;

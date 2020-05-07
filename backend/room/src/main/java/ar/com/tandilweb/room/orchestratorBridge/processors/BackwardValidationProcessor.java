@@ -53,6 +53,7 @@ public class BackwardValidationProcessor extends OrchestratorGenericProcessor {
 			if(userData == null || dataResponse == null) {
 				// FIXME: null pointer si se cae el servicio y se reconectan, envían un deposit y explota todo,
 				logger.error("Null en respuesta de orquestador", userData, dataResponse);
+				return;
 			} else if(userData.userID == dataResponse.idUser) {
 				if(dataResponse.claimToken.equals(userData.lastChallenge.claimToken)) {
 					if(userData.challengeAction == ChallengeActions.DEPOSIT) { // DEPOSIT:

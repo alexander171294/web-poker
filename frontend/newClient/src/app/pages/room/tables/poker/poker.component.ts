@@ -1,6 +1,6 @@
 import { IndividualChipStatus } from './../../../../services/network/epprProtocol/game/ChipStatus';
 import { RoomService } from 'src/app/services/network/room.service';
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, OnDestroy } from '@angular/core';
 import { PlayerSnapshot } from './PlayerSnapshot';
 import { Card } from '../../cards/dual-stack/Card';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
@@ -8,13 +8,14 @@ import { VcardComponent } from '../../vcard/vcard.component';
 import { ChipsService } from 'src/app/services/memory/chips.service';
 import { Pots } from 'src/app/services/network/epprProtocol/game/Pots';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-table-poker',
   templateUrl: './poker.component.html',
   styleUrls: ['./poker.component.scss']
 })
-export class PokerComponent implements OnInit {
+export class PokerComponent implements OnInit, OnDestroy {
 
   private static MAX_PLAYERS = 10;
 
@@ -29,6 +30,8 @@ export class PokerComponent implements OnInit {
   public dealerPosition: number = -1;
   public myPosition: number;
   public resultMode: boolean;
+
+  public rxESubscription: Subscription;
 
   public info: string;
 
@@ -60,7 +63,7 @@ export class PokerComponent implements OnInit {
       return;
     }
     //
-    this.room.reactionEvent.subscribe(evt => {
+    this.rxESubscription = this.room.reactionEvent.subscribe(evt => {
       if (evt.type === RxEType.ANNOUNCEMENT) {
         // this.announcement =
         // console.log('Original', this.players[evt.data.position]);
@@ -349,4 +352,9 @@ export class PokerComponent implements OnInit {
     this.pot = 0;
     this.splittedPots = undefined;
   }
+
+  ngOnDestroy(): void {
+    this.rxESubscription.unsubscribe();
+  }
+
 }

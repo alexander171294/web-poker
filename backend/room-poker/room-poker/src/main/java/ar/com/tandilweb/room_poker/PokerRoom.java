@@ -23,6 +23,7 @@ import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.LeaveNotify;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SchemaCard;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.SnapshotRequest;
 import ar.com.tandilweb.exchange.gameProtocol.texasHoldem.inGame.StartGame;
+import ar.com.tandilweb.exchange.serverRecording.UserEnd;
 import ar.com.tandilweb.room_int.GameCtrlInt;
 import ar.com.tandilweb.room_int.OrchestratorPipe;
 import ar.com.tandilweb.room_int.handlers.SessionHandlerInt;
@@ -56,9 +57,9 @@ public class PokerRoom implements GameCtrlInt {
 
 	public void checkStartGame() {
 		log.debug("Check Start Game");
-		this.processLeaveRequests();
 		if(!inGame && Utils.checkPlayers(usersInTable) >= 2) { // FIXME: change this, get from configuration, is in two only for test/dev purposes.
 			// START GAME
+			this.processLeaveRequests();
 			log.debug("START GAME");
 			this.inGame = true;
 			// start game:
@@ -88,6 +89,7 @@ public class PokerRoom implements GameCtrlInt {
 	public void realStartGame() {
 		log.debug("Starting game.");
 		// define the dealer
+		this.processLeaveRequests();
 		this.dealerPosition = Utils.getRandomPositionOfTakens(usersInTable);
 		startRound();
 	}
@@ -241,13 +243,19 @@ public class PokerRoom implements GameCtrlInt {
 	
 	private void processLeaveRequests() {
 		this.leaveRequests.forEach(lr -> {
-			int ppos = Utils.getPlyerPosition(usersInGame, lr);
-			usersInGame[ppos] = null;
+			int ppos = Utils.getPlyerPosition(usersInTable, lr);
+			// enviar fichas al orchestrator.
+			var ue = new UserEnd();
+			ue.refoundCoins = usersInTable[ppos].chips;
+			ue.userID = usersInTable[ppos].userID;
+			this.orchestratorPipe.SendToOrchestrator(ue);
+			usersInTable[ppos] = null;
 			var ln = new LeaveNotify();
 			ln.position = ppos;
 			sessionHandler.sendToAll("/GameController/leaveNotify", ln);
-			// enviar fichas al orchestrator.
+			
 		});
+		this.leaveRequests.clear();
 	}
 
 	@Override

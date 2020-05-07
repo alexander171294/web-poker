@@ -1,3 +1,4 @@
+import { RoomService } from './../../../services/network/room.service';
 import { Router } from '@angular/router';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -15,7 +16,7 @@ export class NavBarComponent implements OnInit {
 
   public version = environment.version;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private room: RoomService) { }
 
   ngOnInit() {
   }
@@ -26,6 +27,7 @@ export class NavBarComponent implements OnInit {
 
   leave() {
     // proceso de recuperación de fichas.
+    this.room.leave();
   }
 
 }

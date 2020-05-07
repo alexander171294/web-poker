@@ -32,6 +32,7 @@ export enum RxEType {
   POTS,
   FOLD,
   CHIP_STATUS,
-  CHAT
+  CHAT,
+  LEAVE
 }
 

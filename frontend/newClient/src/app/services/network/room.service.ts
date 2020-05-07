@@ -17,6 +17,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { PlayerSnapshot } from 'src/app/pages/room/tables/poker/PlayerSnapshot';
 import { ChatMessage } from './epprProtocol/game/ChatMessage';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { LeaveReq } from './epprProtocol/game/LeaveReq';
 
 // last global connection event: 15
 @Injectable({
@@ -187,6 +188,15 @@ export class RoomService {
     this.ws.sendMessage(dBlock);
   }
 
+  leave() {
+    const cm = new LeaveReq();
+    const dBlock = new MessageDefinition();
+    dBlock.data = cm;
+    dBlock.endpoint = '/game/leave';
+    dBlock.prefix = '/stompApi';
+    this.ws.sendMessage(dBlock);
+  }
+
   subscriptions() {
     this.ws.suscribe('/userInterceptor/AuthController/challenge', (data) => {
       this.onAuthorizationResponse(data);
@@ -224,6 +234,7 @@ export class RoomService {
     this.ws.suscribe('/GameController/fold', (data) => this.onFold(data)); // global message
     this.ws.suscribe('/GameController/chipStatus', (data) => this.onChipStatus(data)); // global message
     this.ws.suscribe('/GameController/chat', (data) => this.onChat(data)); // global message
+    this.ws.suscribe('/GameController/leaveNotify', (data) => this.onLeave(data)); // global message
   }
 
   onFlop(data) {
@@ -315,6 +326,11 @@ export class RoomService {
   onChat(data) {
     this.terminal.log('Chat: ' + data.message);
     this.reactionEvent.emit(new ReactionEvents(RxEType.CHAT, data));
+  }
+
+  onLeave(data) {
+    this.terminal.log('Leave: ' + data.position);
+    this.reactionEvent.emit(new ReactionEvents(RxEType.LEAVE, data));
   }
 
   onBetDecision(data) {

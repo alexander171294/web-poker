@@ -14,7 +14,7 @@ export class VcardComponent implements OnInit {
   @Input() void: boolean;
   @Input() inGame: boolean;
   private actualTimeRest;
-  private partGradesA = 180;
+  public partGradesA = 180;
   public partGradesB = 180;
   public timmerActions: any;
 

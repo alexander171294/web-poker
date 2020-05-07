@@ -15,7 +15,7 @@ import { FriendsService } from 'src/app/services/friends.service';
 export class LobbyComponent implements OnInit, OnDestroy {
 
   public version = environment.version;
-  private rooms: RoomResponse[];
+  public rooms: RoomResponse[];
   public loadingProfileData = true;
   public userData: UserProfile = new UserProfile();
   public intUserData: any;

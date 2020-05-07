@@ -110,6 +110,12 @@ export class ChatBoxComponent implements OnInit {
     });
   }
 
+  sendMessageKP(evt) {
+    if (evt.keyCode === 13) {
+      this.sendMessage();
+    }
+  }
+
   sendMessage() {
     this.room.chatMessage(this.message);
     this.message = '';

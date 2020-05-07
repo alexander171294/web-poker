@@ -88,14 +88,14 @@ public class PokerRoom implements GameCtrlInt {
 
 	public void realStartGame() {
 		log.debug("Starting game.");
-		// define the dealer
-		this.processLeaveRequests();
-		this.dealerPosition = Utils.getRandomPositionOfTakens(usersInTable);
 		startRound();
 	}
 	
 	private void startRound() {
 		// TODO: ignore players sitted but without deposit in usersInGame:
+		this.processLeaveRequests();
+		// define the dealer
+		this.dealerPosition = Utils.getRandomPositionOfTakens(usersInTable);
 		if(Utils.countUsersCanPlay(usersInTable) > 1) {			
 			usersInGame = Utils.getNewArrayOfUsers(usersInTable);
 			this.dealerPosition = Utils.getNextPositionOfPlayers(usersInGame, this.dealerPosition);

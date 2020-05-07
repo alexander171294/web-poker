@@ -154,6 +154,9 @@ public class RoomHandlerThread implements Runnable {
 			case "deposit" :
 				this.sendToClient(om.writeValueAsString(this.serverRecordingProcessor.deposit(schemaBody, this.handshakeSchema)));
 				return;
+			case "userEnd" :
+				this.serverRecordingProcessor.userEnd(schemaBody, this.handshakeSchema);
+				return;
 			default: 
 				logger.debug("Schema not recognized: " + schema.schema + " for namespace " + schema.namespace);
 				return;

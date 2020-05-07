@@ -16,6 +16,7 @@ import ar.com.tandilweb.exchange.roomAuth.Handshake;
 import ar.com.tandilweb.exchange.serverRecording.Deposit;
 import ar.com.tandilweb.exchange.serverRecording.InvalidDeposit;
 import ar.com.tandilweb.exchange.serverRecording.SuccessDeposit;
+import ar.com.tandilweb.exchange.serverRecording.UserEnd;
 import ar.com.tandilweb.orchestrator.persistence.repository.ChallengesRepository;
 import ar.com.tandilweb.persistence.domain.Challenges;
 import ar.com.tandilweb.persistence.domain.Users;
@@ -60,6 +61,16 @@ public class ServerRecordingProcessor {
 			iD.userID = inputSchema.userID;
 			return iD;
 		}
+	}
+	
+	public void userEnd(String schemaBody, Handshake roomData) throws JsonParseException, JsonMappingException, IOException {
+		// TODO: validar que el room no devuelva más fichas de las que tiene
+		logger.debug("Schema UserEnd");
+		ObjectMapper om = new ObjectMapper();
+		UserEnd inputSchema = om.readValue(schemaBody, UserEnd.class);
+		Users user = userRepository.findById(inputSchema.userID);
+		user.setChips(user.getChips() + inputSchema.refoundCoins);
+		userRepository.update(user);
 	}
 
 }

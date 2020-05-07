@@ -28,6 +28,8 @@ export class NavBarComponent implements OnInit {
   leave() {
     // proceso de recuperación de fichas.
     this.room.leave();
+    // TODO: uncomment me when have timmer fold:
+    // window.close();
   }
 
 }

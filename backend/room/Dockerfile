@@ -5,7 +5,7 @@ RUN mkdir /home/roompoker/dataSave
 COPY target/*.jar /home/roompoker/room.jar
 
 ENV SERVER_PORT="8081"
-ENV CONFIG_FILE="/home/room/dataSave"
+ENV CONFIG_FILE="/home/roompoker/dataSave"
 ENV LOGGING_LEVEL="WARN"
 ENV ROOM_NAME="Probando Room"
 ENV ACCESS_PASSWORD="389874125"
@@ -34,4 +34,4 @@ ENTRYPOINT ["java","-jar",\
             "-Dact.room.RoomAuth.serverPublicIP=${SERVER_PUBLIC_IP}",\
             "-Dact.room.orchestrator.remoteListenerPort=${ORCHESTRATOR_LISTEN_PORT}",\
             "-Dact.room.orchestrator.remoteAddr=${ORCHESTRATOR_IP}",\
-            "/home/room/room.jar"]
+            "/home/roompoker/room.jar"]

@@ -1,6 +1,6 @@
 import { IndividualChipStatus } from './../../../../services/network/epprProtocol/game/ChipStatus';
 import { RoomService } from 'src/app/services/network/room.service';
-import { Component, OnInit, ViewChildren, QueryList, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, OnDestroy, HostListener } from '@angular/core';
 import { PlayerSnapshot } from './PlayerSnapshot';
 import { Card } from '../../cards/dual-stack/Card';
 import { RxEType } from 'src/app/services/network/ReactionEvents';
@@ -361,4 +361,16 @@ export class PokerComponent implements OnInit, OnDestroy {
     this.rxESubscription.unsubscribe();
   }
 
+  // @HostListener('window:unload', ['$event'])
+  // unloadNotification($event: any) {
+  //   this.room.leave();
+  // }
+
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeunloadNotification($event: any) {
+  //   return false;
+  // }
+
+
 }
+

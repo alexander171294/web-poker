@@ -30,7 +30,7 @@ Additionally, sorry for my bad english, I speak spanish and learn english only r
 
 Full Size:
 
-![fullSize](https://i.imgur.com/TFwcrKS.png)
+![fullSize](https://i.imgur.com/mVTPVQX.png)
 
 Scaled here: https://i.imgur.com/GLlGMiN.png
 

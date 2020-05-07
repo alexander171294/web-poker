@@ -81,7 +81,7 @@ public class OrchestratorThread implements Runnable, ApplicationListener<Context
 		try {
 			createSocketConneciton();
 		} catch (IOException e) {
-			logger.error("Connection IO Exception, ", e);
+			logger.error("Connection IO Exception, "+remoteAddr+":"+remoteListenerPort, e);
 		}
 		try {
 			main();

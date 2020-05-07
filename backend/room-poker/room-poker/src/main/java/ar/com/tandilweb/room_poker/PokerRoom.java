@@ -245,10 +245,12 @@ public class PokerRoom implements GameCtrlInt {
 		this.leaveRequests.forEach(lr -> {
 			int ppos = Utils.getPlyerPosition(usersInTable, lr);
 			// enviar fichas al orchestrator.
-			var ue = new UserEnd();
-			ue.refoundCoins = usersInTable[ppos].chips;
-			ue.userID = usersInTable[ppos].userID;
-			this.orchestratorPipe.SendToOrchestrator(ue);
+			if(usersInTable[ppos] != null) {
+				var ue = new UserEnd();
+				ue.refoundCoins = usersInTable[ppos].chips;
+				ue.userID = usersInTable[ppos].userID;
+				this.orchestratorPipe.SendToOrchestrator(ue);
+			}
 			usersInTable[ppos] = null;
 			var ln = new LeaveNotify();
 			ln.position = ppos;

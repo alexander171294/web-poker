@@ -185,7 +185,7 @@ public class Deck {
 			data.handPoints = 98 + bigQuad;
 			// FIXME: Set kicker based on full table cards
 			data.kickerPoint = this.getKickers(HandType.FOUR_QUADS, tableCards, handCards, unUsedCards);
-			data.handName = "Quads of " + getNameOf(bigQuad) + "s ("+data.handPoints+"/126)";
+			data.handName = "Four of a Kind, " + getNameOf(bigQuad) + "s ("+data.handPoints+"/126)";
 //			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.FOUR_QUADS;
 		} else if(haveFullHouse) {
@@ -214,7 +214,7 @@ public class Deck {
 			int bigTrip = groupedCards.get(trips.get(trips.size()-1)).get(0).value.getNumericValue();
 			data.handPoints = 42 + bigTrip;
 			data.kickerPoint = this.getKickers(HandType.TRIPS, tableCards, handCards, unUsedCards);
-			data.handName = "Trips of " + getNameOf(bigTrip) + " ("+data.handPoints+"/126)";
+			data.handName = "Three of a Kind, " + getNameOf(bigTrip) + " ("+data.handPoints+"/126)";
 //			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.TRIPS;
 		} else if(haveTwoPairs) {
@@ -241,7 +241,7 @@ public class Deck {
 			data.handPoints = handCards.get(1).value.getNumericValue();
 			unUsedCards.remove(handCards.get(1));
 			data.kickerPoint = this.getKickers(HandType.BIG_CARD, tableCards, handCards, unUsedCards); 
-			data.handName = "Big card " + getNameOf(data.handPoints) + " ("+data.handPoints+"/126)";
+			data.handName = "High card " + getNameOf(data.handPoints) + " ("+data.handPoints+"/126)";
 //			data.kickerName = "Biggest card " + getNameOf(data.kickerPoint);
 			data.type = HandType.BIG_CARD;
 		}

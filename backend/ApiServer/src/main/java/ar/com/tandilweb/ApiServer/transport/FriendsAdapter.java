@@ -112,7 +112,7 @@ public class FriendsAdapter {
 	}
 	
 	public boolean checkFriendship(long me, long target) {
-		Friendships fs = friendshipsRepository.findFor(me, me);
+		Friendships fs = friendshipsRepository.findFor(me, target);
 		return fs != null;
 	}
 

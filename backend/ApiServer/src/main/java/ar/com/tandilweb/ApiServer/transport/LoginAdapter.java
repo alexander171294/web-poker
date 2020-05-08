@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.UserNotValidatedException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.LoginRequest;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.SessionInformation;
@@ -43,6 +44,9 @@ public class LoginAdapter {
 
 	@Value("${ar.com.tandilweb.ApiServer.users.maxBadLogins}")
 	private short maxBadLogins;
+	
+	@Value("${mail.enabledEmailValidation}")
+	private boolean enabledEmailValidation;
 
 	public SessionInformation signup(SignupRequest signupData) throws ValidationException {
 		if (userRepository.checkEmailUser(signupData.email, signupData.nick_name)) {
@@ -57,29 +61,36 @@ public class LoginAdapter {
 		// TODO: crypt password field, and compare hashes in login:
 		user.setPassword(signupData.password);
 		user.setPhoto(signupData.photo != null ? signupData.photo : "#");
-		user.setValidationCode(generateValidationCode(signupData.email));
-		user.setValidated(false);
+		if(enabledEmailValidation) {			
+			user.setValidationCode(generateValidationCode(signupData.email));
+		}
+		user.setValidated(enabledEmailValidation ? false : true);
 		user = userRepository.create(user);
-		// create session for new user:
-		Sessions session = new Sessions();
 		
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.MINUTE, 20);
-		session.setExpiration(c.getTime());
-		
-		session.setId_user(user.getId_user());
-		String sessionPassphrase = UUID.randomUUID().toString();
-		session.setJwt_passphrase(sessionPassphrase);
-		session = sessionsRepository.create(session);
 		SessionInformation out = new SessionInformation();
+		if(!enabledEmailValidation) {
+			Sessions session = new Sessions();
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MINUTE, 20);
+			session.setExpiration(c.getTime());
+			session.setId_user(user.getId_user());
+			String sessionPassphrase = UUID.randomUUID().toString();
+			session.setJwt_passphrase(sessionPassphrase);
+			session = sessionsRepository.create(session);			
+			// create session for new user:
+			out.jwtToken = createJWT(""+session.getId_session(), ""+session.getId_user(), "WebApp", 20*60*1000L, sessionPassphrase);
+			out.sessionID = session.getId_session();
+			out.requestValidation = false;
+		} else {
+			out.requestValidation = true;
+		}
+		
 		out.operationSuccess = true;
-		out.jwtToken = createJWT(""+session.getId_session(), ""+session.getId_user(), "WebApp", 20*60*1000L, sessionPassphrase);
-		out.sessionID = session.getId_session();
-		out.userID = session.getId_user();
+		out.userID = user.getId_user();
 		return out;
 	}
 
-	public SessionInformation login(LoginRequest loginData) throws ValidationException {
+	public SessionInformation login(LoginRequest loginData) throws ValidationException, UserNotValidatedException {
 		Users user = userRepository.findByEmailOrUser(loginData.umail);
 		if (user == null) {
 			throw new ValidationException(3, "Not user found");
@@ -88,7 +99,7 @@ public class LoginAdapter {
 			throw new ValidationException(4, "You are blocked for max bad logins");
 		}
 		if(!user.getValidated()) {
-			throw new ValidationException(6, "User not validated");
+			throw new UserNotValidatedException(6, "User not validated", user.getId_user());
 		}
 		
 		// TODO: crypt password field, and compare hashes in login:
@@ -120,20 +131,30 @@ public class LoginAdapter {
 	}
 	
 	public SessionInformation validate(ValidateRequest validateData) throws ValidationException {
-		Users user = userRepository.findByEmailOrUser(validateData.umail);
+		Users user = userRepository.findById(validateData.userID);
 		if (user == null) {
 			throw new ValidationException(3, "Not user found");
 		}
-		if (user.getValidationCode().equals(validateData.validationCode)) {
+		if (user.getValidationCode().equalsIgnoreCase(validateData.validationCode)) {
 			user.setValidated(true);
 			userRepository.validate(user);
 		} else {
 			throw new ValidationException(7, "Invalid validation code");
 		}
-		LoginRequest login = new LoginRequest();
-		login.umail = validateData.umail;
-		login.password = validateData.password;
-		return login(login);
+		SessionInformation out = new SessionInformation();
+		Sessions session = new Sessions();
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MINUTE, 20);
+		session.setExpiration(c.getTime());
+		session.setId_user(user.getId_user());
+		String sessionPassphrase = UUID.randomUUID().toString();
+		session.setJwt_passphrase(sessionPassphrase);
+		session = sessionsRepository.create(session);
+		out.operationSuccess = true;
+		out.jwtToken = createJWT(""+session.getId_session(), ""+session.getId_user(), "WebApp", 21600000L, sessionPassphrase); // 6 Hours.
+		out.sessionID = session.getId_session();
+		out.userID = session.getId_user();
+		return out;
 	}
 	
 	public void RecoverPassword(String email, String validationCode, String newPass, String newPassConfirm) throws ValidationException{ 

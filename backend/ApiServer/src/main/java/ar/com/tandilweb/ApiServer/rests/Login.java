@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.UserNotValidatedException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.LoginRequest;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.login.SessionInformation;
@@ -54,6 +55,13 @@ public class Login {
 				loginAdapter.login(loginData),
 				HttpStatus.OK
 			);
+		} catch (UserNotValidatedException unve) {
+			SessionInformation out = new SessionInformation();
+			out.operationSuccess = false;
+			out.errorDescription = unve.getMessage();
+			out.errorCode = unve.getIdECode();
+			out.userID = unve.getUserID();
+			return new ResponseEntity<SessionInformation>(out, HttpStatus.BAD_REQUEST);
 		} catch (ValidationException e) {
 			SessionInformation out = new SessionInformation();
 			out.operationSuccess = false;

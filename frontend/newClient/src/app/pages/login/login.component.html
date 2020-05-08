@@ -56,3 +56,16 @@
         </div>
     </footer>
 </main>
+<div class="popupValidator" *ngIf="signupValidation">
+  <section>
+    <header>
+      Confirm email
+    </header>
+    <p>
+      Put here the code that we send to your email.
+    </p>
+    <span class="error" *ngIf="popupErrorMessage">{{popupErrorMessage}}</span>
+    <input type="text" placeholder="982cfc" [(ngModel)]="codeValidationSignup" class="centered"/>
+    <button (click)="validateSignup()" [class.spinner]="loadingValidationSignup">Confirm</button>
+  </section>
+</div>

@@ -6,6 +6,7 @@ public class SessionInformation extends GeneralResponse {
 	
 	public long userID;
 	public String jwtToken;
+	public boolean requestValidation;
 	public long sessionID;
 
 }

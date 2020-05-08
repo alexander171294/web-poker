@@ -3,6 +3,7 @@ import { PublicService } from 'src/app/services/public.service';
 import { LoginRequest } from 'src/app/services/LoginRequest';
 import { SignupRequest } from 'src/app/services/SignupRequest';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ValidateRequest } from 'src/app/services/ValidateRequest';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,12 @@ export class LoginComponent implements OnInit {
   public signing: boolean = false;
   public errorLogin: boolean = false;
   public errorRegister: boolean = false;
+  public signupValidation: boolean = false;
+  public myID: string;
+  public loadingValidationSignup: boolean = false;
+  public popupErrorMessage: string;
+
+  public codeValidationSignup: string;
 
   public nick: string;
   public password: string;
@@ -54,7 +61,7 @@ export class LoginComponent implements OnInit {
     data.umail = this.nick;
     data.password = this.password;
     this.publicSrv.login(data).subscribe(data => {
-      if(data.operationSuccess) {
+      if (data.operationSuccess) {
         localStorage.setItem('jwt', data.jwtToken);
         localStorage.setItem('sessID', data.sessionID);
         localStorage.setItem('userID', data.userID);
@@ -65,11 +72,13 @@ export class LoginComponent implements OnInit {
       this.logining = false;
 
     }, err => {
-      //alert('ocurrió un error');
-      // console.log(err);
+      if (err.error.errorCode === 6) {
+        this.signupValidation = true;
+        this.myID = err.error.userID;
+      } else {
+        this.errorLogin = true;
+      }
       this.logining = false;
-      this.errorLogin = true;
-
     });
     e.preventDefault();
   }
@@ -82,11 +91,16 @@ export class LoginComponent implements OnInit {
     data.email = this.email;
     data.password = this.password;
     this.publicSrv.signup(data).subscribe(data => {
-      if(data.operationSuccess) {
-        localStorage.setItem('jwt', data.jwtToken);
-        localStorage.setItem('sessID', data.sessionID);
-        localStorage.setItem('userID', data.userID);
-        this.router.navigate(['/lobby']);
+      if (data.operationSuccess) {
+        if (data.requestValidation) {
+          this.signupValidation = true;
+          this.myID = data.userID;
+        } else {
+          localStorage.setItem('jwt', data.jwtToken);
+          localStorage.setItem('sessID', data.sessionID);
+          localStorage.setItem('userID', data.userID);
+          this.router.navigate(['/lobby']);
+        }
       } else {
         alert(data.errorDescription);
       }
@@ -98,5 +112,32 @@ export class LoginComponent implements OnInit {
       this.signing = false;
     });
     e.preventDefault();
+  }
+
+  validateSignup() {
+    const vr = new ValidateRequest();
+    vr.userID = parseInt(this.myID, 10);
+    vr.validationCode  = this.codeValidationSignup;
+    this.loadingValidationSignup = true;
+    this.popupErrorMessage = undefined;
+    this.publicSrv.validate(vr).subscribe(d => {
+      this.loadingValidationSignup = false;
+      if (d.operationSuccess) {
+        this.signupValidation = false;
+        localStorage.setItem('jwt', d.jwtToken);
+        localStorage.setItem('sessID', d.sessionID);
+        localStorage.setItem('userID', d.userID);
+        this.router.navigate(['/lobby']);
+      } else {
+        this.popupErrorMessage = d.errorDescription;
+      }
+    }, e => {
+      console.log('Error', e);
+      if (e.errorDescription) {
+        this.popupErrorMessage = e.errorDescription;
+      } else {
+        this.popupErrorMessage = 'An error was occurred, please try again.'
+      }
+    });
   }
 }

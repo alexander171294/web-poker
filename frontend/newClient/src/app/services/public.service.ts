@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequest } from './LoginRequest';
+import { Session } from 'protractor';
+import { ValidateRequest } from './ValidateRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +24,10 @@ export class PublicService {
     const url = environment.apiServer + 'public/login';
     return this.httpClient.post<SessionInformation>(url, data);
   }
-  
+
+  public validate(data: ValidateRequest): Observable<SessionInformation> {
+    const url = environment.apiServer + 'public/validate';
+    return this.httpClient.post<SessionInformation>(url, data);
+  }
+
 }

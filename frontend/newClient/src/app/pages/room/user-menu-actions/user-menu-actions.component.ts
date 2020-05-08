@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserMenuControllerService } from './user-menu-controller.service';
 import { FriendsService } from 'src/app/services/friends.service';
+import { Security } from 'src/app/services/Security';
 
 @Component({
   selector: 'app-user-menu-actions',
@@ -18,6 +19,7 @@ export class UserMenuActionsComponent implements OnInit {
   public unfollowLoader: boolean;
   public viewProfileLoader: boolean;
   public notesLoader: boolean;
+  public actionOnMe: boolean;
 
   public nowFollowing: boolean;
 
@@ -28,13 +30,16 @@ export class UserMenuActionsComponent implements OnInit {
         this.x = s.x + 15;
         this.y = s.y + 15;
         this.uid = s.uid;
-        this.fs.getFriendshipStatus(this.uid).subscribe(d => {
-          this.followLoader = false;
-          if (d.operationSuccess) {
-            this.nowFollowing = d.status;
-          }
-        })
-        this.followLoader = true;
+        this.actionOnMe = Security.getJWTData().iss === s.uid;
+        if (!this.actionOnMe) {
+          this.fs.getFriendshipStatus(this.uid).subscribe(d => {
+            this.followLoader = false;
+            if (d.operationSuccess) {
+              this.nowFollowing = d.status;
+            }
+          });
+          this.followLoader = true;
+        }
         this.nowFollowing = false;
       }
     });

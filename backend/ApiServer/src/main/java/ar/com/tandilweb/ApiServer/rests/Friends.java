@@ -43,30 +43,30 @@ public class Friends {
 		}
 	}
 	
-	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<GeneralResponse> deleteFriends(@PathVariable("id") int friendID) {
-		try {
-			if(friendID <= 0) {
-				throw new ValidationException(1, "Invalid friend id");
-			}
-			friendsAdapter.deleteFriend(0, friendID);
-			GeneralResponse out = new GeneralResponse();
-			out.operationSuccess = true;
-			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
-		} catch (ValidationException e) {
-			GeneralResponse out = new GeneralResponse();
-			out.operationSuccess = false;
-			out.errorDescription = e.getMessage();
-			out.errorCode = e.getIdECode();
-			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			GeneralResponse out = new GeneralResponse();
-			out.operationSuccess = false;
-			out.errorDescription = e.getMessage();
-			out.errorCode = -1;
-			return new ResponseEntity<GeneralResponse>(out, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+//	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+//	public ResponseEntity<GeneralResponse> deleteFriends(@PathVariable("id") int friendID) {
+//		try {
+//			if(friendID <= 0) {
+//				throw new ValidationException(1, "Invalid friend id");
+//			}
+//			friendsAdapter.deleteFriend(0, friendID);
+//			GeneralResponse out = new GeneralResponse();
+//			out.operationSuccess = true;
+//			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
+//		} catch (ValidationException e) {
+//			GeneralResponse out = new GeneralResponse();
+//			out.operationSuccess = false;
+//			out.errorDescription = e.getMessage();
+//			out.errorCode = e.getIdECode();
+//			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
+//		} catch (Exception e) {
+//			GeneralResponse out = new GeneralResponse();
+//			out.operationSuccess = false;
+//			out.errorDescription = e.getMessage();
+//			out.errorCode = -1;
+//			return new ResponseEntity<GeneralResponse>(out, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 	
 	@RequestMapping(path="/requests", method=RequestMethod.GET)
 	public ResponseEntity<FriendRequests> getFriendsRequest() {

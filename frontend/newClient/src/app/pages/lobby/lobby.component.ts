@@ -1,4 +1,4 @@
-import { UserProfile } from './../../services/UserProfile';
+import { UserProfile, FriendCard } from './../../services/UserProfile';
 import { UsersService } from './../../services/users.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -19,7 +19,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public loadingProfileData = true;
   public userData: UserProfile = new UserProfile();
   public intUserData: any;
-  public friendList: UserProfile[] = [];
+  public friendList: FriendCard[] = [];
 
   constructor(private lobbySrv: LobbyService, private userSrv: UsersService, private friendsService: FriendsService) { }
 
@@ -51,11 +51,13 @@ export class LobbyComponent implements OnInit, OnDestroy {
   gerFriendList() {
     this.friendsService.getFriends().subscribe(data => {
       data.friends.forEach(element => {
-        const aux: UserProfile = {
+        const aux: FriendCard = {
           idUser: element.idUser,
           nick: element.nick,
           photo: element.photo,
-          chips: element.chips,
+          inGame: element.inGame,
+          rooms: element.rooms,
+          status: element.inGame ? 'In Game' : 'Online'
         }
       this.friendList.push(aux);
       });

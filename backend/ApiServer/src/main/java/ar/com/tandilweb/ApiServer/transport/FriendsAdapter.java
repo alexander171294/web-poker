@@ -39,7 +39,11 @@ public class FriendsAdapter {
 			uP.nick = user.getNick_name();
 			uP.photo = user.getPhoto();
 			uP.rooms = getRooms(user.getId_user());
-			uP.inGame = uP.rooms != null ? true : false;
+			if (uP.rooms != null && uP.rooms.size() > 0) {
+				uP.inGame = true;
+			} else {
+				uP.inGame = false;
+			}
 			out.add(uP);
 		}
 		return out;

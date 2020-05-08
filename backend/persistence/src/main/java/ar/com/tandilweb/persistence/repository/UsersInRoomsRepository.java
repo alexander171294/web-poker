@@ -58,7 +58,7 @@ public class UsersInRoomsRepository extends BaseRepository<UsersInRooms, Long> {
 	
 	public List<UsersInRooms> findPlayerRooms(Long id) {
 		try {			
-			final String sql = "SELECT FROM users_in_rooms WHERE id_user = ?";
+			final String sql = "SELECT * FROM users_in_rooms WHERE id_user = ?";
 			List<UsersInRooms> users = jdbcTemplate.query(sql,new Object[]{ id }, new UsersInRoomsRowMapper());
 			return users;
 		} 

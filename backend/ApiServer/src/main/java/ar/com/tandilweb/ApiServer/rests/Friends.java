@@ -146,7 +146,7 @@ public class Friends {
 			friendsAdapter.sendRequest(friendId, session.getId_user());
 			GeneralResponse out = new GeneralResponse();
 			out.operationSuccess = true;
-			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<GeneralResponse>(out, HttpStatus.OK);
 		} catch (ValidationException e) {
 			GeneralResponse out = new GeneralResponse();
 			out.operationSuccess = false;

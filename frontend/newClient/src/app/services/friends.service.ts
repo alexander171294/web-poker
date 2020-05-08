@@ -19,7 +19,7 @@ export class FriendsService {
   }
 
   public sendFriendsRequest(fid: number): Observable<GeneralResponse> {
-    return this.httpC.post<GeneralResponse>(environment.apiServer + 'friends/' + fid, { headers: Security.getHttpOptionsJWT() });
+    return this.httpC.post<GeneralResponse>(environment.apiServer + 'friends/requests/' + fid, {}, { headers: Security.getHttpOptionsJWT() });
   }
 
   public getFriendshipStatus(target: number): Observable<FriendshipStatus> {

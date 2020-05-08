@@ -1,4 +1,4 @@
-import { IndividualChipStatus } from './../../../../services/network/epprProtocol/game/ChipStatus';
+import { IndividualChipStatus } from '../../../../services/network/epprProtocol/game/ChipStatus';
 import { RoomService } from 'src/app/services/network/room.service';
 import { Component, OnInit, ViewChildren, QueryList, OnDestroy, HostListener } from '@angular/core';
 import { PlayerSnapshot } from './PlayerSnapshot';
@@ -9,6 +9,7 @@ import { ChipsService } from 'src/app/services/memory/chips.service';
 import { Pots } from 'src/app/services/network/epprProtocol/game/Pots';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserMenuControllerService } from '../../user-menu-actions/user-menu-controller.service';
 
 @Component({
   selector: 'app-table-poker',
@@ -37,7 +38,10 @@ export class PokerComponent implements OnInit, OnDestroy {
 
   @ViewChildren(VcardComponent) vcards: QueryList<VcardComponent>;
 
-  constructor(private room: RoomService, private chips: ChipsService, private route: ActivatedRoute) { }
+  constructor(private room: RoomService,
+              private chips: ChipsService,
+              private route: ActivatedRoute,
+              private umc: UserMenuControllerService) { }
 
   ngOnInit() {
     this.players = [];
@@ -72,6 +76,7 @@ export class PokerComponent implements OnInit, OnDestroy {
           nPlayer.playerDetails.chips = evt.data.chips;
           nPlayer.playerDetails.image = evt.data.avatar;
           nPlayer.playerDetails.name = evt.data.user;
+          nPlayer.playerDetails.userID = evt.data.userID;
           nPlayer.inGame = false;
           this.players[evt.data.position] = nPlayer;
         }
@@ -265,7 +270,7 @@ export class PokerComponent implements OnInit, OnDestroy {
     });
   }
 
-  trySeat(position: number) {
+  trySeat(position: number, evt, userID: number) {
     if (this.availablePositions[position]) {
       if (this.players[position].playerDetails.name) {
         // TODO: improve this alert:
@@ -273,6 +278,10 @@ export class PokerComponent implements OnInit, OnDestroy {
       } else {
         console.warn('Sitting...');
         this.room.selectPosition(position);
+      }
+    } else {
+      if (userID) {
+        this.umc.show(evt.clientX, evt.clientY, userID);
       }
     }
   }
@@ -315,6 +324,7 @@ export class PokerComponent implements OnInit, OnDestroy {
         }
         nPlayer.playerDetails.image = player.photo;
         nPlayer.playerDetails.name = player.nick;
+        nPlayer.playerDetails.userID = player.userID;
         nPlayer.actualBet = player.actualBet;
         nPlayer.inGame = player.inGame;
         if (this.dealed) {

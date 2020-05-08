@@ -11,6 +11,7 @@ public class SnapshotPlayer {
 	public boolean showingCards;
 	public boolean haveCards;
 	public boolean inGame;
+	public Long userID;
 	public SchemaCard[] cards;
 
 }

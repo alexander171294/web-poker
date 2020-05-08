@@ -23,4 +23,5 @@ export class PlayerDetails {
     public image: string;
     public name: string;
     public chips: number;
+    public userID?: number;
 }

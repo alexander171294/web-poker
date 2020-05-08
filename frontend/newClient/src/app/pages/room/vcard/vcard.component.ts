@@ -19,7 +19,7 @@ export class VcardComponent implements OnInit {
   public partGradesB = 180;
   public timmerActions: any;
 
-  constructor(private umc: UserMenuControllerService) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -54,10 +54,6 @@ export class VcardComponent implements OnInit {
     clearInterval(this.timmerActions);
     this.partGradesB = 180;
     this.partGradesA = 180;
-  }
-
-  showActions(evt) {
-    this.umc.show(evt.clientX, evt.clientY, 1);
   }
 
 }

@@ -41,6 +41,7 @@ public class EpprGameProto {
 		out.chips = userData.chips;
 		out.avatar = userData.dataBlock.getPhoto();
 		out.user = userData.dataBlock.getNick_name();
+		out.userID = userData.dataBlock.getId_user();
 		return out;
 	}
 	

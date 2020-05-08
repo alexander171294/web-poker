@@ -12,7 +12,7 @@
         [timeRest]="player.timeRest"
         [void]="availablePositions[idx]"
         [inGame]="player.inGame"
-        (click)="trySeat(idx)"
+        (click)="trySeat(idx, $event, player.playerDetails.userID)"
       ></app-room-vcard>
       <div class="zone {{zones[idx]}} value" *ngIf="player.actualBet > 0">
         {{player.actualBet}}

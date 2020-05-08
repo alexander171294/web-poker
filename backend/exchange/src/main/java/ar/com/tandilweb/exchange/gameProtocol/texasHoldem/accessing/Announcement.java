@@ -8,6 +8,7 @@ public class Announcement extends AccessSchema {
 	public String user;
 	public String avatar;
 	public Long chips;
+	public Long userID;
 
 	public Announcement() {
 		super("announcement");

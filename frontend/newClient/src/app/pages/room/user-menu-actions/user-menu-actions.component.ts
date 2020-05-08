@@ -30,7 +30,8 @@ export class UserMenuActionsComponent implements OnInit {
         this.x = s.x + 15;
         this.y = s.y + 15;
         this.uid = s.uid;
-        this.actionOnMe = Security.getJWTData().iss === s.uid;
+        this.actionOnMe = Security.getJWTData().iss == s.uid;
+        console.log(Security.getJWTData().iss, parseInt(s.uid, 10), Security.getJWTData().iss === s.uid);
         if (!this.actionOnMe) {
           this.fs.getFriendshipStatus(this.uid).subscribe(d => {
             this.followLoader = false;

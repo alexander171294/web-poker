@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import ar.com.tandilweb.ApiServer.dataTypesObjects.friends.FriendRequests;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.GeneralResponse;
 import ar.com.tandilweb.ApiServer.dataTypesObjects.generic.ValidationException;
 import ar.com.tandilweb.ApiServer.transport.FriendsAdapter;
+import ar.com.tandilweb.persistence.domain.Sessions;
 
 @RestController
 @RequestMapping("/friends")
@@ -21,11 +23,11 @@ public class Friends {
 	@Autowired
 	FriendsAdapter friendsAdapter;
 	
-	@RequestMapping(path="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<FriendList> getFriends(@PathVariable("id") int me) {
+	@RequestMapping(path="", method=RequestMethod.GET)
+	public ResponseEntity<FriendList> getFriends(@RequestAttribute("jwtSessionOrigin") Sessions session) {
 		FriendList out = new FriendList();
 		try {
-			out.friends = friendsAdapter.getFriends(me); // from ME
+			out.friends = friendsAdapter.getFriends(session.getId_user()); // from ME
 			out.operationSuccess = true;
 			return new ResponseEntity<FriendList>(out, HttpStatus.OK);
 		} catch (ValidationException e) {
@@ -135,13 +137,13 @@ public class Friends {
 		}
 	}
 	
-	@RequestMapping(path="/requests/{friendId}{id}", method=RequestMethod.POST)
-	public ResponseEntity<GeneralResponse> sendFriendsRequest(@PathVariable("friendId") int friendId, @PathVariable("id") int me) {
+	@RequestMapping(path="/requests/{friendId}", method=RequestMethod.POST)
+	public ResponseEntity<GeneralResponse> sendFriendsRequest(@PathVariable("friendId") int friendId, @RequestAttribute("jwtSessionOrigin") Sessions session) {
 		try {
 			if(friendId <= 0) {
 				throw new ValidationException(1, "Invalid user id");
 			}
-			friendsAdapter.sendRequest(friendId, me);
+			friendsAdapter.sendRequest(friendId, session.getId_user());
 			GeneralResponse out = new GeneralResponse();
 			out.operationSuccess = true;
 			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
@@ -160,4 +162,41 @@ public class Friends {
 		}
 	}
 	
+	public static class FriendshipStatus extends GeneralResponse {
+		public boolean status;
+	}
+	
+	@RequestMapping(path="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<FriendshipStatus> getFriendshipStatus(@RequestAttribute("jwtSessionOrigin") Sessions session, @PathVariable("id") long id) {
+		var out = new FriendshipStatus();
+		try {
+			out.status = friendsAdapter.checkFriendship(session.getId_user(), id);
+			out.operationSuccess = true;
+			return new ResponseEntity<FriendshipStatus>(out, HttpStatus.OK); // from ME, HttpStatus.OK);
+		}  catch (Exception e) {
+			out.operationSuccess = false;
+			out.errorDescription = e.getMessage();
+			out.errorCode = -1;
+			return new ResponseEntity<FriendshipStatus>(out, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@RequestMapping(path="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<GeneralResponse> removeFriendship(@RequestAttribute("jwtSessionOrigin") Sessions session, @PathVariable("id") long id) {
+		var out = new GeneralResponse();
+		try {
+			out.operationSuccess = friendsAdapter.deleteFriend(session.getId_user(), id);
+			return new ResponseEntity<GeneralResponse>(out, HttpStatus.OK); // from ME, HttpStatus.OK);
+		} catch (ValidationException e) {
+			out.operationSuccess = false;
+			out.errorDescription = e.getMessage();
+			out.errorCode = e.getIdECode();
+			return new ResponseEntity<GeneralResponse>(out, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			out.operationSuccess = false;
+			out.errorDescription = e.getMessage();
+			out.errorCode = -1;
+			return new ResponseEntity<GeneralResponse>(out, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

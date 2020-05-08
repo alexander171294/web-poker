@@ -16,6 +16,7 @@ import { DepositComponent } from './deposit/deposit.component';
 import { ConnectingComponent } from './connecting/connecting.component';
 import { FormsModule } from '@angular/forms';
 import { BetSelectorComponent } from './action-box/bet-selector/bet-selector.component';
+import { UserMenuActionsComponent } from './user-menu-actions/user-menu-actions.component';
 
 const routes: Routes = [
   { path: '',  component: RoomComponent },
@@ -36,7 +37,8 @@ const routes: Routes = [
     NavBarComponent,
     DepositComponent,
     ConnectingComponent,
-    BetSelectorComponent
+    BetSelectorComponent,
+    UserMenuActionsComponent
   ],
   imports: [
     CommonModule,

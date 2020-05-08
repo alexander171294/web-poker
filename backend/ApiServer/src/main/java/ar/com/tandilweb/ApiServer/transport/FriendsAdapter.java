@@ -106,5 +106,10 @@ public class FriendsAdapter {
 		}
 		return out;
 	}
+	
+	public boolean checkFriendship(long me, long target) {
+		Friendships fs = friendshipsRepository.findFor(me, me);
+		return fs == null;
+	}
 
 }

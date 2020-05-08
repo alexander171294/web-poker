@@ -49,7 +49,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   gerFriendList() {
-    this.friendsService.getFriends(Security.getJWTData().iss).subscribe(data => {
+    this.friendsService.getFriends().subscribe(data => {
       data.friends.forEach(element => {
         const aux: UserProfile = {
           idUser: element.idUser,

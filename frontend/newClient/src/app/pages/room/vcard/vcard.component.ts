@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UserMenuControllerService } from '../user-menu-actions/user-menu-controller.service';
 
 @Component({
   selector: 'app-room-vcard',
@@ -18,7 +19,7 @@ export class VcardComponent implements OnInit {
   public partGradesB = 180;
   public timmerActions: any;
 
-  constructor() { }
+  constructor(private umc: UserMenuControllerService) { }
 
   ngOnInit() {
   }
@@ -53,6 +54,10 @@ export class VcardComponent implements OnInit {
     clearInterval(this.timmerActions);
     this.partGradesB = 180;
     this.partGradesA = 180;
+  }
+
+  showActions(evt) {
+    this.umc.show(evt.clientX, evt.clientY, 1);
   }
 
 }

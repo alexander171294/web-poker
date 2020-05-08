@@ -106,9 +106,7 @@ export class LoginComponent implements OnInit {
       }
       this.signing = false;
     }, err => {
-      //alert('ocurrió un error');
       this.errorRegister = true;
-      // console.log(err);
       this.signing = false;
     });
     e.preventDefault();
@@ -132,12 +130,13 @@ export class LoginComponent implements OnInit {
         this.popupErrorMessage = d.errorDescription;
       }
     }, e => {
-      console.log('Error', e);
-      if (e.errorDescription) {
-        this.popupErrorMessage = e.errorDescription;
+      if (e.error && e.error.errorDescription) {
+        this.popupErrorMessage = e.error.errorDescription;
       } else {
-        this.popupErrorMessage = 'An error was occurred, please try again.'
+        this.popupErrorMessage = 'An error was occurred, please try again.';
       }
+      this.loadingValidationSignup = false;
+      this.codeValidationSignup = '';
     });
   }
 }

@@ -75,4 +75,12 @@ export class UserMenuActionsComponent implements OnInit {
     });
   }
 
+  viewProfile() {
+
+  }
+
+  viewNotes() {
+
+  }
+
 }

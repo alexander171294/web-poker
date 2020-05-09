@@ -17,7 +17,6 @@ export class TableComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-
   }
 
   connect(room: RoomResponse) {

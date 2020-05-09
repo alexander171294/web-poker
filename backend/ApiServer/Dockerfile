@@ -17,6 +17,7 @@ ENV EMAIL_PASSWORD=""
 ENV DB_URL="jdbc:mysql://127.0.0.1:3307/poker?autoReconnect=true"
 ENV DB_USERNAME="root"
 ENV DB_PASSWORD="321654987"
+ENV CORS="http://localhost:4200"
 
 
 ENTRYPOINT ["java","-jar",\
@@ -31,4 +32,5 @@ ENTRYPOINT ["java","-jar",\
             "-Dspring.datasource.url=${DB_URL}",\
             "-Dspring.datasource.username=${DB_USERNAME}",\
             "-Dspring.datasource.password=${DB_PASSWORD}",\
+            "-Dspring.cors.allow=${CORS}"\
             "/home/apiServer/apiServer.jar"]

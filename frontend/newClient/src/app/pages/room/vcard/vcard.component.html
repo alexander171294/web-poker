@@ -2,7 +2,7 @@
     <div class="timeA">
       <div class="internalRadius" [style.transform]="'rotate(' + partGradesA + 'deg)'"></div>
     </div>
-    <div class="head" [class.available]="!image" (click)="showActions($event)">
+    <div class="head" [class.available]="!image">
       <span *ngIf="void">Seat</span>
       <img [src]="image" *ngIf="image && image !== '#'" />
       <img src="assets/unknown.gif" *ngIf="image && image === '#'" />

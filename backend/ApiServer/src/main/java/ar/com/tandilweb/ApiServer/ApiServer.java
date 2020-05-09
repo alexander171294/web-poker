@@ -2,6 +2,7 @@ package ar.com.tandilweb.ApiServer;
 
 import javax.servlet.Filter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -30,6 +31,9 @@ import ar.com.tandilweb.ApiServer.persistence.JDBConfiguration;
 @Import({JDBConfiguration.class})
 public class ApiServer extends SpringBootServletInitializer {
 	
+	@Value("${spring.cors.allow}")
+	private String allowCors;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ApiServer.class, args);
 	}
@@ -46,7 +50,7 @@ public class ApiServer extends SpringBootServletInitializer {
 	}
 
 	public Filter corsFilter() {
-		return new CorsFilter();
+		return new CorsFilter(allowCors);
 	}
 
 	@Bean

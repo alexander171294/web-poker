@@ -91,7 +91,7 @@ public class FriendsAdapter {
 		fs = new Friendships();
 		fs.setId_user_origin(me);
 		fs.setId_user_target(userID);
-		fs.setAccepted(false);
+		fs.setAccepted(true);
 		fs.setRequested(new Date());
 		friendshipsRepository.create(fs);
 		return true;

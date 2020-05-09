@@ -29,6 +29,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
     this.getProfileData();
     this.intUserData = setInterval(() => this.getProfileData(), environment.refreshProfileTime);
     this.gerFriendList();
+    
   }
 
   updateRooms(callback?) {
@@ -57,7 +58,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
           photo: element.photo,
           inGame: element.inGame,
           rooms: element.rooms,
-          status: element.inGame ? 'In Game' : 'Online'
+          status: element.inGame ? 'In Game' : 'Not playing'
         }
       this.friendList.push(aux);
       });

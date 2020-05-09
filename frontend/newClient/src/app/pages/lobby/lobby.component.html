@@ -41,7 +41,8 @@
     <section id="lateral">
         <h2>Following</h2>
         <div *ngFor="let friend of friendList" class="cardFollowerItem">
-            <app-vcard status="{{friend.status}}" nick="{{friend.nick}}" spectateButton="{{friend.inGame}}" statusColor="#29ff88"></app-vcard>
+            <app-vcard status="{{friend.status}}" nick="{{friend.nick}}" [spectateButton]="friend.inGame" [rooms]="friend.rooms" statusColor="#29ff88"></app-vcard>
         </div>
     </section>
 </main>
+<app-action-menu-friends></app-action-menu-friends>

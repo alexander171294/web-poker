@@ -1,3 +1,5 @@
+import { Room } from './roomsResponse';
+
 export class UserProfile {
   public idUser: number;
   public nick: string;
@@ -10,6 +12,6 @@ export class FriendCard {
   public nick: string;
   public photo: string;
   public inGame: boolean;
-  public rooms: any[];
+  public rooms: Room[];
   public status: string;
 }

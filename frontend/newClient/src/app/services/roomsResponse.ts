@@ -16,3 +16,10 @@ export class RoomResponse extends GeneralResponse {
     public isOfficial: boolean;
     public players: number;
 }
+
+export class Room {
+    id_room: number
+    id_user: number
+    position: number
+    registered: string
+}

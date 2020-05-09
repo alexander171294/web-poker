@@ -10,6 +10,7 @@ import { VcardComponent } from './pages/lobby/components/vcard/vcard.component';
 import { TableComponent } from './pages/lobby/components/table/table.component';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptorService } from './security/auth-interceptor.service';
+import { ActionMenuFriendsComponent } from './pages/lobby/components/action-menu-friends/action-menu-friends.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AuthInterceptorService } from './security/auth-interceptor.service';
     LoginComponent,
     LobbyComponent,
     VcardComponent,
-    TableComponent
+    TableComponent,
+    ActionMenuFriendsComponent
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,6 @@ export class LobbyService {
     return this.httpClient.get<RoomsResponse>(url, {headers: Security.getHttpOptionsJWT() })
     .pipe(
       map((x: RoomsResponse) => {
-        console.log('entripete');
         this.rooms = x.rooms;
         return x;
       })
@@ -35,7 +34,6 @@ export class LobbyService {
       this.rooms.forEach((room) => {
         if(roomID == room.id_room){
           result = room
-          console.log(result);
         }
       });  
     } 

@@ -32,5 +32,5 @@ ENTRYPOINT ["java","-jar",\
             "-Dspring.datasource.url=${DB_URL}",\
             "-Dspring.datasource.username=${DB_USERNAME}",\
             "-Dspring.datasource.password=${DB_PASSWORD}",\
-            "-Dspring.cors.allow=${CORS}"\
+            "-Dspring.cors.allow=${CORS}",\
             "/home/apiServer/apiServer.jar"]

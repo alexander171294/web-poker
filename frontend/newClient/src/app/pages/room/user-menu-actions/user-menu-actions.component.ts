@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserMenuControllerService } from './user-menu-controller.service';
 import { FriendsService } from 'src/app/services/friends.service';
 import { Security } from 'src/app/services/Security';
+import { SoonModalService } from 'src/app/services/soon-modal.service';
 
 @Component({
   selector: 'app-user-menu-actions',
@@ -23,7 +24,7 @@ export class UserMenuActionsComponent implements OnInit {
 
   public nowFollowing: boolean;
 
-  constructor(private umc: UserMenuControllerService, private fs: FriendsService) {
+  constructor(private umc: UserMenuControllerService, private fs: FriendsService, private sms: SoonModalService) {
     this.umc.getUME().subscribe(s => {
       if (s) {
         this.isShowing = true;
@@ -81,6 +82,10 @@ export class UserMenuActionsComponent implements OnInit {
 
   viewNotes() {
 
+  }
+
+  soon(){
+    this.sms.show();
   }
 
 }

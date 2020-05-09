@@ -6,6 +6,7 @@ import { LobbyService } from 'src/app/services/lobby.service';
 import { RoomResponse } from 'src/app/services/roomsResponse';
 import { Security } from 'src/app/services/Security';
 import { FriendsService } from 'src/app/services/friends.service';
+import { SoonModalService } from 'src/app/services/soon-modal.service';
 
 @Component({
   selector: 'app-lobby',
@@ -21,7 +22,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   public intUserData: any;
   public friendList: FriendCard[] = [];
 
-  constructor(private lobbySrv: LobbyService, private userSrv: UsersService, private friendsService: FriendsService) { }
+  constructor(private lobbySrv: LobbyService, private userSrv: UsersService, private friendsService: FriendsService, private sms: SoonModalService) { }
 
   ngOnInit() {
     this.updateRooms();
@@ -69,6 +70,10 @@ export class LobbyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.intUserData);
+  }
+
+  soon(){
+     this.sms.show();
   }
 
 }

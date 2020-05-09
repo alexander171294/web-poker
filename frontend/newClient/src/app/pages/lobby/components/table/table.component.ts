@@ -22,7 +22,7 @@ export class TableComponent implements OnInit {
   connect(room: RoomResponse) {
     localStorage.setItem('room-' + room.id_room, JSON.stringify(room));
     // this.router.navigate(['/room', room.id_room]);
-    window.open('/room/' + room.id_room, '_blank');
+    window.open('#/room/' + room.id_room, '_blank');
   }
 
   reloading() {

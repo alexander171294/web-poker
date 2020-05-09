@@ -32,4 +32,12 @@ export class TableComponent implements OnInit {
     });
   }
 
+  roomsLenght(){
+    if (this.rooms){
+      return this.rooms.length
+    } else {
+      return 0
+    }
+  }
+
 }

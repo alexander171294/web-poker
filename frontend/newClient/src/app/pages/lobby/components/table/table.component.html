@@ -21,7 +21,7 @@
             Chips Req.
         </div>
     </div>
-    <div *ngIf="tab==1 && rooms.length > 0">
+    <div *ngIf="tab==1 && roomsLenght() > 0">
         <div  class="row" *ngFor="let room of rooms" (click)="connect(room)">
             <div class="col col-1">
                 {{room.name}}
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="tab!=1 || rooms.length==0">
+    <div *ngIf="tab!=1 || roomsLenght() ==0">
         <div  class="row">
             <div class="no-server">
                 No hay servidores registrados en este momento

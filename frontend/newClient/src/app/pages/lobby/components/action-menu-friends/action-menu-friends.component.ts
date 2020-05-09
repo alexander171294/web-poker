@@ -36,7 +36,7 @@ export class ActionMenuFriendsComponent implements OnInit {
   connect(room: RoomResponse) {
     console.log(room);
     localStorage.setItem('room-' + room.id_room, JSON.stringify(room));
-    window.open('/room/' + room.id_room, '_blank');
+    window.open('/#/room/' + room.id_room, '_blank');
   }
 
 }

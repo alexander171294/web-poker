@@ -1,6 +1,6 @@
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { UserProfile, FriendCard } from './UserProfile';
+import { UserProfile, FriendCard, FriendData } from './UserProfile';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Security } from './Security';
@@ -14,8 +14,8 @@ export class FriendsService {
 
   constructor(private httpC: HttpClient) { }
 
-  public getFriends(): Observable<FriendCard> {
-    return this.httpC.get<FriendCard>(environment.apiServer + 'friends', { headers: Security.getHttpOptionsJWT() });
+  public getFriends(): Observable<FriendData> {
+    return this.httpC.get<FriendData>(environment.apiServer + 'friends', { headers: Security.getHttpOptionsJWT() });
   }
 
   public sendFriendsRequest(fid: number): Observable<GeneralResponse> {

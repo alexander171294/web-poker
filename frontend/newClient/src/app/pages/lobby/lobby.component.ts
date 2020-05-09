@@ -1,4 +1,4 @@
-import { UserProfile, FriendCard } from './../../services/UserProfile';
+import { UserProfile, FriendCard, FriendData } from './../../services/UserProfile';
 import { UsersService } from './../../services/users.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -38,6 +38,8 @@ export class LobbyComponent implements OnInit, OnDestroy {
       if (callback) {
         callback();
       }
+      console.log(rooms);
+      
     });
   }
 
@@ -50,7 +52,7 @@ export class LobbyComponent implements OnInit, OnDestroy {
   }
 
   gerFriendList() {
-    this.friendsService.getFriends().subscribe(data => {
+    this.friendsService.getFriends().subscribe((data: FriendData) => {
       data.friends.forEach(element => {
         const aux: FriendCard = {
           idUser: element.idUser,
@@ -62,7 +64,6 @@ export class LobbyComponent implements OnInit, OnDestroy {
         }
       this.friendList.push(aux);
       });
-      console.log(data);
     });
   }
 

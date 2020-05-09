@@ -15,3 +15,7 @@ export class FriendCard {
   public rooms: Room[];
   public status: string;
 }
+
+export class FriendData {
+  public friends: FriendCard[];
+}

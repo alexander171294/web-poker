@@ -162,4 +162,8 @@ Thanks for reading and I hope this project are finished in one moment of the uni
 
 # Docker Container 
 
+Run mysql server:
+
 docker run -d -p 3307:3306 --name mysql-db -e MYSQL_ROOT_PASSWORD=321654987 -e MYSQL_DATABASE=poker mysql 
+
+Docker getting started guide here: https://github.com/alexander171294/web-poker/wiki/Docker-Getting-Started
